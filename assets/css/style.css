@@ -428,7 +428,7 @@ h6 {
 
 #hero h1 {
   margin: 0;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 56px;
   color: #fff;
@@ -438,7 +438,7 @@ h6 {
 #hero h2 {
   color: #eee;
   margin: 10px 0 0 0;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 #hero .btn-get-started {
@@ -558,12 +558,14 @@ section {
 --------------------------------------------------------------*/
 .about .content h3 {
   font-weight: 600;
-  font-size: 26px;
+  font-size: 29px;
 }
 
 .about .content ul {
   list-style: none;
   padding: 0;
+  font-size: 15px;
+  text-align: j;
 }
 
 .about .content ul li {
@@ -571,7 +573,7 @@ section {
 }
 
 .about .content ul i {
-  font-size: 20px;
+  font-size: 15px;
   padding-right: 4px;
   color: #9C3030;
 }
@@ -668,7 +670,7 @@ section {
   padding: 18px;
   color: #9C3030;
   margin-bottom: 30px;
-  background: #ecf9f0;
+  background: #f6f7f6;
   border-radius: 50px;
 }
 
@@ -796,57 +798,99 @@ section {
 /*--------------------------------------------------------------
 # Trainers
 --------------------------------------------------------------*/
-.trainers .member {
+.trainers .teacher {
   text-align: center;
   margin-bottom: 20px;
   background: #fff;
   border: 1px solid #eef0ef;
 }
 
-.trainers .member img {
+.trainers .teacher img {
   margin: -1px -1px 30px -1px;
 }
 
-.trainers .member .member-content {
+.trainers .teacher .teacher-content {
   padding: 0 20px 30px 20px;
 }
 
-.trainers .member h4 {
+.trainers .teacher h4 {
   font-weight: 700;
   margin-bottom: 2px;
   font-size: 18px;
 }
 
-.trainers .member span {
-  font-style: italic;
+.trainers .teacher span {
   display: block;
   font-size: 13px;
+  text-align: justify;
 }
 
-.trainers .member p {
+.trainers .teacher p {
   padding-top: 10px;
   font-size: 14px;
-  font-style: italic;
   color: #aaaaaa;
+  text-align: justify;
 }
 
-.trainers .member .social {
+.trainers .teacher .social {
   margin-top: 15px;
 }
 
-.trainers .member .social a {
+.trainers .teacher .social a {
   color: #7e9486;
   transition: 0.3s;
 }
 
-.trainers .member .social a:hover {
+.trainers .teacher .social a:hover {
   color: #9C3030;
 }
 
-.trainers .member .social i {
+.trainers .teacher .social i {
   font-size: 18px;
   margin: 0 2px;
 }
+
+.trainers .teacher .teacher-content .teaching-mode {
+  display: flex;
+  align-items: center;
+  color: #00184C;
+  font-weight: bold;
+}
+.trainers .teacher .teacher-content .rating {
+  display: flex;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.trainers .teacher .teacher-content .rating .rating-value {
+  margin-left: 5px;
+  font-size: 13px;
+}
+
+.trainers .teacher .teacher-content .teacher-image {
+
+}
+
+.trainers .teacher .teacher-content .rating .fa-star {
+  color: #ffb500;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.trainers .teacher .teacher-info {
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+}
+
+
+.trainers .teacher .hourly-rate {
+  margin-left: auto;
+  color: #9C3030;
+  font-weight: bold;
+}
+
 
 /*--------------------------------------------------------------
 # Testimonials
@@ -954,9 +998,9 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Cource Details
+# Teachers Details
 --------------------------------------------------------------*/
-.course-details h3 {
+.teachers-details h3 {
   font-size: 24px;
   margin: 30px 0 15px 0;
   font-weight: 700;
@@ -964,7 +1008,7 @@ section {
   padding-bottom: 10px;
 }
 
-.course-details h3:before {
+.teachers-details h3:before {
   content: "";
   position: absolute;
   display: block;
@@ -975,7 +1019,7 @@ section {
   left: 0;
 }
 
-.course-details h3:after {
+.teachers-details h3:after {
   content: "";
   position: absolute;
   display: block;
@@ -986,41 +1030,48 @@ section {
   left: 0;
 }
 
-.course-details .course-info {
+.teachers-details .course-info {
   background: #f6f7f6;
   padding: 10px 15px;
   margin-bottom: 15px;
 }
 
-.course-details .course-info h5 {
+.teachers-details .course-info h5 {
   font-weight: 400;
   font-size: 16px;
   margin: 0;
   font-family: "Poppins", sans-serif;
 }
 
-.course-details .course-info p {
+.teachers-details .course-info p {
   margin: 0;
   font-weight: 600;
 }
 
-.course-details .course-info a {
+
+.teachers-details p {
+  text-align: justify;
+  font-size: 13px;
+}
+
+
+.teachers-details .course-info a {
   color: #657a6d;
 }
 
 /*--------------------------------------------------------------
-# Cource Details Tabs
+# Teachers Details Tabs
 --------------------------------------------------------------*/
-.cource-details-tabs {
+.teacher-details-tabs {
   overflow: hidden;
   padding-top: 0;
 }
 
-.cource-details-tabs .nav-tabs {
+.teacher-details-tabs .nav-tabs {
   border: 0;
 }
 
-.cource-details-tabs .nav-link {
+.teacher-details-tabs .nav-link {
   border: 0;
   padding: 12px 15px 12px 0;
   transition: 0.3s;
@@ -1031,41 +1082,47 @@ section {
   font-size: 15px;
 }
 
-.cource-details-tabs .nav-link:hover {
+.teacher-details-tabs .nav-link:hover {
   color: #9C3030;
 }
 
-.cource-details-tabs .nav-link.active {
+.teacher-details-tabs .nav-link.active {
   color: #9C3030;
   border-color: #9C3030;
 }
 
-.cource-details-tabs .tab-pane.active {
+.teacher-details-tabs .tab-pane.active {
   animation: fadeIn 0.5s ease-out;
 }
 
-.cource-details-tabs .details h3 {
+.teacher-details-tabs .details h3 {
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
+  color: #9C3030;
+}
+
+.teacher-details-tabs .details h5 {
   color: #37423b;
+  font-weight: bold;
 }
 
-.cource-details-tabs .details p {
+.teacher-details-tabs .details span {
   color: #777777;
+  font-size: 13px;
 }
 
-.cource-details-tabs .details p:last-child {
+.teacher-details-tabs .details p:last-child {
   margin-bottom: 0;
 }
 
 @media (max-width: 992px) {
-  .cource-details-tabs .nav-link {
+  .teacher-details-tabs .nav-link {
     border: 0;
     padding: 15px;
   }
 
-  .cource-details-tabs .nav-link.active {
+  .teacher-details-tabs .nav-link.active {
     color: #fff;
     background: #9C3030;
   }
@@ -1405,7 +1462,7 @@ section {
 #footer {
   color: #37423b;
   font-size: 14px;
-  background: #eef0ef;
+  background: #f6f7f6;
 }
 
 #footer .footer-top {
@@ -1426,11 +1483,12 @@ section {
 }
 
 #footer .footer-top .footer-contact p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 24px;
   margin-bottom: 0;
   font-family: "Raleway", sans-serif;
   color: #777777;
+  text-align: justify;
 }
 
 #footer .footer-top h4 {
@@ -1442,7 +1500,8 @@ section {
 }
 
 #footer .footer-top .footer-links {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  font-size: 13px;
 }
 
 #footer .footer-top .footer-links ul {
@@ -1459,7 +1518,7 @@ section {
 }
 
 #footer .footer-top .footer-links ul li {
-  padding: 10px 0;
+  padding: 5px 0;
   display: flex;
   align-items: center;
 }
