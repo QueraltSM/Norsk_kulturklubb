@@ -20,7 +20,7 @@ a {
 }
 
 a:hover {
-  color: #86db9f;
+  color: #003657;
   text-decoration: none;
 }
 
@@ -401,7 +401,7 @@ h6 {
 #hero {
   width: 100%;
   height: 80vh;
-  background: url("../img/home_background.jpg") top center;
+  background: url("../img/home.png") top center;
   background-size: cover;
   position: relative;
 }
@@ -526,13 +526,13 @@ section {
   font-weight: 700;
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
-  color: #00184C;
+  color: #003657;
 }
 
 .breadcrumbs {
   margin-top: 73px;
   text-align: center;
-  background: linear-gradient(to bottom right, #00205B, #001C53, #00184C);
+  background: linear-gradient(to bottom right, #00205B, #001C53, #003657);
   padding: 30px 0;
   color: #fff;
 }
@@ -602,17 +602,17 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Counts
+# translator
 --------------------------------------------------------------*/
 
-.counts .counters span {
+.translator .counters span {
   font-size: 48px;
   display: block;
   color: #9C3030;
   font-weight: 700;
 }
 
-.counts .counters p {
+.translator .counters p {
   font-family: "Raleway", sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -853,7 +853,7 @@ section {
 .trainers .teacher .teacher-content .teaching-mode {
   display: flex;
   align-items: center;
-  color: #00184C;
+  color: #003657;
   font-weight: bold;
 }
 .trainers .teacher .teacher-content .rating {
@@ -869,9 +869,29 @@ section {
   font-size: 13px;
 }
 
-.trainers .teacher .teacher-content .teacher-image {
-
+.trainers .teacher .teacher-content .teacher-image .image-container {
+  position: relative;
+  overflow: hidden;
 }
+.trainers .teacher .teacher-content .teacher-image .image-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 10px solid #003657; /* Color del borde */
+  z-index: 1;
+}
+.trainers .teacher .teacher-content .teacher-image .image-content {
+  position: relative;
+  z-index: 2;
+  filter: grayscale(70%);
+  transition: filter 0.3s ease-in-out;
+}
+.trainers .teacher .teacher-content .teacher-image  .image-content:hover {
+  filter: grayscale(0%);
+}
+
 
 .trainers .teacher .teacher-content .rating .fa-star {
   color: #ffb500;
@@ -1620,4 +1640,282 @@ section {
   background: #C13A3A;
   color: #fff;
   text-decoration: none;
+}
+
+.member {
+  margin-bottom: 20px;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 2px 15px rgba(65, 76, 100, 0.06);
+}
+
+.member .member-img {
+  position: relative;
+  overflow: hidden;
+  filter: grayscale(0%);
+}
+
+.member .member-img:hover {
+  filter: grayscale(80%);
+  transition: filter 0.3s ease-in-out;
+}
+
+.member .social {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 40px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member .social a {
+  transition: color 0.3s;
+  color: #414c64;
+  margin: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member .social a i {
+  line-height: 0;
+}
+
+.member .social a:hover {
+  color: #ffc107;
+}
+
+.member .social i {
+  font-size: 18px;
+  margin: 0 2px;
+}
+
+.member .member-info {
+  padding: 25px 15px;
+}
+
+.member .social h4 {
+  font-size: 15px;
+  color: #000;
+}
+
+.member .member-info span {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: #aaaaaa;
+}
+
+.member .member-info p {
+  text-align: justify;
+  font-size: 13px;
+  color: #777777;
+}
+
+.member:hover .social {
+  opacity: 1;
+}
+
+textarea {
+  resize: none;
+  overflow: hidden; 
+}
+
+.form-group {
+  border: 1px solid lightgray;
+  border-top: none;
+  box-shadow: none;
+}
+
+
+.form-control {
+  border: none;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 2px solid #9C3030;
+  color: #003657;
+}
+
+.nav-tabs .nav-link {
+  color: #37423b;
+}
+
+.nav-tabs .nav-link.active {
+  border: none;
+  color: #003657;
+  font-weight: bold;
+  border-bottom: 1px solid #9C3030;
+}
+
+.translator-buttons {
+  border: none;
+}
+
+#keyboardButton.active {
+  background-color: #003657;
+}
+
+.login100-form {
+  width: 350px;
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login100-form h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.wrap-input100 {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.input100 {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 13px;
+}
+
+.input100:focus {
+  border:none;
+  outline: none;
+}
+
+.focus-input100::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #9C3030;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.focus-input100::after {
+  content: attr(data-validate);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 12px;
+  color: #9C3030;
+  display: none;
+}
+
+.input100:focus + .focus-input100::before {
+  transform: scaleX(1);
+}
+
+.input100:focus + .focus-input100::after {
+  display: block;
+}
+
+.container-login100-form-btn {
+  text-align: center;
+}
+
+.login100-form-btn {
+  width: 100%;
+  background-color: #003657;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.login100-form-btn:hover {
+  background-color: #9C3030;
+}
+
+.txt2 {
+  font-size: 14px;
+  cursor: pointer;
+  color: #003657;
+}
+
+.txt2:hover {
+  font-size: 14px;
+  cursor: pointer;
+  color: #9C3030;
+}
+
+.p-t-46 {
+  padding-top: 46px;
+}
+
+.login-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.select-role p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.role-option {
+  margin-bottom: 10px;
+}
+
+.role-option input[type="radio"] {
+  display: none;
+}
+
+.role-option label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  padding-left: 25px;
+  position: relative;
+}
+
+.role-option label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.role-option input[type="radio"]:checked + label:before {
+  border-color: #9C3030;
 }

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Norsk Kulturklubb · Sign up</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: Mentor
+  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header"></header>
+    <!-- End Header -->
+
+    <main id="main">
+      <section class="h-100 gradient-form section-bg">
+        <div class="container py-5 h-100">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+              <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                  <div class="col-lg-6">
+                    <div class="card-body p-md-5 mx-md-4">
+                      <div class="section-title">
+                        <h2>Sign up</h2>
+                        <p>Registrer deg</p>
+                      </div>
+                      <form id="signup_form" class="validate-form" onsubmit="return signup()">
+                        <div class="select-role" required>
+                            <p><strong>Who are you?</strong></p>
+                            <div class="role-option">
+                                <input type="radio" id="teacher" name="role" value="teacher">
+                                <label for="teacher">I'm a teacher</label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="student" name="role" value="student">
+                                <label for="student">I'm a student</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div
+                          class="wrap-input100"
+                          data-validate="Valid email is required: ex@abc.xyz">
+                          <input
+                            class="input100"
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            required
+                          />
+                          <span
+                            class="focus-input100"
+                            data-placeholder="Name"
+                          ></span>
+                        </div>
+                        <div
+                          class="wrap-input100"
+                          data-validate="Valid email is required: ex@abc.xyz"
+                        >
+                          <input
+                            class="input100"
+                            type="text"
+                            name="email"
+                            placeholder="Email"
+                            required
+                          />
+                          <span
+                            class="focus-input100"
+                            data-placeholder="Email"
+                          ></span>
+                        </div>
+                        <div
+                          class="wrap-input100"
+                          data-validate="Password is required"
+                        >
+                          <input
+                            class="input100"
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            required
+                          />
+                          <span
+                            class="focus-input100"
+                            data-placeholder="Password"
+                          ></span>
+                        </div>
+                        <div class="container-login100-form-btn">
+                          <button type="submit" class="login100-form-btn">Sign up</button>
+                        </div>
+                        <div id="alertContainer"></div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="login-image">
+                    <img src="/assets/img/authenticate_form.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer"></footer>
+    <!-- End Footer -->
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+    <script src="assets/js/authenticate.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+        document.getElementById("signup_form").addEventListener("submit", function(event) {
+          event.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>

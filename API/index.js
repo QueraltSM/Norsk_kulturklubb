@@ -2,10 +2,12 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const fs = require('fs');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const credentialsFilePath = 'C:/UNED/TFM/Norsk kulturklubb/AWS/credentials';
 const credentials = fs.readFileSync(credentialsFilePath, 'utf8').split('\n')
@@ -55,19 +57,16 @@ app.get('/api/getTeachers', (req, res) => {
 
 app.get('/api/getTeacher', (req, res) => {
   const teacherId = req.query.id;
-
   if (!teacherId) {
     res.status(400).send('Se requiere el parámetro "id" para obtener un profesor específico');
     return;
   }
-
   const params = {
     TableName: 'Teachers',
     Key: {
       "ID": teacherId
     }
   };
-
   dynamoDB.get(params, (err, data) => {
     if (err) {
       console.error('Error al obtener el profesor de la base de datos:', err);
@@ -80,6 +79,43 @@ app.get('/api/getTeacher', (req, res) => {
   });
 });
 
+app.get('/api/translateText', (req, res) => {
+  const params = {
+    Text:  req.query.text,
+    SourceLanguageCode: req.query.SourceLanguageCode,
+    TargetLanguageCode: req.query.TargetLanguageCode,
+  };
+  new AWS.Translate().translateText(params, (err, data) => {
+    if (err) {
+      console.error('Error al traducir texto:', err);
+      res.status(500).send('Error interno del servidor al traducir texto');
+    } else {
+      res.json({ translatedText: data.TranslatedText });
+    }
+  });
+});
+
+app.post('/api/insertTeacher', (req, res) => {
+  const teacherData = req.body;
+  insert('Teachers', teacherData, res);
+});
+
+function insert(table, data, res) {
+  const params = {
+    TableName: table,
+    Item: data
+  };
+
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      console.error("Error al insertar el profesor en la base de datos:", err);
+      res.status(500).send("Error al insertar el profesor en la base de datos");
+    } else {
+      console.log("Profesor insertado correctamente");
+      res.send("Profesor insertado correctamente");
+    }
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);

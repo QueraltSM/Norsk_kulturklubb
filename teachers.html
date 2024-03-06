@@ -56,7 +56,7 @@
     <!-- End Header -->
 
     <main id="main" data-aos="fade-in">
-      <!-- ======= Trainers Section ======= -->
+      <!-- ======= Teachers Section ======= -->
       <section id="trainers" class="trainers">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
@@ -65,20 +65,13 @@
           </div>
         </div>
       </section>
-      <!-- End Trainers Section -->
+      <!-- End Teachers Section -->
     </main>
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer"></footer>
     <!-- End Footer -->
-
-    <div id="preloader"></div>
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -96,73 +89,6 @@
         $("#footer").load("footer.html");
       });
     </script>
-    <script>
-      const teachersContainer = document.querySelector(".trainers .container");
-      const row = document.createElement("div");
-      row.classList.add("row");
-
-      fetch("http://localhost:3000/api/getTeachers")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("No se pudo obtener la respuesta del servidor.");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          data.Items.forEach((teacher, index) => {
-            const teacherDiv = document.createElement("div");
-            teacherDiv.classList.add(
-              "col-lg-4",
-              "col-md-6",
-              "d-flex",
-              "align-items-stretch"
-            );
-            teacherDiv.innerHTML = `
-            <a href = "teacher-profile.html?aWQ==${teacher.ID}">
-            <div class="teacher" style="cursor:pointer;border: 1px solid white;color:#000">
-              <img src="${teacher.profile_picture}" style="width: 400px; height: 260px;" class="img-fluid teacher-image" alt="${teacher.name}">
-
-
-                <div class="teacher-info">
-                  <div class="teacher-content">
-                <h4>${teacher.name}</h4>
-
-                <div style="font-weight:normal;font-size:13px;text-align:center;display: flex; align-items: center; justify-content: center;">
-  <div style="margin-right: 10px;">
-    ${teacher.location}&nbsp;
-    ${teacher.teaching_online && teacher.teaching_in_person
-        ? `· Online and in person`
-        : teacher.teaching_online
-        ? `· Online`
-        : teacher.teaching_in_person
-        ? `· In person`
-        : ""
-    }
-  </div>
-  <div class="rating" style="display: flex; align-items: center; margin-left: 10px;">
-    <span class="fa fa-star ${
-      teacher.rating >= 1 ? "checked" : ""
-    }" style="margin-right: 5px; font-size: 13px;"></span>
-    <p style="font-weight:bold;color:#000;margin: 0;font-size:13px;align-items: center;">${
-      teacher.rating
-    }</p>
-  </div>
-  <p style="color:#000000">${teacher.hourly_rate}</p>
-</div>
-                
-                <p>${teacher.short_description}</p>
-                </div>
-              </div>
-            </div></a>`;
-            row.appendChild(teacherDiv);
-          });
-        })
-        .catch((error) => {
-          console.error("Error al obtener los datos:", error);
-          document.getElementById("teacherData").textContent =
-            "Error al obtener los datos del profesor." + error;
-        });
-      teachersContainer.appendChild(row);
-    </script>
+    <script src="/assets/js/teachers.js"></script>
   </body>
 </html>
