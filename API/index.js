@@ -95,9 +95,53 @@ app.get('/api/translateText', (req, res) => {
   });
 });
 
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+  const params = {
+    TableName: 'Teachers',
+    FilterExpression: 'email = :email',
+    ExpressionAttributeValues: {
+      ':email': email
+    }
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      res.status(500).send('Internal server error while searching for the teacher');
+    } else {
+      const teachers = data.Items;
+      const teacher = teachers.find(teacher => {
+        const decodedPassword = Buffer.from(teacher.password, 'base64').toString('utf-8');
+        return decodedPassword === password;
+      });
+      if (teacher) {
+        res.send('Successful sign in');
+      } else {
+        res.status(401).send('Email or password incorrect');
+      }
+    }
+  });
+});
+
 app.post('/api/insertTeacher', (req, res) => {
   const teacherData = req.body;
-  insert('Teachers', teacherData, res);
+  const params = {
+    TableName: 'Teachers',
+    FilterExpression: 'email = :email',
+    ExpressionAttributeValues: {
+      ':email': teacherData.email
+    }
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      res.status(500).send('Internal server error while verifying the user');
+    } else {
+      if (data.Items.length > 0) {
+        res.status(409).send('The user already exists in the database');
+      } else {
+        insert('Teachers', teacherData, res);
+      }
+    }
+  });
 });
 
 function insert(table, data, res) {
@@ -105,14 +149,11 @@ function insert(table, data, res) {
     TableName: table,
     Item: data
   };
-
   dynamoDB.put(params, (err, data) => {
     if (err) {
-      console.error("Error al insertar el profesor en la base de datos:", err);
-      res.status(500).send("Error al insertar el profesor en la base de datos");
+      res.status(500).send("Error inserting");
     } else {
-      console.log("Profesor insertado correctamente");
-      res.send("Profesor insertado correctamente");
+      res.send("Row was inserted");
     }
   });
 }
