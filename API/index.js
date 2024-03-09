@@ -95,10 +95,11 @@ app.get('/api/translateText', (req, res) => {
   });
 });
 
+
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   const params = {
-    TableName: 'Teachers',
+    TableName: 'Users',
     FilterExpression: 'email = :email',
     ExpressionAttributeValues: {
       ':email': email
@@ -108,13 +109,16 @@ app.post('/api/login', (req, res) => {
     if (err) {
       res.status(500).send('Internal server error while searching for the teacher');
     } else {
-      const teachers = data.Items;
-      const teacher = teachers.find(teacher => {
-        const decodedPassword = Buffer.from(teacher.password, 'base64').toString('utf-8');
+      const users = data.Items;
+      const user = users.find(user => {
+        const decodedPassword = Buffer.from(user.password, 'base64').toString('utf-8');
         return decodedPassword === password;
       });
-      if (teacher) {
-        res.send('Successful sign in');
+      if (user) {
+        res.status(200).send({
+          ID: user.ID,
+          message: `Hallo ${user.name}`
+        });
       } else {
         res.status(401).send('Email or password incorrect');
       }
@@ -122,13 +126,13 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-app.post('/api/insertTeacher', (req, res) => {
-  const teacherData = req.body;
+app.post('/api/insertUser', (req, res) => {
+  const user = req.body;
   const params = {
-    TableName: 'Teachers',
+    TableName: 'Users',
     FilterExpression: 'email = :email',
     ExpressionAttributeValues: {
-      ':email': teacherData.email
+      ':email': user.email
     }
   };
   dynamoDB.scan(params, (err, data) => {
@@ -138,10 +142,16 @@ app.post('/api/insertTeacher', (req, res) => {
       if (data.Items.length > 0) {
         res.status(409).send('The user already exists in the database');
       } else {
-        insert('Teachers', teacherData, res);
+        insert('Users', user, res);
       }
     }
   });
+});
+
+app.post('/api/insertUserDataToServer', (req, res) => {
+  console.log(req.body.table);
+  console.log(req.body.userData);
+  insert(req.body.table, req.body.userData, res);
 });
 
 function insert(table, data, res) {

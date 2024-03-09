@@ -1,18 +1,24 @@
 <header id="header" class="fixed-top">
-  <div class="container d-flex align-items-center">
+  <div class="container d-flex align-items-center justify-content-between">
     <h1 class="logo me-auto"><a href="index.html">Norsk Kulturklubb</a></h1>
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li id="lessonsLink" style="display: none;"><a href="lessons.html">Lessons</a></li>
-        <li><a id="translatorLink" style="display: none;" href="translator.html">Translator</a></li>
-        <li><a id="teachersLink" style="display: none;" href="teachers.html">Teachers</a></li>
+        <li id="lessons_link_header"><a href="lessons.html">Lessons</a></li>
+        <li><a id="translator_link_header" href="translator.html">Translator</a></li>
+        <li><a id="teachers_link_header" href="teachers.html">Teachers</a></li>
         <li><a href="culture.html">Culture</a></li>
-        <li><a id="eventsLink" style="display: none;" href="events.html">Events</a></li>
+        <li><a id="events_link_header" href="events.html">Events</a></li>
+        <li class="dropdown" id="userProfile" style="display: none;"><a href="#"><span  id="welcomeUser"></span><i class="bi bi-chevron-double-down"></i></a>
+          <ul>
+            <li><a href="profile.html">My profile</a></li>
+            <li><a onclick="logout()" style="cursor: pointer;">Logout</a></li>
+          </ul>
+        </li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav>
-    <a href="login.html" id="loginBtn" class="get-started-btn">Login</a>
+    <a style="display: none;" href="login.html" id="loginBtn" class="get-started-btn">Login</a>
   </div>
 </header>
 <script src="assets/js/common.js"></script>
