@@ -57,6 +57,9 @@ function signup() {
     }).then((response) => {
       if (response.status === 200) {
         delete userData.role;
+        if (selectedRole.value=="Teachers") {
+          userData.public_profile = false;
+        }
         insertUserDataToServer(userData, selectedRole.value);
       } else if (response.status === 500) {
         showAlert(

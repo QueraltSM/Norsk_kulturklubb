@@ -1,4 +1,4 @@
-const teachersContainer = document.querySelector(".trainers .container");
+const teachersContainer = document.querySelector(".teachers .container");
 const row = document.createElement("div");
 row.classList.add("row");
 

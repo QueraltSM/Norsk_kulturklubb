@@ -398,15 +398,21 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-#hero {
+#hero,
+#preview_lessons,
+#preview_teachers,
+#preview_events {
   width: 100%;
   height: 80vh;
-  background: url("../img/home.png") top center;
+  background-position: top center;
   background-size: cover;
   position: relative;
 }
 
-#hero:before {
+#hero:before,
+#preview_lessons:before,
+#preview_teachers:before,
+#preview_events:before {
   content: "";
   background: rgba(0, 0, 0, 0.4);
   position: absolute;
@@ -416,17 +422,26 @@ h6 {
   right: 0;
 }
 
-#hero .container {
+#hero .container,
+#preview_lessons .container,
+#preview_teachers .container,
+#preview_events .container {
   padding-top: 72px;
 }
 
 @media (max-width: 992px) {
-  #hero .container {
+  #hero .container,
+  #preview_lessons .container,
+  #preview_teachers .container,
+  #preview_events .container {
     padding-top: 62px;
   }
 }
 
-#hero h1 {
+#hero h1,
+#preview_lessons h1,
+#preview_teachers h1,
+#preview_events h1 {
   margin: 0;
   font-size: 40px;
   font-weight: 700;
@@ -435,13 +450,19 @@ h6 {
   font-family: "Poppins", sans-serif;
 }
 
-#hero h2 {
+#hero h2,
+#preview_lessons h2,
+#preview_teachers h2,
+#preview_events h2 {
   color: #eee;
   margin: 10px 0 0 0;
   font-size: 20px;
 }
 
-#hero .btn-get-started {
+#hero .btn-get-started,
+#preview_lessons .btn-get-started,
+#preview_teachers .btn-get-started,
+#preview_events .btn-get-started {
   font-family: "Raleway", sans-serif;
   font-weight: 500;
   font-size: 15px;
@@ -455,32 +476,48 @@ h6 {
   color: #fff;
 }
 
-#hero .btn-get-started:hover {
+#hero .btn-get-started:hover,
+#preview_lessons .btn-get-started:hover,
+#preview_teachers .btn-get-started:hover,
+#preview_events .btn-get-started:hover {
   background: #9C3030;
   border: 2px solid #9C3030;
 }
 
 @media (min-width: 1024px) {
-  #hero {
+  #hero,
+  #preview_lessons,
+  #preview_teachers,
+  #preview_events {
     background-attachment: fixed;
   }
 }
 
 @media (max-width: 768px) {
-  #hero {
+  #hero,
+  #preview_lessons,
+  #preview_teachers,
+  #preview_events {
     height: 100vh;
   }
 
-  #hero h1 {
+  #hero h1,
+  #preview_lessons h1,
+  #preview_teachers h1,
+  #preview_events h1 {
     font-size: 28px;
     line-height: 36px;
   }
 
-  #hero h2 {
+  #hero h2,
+  #preview_lessons h2,
+  #preview_teachers h2,
+  #preview_events h2 {
     font-size: 18px;
     line-height: 24px;
   }
 }
+
 
 /*--------------------------------------------------------------
 # Sections General
@@ -515,7 +552,7 @@ section {
   width: 120px;
   height: 1px;
   display: inline-block;
-  background: #E19A9A;
+  background: #9C3030;
   margin: 4px 10px;
 }
 
@@ -629,6 +666,7 @@ section {
   color: #fff;
 }
 
+
 .why-us .content h3 {
   font-weight: 700;
   font-size: 34px;
@@ -728,37 +766,37 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Courses
+# lessons
 --------------------------------------------------------------*/
-.courses .course-item {
+.lessons .course-item {
   border-radius: 5px;
   border: 1px solid #eef0ef;
 }
 
-.courses .course-content {
+.lessons .course-content {
   padding: 15px;
 }
 
-.courses .course-content h3 {
+.lessons .course-content h3 {
   font-weight: 700;
   font-size: 20px;
 }
 
-.courses .course-content h3 a {
+.lessons .course-content h3 a {
   color: #37423b;
   transition: 0.3s;
 }
 
-.courses .course-content h3 a:hover {
+.lessons .course-content h3 a:hover {
   color: #9C3030;
 }
 
-.courses .course-content p {
+.lessons .course-content p {
   font-size: 14px;
   color: #777777;
 }
 
-.courses .course-content h4 {
+.lessons .course-content h4 {
   font-size: 14px;
   background: #9C3030;
   padding: 7px 14px;
@@ -766,97 +804,97 @@ section {
   margin: 0;
 }
 
-.courses .course-content .price {
+.lessons .course-content .price {
   margin: 0;
   font-weight: 700;
   font-size: 18px;
   color: #37423b;
 }
 
-.courses .trainer {
+.lessons .trainer {
   padding-top: 15px;
   border-top: 1px solid #eef0ef;
 }
 
-.courses .trainer .trainer-profile img {
+.lessons .trainer .trainer-profile img {
   max-width: 50px;
   border-radius: 50px;
 }
 
-.courses .trainer .trainer-profile span {
+.lessons .trainer .trainer-profile span {
   padding-left: 10px;
   font-weight: 600;
   font-size: 16px;
   color: #5a6c60;
 }
 
-.courses .trainer .trainer-rank {
+.lessons .trainer .trainer-rank {
   font-size: 18px;
   color: #657a6d;
 }
 
 /*--------------------------------------------------------------
-# Trainers
+# teachers
 --------------------------------------------------------------*/
-.trainers .teacher {
+.teachers .teacher {
   text-align: center;
   margin-bottom: 20px;
   background: #fff;
   border: 1px solid #eef0ef;
 }
 
-.trainers .teacher img {
+.teachers .teacher img {
   margin: -1px -1px 30px -1px;
 }
 
-.trainers .teacher .teacher-content {
+.teachers .teacher .teacher-content {
   padding: 0 20px 30px 20px;
 }
 
-.trainers .teacher h4 {
+.teachers .teacher h4 {
   font-weight: 700;
   margin-bottom: 2px;
   font-size: 18px;
 }
 
-.trainers .teacher span {
+.teachers .teacher span {
   display: block;
   font-size: 13px;
   text-align: justify;
 }
 
-.trainers .teacher p {
+.teachers .teacher p {
   padding-top: 10px;
   font-size: 14px;
   color: #aaaaaa;
   text-align: justify;
 }
 
-.trainers .teacher .social {
+.teachers .teacher .social {
   margin-top: 15px;
 }
 
-.trainers .teacher .social a {
+.teachers .teacher .social a {
   color: #7e9486;
   transition: 0.3s;
 }
 
-.trainers .teacher .social a:hover {
+.teachers .teacher .social a:hover {
   color: #9C3030;
 }
 
-.trainers .teacher .social i {
+.teachers .teacher .social i {
   font-size: 18px;
   margin: 0 2px;
 }
 
-.trainers .teacher .teacher-content .teaching-mode {
+.teachers .teacher .teacher-content .teaching-mode {
   display: flex;
   align-items: center;
   color: #003657;
   font-weight: bold;
 }
-.trainers .teacher .teacher-content .rating {
+.teachers .teacher .teacher-content .rating {
   display: flex;
   align-items: center;
   display: flex;
@@ -864,16 +902,16 @@ section {
   margin-right: 10px;
 }
 
-.trainers .teacher .teacher-content .rating .rating-value {
+.teachers .teacher .teacher-content .rating .rating-value {
   margin-left: 5px;
   font-size: 13px;
 }
 
-.trainers .teacher .teacher-content .teacher-image .image-container {
+.teachers .teacher .teacher-content .teacher-image .image-container {
   position: relative;
   overflow: hidden;
 }
-.trainers .teacher .teacher-content .teacher-image .image-border {
+.teachers .teacher .teacher-content .teacher-image .image-border {
   position: absolute;
   top: 0;
   left: 0;
@@ -882,30 +920,30 @@ section {
   border: 10px solid #003657; /* Color del borde */
   z-index: 1;
 }
-.trainers .teacher .teacher-content .teacher-image .image-content {
+.teachers .teacher .teacher-content .teacher-image .image-content {
   position: relative;
   z-index: 2;
   filter: grayscale(70%);
   transition: filter 0.3s ease-in-out;
 }
-.trainers .teacher .teacher-content .teacher-image  .image-content:hover {
+.teachers .teacher .teacher-content .teacher-image  .image-content:hover {
   filter: grayscale(0%);
 }
 
 
-.trainers .teacher .teacher-content .rating .fa-star {
+.teachers .teacher .teacher-content .rating .fa-star {
   color: #ffb500;
   font-size: 13px;
   font-weight: bold;
 }
 
-.trainers .teacher .teacher-info {
+.teachers .teacher .teacher-info {
   display: flex;
   align-items: center; /* Centra verticalmente */
 }
 
 
-.trainers .teacher .hourly-rate {
+.teachers .teacher .hourly-rate {
   margin-left: auto;
   color: #9C3030;
   font-weight: bold;
@@ -1749,6 +1787,7 @@ textarea {
   border: none;
   border-bottom: 2px solid #9C3030;
   color: #003657;
+  background-color: #f9faf9;
 }
 
 .nav-tabs .nav-link {
@@ -1918,4 +1957,8 @@ textarea {
 
 .role-option input[type="radio"]:checked + label:before {
   border-color: #9C3030;
+}
+
+#welcomeUser {
+  color: #9C3030;
 }
