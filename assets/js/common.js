@@ -13,12 +13,18 @@ if (isLoggedIn == "true") {
   welcomeUser.innerHTML = localStorage.getItem("welcomeUser");
   handleUserMenuLink.style.display = "block";
   lessons.style.display = "block";
-  teachers.style.display = "block";
+  if (teachers != null) teachers.style.display = "block";
   events.style.display = "block";
+  preview_lessons.style.display = "none";
+  if (preview_events!= null) preview_teachers.style.display = "none";
+  preview_events.style.display = "none";
 } else {
   loginBtn.style.display = "block";
+  lessons.style.display = "none";
+  if (teachers != null) teachers.style.display = "none";
+  events.style.display = "none";
   preview_lessons.style.display = "block";
-  preview_teachers.style.display = "block";
+  if (preview_events!= null) preview_teachers.style.display = "block";
   preview_events.style.display = "block";
 }
 

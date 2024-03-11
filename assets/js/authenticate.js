@@ -17,7 +17,8 @@ function login() {
   })
   .then((data) => {
     localStorage.setItem("welcomeUser", data.message);
-    localStorage.setItem("userLoggedIn", data.ID);
+    localStorage.setItem("userLoggedInID", data.ID);
+    localStorage.setItem("userLoggedInRole", data.role);
     localStorage.setItem("isLoggedIn", true);
     window.location.href = "/index.html";
   })

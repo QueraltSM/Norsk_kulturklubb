@@ -117,6 +117,7 @@ app.post('/api/login', (req, res) => {
       if (user) {
         res.status(200).send({
           ID: user.ID,
+          role: user.role,
           message: `Hallo ${user.name}`
         });
       } else {
