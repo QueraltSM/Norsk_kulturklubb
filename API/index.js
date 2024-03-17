@@ -9,6 +9,8 @@ const formidable = require('formidable');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 const credentialsFilePath = 'C:/UNED/TFM/Norsk kulturklubb/AWS/credentials';
 const credentials = fs.readFileSync(credentialsFilePath, 'utf8').split('\n')
@@ -187,13 +189,14 @@ app.post('/api/updateUserData', (req, res) => {
     Key: {
       "ID": userID
     },
-    UpdateExpression: "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile",
+    UpdateExpression: "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile, profile_picture = :profile_picture",
     ExpressionAttributeValues: {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
       ":class_location": userData.class_location,
       ":class_prices": userData.class_prices,
       ":contact_information": userData.contact_information,
+      ":profile_picture": userData.profile_picture,
       ":public_profile": userData.public_profile
     },
     ReturnValues: "UPDATED_NEW"
@@ -208,50 +211,30 @@ app.post('/api/updateUserData', (req, res) => {
   });
 });
 
-app.post('/api/updateProfileImage', (req, res) => {
-  /*const form = new formidable.IncomingForm();
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      console.log('Error al parsear el formulario:' + err);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
+const multer = require('multer');
+const upload = multer().single('image'); // 'image' es el nombre del campo de archivo en tu formulario
 
-    const imageFilePath = files.image.path;
-    console.log(imageFilePath);
 
-    const uploadParams = {
+app.post('/api/updateProfileImage', upload, (req, res) => {
+  const image = req.file;
+  if (!image) {
+      console.log("No se proporcionó una imagen");
+      return res.status(400).send('No se proporcionó una imagen');
+  }
+  const params = {
       Bucket: 'norskkulturklubb',
-      Key: 'Teachers profile image/' + req.query.filename, // Define el nombre del archivo en S3
-      Body: fs.createReadStream(imageFilePath), // Crea un stream de lectura del archivo
-      ACL: 'public-read' // Opcional: establece los permisos de lectura pública
-    };*/
-
-    
-    console.log("paso esto")
-
-    const params = {
-      Bucket: 'norskkulturklubb',
-      Key: 'Teachers profile image/' + req.query.filename, 
-      Body: req.body.formData,
-      ACL: 'public-read' // Optional: set the file permissions
+      Key: 'UserProfile/' + req.query.filename, 
+      Body: image.buffer, // Usa la imagen obtenida de FormData
+      ACL: 'public-read' // Opcional: establecer los permisos del archivo
   };
 
-  console.log("luego esto")
-
-    // Sube el archivo a S3
-    s3.upload(params, (err, data) => {
+  s3.upload(params, (err, data) => {
       if (err) {
-        console.error('Error al subir la imagen a S3:', err);
-        res.status(500).send('Error al subir la imagen a S3');
-      } else {
-        console.log('Imagen subida a S3 con éxito:', data.Location);
-        // Envía la URL de la imagen en S3 como respuesta
-        res.status(200).json({ imageUrl: data.Location });
+          console.error('Error al subir la imagen a S3:', err);
+          return res.status(500).send('Error al subir la imagen a S3');
       }
-    });
-
-  //});
+      res.status(200).json({ imageUrl: data.Location });
+  });
 });
 
 app.get('/api/getCultureEntries', (req, res) => {

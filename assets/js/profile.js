@@ -35,25 +35,10 @@ function checkDataFields() {
     showAlert("danger", "You must fill out all fields to make your profile public", "alertContainer", 3000);
     return false;
   }
-  if (document.getElementById("profile_picture").files[0]) {
-    alert(JSON.stringify(document.getElementById("profile_picture").files[0]))
-    return true;
-  } else {
-    showAlert("danger", "You must select a profile picture to make your profile public", "alertContainer", 3000);
-    return false;
-  }
+  return true;
 }
 
-function saveUserData() {
-  var userData = {
-    about_classes: document.getElementById("about_classes").innerHTML,
-    about_teacher: document.getElementById("about_teacher").innerHTML,
-    class_location: document.getElementById("class_location").innerHTML,
-    class_prices: document.getElementById("class_prices").innerHTML,
-    contact_information: document.getElementById("contact_information").innerHTML,
-    public_profile: document.getElementById("public_profile").checked,
-  };
-  if (checkDataFields()) {
+function updateUserData(userData) {
     var request = {
       userData: userData,
       table: "Teachers"
@@ -66,7 +51,7 @@ function saveUserData() {
       body: JSON.stringify(request),
     }).then((response) => {
       if (response.status === 200) {
-        //updateProfileImage()
+          showAlert("success", "Your personal information has been updated", "alertContainer", 3000);
       } else if (response.status === 500) {
         showAlert(
           "danger",
@@ -76,32 +61,64 @@ function saveUserData() {
         );
       }
     });
-  }
 }
 
-function updateProfileImage() {
-  var image = document.getElementById("profile_picture").files[0];
-  
-  var formData = new FormData();
-  formData.append('image', image);
+async function updateProfileImage() {
+  try {
+    var imageData = localStorage.getItem('profile_image');
+    var blob = dataURItoBlob(imageData);
+    var imageFile = new File([blob], 'profile_image.png', { type: 'image/png' });
+    var formData = new FormData();
+    formData.append('image', imageFile);
+    var filename = userLoggedInID + "." +  imageData.split(':')[1].split(';')[0].split('/')[1];
+    
+    const response = await fetch(`http://localhost:3000/api/updateProfileImage?filename=${encodeURIComponent(filename)}`, {
+      method: 'POST',
+      body: formData
+    });
 
-  var filename = userLoggedInID + "." +  image.type.split('/')[1];
-  fetch(`http://localhost:3000/api/updateProfileImage?filename=${encodeURIComponent(filename)}`, {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
     if (!response.ok) {
       throw new Error('Failed to upload image');
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Image uploaded successfully:', data.imageUrl);
-    showAlert("success", "Your personal information has been updated", "alertContainer", 3000);
-  })
-  .catch(error => {
-    console.error('Error uploading image:', error);
+
+    const data = await response.json();
+    return data.imageUrl;
+  } catch (error) {
     showAlert("danger", "Failed to update profile image", "alertContainer", 3000);
-  });
+    return "";
+  }
+}
+
+function dataURItoBlob(dataURI) {
+  var byteString = atob(dataURI.split(',')[1]);
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  var arrayBuffer = new ArrayBuffer(byteString.length);
+  var intArray = new Uint8Array(arrayBuffer);
+  for (var i = 0; i < byteString.length; i++) {
+    intArray[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([arrayBuffer], { type: mimeString });
+}
+
+function updateProfile() {
+  if (!document.getElementById("profile_picture").files[0]) {
+    showAlert("danger", "You must select a profile picture to make your profile public", "alertContainer", 3000);
+  } else {
+    if (checkDataFields()) {
+      updateProfileImage().then(imageUrl => {
+        var userData = {
+          about_classes: document.getElementById("about_classes").innerHTML,
+          about_teacher: document.getElementById("about_teacher").innerHTML,
+          class_location: document.getElementById("class_location").innerHTML,
+          class_prices: document.getElementById("class_prices").innerHTML,
+          contact_information: document.getElementById("contact_information").innerHTML,
+          public_profile: document.getElementById("public_profile").checked,
+          profile_picture: imageUrl
+        };
+        updateUserData(userData);
+      }).catch(error => {
+        showAlert("danger", "Failed to update profile image", "alertContainer", 3000);
+      });
+    }
+  }
 }

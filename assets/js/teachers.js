@@ -19,7 +19,7 @@ fetch("http://localhost:3000/api/getTeachers")
           "align-items-stretch"
         );
         teacherDiv.innerHTML = `
-          <a href="teacher-profile.html?aWQ==${teacher.ID}">
+          <a href="teacher_profile.html?aWQ==${teacher.ID}">
             <div class="member">
               <div class="member-img">
                 <img src="${teacher.profile_picture}" class="img-fluid" alt="">

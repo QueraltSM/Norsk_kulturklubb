@@ -162,7 +162,7 @@
                 id="about_teacher"
                 class="editable-box"
               ></p>
-              <h3>About class</h3>
+              <h3>About classes</h3>
               <span class="label-box">Information about your classes, including what students will learn and any requirements</span>
               <p
                 contenteditable="true"
@@ -193,7 +193,7 @@
                 >
                   Cancel
                 </button>
-                <button type="button" class="get-started-btn" id="saveButton" onclick="saveUserData();">
+                <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
                   Save changes
                 </button>
                 <br>
@@ -233,7 +233,7 @@
         reader.onload = function () {
           var img = document.getElementById("teacher_image");
           img.src = reader.result;
-          localStorage.setItem("profile_picture", event.target.files[0])
+          localStorage.setItem("profile_image", reader.result);
         };
         reader.readAsDataURL(event.target.files[0]);
       }
