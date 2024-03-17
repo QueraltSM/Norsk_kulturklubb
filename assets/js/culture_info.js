@@ -1,16 +1,17 @@
-const cultureEntries = document.getElementById("culture_entries");
-fetch("http://localhost:3000/api/getCultureEntries")
+let cultureID = new URLSearchParams(window.location.search).get("aWQ").substring(1);
+const culture_entry = document.getElementById("culture_entry");
+
+fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
   .then((response) => {
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
     return response.json();
   })
-  .then((data) => {
-    data.Items.forEach((cultureData) => {
+  .then((cultureData) => {
       const cultureCard = document.createElement("div");
-      cultureCard.classList.add("col-md-6", "d-flex", "align-items-stretch");
-
+      cultureCard.classList.add("col-md-8", "offset-md-2", "d-flex", "justify-content-center");
+      
       const card = document.createElement("div");
       card.classList.add("card");
 
@@ -24,12 +25,13 @@ fetch("http://localhost:3000/api/getCultureEntries")
 
       const cardBody = document.createElement("div");
       cardBody.classList.add("card-body");
-
+      cardBody.style.borderColor = "#9C3030";
+      
       const cardTitle = document.createElement("h5");
       cardTitle.classList.add("card-title");
       const titleLink = document.createElement("a");
-      titleLink.href = `culture_info.html?aWQ==${cultureData.ID}`;
       titleLink.textContent = cultureData.title;
+      titleLink.style.color = "#9C3030";
       cardTitle.appendChild(titleLink);
       
       const italicText = document.createElement("p");
@@ -52,8 +54,8 @@ fetch("http://localhost:3000/api/getCultureEntries")
       card.appendChild(cardBody);
 
       cultureCard.appendChild(card);
-      cultureEntries.appendChild(cultureCard);
-    });
+      culture_entry.appendChild(cultureCard);
+      
   })
   .catch((error) => {
     console.error("Error fetching data:", error);

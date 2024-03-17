@@ -1,7 +1,4 @@
-const urlParams = new URLSearchParams(window.location.search);
-let teacherId = urlParams.get("aWQ");
-teacherId = teacherId.substring(1);
-
+let teacherId =  new URLSearchParams(window.location.search).get("aWQ").substring(1);
 fetch(`http://localhost:3000/api/getTeacher?id=${teacherId}`)
   .then((response) => {
     if (!response.ok) {

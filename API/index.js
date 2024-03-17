@@ -254,8 +254,7 @@ app.post('/api/updateProfileImage', (req, res) => {
   //});
 });
 
-
-app.get('/api/getCulture', (req, res) => {
+app.get('/api/getCultureEntries', (req, res) => {
   const params = {
     TableName: 'Culture',
   };
@@ -265,6 +264,29 @@ app.get('/api/getCulture', (req, res) => {
       res.status(500).send('Error interno del servidor');
     } else {
       res.json(data);
+    }
+  });
+});
+
+app.get('/api/getCulture', (req, res) => {
+  if (!req.query.id) {
+    res.status(400).send('ID is required');
+    return;
+  }
+  const params = {
+    TableName: 'Culture',
+    Key: {
+      "ID": req.query.id
+    }
+  };
+  dynamoDB.get(params, (err, data) => {
+    if (err) {
+      console.error('Error al obtener el profesor de la base de datos:', err);
+      res.status(500).send('Error interno del servidor al obtener el profesor');
+    } else if (!data.Item) {
+      res.status(404).send('No se encontró el profesor con el ID proporcionado');
+    } else {
+      res.json(data.Item);
     }
   });
 });
