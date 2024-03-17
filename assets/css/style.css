@@ -699,20 +699,21 @@ section {
   margin-bottom: 30px;
 }
 
-.why-us .content .more-btn {
+.more-btn {
   display: inline-block;
   background: rgba(255, 255, 255, 0.2);
   padding: 6px 30px 8px 30px;
   color: #fff;
   border-radius: 50px;
   transition: all ease-in-out 0.4s;
+  font-weight: bold;
 }
 
-.why-us .content .more-btn i {
+.more-btn i {
   font-size: 14px;
 }
 
-.why-us .content .more-btn:hover {
+.more-btn:hover {
   color: #9C3030;
   background: #fff;
 }
@@ -1802,7 +1803,6 @@ textarea {
   border: none;
   border-bottom: 2px solid #9C3030;
   color: #003657;
-  background-color: #f9faf9;
 }
 
 .nav-tabs .nav-link {

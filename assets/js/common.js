@@ -1,36 +1,27 @@
-var loginBtn = document.getElementById("loginBtn");
-var handleUserMenuLink = document.getElementById("handleUserMenuLink");
-var welcomeUser = document.getElementById("welcomeUser");
 var isLoggedIn = localStorage.getItem("isLoggedIn");
-var preview_lessons = document.getElementById("preview_lessons");
-var preview_teachers = document.getElementById("preview_teachers");
-var preview_events = document.getElementById("preview_events");
-var lessons = document.getElementById("lessons");
-var teachers = document.getElementById("teachers");
-var events = document.getElementById("events");
-
 if (isLoggedIn == "true") {
-  welcomeUser.innerHTML = localStorage.getItem("welcomeUser");
-  handleUserMenuLink.style.display = "block";
-  lessons.style.display = "block";
-  if (teachers != null) teachers.style.display = "block";
-  events.style.display = "block";
-  preview_lessons.style.display = "none";
-  if (preview_events!= null) preview_teachers.style.display = "none";
-  preview_events.style.display = "none";
+  document.getElementById("welcomeUser").innerHTML = localStorage.getItem("welcomeUser");
+  document.getElementById("handleUserMenuLink").style.display = "block";
+  if (document.getElementById("preview_teachers") != null) document.getElementById("preview_teachers").style.display = "none";
+  if (document.getElementById("teachers") != null) document.getElementById("teachers").style.display = "block";
+  if (document.getElementById("preview_lessons") != null) document.getElementById("preview_lessons").style.display = "none";
+  if (document.getElementById("lessons") != null ) document.getElementById("lessons").style.display = "block";
+  if (document.getElementById("preview_events") != null) document.getElementById("preview_events").style.display = "none";
+  if (document.getElementById("events")  != null ) document.getElementById("events").style.display = "block";
+
 } else {
-  loginBtn.style.display = "block";
-  lessons.style.display = "none";
-  if (teachers != null) teachers.style.display = "none";
-  events.style.display = "none";
-  preview_lessons.style.display = "block";
-  if (preview_events!= null) preview_teachers.style.display = "block";
-  preview_events.style.display = "block";
+  document.getElementById("loginBtn").style.display = "block";
+  if (document.getElementById("preview_teachers") != null) document.getElementById("preview_teachers").style.display = "flex";
+  if (document.getElementById("teachers") != null) document.getElementById("teachers").style.display = "none";
+  if (document.getElementById("preview_lessons") != null) document.getElementById("preview_lessons").style.display = "flex";
+  if (document.getElementById("lessons") != null ) document.getElementById("lessons").style.display = "none";
+  if (document.getElementById("preview_events") != null) document.getElementById("preview_events").style.display = "flex";
+  if (document.getElementById("events")  != null ) document.getElementById("events").style.display = "none";
 }
 
 function logout() {
-  handleUserMenuLink.style.display = "none";
-  loginBtn.style.display = "block";
+  document.getElementById("handleUserMenuLink").style.display = "none";
+  document.getElementById("loginBtn").style.display = "block";
   localStorage.setItem("isLoggedIn", false);
 }
 

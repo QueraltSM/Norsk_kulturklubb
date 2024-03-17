@@ -70,10 +70,10 @@
               </div>
 
               <div class="text-center mt-3">
-                <label for="upload_image" class="btn">Seleccionar imagen</label>
+                <label for="profile_picture" class="btn">Seleccionar imagen</label>
                 <input
                   type="file"
-                  id="upload_image"
+                  id="profile_picture"
                   accept="image/*"
                   class="d-none"
                   onchange="previewImage(event)"
@@ -111,7 +111,7 @@
                           <span class="label-box">Location where your classes take place, including any facilities available</span>
                           <span
                             contenteditable="true"
-                            id="teacher_place"
+                            id="class_location"
                             class="editable-box"
                             style="display: block;"
                           ></span>
@@ -124,7 +124,7 @@
                           <span class="label-box">The prices of your classes, including any discounts or special offers</span>
                           <span
                             contenteditable="true"
-                            id="teacher_prices"
+                            id="class_prices"
                             class="editable-box"
                             style="display: block;"
                           ></span>
@@ -137,7 +137,7 @@
                           <span class="label-box">How students can contact you, including email, phone number, or social media profiles</span>
                           <span
                             contenteditable="true"
-                            id="teacher_contact"
+                            id="contact_information"
                             class="editable-box"
                             style="display: block;"
                           ></span>
@@ -166,9 +166,10 @@
               <span class="label-box">Information about your classes, including what students will learn and any requirements</span>
               <p
                 contenteditable="true"
-                id="about_class"
+                id="about_classes"
                 class="editable-box"
               ></p>
+
               <div class="form-check mt-3" style="padding-top: 10px">
                 <input
                   class="form-check-input"
@@ -195,6 +196,8 @@
                 <button type="button" class="get-started-btn" id="saveButton" onclick="saveUserData();">
                   Save changes
                 </button>
+                <br>
+                <div id="alertContainer"></div>
               </div>
             </div>
           </div>
@@ -230,10 +233,12 @@
         reader.onload = function () {
           var img = document.getElementById("teacher_image");
           img.src = reader.result;
+          localStorage.setItem("profile_picture", event.target.files[0])
         };
         reader.readAsDataURL(event.target.files[0]);
       }
     </script>
-    <script src="/assets/js/myprofile.js"></script>
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/profile.js"></script>
   </body>
 </html>
