@@ -274,6 +274,48 @@ app.get('/api/getCulture', (req, res) => {
   });
 });
 
+app.post('/api/deleteUser', (req, res) => {
+  const id = req.query.id;
+  const role = req.query.role;
+
+  const paramsUsers = {
+    TableName: 'Users',
+    Key: {
+      'ID': id
+    }
+  };
+  dynamoDB.delete(paramsUsers, (errUsers, dataUsers) => {
+    if (errUsers) {
+      res.status(500).send("Error deleting user");
+    } else {
+      const params = {
+        TableName: role,
+        Key: {
+          'ID': id
+        }
+      };
+      dynamoDB.delete(params, (err, data) => {
+        if (err) {
+          res.status(500).send("Error deleting user");
+        } else {
+            const s3Params = {
+              Bucket: 'norskkulturklubb',
+              Key: 'UserProfile/' + req.query.profile_picture, 
+            };
+            s3.deleteObject(s3Params, (errS3, data) => {
+              if (errS3) {
+                res.status(500).send("Error deleting user's photo from S3");
+              } else {
+                res.send("User and user's photo were deleted");
+              }
+            });
+        }
+      });
+    }
+  });
+});
+
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

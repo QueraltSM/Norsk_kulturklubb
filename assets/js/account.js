@@ -80,7 +80,6 @@ async function updateProfileImage() {
     if (!response.ok) {
       throw new Error('Failed to upload image');
     }
-
     const data = await response.json();
     return data.imageUrl;
   } catch (error) {
@@ -121,4 +120,41 @@ function updateProfile() {
       });
     }
   }
+}
+
+function deleteAccount() {
+  var imageData = localStorage.getItem('profile_image');
+  var image = "";
+  userLoggedInRole += "s";
+  if (imageData!=null) {
+    var blob = dataURItoBlob(imageData);
+    var imageFile = new File([blob], 'profile_image.png', { type: 'image/png' });
+    var formData = new FormData();
+    formData.append('image', imageFile);
+    var filename = userLoggedInID + "." +  imageData.split(':')[1].split(';')[0].split('/')[1];
+    image = `&profile_picture=${filename}`;
+  } 
+  fetch(`http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole}` + image, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  }).then((response) => {
+    if (response.status === 200) {
+      showAlert("success", "Your account was removed sucessfully", "alertContainer", 3000);
+      setTimeout(() => {
+        document.getElementById("handleUserMenuLink").style.display = "none";
+        document.getElementById("loginBtn").style.display = "block";
+        localStorage.setItem("isLoggedIn", false);
+        window.location.href = "/index.html";
+      }, 3000);
+    } else if (response.status === 500) {
+      showAlert(
+        "danger",
+        "An issue occurred while deleting the account",
+        "alertContainer",
+        5000
+      );
+    }
+  });
 }
