@@ -1,22 +1,35 @@
-var isLoggedIn = localStorage.getItem("isLoggedIn");
-if (isLoggedIn == "true") {
-  document.getElementById("welcomeUser").innerHTML = localStorage.getItem("welcomeUser");
-  document.getElementById("handleUserMenuLink").style.display = "block";
-  if (document.getElementById("preview_teachers") != null) document.getElementById("preview_teachers").style.display = "none";
-  if (document.getElementById("teachers") != null) document.getElementById("teachers").style.display = "block";
-  if (document.getElementById("preview_lessons") != null) document.getElementById("preview_lessons").style.display = "none";
-  if (document.getElementById("lessons") != null ) document.getElementById("lessons").style.display = "block";
-  if (document.getElementById("preview_events") != null) document.getElementById("preview_events").style.display = "none";
-  if (document.getElementById("events")  != null ) document.getElementById("events").style.display = "block";
+if (localStorage.getItem("isLoggedIn") == "true") {
 
+  const roleDisplayOptions = {
+    "Teacher": { "createWordOfDay": "block", "createLesson": "block", "createBlogPost": "block", "createEvent": "block" },
+    "Student": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "none", "createEvent": "none" },
+    "Collaborator": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "block", "createEvent": "block" }
+  };
+  for (const option in roleDisplayOptions[localStorage.getItem("userLoggedInRole")]) {
+    const element = document.getElementById(option);
+    if (element) {
+      element.style.display = roleDisplayOptions[localStorage.getItem("userLoggedInRole")][option];
+    }
+  }
+  const welcomeUser = localStorage.getItem("welcomeUser");
+  document.getElementById("welcomeUser").innerHTML = welcomeUser;
+  document.getElementById("handleUserMenuLink").style.display = "block";
 } else {
   document.getElementById("loginBtn").style.display = "block";
-  if (document.getElementById("preview_teachers") != null) document.getElementById("preview_teachers").style.display = "flex";
-  if (document.getElementById("teachers") != null) document.getElementById("teachers").style.display = "none";
-  if (document.getElementById("preview_lessons") != null) document.getElementById("preview_lessons").style.display = "flex";
-  if (document.getElementById("lessons") != null ) document.getElementById("lessons").style.display = "none";
-  if (document.getElementById("preview_events") != null) document.getElementById("preview_events").style.display = "flex";
-  if (document.getElementById("events")  != null ) document.getElementById("events").style.display = "none";
+  const previewElements = ["preview_teachers", "preview_lessons", "preview_events"];
+  const normalElements = ["teachers", "lessons", "events"];
+  for (const elementId of previewElements) {
+    const element = document.getElementById(elementId);
+    if (element != null) {
+      element.style.display = "flex";
+    }
+  }
+  for (const elementId of normalElements) {
+    const element = document.getElementById(elementId);
+    if (element != null) {
+      element.style.display = "none";
+    }
+  }
 }
 
 function logout() {

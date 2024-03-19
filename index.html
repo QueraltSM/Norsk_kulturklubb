@@ -320,31 +320,47 @@
       });
     </script>
     <script>
-      /*const translatorSection = document.getElementById('translator');
-    fetch('http://localhost:3000/api/getWordOfTheDay')
+    const translatorSection = document.getElementById('translator');
+    /*fetch('http://localhost:3000/api/getWordOfTheDay')
     .then(response => {
         if (!response.ok) {
           throw new Error('No se pudo obtener la respuesta del servidor.');
         }
         return response.json();
       })
-      .then(data => {
+      .then(data => {*/
         const wordsList = document.createElement('div');
         wordsList.classList.add('row', 'counters', 'text-center');
         const currentDate = new Date().toLocaleDateString('en-GB');
-        data.Items.forEach(word => {
-          if (currentDate == word.date) {
+        //data.Items.forEach(word => {
+         var word = {
+  "ID": {
+    "S": "1"
+  },
+  "date": {
+    "S": "19/03/2024"
+  },
+  "meaning": {
+    "S": "Drømmeland translates literally as \"dreamland\" in Norwegian. It refers to a mental state of dreaming or fantasy, where people are immersed in their deepest and most pleasant thoughts, often associated with relaxation and rest."
+  },
+  "word": {
+    "S": "Drømmeland"
+  }
+};
+
+          if (currentDate == word.date.S) {
             const wordDiv = document.createElement('div');
             wordDiv.innerHTML = `
-              <span>${word.word}</span>
-              <p class="meaning" style="width:50%; margin: 0 auto;">${word.meaning}</p>
+              <span>${word.word.S}</span>
+              <p class="meaning" style="width:50%; margin: 0 auto;">${word.meaning.S}</p>
             `;
             wordDiv.style.margin = "0 auto";
             wordsList.appendChild(wordDiv);
+            
           }
-        });
+        //});
         translatorSection.appendChild(wordsList);
-      }).catch(error => {
+      /*}).catch(error => {
       console.error('Error al obtener los datos:', error);
       translatorSection.innerHTML = 'Error al obtener la información de las palabras: ' + error;
     });*/

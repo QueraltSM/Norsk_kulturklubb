@@ -64,30 +64,6 @@ app.get('/api/getTeachers', (req, res) => {
   });
 });
 
-app.get('/api/getTeacher', (req, res) => {
-  const teacherId = req.query.id;
-  if (!teacherId) {
-    res.status(400).send('Se requiere el parámetro "id" para obtener un profesor específico');
-    return;
-  }
-  const params = {
-    TableName: 'Teachers',
-    Key: {
-      "ID": teacherId
-    }
-  };
-  dynamoDB.get(params, (err, data) => {
-    if (err) {
-      console.error('Error al obtener el profesor de la base de datos:', err);
-      res.status(500).send('Error interno del servidor al obtener el profesor');
-    } else if (!data.Item) {
-      res.status(404).send('No se encontró el profesor con el ID proporcionado');
-    } else {
-      res.json(data.Item);
-    }
-  });
-});
-
 app.get('/api/translateText', (req, res) => {
   const params = {
     Text:  req.query.text,
@@ -212,8 +188,7 @@ app.post('/api/updateUserData', (req, res) => {
 });
 
 const multer = require('multer');
-const upload = multer().single('image'); // 'image' es el nombre del campo de archivo en tu formulario
-
+const upload = multer().single('image');
 
 app.post('/api/updateProfileImage', upload, (req, res) => {
   const image = req.file;
@@ -224,8 +199,8 @@ app.post('/api/updateProfileImage', upload, (req, res) => {
   const params = {
       Bucket: 'norskkulturklubb',
       Key: 'UserProfile/' + req.query.filename, 
-      Body: image.buffer, // Usa la imagen obtenida de FormData
-      ACL: 'public-read' // Opcional: establecer los permisos del archivo
+      Body: image.buffer,
+      ACL: 'public-read'
   };
 
   s3.upload(params, (err, data) => {
@@ -311,6 +286,25 @@ app.post('/api/deleteUser', (req, res) => {
             });
         }
       });
+    }
+  });
+});
+
+app.get('/api/getUser', (req, res) => {
+  const params = {
+    TableName: req.query.table,
+    Key: {
+      "ID": req.query.id
+    }
+  };
+  dynamoDB.get(params, (err, data) => {
+    if (err) {
+      console.error('Error al obtener el profesor de la base de datos:', err);
+      res.status(500).send('Error interno del servidor al obtener el profesor');
+    } else if (!data.Item) {
+      res.status(404).send('No se encontró el profesor con el ID proporcionado');
+    } else {
+      res.json(data.Item);
     }
   });
 });
