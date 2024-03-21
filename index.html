@@ -73,7 +73,7 @@
 
     <main id="main">
       <!-- ======= translator Section ======= -->
-      <section id="translator" class="translator section-bg">
+      <section id="wordOdTheDaySection" class="translator section-bg" style="display: none;">
         <div class="container">
           <div class="section-title" style="padding-bottom: 0px">
             <h2>Word of the Day</h2>
@@ -187,7 +187,7 @@
           <div class="col-xl-6 col-md-6" data-aos="zoom-in" data-aos-delay="600">
             <div class="service-item">
               <div class="img">
-                <img src="assets/img/Bergen.jpg" class="img-fluid" alt="">
+                <img src="assets/img/Events.png" class="img-fluid" alt="">
               </div>
               <div class="details position-relative">
                 <div class="icon">
@@ -205,7 +205,7 @@
           <div class="col-xl-6 col-md-6" data-aos="zoom-in" data-aos-delay="700">
             <div class="service-item">
               <div class="img">
-                <img src="assets/img/Steinsdalsfossen.jpg" class="img-fluid" alt="">
+                <img src="assets/img/teachers.png" class="img-fluid" alt="">
               </div>
               <div class="details position-relative">
                 <div class="icon">
@@ -225,7 +225,7 @@
           <div class="col-xl-6 col-md-6" data-aos="zoom-in" data-aos-delay="700">
             <div class="service-item">
               <div class="img">
-                <img src="assets/img/Steinsdalsfossen.jpg" class="img-fluid" alt="">
+                <img src="assets/img/Collaborators.png" class="img-fluid" alt="">
               </div>
               <div class="details position-relative">
                 <div class="icon">
@@ -320,50 +320,35 @@
       });
     </script>
     <script>
-    const translatorSection = document.getElementById('translator');
-    /*fetch('http://localhost:3000/api/getWordOfTheDay')
+    const wordOdTheDaySection = document.getElementById('wordOdTheDaySection');
+    fetch('http://localhost:3000/api/getWordOfTheDay')
     .then(response => {
         if (!response.ok) {
           throw new Error('No se pudo obtener la respuesta del servidor.');
         }
         return response.json();
       })
-      .then(data => {*/
+      .then(data => {
         const wordsList = document.createElement('div');
         wordsList.classList.add('row', 'counters', 'text-center');
         const currentDate = new Date().toLocaleDateString('en-GB');
-        //data.Items.forEach(word => {
-         var word = {
-  "ID": {
-    "S": "1"
-  },
-  "date": {
-    "S": "19/03/2024"
-  },
-  "meaning": {
-    "S": "Drømmeland translates literally as \"dreamland\" in Norwegian. It refers to a mental state of dreaming or fantasy, where people are immersed in their deepest and most pleasant thoughts, often associated with relaxation and rest."
-  },
-  "word": {
-    "S": "Drømmeland"
-  }
-};
-
-          if (currentDate == word.date.S) {
+        data.Items.forEach(word => {
+          if (currentDate == word.date) {
             const wordDiv = document.createElement('div');
             wordDiv.innerHTML = `
-              <span>${word.word.S}</span>
-              <p class="meaning" style="width:50%; margin: 0 auto;">${word.meaning.S}</p>
+              <span>${word.word}</span>
+              <p class="meaning" style="width:50%; margin: 0 auto;">${word.meaning}</p>
             `;
             wordDiv.style.margin = "0 auto";
             wordsList.appendChild(wordDiv);
-            
+            wordOdTheDaySection.appendChild(wordsList);
+            wordOdTheDaySection.style.display = "block";
           }
-        //});
-        translatorSection.appendChild(wordsList);
-      /*}).catch(error => {
-      console.error('Error al obtener los datos:', error);
-      translatorSection.innerHTML = 'Error al obtener la información de las palabras: ' + error;
-    });*/
+      });
+        
+      }).catch(error => {
+        console.error('Error al obtener los datos:', error);
+    });
     </script>
   </body>
 </html>

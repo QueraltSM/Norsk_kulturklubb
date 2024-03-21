@@ -2066,3 +2066,9 @@ textarea {
 .services .service-item:hover .img img {
   transform: scale(1.2);
 }
+
+.fc-event {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}

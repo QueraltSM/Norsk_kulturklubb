@@ -6,10 +6,12 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 const formidable = require('formidable');
+const multer = require('multer');
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 const credentialsFilePath = 'C:/UNED/TFM/Norsk kulturklubb/AWS/credentials';
@@ -187,10 +189,8 @@ app.post('/api/updateUserData', (req, res) => {
   });
 });
 
-const multer = require('multer');
-const upload = multer().single('image');
 
-app.post('/api/updateProfileImage', upload, (req, res) => {
+app.post('/api/updateProfileImage', multer().single('image'), (req, res) => {
   const image = req.file;
   if (!image) {
       console.log("No se proporcionó una imagen");
@@ -198,7 +198,7 @@ app.post('/api/updateProfileImage', upload, (req, res) => {
   }
   const params = {
       Bucket: 'norskkulturklubb',
-      Key: 'UserProfile/' + req.query.filename, 
+      Key: 'Users/' + req.query.filename, 
       Body: image.buffer,
       ACL: 'public-read'
   };
@@ -275,7 +275,7 @@ app.post('/api/deleteUser', (req, res) => {
         } else {
             const s3Params = {
               Bucket: 'norskkulturklubb',
-              Key: 'UserProfile/' + req.query.profile_picture, 
+              Key: 'Users/' + req.query.profile_picture, 
             };
             s3.deleteObject(s3Params, (errS3, data) => {
               if (errS3) {
@@ -308,6 +308,74 @@ app.get('/api/getUser', (req, res) => {
     }
   });
 });
+
+app.get('/api/getWords', (req, res) => {
+  const params = {
+    TableName: 'Words',
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      console.error('Error al escanear la tabla:', err);
+      res.status(500).send('Error interno del servidor');
+    } else {
+      res.json(data);
+    }
+  });
+});
+
+app.post('/api/uploadWord', (req, res) => {
+  const params = {
+    TableName: "Words",
+    Item: req.body
+  };
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      res.status(500).send("Error inserting");
+    } else {
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
+app.post('/api/uploadLesson', (req, res) => {
+  const params = {
+    TableName: "Lessons",
+    Item: req.body
+  };
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      res.status(500).send("Error inserting");
+    } else {
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
+app.post('/api/uploadFileLesson', multer().single('file'), (req, res) => {
+  /*const image = req.file;
+  if (!image) {
+      console.log("No se proporcionó una imagen");
+      return res.status(400).send('No se proporcionó una imagen');
+  }*/
+  const params = {
+      Bucket: 'norskkulturklubb',
+      Key: 'Lessons/' + req.query.filename, 
+      Body: Buffer.from(req.body.file, 'base64'),
+      ACL: 'public-read'
+  };
+
+  s3.upload(params, (err, data) => {
+      if (err) {
+          console.error('Error al subir el fichero a S3:', err);
+          return res.status(500).send('Error al subir el fichero a S3');
+      }
+      res.status(200).json({ content_url: data.Location });
+  });
+});
+
+
+
+
 
 
 app.listen(PORT, () => {
