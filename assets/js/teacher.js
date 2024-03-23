@@ -1,5 +1,5 @@
-let teacherId =  new URLSearchParams(window.location.search).get("aWQ").substring(1);
-fetch(`http://localhost:3000/api/getUser?id=${teacherId}&table=Teachers`)
+alert(`http://localhost:3000/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
+fetch(`http://localhost:3000/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
   .then((response) => {
     if (!response.ok) {
       throw new Error("No se pudo obtener la respuesta del servidor.");
@@ -23,5 +23,5 @@ fetch(`http://localhost:3000/api/getUser?id=${teacherId}&table=Teachers`)
       teacher.contact_information;
   })
   .catch((error) => {
-    console.error("Error al obtener los datos:", error);
+    alert("Error al obtener los datos:"+ error);
   });

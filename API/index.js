@@ -372,8 +372,39 @@ app.post('/api/uploadFileLesson', multer().single('file'), (req, res) => {
 });
 
 
+app.get('/api/getLessons', (req, res) => {
+  const params = {
+    TableName: 'Lessons',
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      console.error('Error al escanear la tabla:', err);
+      res.status(500).send('Error interno del servidor');
+    } else {
+      res.json(data);
+    }
+  });
+});
 
 
+app.get('/api/getLesson', (req, res) => {
+  const params = {
+    TableName: "Lessons",
+    Key: {
+      "ID": req.query.id
+    }
+  };
+  dynamoDB.get(params, (err, data) => {
+    if (err) {
+      console.error('Error al obtener el profesor de la base de datos:', err);
+      res.status(500).send('Error interno del servidor al obtener el profesor');
+    } else if (!data.Item) {
+      res.status(404).send('No se encontró el profesor con el ID proporcionado');
+    } else {
+      res.json(data.Item);
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);

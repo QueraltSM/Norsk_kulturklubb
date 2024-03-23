@@ -17,7 +17,8 @@ if (localStorage.getItem("isLoggedIn") == "true") {
 } else {
   document.getElementById("loginBtn").style.display = "block";
   const previewElements = ["preview_teachers", "preview_lessons", "preview_events"];
-  const normalElements = ["teachers", "lessons", "events"];
+  // const normalElements = ["teachers", "lessons", "events"];
+  
   for (const elementId of previewElements) {
     const element = document.getElementById(elementId);
     if (element != null) {

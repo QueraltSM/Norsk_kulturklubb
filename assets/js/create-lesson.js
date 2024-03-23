@@ -1,5 +1,3 @@
-var userLoggedInID = localStorage.getItem("userLoggedInID");
-
 async function publish() {
   try {
 
@@ -48,9 +46,11 @@ function uploadLesson(content_url) {
     body: JSON.stringify({
       ID: uuidv4(),
       title: document.getElementById("title").innerHTML.trim(),
+      short_description: document.getElementById("short_description").innerHTML.trim(),
       description: document.getElementById("description").innerHTML.trim(),
-      languageLevel: document.getElementById("languageLevel").value,
-      content_url: content_url
+      language_level: document.getElementById("language_level").value,
+      content_url: content_url,
+      teacher_id: localStorage.getItem("userLoggedInID")
     }),
   })
     .then((response) => {

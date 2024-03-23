@@ -1974,6 +1974,7 @@ textarea {
 
 #welcomeUser {
   color: #9C3030;
+  font-weight: bold;
 }
 
 .editable-box {
@@ -2071,4 +2072,9 @@ textarea {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
+}
+
+.img-fluid {
+  border-radius: 10px; /* Radio de los bordes */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra suave */
 }
