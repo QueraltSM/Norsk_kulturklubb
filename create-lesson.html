@@ -78,13 +78,10 @@
                         <span class="label-box">Write the description of the lesson</span>
                         <p contenteditable="true" id="description" class="editable-box"></p>
 
-                        <h3>
-                            Lesson
-                        </h3>
-                        <span class="label-box">Select the file of your lesson</span><br>
-                        <input type="file" id="content_url" contenteditable="true" class="editable-box"
-                            style="width: 100%;">
-
+                        <h3>Lesson</h3>
+                        <span class="label-box">Select the file of your lesson (PDF, TXT, DOCX, HTML, PPTX or MP4)</span><br>
+                        <input type="file" id="content_url" accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/html,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint" contenteditable="true" class="editable-box" style="width: 100%;">
+                        
                         <h3>
                             Level
                         </h3>
@@ -105,7 +102,7 @@
                     <button type="button" class="btn" onclick="window.location = '/index'">
                         Cancel
                     </button>
-                    <button type="button" class="get-started-btn" id="saveButton" onclick="publishLesson();">
+                    <button type="button" class="get-started-btn" id="saveButton" onclick="publish();">
                         Publish
                     </button>
                     <div id="alertContainer"></div>
@@ -134,6 +131,8 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
 
     <script>
         $(document).ready(function () {

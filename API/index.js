@@ -352,15 +352,13 @@ app.post('/api/uploadLesson', (req, res) => {
 });
 
 app.post('/api/uploadFileLesson', multer().single('file'), (req, res) => {
-  /*const image = req.file;
-  if (!image) {
-      console.log("No se proporcionó una imagen");
-      return res.status(400).send('No se proporcionó una imagen');
-  }*/
+  if (!req.file) {
+      return res.status(400).send('No file uploaded');
+  }
   const params = {
       Bucket: 'norskkulturklubb',
       Key: 'Lessons/' + req.query.filename, 
-      Body: Buffer.from(req.body.file, 'base64'),
+      Body: req.file.buffer, // Accede al buffer del archivo desde req.file.buffer
       ACL: 'public-read'
   };
 
@@ -369,10 +367,9 @@ app.post('/api/uploadFileLesson', multer().single('file'), (req, res) => {
           console.error('Error al subir el fichero a S3:', err);
           return res.status(500).send('Error al subir el fichero a S3');
       }
-      res.status(200).json({ content_url: data.Location });
+      res.status(200).json({ fileUrl: data.Location });
   });
 });
-
 
 
 
