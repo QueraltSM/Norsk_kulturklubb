@@ -50,7 +50,8 @@ function uploadLesson(content_url) {
       description: document.getElementById("description").innerHTML.trim(),
       language_level: document.getElementById("language_level").value,
       content_url: content_url,
-      teacher_id: localStorage.getItem("userLoggedInID")
+      teacher_id: localStorage.getItem("userLoggedInID"),
+      pubdate: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }).replace(',', '')
     }),
   })
     .then((response) => {

@@ -1,7 +1,7 @@
 if (localStorage.getItem("isLoggedIn") == "true") {
 
   const roleDisplayOptions = {
-    "Teacher": { "createWordOfDay": "block", "createLesson": "block", "createBlogPost": "block", "createEvent": "block" },
+    "Teacher": { "createWordOfDay": "block", "createLesson": "block", "createBlogPost": "block", "createEvent": "block", "myLessons": "block" },
     "Student": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "none", "createEvent": "none" },
     "Collaborator": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "block", "createEvent": "block" }
   };
@@ -17,7 +17,7 @@ if (localStorage.getItem("isLoggedIn") == "true") {
 } else {
   document.getElementById("loginBtn").style.display = "block";
   const previewElements = ["preview_teachers", "preview_lessons", "preview_events"];
-  // const normalElements = ["teachers", "lessons", "events"];
+  const normalElements = ["teachers", "lessons", "events"];
   
   for (const elementId of previewElements) {
     const element = document.getElementById(elementId);

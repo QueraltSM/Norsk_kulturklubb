@@ -406,6 +406,24 @@ app.get('/api/getLesson', (req, res) => {
   });
 });
 
+app.get('/api/getMyLessons', (req, res) => {
+  const params = {
+    TableName: "Lessons",
+    FilterExpression: 'teacher_id = :id',
+    ExpressionAttributeValues: {
+      ':id': req.query.teacher_id
+    }
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      console.error('Error al escanear la tabla:', err);
+      res.status(500).send('Error interno del servidor');
+    } else {
+      res.json(data);
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

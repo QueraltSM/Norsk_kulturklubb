@@ -38,9 +38,9 @@ async function fetchData() {
     }
     const lesson = await response.json();
     try {
-      const teacherName = await getTeacher(lesson.teacher_id);
+      const teacherName = "Hei! I'm " + await getTeacher(lesson.teacher_id);
       const lessonHTML = `
-          <div class="col-lg-12 col-md-6 d-flex align-items-stretch">
+          <div class="col-lg-12">
             <div class="course-item">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -48,6 +48,10 @@ async function fetchData() {
                 </div>
                 <h3><a href="#" onclick="loadLessonDetails('${lesson.ID}')">${lesson.title}</a></h3>
                 <p>${lesson.description}</p>
+                <video controls style="display:none" id="video_container" style="width:100%">
+                  <source id="video_url" type="video/mp4">
+                </video>
+                <iframe id="iframe_container" style="display:none" width="100%" height="842px" frameborder="0"></iframe>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
                     <span><a href="#" onclick="loadTeacherProfile('${lesson.teacher_id}')">${teacherName}</a></span>
@@ -57,13 +61,19 @@ async function fetchData() {
             </div>
           </div>`;
       lessonContainer.innerHTML += lessonHTML;
+      const contentType = lesson.content_url.split('.').pop();
+      if (contentType == "mp4") {
+        document.getElementById("video_url").src = lesson.content_url;
+        document.getElementById("video_container").style.display = "block";
+      } else {
+        document.getElementById("iframe_container").src = "https://docs.google.com/viewer?url=" + lesson.content_url + "&embedded=true";
+        document.getElementById("iframe_container").style.display = "block";
+      }
     } catch (error) {
       console.error("Error:", error);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
-    document.getElementById("lessons_container").textContent =
-      "Error fetching data";
   }
 }
 fetchData();
