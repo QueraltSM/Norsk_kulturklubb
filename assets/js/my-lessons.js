@@ -5,6 +5,56 @@ function loadLessonDetails(lessonId) {
   window.location.href = "lesson.html";
 }
 
+function deleteLesson() {
+  alert("ID->" + localStorage.getItem(
+    "selectedLessonID"
+  ));
+
+  alert("CONTENT->" + localStorage.getItem(
+    "selectedLessonContentUrl"
+  ));
+
+  fetch(
+    'http://localhost:3000/api/deleteLesson',
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("selectedLessonID"),
+        content_url: localStorage.getItem("selectedLessonContentUrl")
+      })
+    }
+  ).then((response) => {
+    if (response.status === 200) {
+      showAlert(
+        "success",
+        "Your lesson was removed sucessfully",
+        "alertContainer",
+        3000
+      );
+      setTimeout(() => {
+        window.location.href = "/my-lessons.html";
+      }, 3000);
+    } else if (response.status === 500) {
+      showAlert(
+        "danger",
+        "An issue occurred while deleting the lesson",
+        "alertContainer",
+        5000
+      );
+    }
+  });
+}
+
+function askDelete(params) {
+  const [lessonID, contentURL] = params.split(':::');
+  localStorage.setItem("selectedLessonID", lessonID);
+  localStorage.setItem("selectedLessonContentUrl", contentURL.substring(contentURL.lastIndexOf('/') + 1));
+  $("#confirmDeleteModal").modal("show");
+}
+
 function convertToDateObject(dateString) {
   const [datePart, timePart] = dateString.split(" ");
   const [day, month, year] = datePart.split("/");
@@ -51,8 +101,11 @@ async function fetchData() {
           <td>${lesson.language_level}</td>
           <td>${lesson.title}</td>
           <td style="text-align: center;">
-            <a onclick="updateLesson('${lesson.ID}')" style="border-radius: 0px;color:#9C3030;margin:10px;"><i class="fas fa-pencil-alt"></i></a>
-            <a onclick="deleteLesson('${lesson.ID}')"  style="border-radius: 0px;color:#9C3030;margin:10px;" onclick="deleteLesson('${lesson.ID}')"><i class="fa fa-trash"></i></a>
+            <a onclick="updateLesson('${
+              lesson.ID
+            }')" style="border-radius: 0px;color:#9C3030;margin:10px;"><i class="fas fa-pencil-alt"></i></a>
+            <a href="#" onclick="askDelete('${lesson.ID}:::${lesson.content_url}')" style="border-radius: 0px;color:#9C3030;margin:10px;"><i class="fa fa-trash"></i></a>
+
           </td>
         </tr>
       `

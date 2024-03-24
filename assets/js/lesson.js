@@ -38,7 +38,7 @@ async function fetchData() {
     }
     const lesson = await response.json();
     try {
-      const teacherName = "Hei! I'm " + await getTeacher(lesson.teacher_id);
+      const teacherName = "Lesson published by" + await getTeacher(lesson.teacher_id);
       const lessonHTML = `
           <div class="col-lg-12">
             <div class="course-item">

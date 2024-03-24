@@ -42,11 +42,6 @@ function getTeacher(id) {
                   </div>
                   <h3><a href="#" onclick="loadLessonDetails('${lesson.ID}')">${lesson.title}</a></h3>
                   <p>${lesson.short_description}</p>
-                  <div class="trainer d-flex justify-content-between align-items-center">
-                    <div class="trainer-profile d-flex align-items-center">
-                      <span>${teacherName}</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>`;

@@ -253,15 +253,15 @@ app.post('/api/deleteUser', (req, res) => {
   const id = req.query.id;
   const role = req.query.role;
 
-  const paramsUsers = {
+  const params = {
     TableName: 'Users',
     Key: {
       'ID': id
     }
   };
-  dynamoDB.delete(paramsUsers, (errUsers, dataUsers) => {
-    if (errUsers) {
-      res.status(500).send("Error deleting user");
+  dynamoDB.delete(params, (err, dataObjects) => {
+    if (err) {
+      res.status(500).send("Error deleting");
     } else {
       const params = {
         TableName: role,
@@ -271,7 +271,7 @@ app.post('/api/deleteUser', (req, res) => {
       };
       dynamoDB.delete(params, (err, data) => {
         if (err) {
-          res.status(500).send("Error deleting user");
+          res.status(500).send("Error deleting");
         } else {
             const s3Params = {
               Bucket: 'norskkulturklubb',
@@ -279,9 +279,9 @@ app.post('/api/deleteUser', (req, res) => {
             };
             s3.deleteObject(s3Params, (errS3, data) => {
               if (errS3) {
-                res.status(500).send("Error deleting user's photo from S3");
+                res.status(500).send("Error deleting from S3");
               } else {
-                res.send("User and user's photo were deleted");
+                res.send("Objects were deleted");
               }
             });
         }
@@ -420,6 +420,35 @@ app.get('/api/getMyLessons', (req, res) => {
       res.status(500).send('Error interno del servidor');
     } else {
       res.json(data);
+    }
+  });
+});
+
+app.post('/api/deleteLesson', (req, res) => {
+  console.log("id:"+req.body.id)
+  const params = {
+    TableName: 'Lessons',
+    Key: {
+      'ID': req.body.id
+    }
+  };
+  console.log("before")
+  dynamoDB.delete(params, (err, dataObjects) => {
+    if (err) {
+      res.status(500).send("Error deleting");
+    } else {
+      console.log("content:"+req.body.content_url)
+      const s3Params = {
+        Bucket: 'norskkulturklubb',
+        Key: 'Lessons/' + req.body.content_url, 
+      };
+      s3.deleteObject(s3Params, (errS3, data) => {
+        if (errS3) {
+          res.status(500).send("Error deleting from S3");
+        } else {
+          res.send("Objects were deleted");
+        }
+      });
     }
   });
 });
