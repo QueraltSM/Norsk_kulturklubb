@@ -82,6 +82,30 @@ app.get('/api/translateText', (req, res) => {
   });
 });
 
+app.get('/api/detectLanguage', (req, res) => {
+  const params = {
+    Text: req.query.text,
+  };
+
+  AWS.config.update({ region: 'us-east-1' });
+  
+  const comprehend = new AWS.Comprehend();
+
+  comprehend.detectDominantLanguage(params, (err, data) => {
+    if (err) {
+      console.error('Error al detectar el idioma:', err);
+      res.status(500).send('Error interno del servidor al detectar el idioma');
+    } else {
+      if (data.Languages && data.Languages.length > 0) {
+        const detectedLanguage = data.Languages[0].LanguageCode;
+        res.json({ detectedLanguage });
+      } else {
+        res.status(500).send('No se pudo detectar el idioma del texto');
+      }
+    }
+  });
+});
+
 
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
