@@ -84,20 +84,20 @@
               <div class="col">
                 <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
                   <li class="nav-item">
-                    <a class="nav-link" id="englishTab_translated" data-toggle="tab" href="#englishText">English</a>
+                    <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" id="norwegianTab_translated" data-toggle="tab"
+                    <a class="nav-link active" id="norweigan_tab" data-toggle="tab"
                       href="#norwegianText">Norsk</a>
                   </li>
 
                   <li class="nav-item dropdown" id="otherLanguageDropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-haspopup="true"
+                    <a class="nav-link dropdown-toggle" href="#" id="others_tab" role="button" aria-haspopup="true"
                       aria-expanded="false">
-                      Other
+                      Others
                     </a>
                     <div id="dropdown-menu-item" class="dropdown-menu" style="display: none;">
-                      <ul style="list-style: none;" class="centered-text">
+                      <ul style="list-style: none;font-size: 13px;" class="centered-text">
                         <li data-code="es">Español</li>
                         <li data-code="fr">Français</li>
                         <li data-code="de">Deutsch</li>
@@ -126,20 +126,18 @@
 
                 <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
                   <div class="d-flex align-items-start" style="background-color: #f5f5f5; position: relative;">
-                      <textarea class="form-control auto-height-textarea" id="translatedText" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
+                      <textarea class="form-control auto-height-textarea" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
                       <a class="translator-buttons" type="button" id="copyButton" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;">
                           <i class="fas fa-copy"></i>
                       </a>
                       <div id="copyMessageContainer" class="fixed-bottom w-100 d-flex justify-content-center"></div>
                   </div>
               </div>
-
-              
               </div>
             </div>
             <br>
             <div class="text-center">
-              <a id="translate" style="cursor: pointer" class="get-started-btn">Translate</a>
+              <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translate();">Translate</a>
             </div>
           </form>
 
@@ -197,7 +195,11 @@
     document.querySelectorAll('#dropdown-menu-item li').forEach(item => {
       item.addEventListener('click', event => {
         const selectedLanguage = event.target.textContent;
-        document.getElementById('navbarDropdown').textContent = selectedLanguage;
+        document.getElementById('others_tab').textContent = selectedLanguage;
+        localStorage.setItem("selected_language", event.target.getAttribute('data-code'))
+        document.getElementById('others_tab').classList.add('active');
+        document.getElementById('english_tab').classList.remove('active');
+        document.getElementById('norweigan_tab').classList.remove('active');
       });
     });
 
@@ -211,12 +213,7 @@
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-      document
-        .getElementById("translate")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          translate();
-        });
+
       document
         .getElementById("keyboardButton")
         .addEventListener("click", function (event) {
@@ -322,9 +319,21 @@
     }
 
     function translate() {
-      const text = document.getElementById("text").value;
-      const selectedTabId_toTranslate = document.querySelector('#languageTabs_totranslate .nav-link.active').getAttribute('href');
 
+      var english_tab = document.getElementById("english_tab").classList.contains('active');
+      var norweigan_tab = document.getElementById("norweigan_tab").classList.contains('active');
+      var others_tab = document.getElementById("others_tab").classList.contains('active');
+      var target_language = "";
+
+      if (english_tab) {
+        target_language = "en";
+      } else if (norweigan_tab) {
+        target_language = "no";
+      } else if (others_tab) {
+        target_language = localStorage.getItem("selected_language");
+      }
+      var source_language = "";
+      const text = document.getElementById("text").value;
       fetch(`http://localhost:3000/api/detectLanguage?text=${encodeURIComponent(text)}`)
         .then(response => {
           if (!response.ok) {
@@ -333,13 +342,19 @@
           return response.json();
         })
         .then(data => {
-          alert('Idioma detectado:' + data.detectedLanguage);
-          alert("traducir a : " + selectedTabId_toTranslate);
+          source_language = data.detectedLanguage;
+          fetch(`http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source_language}&TargetLanguageCode=${target_language}`)
+          .then(response => response.json())
+          .then(data => {
+              document.getElementById("translated_text").innerText = data.translatedText;
+          })
+          .catch(error => {
+              document.getElementById("translated_text").innerText = 'Error';
+          });
         })
         .catch(error => {
           alert('Error:' + error);
         });
-
     }
 
   </script>
