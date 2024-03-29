@@ -12,8 +12,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
 const credentialsFilePath = 'C:/UNED/TFM/Norsk kulturklubb/AWS/credentials';
 const credentials = fs.readFileSync(credentialsFilePath, 'utf8').split('\n')
   .reduce((acc, line) => {
@@ -430,14 +428,21 @@ app.get('/api/getLesson', (req, res) => {
   });
 });
 
-app.get('/api/getMyLessons', (req, res) => {
+app.get('/api/getMyContributions', (req, res) => {
+  let filterExpression;
+  if (req.query.table === 'Culture' || req.query.table === 'Events') {
+    filterExpression = 'user_id = :id';
+  } else {
+    filterExpression = 'teacher_id = :id';
+  }
   const params = {
-    TableName: "Lessons",
-    FilterExpression: 'teacher_id = :id',
+    TableName: req.query.table,
+    FilterExpression: filterExpression,
     ExpressionAttributeValues: {
-      ':id': req.query.teacher_id
+      ':id': req.query.user_id
     }
   };
+  console.log(JSON.stringify(params))
   dynamoDB.scan(params, (err, data) => {
     if (err) {
       console.error('Error al escanear la tabla:', err);
@@ -449,14 +454,12 @@ app.get('/api/getMyLessons', (req, res) => {
 });
 
 app.post('/api/deleteLesson', (req, res) => {
-  console.log("id:"+req.body.id)
   const params = {
     TableName: 'Lessons',
     Key: {
       'ID': req.body.id
     }
   };
-  console.log("before")
   dynamoDB.delete(params, (err, dataObjects) => {
     if (err) {
       res.status(500).send("Error deleting");

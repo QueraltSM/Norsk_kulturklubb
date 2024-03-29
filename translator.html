@@ -29,12 +29,14 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <!-- Agregar FontAwesome -->
-  <link rel="stylesheet" href="https://unpkg.com/virtual-keyboard/dist/css/keyboard-basic.min.css" />
+
   <!-- Agregar VKB -->
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+
 
   <!-- =======================================================
   * Template Name: Mentor
@@ -51,11 +53,13 @@
   <!-- ======= Header ======= -->
   <header id="header"></header>
 
+
   <!-- End Header -->
   <main id="main">
     <!-- ======= translator Section ======= -->
     <section id="translator" class="translator">
       <div class="container">
+
         <div class="section-title" style="padding-bottom: 0px">
           <h2>Oversetter</h2>
           <p>Translator</p>
@@ -69,15 +73,15 @@
                     <a class="nav-link active" id="automaticDetection" data-toggle="tab">Automatic detection</a>
                   </li>
                 </ul>
-                <div class="form-group d-flex flex-column-reverse"
+                <div class="d-flex align-items-start"
                   style="border: 0.5px solid lightgray;border-radius: 5px;margin-top:1px">
                   <div class="d-flex align-items-start">
-                    <textarea class="form-control auto-height-textarea flex-grow-1 mr-2" id="text"
-                      style="min-height: 300px" required></textarea>
-                    <!-- <button class="btn btn-outline-secondary translator-buttons align-self-end" type="button"
-                      id="keyboardButton">
+                    <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px"
+                      required></textarea>
+                    <a title="Active keyboard" class="translator-buttons" type="button" id="activeKeyboard"
+                      style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:20px;">
                       <i class="fas fa-keyboard"></i>
-                    </button> -->
+                    </a>
                   </div>
                 </div>
               </div>
@@ -87,8 +91,7 @@
                     <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" id="norweigan_tab" data-toggle="tab"
-                      href="#norwegianText">Norsk</a>
+                    <a class="nav-link active" id="norweigan_tab" data-toggle="tab" href="#norwegianText">Norsk</a>
                   </li>
 
                   <li class="nav-item dropdown" id="otherLanguageDropdown">
@@ -97,7 +100,7 @@
                       Others
                     </a>
                     <div id="dropdown-menu-item" class="dropdown-menu" style="display: none;">
-                      <ul style="list-style: none;font-size: 13px;" class="centered-text">
+                      <ul style="list-style: none;font-size: 13px;columns: 3" class="centered-text">
                         <li data-code="es">Español</li>
                         <li data-code="fr">Français</li>
                         <li data-code="de">Deutsch</li>
@@ -123,33 +126,73 @@
                     </div>
                   </li>
                 </ul>
-
                 <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
                   <div class="d-flex align-items-start" style="background-color: #f5f5f5; position: relative;">
-                      <textarea class="form-control auto-height-textarea" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
-                      <a class="translator-buttons" type="button" id="copyButton" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;">
-                          <i class="fas fa-copy"></i>
-                      </a>
-                      <div id="copyMessageContainer" class="fixed-bottom w-100 d-flex justify-content-center"></div>
+                    <textarea class="form-control auto-height-textarea" id="translated_text"
+                      style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
+                    <a title="Copy text" class="translator-buttons" type="button" id="copyButton"
+                      style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;">
+                      <i class="fas fa-copy"></i>
+                    </a>
+                    <div id="copyMessageContainer" class="fixed-bottom w-100 d-flex justify-content-center"></div>
                   </div>
-              </div>
+                </div>
               </div>
             </div>
             <br>
+            <div id="keyboard_container" style="display: none;">
+              <div class="section-title" style="padding-bottom: 0px">
+                <h2>Tastatur</h2>
+                <p>Keyboard</p>
+              </div>
+              <div style="background:#f5f5f5">
+                <li class="nav-item dropdown" id="otherLanguageDropdownKeyboard"
+                  style="list-style: none;float:right;color:#9C3030;">
+                  <a class="nav-link dropdown-toggle" href="#" id="keyboard_language" role="button" aria-haspopup="true"
+                    aria-expanded="false">
+                    <strong>Language</strong>
+                  </a>
+                  <div id="dropdown-menu-item-keyboard" class="dropdown-menu" style="display: none;">
+                    <ul style="list-style: none;font-size: 13px;columns: 3;" class="centered-text">
+                      <li data-code="no">Norweigan</li>
+                      <li data-code="en">English</li>
+                      <li data-code="es">Español</li>
+                      <li data-code="fr">Français</li>
+                      <li data-code="de">Deutsch</li>
+                      <li data-code="it">Italiano</li>
+                      <li data-code="pt">Português</li>
+                      <li data-code="nl">Nederlands</li>
+                      <li data-code="pl">Polski</li>
+                      <li data-code="ru">Русский</li>
+                      <li data-code="zh">中文(简体)</li>
+                      <li data-code="zh-TW">中文(繁體)</li>
+                      <li data-code="ja">日本語</li>
+                      <li data-code="ko">한국어</li>
+                      <li data-code="ar">العربية</li>
+                      <li data-code="tr">Türkçe</li>
+                      <li data-code="hi">हिन्दी</li>
+                      <li data-code="sv">Svenska</li>
+                      <li data-code="da">Dansk</li>
+                      <li data-code="fi">Suomi</li>
+                      <li data-code="he">עברית</li>
+                      <li data-code="el">Ελληνικά</li>
+                      <li data-code="id">Bahasa Indonesia</li>
+                    </ul>
+                  </div>
+                </li>
+                <div class="simple-keyboard"></div><br>
+              </div>
+              <br>
+            </div>
             <div class="text-center">
               <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translate();">Translate</a>
             </div>
           </form>
-
         </div>
       </div>
     </section>
-
-
   </main>
   <!-- End #main -->
-
-
 
   <!-- ======= Footer ======= -->
   <footer id="footer"></footer>
@@ -183,6 +226,54 @@
     });
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+
+  <script>
+    const Keyboard = window.SimpleKeyboard.default;
+
+    const myKeyboard = new Keyboard({
+      onChange: input => onChange(input),
+      onKeyPress: button => onKeyPress(button),
+
+    });
+
+    function onChange(input) {
+      document.querySelector(".input").value = input;
+    }
+
+    function onKeyPress(button) {
+      document.getElementById("text").innerHTML += button;
+    }
+
+    function changeLanguage(languageCode) {
+      switch (languageCode) {
+        case "no":
+          myKeyboard.setOptions({
+            layout: {
+              default: [
+                "q w e r t y u i o p",
+                "a s d f g h j k l",
+                "{shift} z x c v b n m {backspace}",
+                "{space} {enter}"
+              ],
+              shift: [
+                "Q W E R T Y U I O P",
+                "A S D F G H J K L",
+                "{shiftactivated} Z X C V B N M {backspace}",
+                "{space} {enter}"
+              ],
+            }
+          });
+          break;
+        case "fr":
+          break;
+
+        default:
+          break;
+      }
+    }
+  </script>
+
   <script>
     document.getElementById('otherLanguageDropdown').addEventListener('click', function () {
       var dropdownMenu = document.getElementById('dropdown-menu-item');
@@ -192,6 +283,27 @@
         dropdownMenu.style.display = 'none';
       }
     });
+
+    document.getElementById('otherLanguageDropdownKeyboard').addEventListener('click', function () {
+      var dropdownMenu = document.getElementById('dropdown-menu-item-keyboard');
+      if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+        dropdownMenu.style.display = 'block';
+      } else {
+        dropdownMenu.style.display = 'none';
+      }
+    });
+
+    document.getElementById('activeKeyboard').addEventListener('click', function () {
+      var keyboardContainer = document.getElementById("keyboard_container");
+      if (keyboardContainer.style.display === "block" || keyboardContainer.style.display === "") {
+        keyboardContainer.style.display = "none";
+        document.getElementById('activeKeyboard').title = "Active keyboard";
+      } else {
+        keyboardContainer.style.display = "block";
+        document.getElementById('activeKeyboard').title = "Disable keyboard";
+      }
+    });
+
     document.querySelectorAll('#dropdown-menu-item li').forEach(item => {
       item.addEventListener('click', event => {
         const selectedLanguage = event.target.textContent;
@@ -200,6 +312,16 @@
         document.getElementById('others_tab').classList.add('active');
         document.getElementById('english_tab').classList.remove('active');
         document.getElementById('norweigan_tab').classList.remove('active');
+      });
+    });
+
+
+    document.querySelectorAll('#dropdown-menu-item-keyboard li').forEach(item => {
+      item.addEventListener('click', event => {
+        const selectedLanguage = event.target.textContent;
+        document.getElementById('keyboard_language').textContent = selectedLanguage;
+        changeLanguage(event.target.getAttribute('data-code'));
+
       });
     });
 
@@ -213,13 +335,6 @@
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-
-      document
-        .getElementById("keyboardButton")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          showKeyboard();
-        });
       document
         .getElementById("copyButton")
         .addEventListener("click", function () {
@@ -262,69 +377,11 @@
       textarea.style.height = textarea.scrollHeight + "px";
     }
 
-    function showKeyboard() {
-      var activeTabId_toTranslate = document.querySelector(".nav-tabs .nav-link.active").id;
-      if (activeTabId_toTranslate === "englishTab") {
-        $("#text").keyboard({
-          layout: "custom",
-          customLayout: {
-            default: [
-              "q w e r t y u i o p",
-              "a s d f g h j k l",
-              "{shift} z x c v b n m {bksp}",
-              "{space}"
-            ],
-            shift: [
-              "Q W E R T Y U I O P",
-              "A S D F G H J K L",
-              "{shift} Z X C V B N M {bksp}",
-              "{space}"
-            ]
-          },
-          usePreview: false,
-          autoAccept: true,
-          visible: function (e, keyboard, el) {
-            $("#keyboardButton").addClass("active");
-          },
-          beforeClose: function (e, keyboard, el, accepted) {
-            $("#keyboardButton").removeClass("active");
-          },
-        });
-      } else if (activeTabId_toTranslate === "norwegianTab") {
-        $("#text").keyboard({
-          layout: "custom",
-          customLayout: {
-            default: [
-              "q w e r t y u i o p å",
-              "a s d f g h j k l ø æ",
-              "{shift} {space} {bksp}",
-            ],
-            shift: [
-              "Q W E R T Y U I O P Å",
-              "A S D F G H J K L Ø Æ",
-              "{shift} {space} {bksp}",
-            ]
-          },
-          usePreview: false,
-          autoAccept: true,
-          visible: function (e, keyboard, el) {
-            $("#keyboardButton").addClass("active");
-          },
-          beforeClose: function (e, keyboard, el, accepted) {
-            $("#keyboardButton").removeClass("active");
-          },
-        });
-      }
-      $("#text").getkeyboard().reveal();
-    }
-
     function translate() {
-
       var english_tab = document.getElementById("english_tab").classList.contains('active');
       var norweigan_tab = document.getElementById("norweigan_tab").classList.contains('active');
       var others_tab = document.getElementById("others_tab").classList.contains('active');
       var target_language = "";
-
       if (english_tab) {
         target_language = "en";
       } else if (norweigan_tab) {
@@ -344,20 +401,18 @@
         .then(data => {
           source_language = data.detectedLanguage;
           fetch(`http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source_language}&TargetLanguageCode=${target_language}`)
-          .then(response => response.json())
-          .then(data => {
+            .then(response => response.json())
+            .then(data => {
               document.getElementById("translated_text").innerText = data.translatedText;
-          })
-          .catch(error => {
+            })
+            .catch(error => {
               document.getElementById("translated_text").innerText = 'Error';
-          });
+            });
         })
         .catch(error => {
           alert('Error:' + error);
         });
     }
-
   </script>
 </body>
-
 </html>

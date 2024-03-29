@@ -2121,3 +2121,162 @@ textarea {
 .lessons-table button i {
   font-size: 15px;
 }
+
+
+/*--------------------------------------------------------------
+# contributions
+--------------------------------------------------------------*/
+.contributions #contributions-flters {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.contributions #contributions-flters li {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 5px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  color: #444444;
+  transition: all 0.3s;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-family: "Poppins", sans-serif;
+}
+
+.contributions #contributions-flters li:hover,
+.contributions #contributions-flters li.filter-active {
+  background: #9C3030;
+  color: #fff;
+}
+
+.contributions .contributions-item {
+  margin-bottom: 30px;
+}
+
+.contributions .contributions-item .contributions-img {
+  overflow: hidden;
+}
+
+.contributions .contributions-item .contributions-img img {
+  transition: all 0.6s;
+}
+
+.contributions .contributions-item .contributions-info {
+  opacity: 0;
+  position: absolute;
+  left: 15px;
+  bottom: 0;
+  z-index: 3;
+  right: 15px;
+  transition: all 0.3s;
+  background: rgba(55, 81, 126, 0.8);
+  padding: 10px 15px;
+}
+
+.contributions .contributions-item .contributions-info h4 {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0px;
+}
+
+.contributions .contributions-item .contributions-info p {
+  color: #f9fcfe;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.contributions .contributions-item .contributions-info .preview-link,
+.contributions .contributions-item .contributions-info .details-link {
+  position: absolute;
+  right: 40px;
+  font-size: 24px;
+  top: calc(50% - 18px);
+  color: #fff;
+  transition: 0.3s;
+}
+
+.contributions .contributions-item .contributions-info .preview-link:hover,
+.contributions .contributions-item .contributions-info .details-link:hover {
+  color: #47b2e4;
+}
+
+.contributions .contributions-item .contributions-info .details-link {
+  right: 10px;
+}
+
+.contributions .contributions-item:hover .contributions-img img {
+  transform: scale(1.15);
+}
+
+.contributions .contributions-item:hover .contributions-info {
+  opacity: 1;
+}
+
+/*--------------------------------------------------------------
+# contributions Details
+--------------------------------------------------------------*/
+.contributions-details {
+  padding-top: 40px;
+}
+
+.contributions-details .contributions-details-slider img {
+  width: 100%;
+}
+
+.contributions-details .contributions-details-slider .swiper-pagination {
+  margin-top: 20px;
+  position: relative;
+}
+
+.contributions-details .contributions-details-slider .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  opacity: 1;
+  border: 1px solid #47b2e4;
+}
+
+.contributions-details .contributions-details-slider .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: #47b2e4;
+}
+
+.contributions-details .contributions-info {
+  padding: 30px;
+  box-shadow: 0px 0 30px rgba(55, 81, 126, 0.08);
+}
+
+.contributions-details .contributions-info h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.contributions-details .contributions-info ul {
+  list-style: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+.contributions-details .contributions-info ul li+li {
+  margin-top: 10px;
+}
+
+.contributions-details .contributions-description {
+  padding-top: 30px;
+}
+
+.contributions-details .contributions-description h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.contributions-details .contributions-description p {
+  padding: 0;
+}

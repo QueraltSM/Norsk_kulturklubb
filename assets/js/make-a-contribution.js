@@ -37,7 +37,8 @@ function publishWord() {
       ID: uuidv4(),
       word: word,
       meaning: meaning,
-      date: calendar
+      date: calendar + " " + new Date().toLocaleTimeString('en-US', {hour12: true, hour: 'numeric', minute: 'numeric'}),
+      teacher_id: localStorage.getItem("userLoggedInID")
     }),
   })
     .then((response) => {

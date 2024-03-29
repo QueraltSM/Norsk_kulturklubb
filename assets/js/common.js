@@ -1,9 +1,9 @@
 if (localStorage.getItem("isLoggedIn") == "true") {
 
   const roleDisplayOptions = {
-    "Teacher": { "createWordOfDay": "block", "createLesson": "block", "createBlogPost": "block", "createEvent": "block", "myLessons": "block" },
-    "Student": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "none", "createEvent": "none" },
-    "Collaborator": { "createWordOfDay": "none", "createLesson": "none", "createBlogPost": "block", "createEvent": "block" }
+    "Teacher": { "createWordOfDay": "block", "makeContribution": "block", "myContributions": "block" },
+    "Student": { "createWordOfDay": "none", "makeContribution": "none", "myContributions": "none" },
+    "Collaborator": { "createWordOfDay": "none", "makeContribution": "block", "myContributions": "block" }
   };
   for (const option in roleDisplayOptions[localStorage.getItem("userLoggedInRole")]) {
     const element = document.getElementById(option);
