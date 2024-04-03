@@ -480,6 +480,20 @@ app.post('/api/deleteLesson', (req, res) => {
   });
 });
 
+app.post('/api/uploadEvent', (req, res) => {
+  const params = {
+    TableName: "Events",
+    Item: req.body
+  };
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      res.status(500).send("Error inserting");
+    } else {
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

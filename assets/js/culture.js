@@ -19,40 +19,43 @@ fetch("http://localhost:3000/api/getCultureEntries")
 
       const img = document.createElement("img");
       img.src = cultureData.image;
+      img.onload = function() {
+        // Una vez que la imagen se haya cargado, agregar el resto del contenido
+        cardImg.appendChild(img);
 
-      cardImg.appendChild(img);
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
 
-      const cardBody = document.createElement("div");
-      cardBody.classList.add("card-body");
+        const cardTitle = document.createElement("h5");
+        cardTitle.classList.add("card-title");
+        const titleLink = document.createElement("a");
+        titleLink.href = `culture-post.html?aWQ==${cultureData.ID}`;
+        titleLink.textContent = cultureData.title;
+        cardTitle.appendChild(titleLink);
+        
+        const dateText = document.createElement("p");
+        dateText.textContent = cultureData.date + " · " + cultureData.min_read + " min read";
+        dateText.style.color = "gray";
+        dateText.style.fontSize = "13px";
+        dateText.style.textAlign = "center";
+        
+        const cardText = document.createElement("p");
+        cardText.classList.add("card-text");
+        cardText.textContent = cultureData.short_description;
+        cardText.style.textAlign = "justify";
+        cardText.style.fontSize = "13px";
+        
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+        cardBody.appendChild(dateText);
 
-      const cardTitle = document.createElement("h5");
-      cardTitle.classList.add("card-title");
-      const titleLink = document.createElement("a");
-      titleLink.href = `culture_info.html?aWQ==${cultureData.ID}`;
-      titleLink.textContent = cultureData.title;
-      cardTitle.appendChild(titleLink);
-      
-      const dateText = document.createElement("p");
-      dateText.textContent = cultureData.date + " · " + cultureData.min_read + " min read";
-      dateText.style.color = "gray";
-      dateText.style.fontSize = "13px";
-      dateText.style.textAlign = "center";
-      
-      const cardText = document.createElement("p");
-      cardText.classList.add("card-text");
-      cardText.textContent = cultureData.short_description;
-      cardText.style.textAlign = "justify";
-      cardText.style.fontSize = "13px";
-      
-      cardBody.appendChild(cardTitle);
-      cardBody.appendChild(cardText);
-      cardBody.appendChild(dateText);
+        card.appendChild(cardImg);
+        card.appendChild(cardBody);
 
-      card.appendChild(cardImg);
-      card.appendChild(cardBody);
+        cultureCard.appendChild(card);
+        cultureEntries.appendChild(cultureCard);
+      };
 
-      cultureCard.appendChild(card);
-      cultureEntries.appendChild(cultureCard);
     });
   })
   .catch((error) => {

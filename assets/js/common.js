@@ -52,3 +52,9 @@ function showAlert(alertType, message, containerId, timeout) {
     alertElement.style.display = "none";
   }, timeout);
 }
+
+function limitTextarea(element, maxLength) {
+  if (element.textContent.length > maxLength) {
+      element.textContent = element.textContent.slice(0, maxLength);
+  }
+}

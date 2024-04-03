@@ -11,7 +11,7 @@ fetch(`http://localhost:3000/api/getWords`)
       const fechaFormateada = word.date.split("/").reverse().join("-");
       events.push(fechaFormateada);
     });
-    flatpickr("#calendar", {
+    flatpickr("#word_of_the_day_calendar", {
       dateFormat: "d/m/Y",
       minDate: "today",
       disable: events.concat(["today"]).map(function (event) {
@@ -24,9 +24,9 @@ fetch(`http://localhost:3000/api/getWords`)
   });
 
 function publishWord() {
-  const word = document.getElementById("word").innerHTML.trim();
-  const meaning = document.getElementById("meaning").innerHTML.trim();
-  const calendar = document.getElementById("calendar").value;
+  const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
+  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
+  const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
     fetch("http://localhost:3000/api/uploadWord", {
     method: "POST",
@@ -38,7 +38,8 @@ function publishWord() {
       word: word,
       meaning: meaning,
       date: calendar,
-      teacher_id: localStorage.getItem("userLoggedInID")
+      teacher_id: localStorage.getItem("userLoggedInID"),
+      pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
     }),
   })
     .then((response) => {
@@ -49,7 +50,7 @@ function publishWord() {
       }
     })
     .then((data) => {
-      showAlert("success", "Your word was submitted", "alertContainer", 3000);
+      showAlert("success", "The word of the day was submitted", "alertContainer", 3000);
       setTimeout(() => {
         window.location.href = "/index.html";
       }, 3000);
@@ -57,7 +58,7 @@ function publishWord() {
     .catch((error) => {
       showAlert(
         "danger",
-        "An error occurred during uploading word",
+        "An error occurred during uploading",
         "alertContainer",
         5000
       );
@@ -73,15 +74,14 @@ function publishWord() {
 }
 
 async function publishLesson() {
-  var title = document.getElementById("title").innerHTML.trim();
-  var shortDescription = document.getElementById("short_description").innerHTML.trim();
-  var description = document.getElementById("description").innerHTML.trim();
-  var languageLevel = document.getElementById("language_level").value;
+  var title = document.getElementById("lesson_title").innerHTML.trim();
+  var shortDescription = document.getElementById("lesson_short_description").innerHTML.trim();
+  var description = document.getElementById("lesson_description").innerHTML.trim();
+  var languageLevel = document.getElementById("lesson_language_level").value;
   if (title && shortDescription && description && languageLevel) {
     try {
-      var fileInput = document.getElementById("content_url");
+      var fileInput = document.getElementById("lesson_content_url");
       var file = fileInput.files[0];
-      alert("file::"+file);
       if (!file) {
         showAlert("danger", "No file selected", "alertContainer", 3000);
         return "";
@@ -115,7 +115,7 @@ async function publishLesson() {
           language_level: languageLevel,
           content_url: data.fileUrl,
           teacher_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }).replace(',', '')
+          pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
         }),
       })
         .then((response) => {
@@ -126,7 +126,7 @@ async function publishLesson() {
           }
         })
         .then((data) => {
-          showAlert("success", "Your lesson was submitted", "alertContainer", 3000);
+          showAlert("success", "The lesson was submitted", "alertContainer", 3000);
           setTimeout(() => {
             window.location.href = "/lessons.html";
           }, 3000);
@@ -134,7 +134,7 @@ async function publishLesson() {
         .catch((error) => {
           showAlert(
             "danger",
-            "An error occurred during uploading lesson",
+            "An error occurred during uploading",
             "alertContainer",
             5000
           );
@@ -145,6 +145,61 @@ async function publishLesson() {
     }
   } else {
     showAlert("danger", "Please fill all fields before submitting", "alertContainer", 3000);
+  }
+}
+
+function publishEvent() {
+  const title = document.getElementById("title_event").innerHTML.trim();
+  const short_description = document.getElementById("event_short_description").innerHTML.trim();
+  const description = document.getElementById("event_description").innerHTML.trim();
+  const platform_url = document.getElementById("event_platform_url").innerHTML.trim();
+  const calendar = document.getElementById("event_calendar").value;
+
+  if (title && short_description && description && platform_url && calendar) {
+    fetch("http://localhost:3000/api/uploadEvent", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ID: uuidv4(),
+      title: title,
+      short_description: short_description,
+      description: description,
+      platform_url: platform_url,
+      date: calendar,
+      teacher_id: localStorage.getItem("userLoggedInID"),
+      pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    })
+    .then((data) => {
+      showAlert("success", "Event was submitted", "alertContainer", 3000);
+      setTimeout(() => {
+        window.location.href = "/events.html";
+      }, 3000);
+    })
+    .catch((error) => {
+      showAlert(
+        "danger",
+        "An error occurred during uploading",
+        "alertContainer",
+        5000
+      );
+    });
+  } else {
+    showAlert(
+      "danger",
+      "Please fill all fields before submitting",
+      "alertContainer",
+      5000
+    );
   }
 }
 
@@ -161,6 +216,12 @@ document.addEventListener('DOMContentLoaded', function () {
           contributionsItems.forEach(function (contributionItem) {
               if (contributionItem.classList.contains(filter)) {
                   contributionItem.style.display = 'block';
+                  if (filter == "events") {
+                    flatpickr("#event_calendar", {
+                      dateFormat: "d/m/Y",
+                      minDate: "today"
+                    });
+                  }
               } else {
                   contributionItem.style.display = 'none';
               }
