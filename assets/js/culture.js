@@ -32,21 +32,21 @@ fetch("http://localhost:3000/api/getCultureEntries")
       titleLink.textContent = cultureData.title;
       cardTitle.appendChild(titleLink);
       
-      const italicText = document.createElement("p");
-      italicText.classList.add("fst-italic", "text-center");
-      italicText.textContent = cultureData.date;
-      italicText.style.color = "#777";
-      italicText.style.fontSize = "13px";
-
+      const dateText = document.createElement("p");
+      dateText.textContent = cultureData.date + " · " + cultureData.min_read + " min read";
+      dateText.style.color = "gray";
+      dateText.style.fontSize = "13px";
+      dateText.style.textAlign = "center";
+      
       const cardText = document.createElement("p");
       cardText.classList.add("card-text");
-      cardText.textContent = cultureData.description;
+      cardText.textContent = cultureData.short_description;
       cardText.style.textAlign = "justify";
       cardText.style.fontSize = "13px";
       
       cardBody.appendChild(cardTitle);
-      cardBody.appendChild(italicText);
       cardBody.appendChild(cardText);
+      cardBody.appendChild(dateText);
 
       card.appendChild(cardImg);
       card.appendChild(cardBody);

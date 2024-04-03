@@ -50,63 +50,121 @@
 
     <main id="main" data-aos="fade-in">
         <section id="contributions" class="contributions">
-            <div class="container" data-aos="fade-up">
+            <div class="container">
                 <div class="section-title">
                     <h2>Gi et bidrag</h2>
                     <p>Make a contribution</p>
                 </div>
-                <ul id="contributions-flters" class="d-flex justify-content-center" data-aos="fade-up"
+                <ul id="contributions-flters" class="d-flex justify-content-center"
                     data-aos-delay="100">
                     <li data-filter=".words" class="filter-active">Word of the Day</li>
                     <li data-filter=".lessons">Norsk lessons</li>
                     <li data-filter=".posts">Culture posts</li>
                     <li data-filter=".events">Virtual events</li>
                 </ul>
-                <div class="row contributions-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="row contributions-container">
                     <div class="col-lg-12 contributions-item words">
-                        <section id="user-details" class="user-details" style="margin-top:0px;padding-top:0px:">
+                        <section id="user-details" class="user-details" style="margin-top:0px;padding-top:0px;">
+                            <div id="student-account" class="row">
+                                <div class="col-lg-12">
+                                    <h3>
+                                        Word
+                                    </h3>
+                                    <span class="label-box">Write the name of the word in Norwegian</span>
+                                    <p contenteditable="true" id="word" class="editable-box"></p>
+
+                                    <h3>
+                                        Meaning
+                                    </h3>
+                                    <span class="label-box">Write the description or definition of the entered
+                                        word</span>
+                                    <p contenteditable="true" id="meaning" class="editable-box"></p>
+
+                                    <h3>
+                                        Date
+                                    </h3>
+                                    <span class="label-box">Choose a free day to publish your word of the day</span><br>
+                                    <input type="text" id="calendar" contenteditable="true" class="editable-box"
+                                        style="width: 100%;">
+                                </div>
+                            </div><br>
+                            <div class="mt-3 text-center">
+                                <button type="button" class="btn" onclick="window.location = '/index'">
+                                    Cancel
+                                </button>
+                                <button type="button" class="get-started-btn" id="saveButton" onclick="publishWord();">
+                                    Publish
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-12 contributions-item lessons">
+                        <section id="user-details" class="user-details" style="margin-top:0px;padding-top:0px;">
+                            <div class="container">
                                 <div id="student-account" class="row">
                                     <div class="col-lg-12">
                                         <h3>
-                                            Word
+                                            Title
                                         </h3>
-                                        <span class="label-box">Write the name of the word in Norwegian</span>
-                                        <p contenteditable="true" id="word" class="editable-box"></p>
-                
+                                        <span class="label-box">Write the title of the lesson</span>
+                                        <p contenteditable="true" id="title" class="editable-box"></p>
+
+                                        <h3>Short Description</h3>
+                                        <span class="label-box">Write a short description of the lesson</span>
+                                        <p contenteditable="true" id="short_description" class="editable-box"></p>
+
+
                                         <h3>
-                                            Meaning
+                                            Description
                                         </h3>
-                                        <span class="label-box">Write the description or definition of the entered word</span>
-                                        <p contenteditable="true" id="meaning" class="editable-box"></p>
-                
+                                        <span class="label-box">Write the description of the lesson</span>
+                                        <p contenteditable="true" id="description" class="editable-box"></p>
+
+                                        <h3>Lesson</h3>
+                                        <span class="label-box">Select the file of your lesson (PDF, TXT, DOCX, PPTX or
+                                            MP4)</span><br>
+                                        <input type="file" id="content_url"
+                                            accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
+                                            contenteditable="true" class="editable-box" style="width: 100%;">
+
                                         <h3>
-                                            Date
+                                            Language level
                                         </h3>
-                                        <span class="label-box">Choose a free day to publish your word of the day</span><br>
-                                        <input type="text" id="calendar" contenteditable="true" class="editable-box"
-                                            style="width: 100%;">
+                                        <span class="label-box">Select language proficiency level of the
+                                            lesson</span><br>
+                                        <select id="language_level" class="editable-box" style="width: 100%;">
+                                            <option value="A1 - Nybegynner">A1 - Nybegynner</option>
+                                            <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
+                                            <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
+                                            <option value="B2 - Øvet">B2 - Øvet</option>
+                                            <option value="C1 - Avansert">C1 - Avansert</option>
+                                            <option value="C2 - Mester">C2 - Mester</option>
+                                        </select>
                                     </div>
-                                </div><br>
+                                </div>
+                                <br>
                                 <div class="mt-3 text-center">
                                     <button type="button" class="btn" onclick="window.location = '/index'">
                                         Cancel
                                     </button>
-                                    <button type="button" class="get-started-btn" id="saveButton" onclick="publishWord();">
+                                    <button type="button" class="get-started-btn" id="saveButton" onclick="publishLesson();">
                                         Publish
                                     </button>
-                                    <div id="alertContainer"></div>
                                 </div>
+                            </div>
                         </section>
                     </div>
-                    <div class="col-lg-12 contributions-item lessons">
-                        <div class="row" data-aos="zoom-in" data-aos-delay="100" id="lessons_container"></div>
-                    </div>
                     <div class="col-lg-12 contributions-item posts">
-                        <div class="row" data-aos="zoom-in" data-aos-delay="100" id="posts_container"></div>
+
+
+
                     </div>
                     <div class="col-lg-12 contributions-item events">
-                        <div class="row" data-aos="zoom-in" data-aos-delay="100" id="events_container"></div>
+
+
+
                     </div>
+                    <div id="alertContainer" style="width: 30%; margin: auto; margin-top:0px;padding-top:0px;"></div>
                 </div>
             </div>
         </section>
@@ -129,7 +187,6 @@
                             <button type="button" class="btn" data-dismiss="modal">Cancel</button>
                             <button type="button" class="get-started-btn" onclick="deleteLesson()">Delete</button>
                         </div><br>
-                        <div id="alertContainer"></div>
                     </div>
 
                 </div>
@@ -172,6 +229,7 @@
             $('.words').show();
         });
     </script>
+    <script src="/assets/js/common.js"></script>
     <script src="/assets/js/make-a-contribution.js"></script>
 </body>
 

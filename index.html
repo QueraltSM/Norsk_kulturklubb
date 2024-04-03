@@ -71,9 +71,9 @@
     </section>
     <!-- End Hero -->
 
-    <main id="main">
+    <main id="main" data-aos="fade-in">
       <!-- ======= translator Section ======= -->
-      <section id="wordOdTheDaySection" class="translator section-bg" style="display: none;">
+      <section id="word_of_the_day_section" class="translator section-bg" style="display: none;">
         <div class="container">
           <div class="section-title" style="padding-bottom: 0px">
             <h2>Word of the Day</h2>
@@ -319,7 +319,7 @@
       });
     </script>
     <script>
-    const wordOdTheDaySection = document.getElementById('wordOdTheDaySection');
+    const word_of_the_day_section = document.getElementById('word_of_the_day_section');
     fetch('http://localhost:3000/api/getWordOfTheDay')
     .then(response => {
         if (!response.ok) {
@@ -340,11 +340,10 @@
             `;
             wordDiv.style.margin = "0 auto";
             wordsList.appendChild(wordDiv);
-            wordOdTheDaySection.appendChild(wordsList);
-            wordOdTheDaySection.style.display = "block";
+            word_of_the_day_section.appendChild(wordsList);
+            word_of_the_day_section.style.display = "block";
           }
-      });
-        
+        });
       }).catch(error => {
         console.error('Error al obtener los datos:', error);
     });
