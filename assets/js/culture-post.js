@@ -34,11 +34,11 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
       titleLink.style.color = "#9C3030";
       cardTitle.appendChild(titleLink);
       
-      const italicText = document.createElement("p");
-      italicText.classList.add("fst-italic", "text-center");
-      italicText.textContent = cultureData.date;
-      italicText.style.color = "#777";
-      italicText.style.fontSize = "13px";
+      const dateText = document.createElement("p");
+      dateText.textContent = cultureData.date + " · " + cultureData.min_read + " min read";
+      dateText.style.color = "#777";
+      dateText.style.fontSize = "13px";
+      dateText.style.textAlign = "center";
 
       const cardText = document.createElement("p");
       cardText.classList.add("card-text");
@@ -47,7 +47,7 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
       cardText.style.fontSize = "13px";
       
       cardBody.appendChild(cardTitle);
-      cardBody.appendChild(italicText);
+      cardBody.appendChild(dateText);
       cardBody.appendChild(cardText);
 
       card.appendChild(cardImg);

@@ -494,6 +494,41 @@ app.post('/api/uploadEvent', (req, res) => {
   });
 });
 
+app.post('/api/uploadPostImage', multer().single('file'), (req, res) => {
+  if (!req.file) {
+      return res.status(400).send('No file uploaded');
+  }
+  const params = {
+      Bucket: 'norskkulturklubb',
+      Key: 'Culture/' + req.query.filename, 
+      Body: req.file.buffer,
+      ACL: 'public-read'
+  };
+
+  s3.upload(params, (err, data) => {
+      if (err) {
+          console.error('Error al subir el fichero a S3:', err);
+          return res.status(500).send('Error al subir el fichero a S3');
+      }
+      res.status(200).json({ fileUrl: data.Location });
+  });
+});
+
+
+app.post('/api/uploadPost', (req, res) => {
+  const params = {
+    TableName: "Culture",
+    Item: req.body
+  };
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      res.status(500).send("Error inserting");
+    } else {
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

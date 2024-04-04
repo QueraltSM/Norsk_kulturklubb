@@ -62,8 +62,7 @@ function showKeyboard() {
         default: [
           "q w e r t y u i o p",
           "a s d f g h j k l",
-          "{shift} z x c v b n m {bksp}",
-          "{space}"
+          "z x c v b n m"
         ],
         shift: [
           "Q W E R T Y U I O P",
@@ -87,8 +86,7 @@ function showKeyboard() {
       customLayout: {
         default: [
           "q w e r t y u i o p å",
-          "a s d f g h j k l ø æ",
-          "{shift} {space} {bksp}",
+          "a s d f g h j k l ø æ"
         ],
         shift: [
           "Q W E R T Y U I O P Å",
@@ -109,6 +107,7 @@ function showKeyboard() {
   $("#textToTranslate").getkeyboard().reveal();
 }
 
+
 function translate() {
   const text = document.getElementById("textToTranslate").value;
   const selectedTabId_toTranslate  = document.querySelector('#languageTabs_totranslate .nav-link.active').getAttribute('href');
@@ -121,9 +120,6 @@ function translate() {
   if (selectedTabId_toTranslate === "#norwegianText") {
     source = "no";
   }
-
-
-  alert(source)
   
   alert(`http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source}&TargetLanguageCode=${target}`); 
   /*fetch(`http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source}&TargetLanguageCode=${target}`)

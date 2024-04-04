@@ -60,14 +60,15 @@
     <section id="translator" class="translator">
       <div class="container">
 
-        <div class="section-title" style="padding-bottom: 0px">
+        <div class="section-title">
           <h2>Oversetter</h2>
           <p>Translator</p>
         </div>
         <div>
+
           <form id="translationForm" class="needs-validation translator-form" novalidate>
             <div class="form-row">
-              <div class="col">
+              <div class="col-6">
                 <ul class="nav nav-tabs" id="languageTabs_totranslate" style="border:none">
                   <li class="nav-item">
                     <a class="nav-link active" id="automaticDetection" data-toggle="tab">Automatic detection</a>
@@ -75,8 +76,8 @@
                 </ul>
                 <div class="d-flex align-items-start"
                   style="border: 0.5px solid lightgray;border-radius: 5px;margin-top:1px">
-                  <div class="d-flex align-items-start">
-                    <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px"
+                  <div class="d-flex align-items-start" style="width: 100%;">
+                    <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px;"
                       required></textarea>
                     <a title="Active keyboard" class="translator-buttons" type="button" id="activeKeyboard"
                       style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:20px;">
@@ -85,7 +86,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col">
+              <div class="col-6">
                 <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
                   <li class="nav-item">
                     <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
@@ -141,16 +142,12 @@
             </div>
             <br>
             <div id="keyboard_container" style="display: none;">
-              <div class="section-title" style="padding-bottom: 0px">
-                <h2>Tastatur</h2>
-                <p>Keyboard</p>
-              </div>
               <div style="background:#f5f5f5">
                 <li class="nav-item dropdown" id="otherLanguageDropdownKeyboard"
                   style="list-style: none;float:right;color:#9C3030;">
                   <a class="nav-link dropdown-toggle" href="#" id="keyboard_language" role="button" aria-haspopup="true"
                     aria-expanded="false">
-                    <strong>Language</strong>
+                    Language
                   </a>
                   <div id="dropdown-menu-item-keyboard" class="dropdown-menu" style="display: none;">
                     <ul style="list-style: none;font-size: 13px;columns: 3;" class="centered-text">
@@ -241,30 +238,59 @@
       document.querySelector(".input").value = input;
     }
 
+    let layoutName = "default";
+
     function onKeyPress(button) {
-      document.getElementById("text").innerHTML += button;
+      setTimeout(() => {
+        document.getElementById('text').focus(); 
+      }, 100);
+      document.getElementById("text").value = document.getElementById("text").value + button;
+      if (button === "{shift}" || button === "{shiftactivated}") {
+    layoutName = layoutName === "default" ? "shift" : "default";
+    myKeyboard.setOptions({ layoutName: layoutName });
+  }
     }
+
+
 
     function changeLanguage(languageCode) {
       switch (languageCode) {
         case "no":
-          myKeyboard.setOptions({
-            layout: {
-              default: [
-                "q w e r t y u i o p",
-                "a s d f g h j k l",
-                "{shift} z x c v b n m {backspace}",
-                "{space} {enter}"
-              ],
-              shift: [
-                "Q W E R T Y U I O P",
-                "A S D F G H J K L",
-                "{shiftactivated} Z X C V B N M {backspace}",
-                "{space} {enter}"
-              ],
-            }
-          });
-          break;
+    myKeyboard.setOptions({
+      layout: {
+        default: [
+          "q w e r t y u i o p å",
+          "a s d f g h j k l ø æ",
+          "{shift} z x c v b n m {bksp}",
+          "{space} {enter}"
+        ],
+        shift: [
+          "Q W E R T Y U I O P Å",
+          "A S D F G H J K L Ø Æ",
+          "{shiftactivated} Z X C V B N M {bksp}",
+          "{space} {enter}"
+        ],
+      },
+      display: {
+        "{enter}": "<i class='fas fa-arrow-right'></i>",
+        "{space}": " ", // Espacio en blanco
+        "{shift}": "<i class='fas fa-arrow-up'></i>", // Botón de cambio de mayúsculas
+        "{bksp}": "<i class='fas fa-backspace'></i>" // Botón de retroceso
+      },
+      buttonTheme: [
+        {
+          class: "space",
+          html: "<span>␣</span>", // Icono de espacio
+          attribute: "space"
+        },
+        {
+          class: "shift",
+          html: "<i class='fas fa-arrow-up'></i>", // Icono de cambio de mayúsculas
+          attribute: "shift"
+        }
+      ]
+    });
+    break;
         case "fr":
           break;
 

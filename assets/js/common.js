@@ -37,6 +37,7 @@ function logout() {
   document.getElementById("handleUserMenuLink").style.display = "none";
   document.getElementById("loginBtn").style.display = "block";
   localStorage.setItem("isLoggedIn", false);
+  window.location.href = "/login.html";
 }
 
 function showAlert(alertType, message, containerId, timeout) {
