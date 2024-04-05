@@ -2,7 +2,7 @@ alert(`http://localhost:3000/api/getUser?id=${localStorage.getItem('teacherID')}
 fetch(`http://localhost:3000/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
   .then((response) => {
     if (!response.ok) {
-      throw new Error("No se pudo obtener la respuesta del servidor.");
+      throw new Error("Failed to get server response.");
     }
     return response.json();
   })

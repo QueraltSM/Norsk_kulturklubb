@@ -47,22 +47,54 @@
   <main id="main" data-aos="fade-in">
     <section id="user-details" class="user-details">
       <div class="container" data-aos="fade-up">
+
         <div class="section-title">
           <h2>Min profil</h2>
           <p>My account</p>
         </div>
 
-        <div id="teacher-account" class="row" style="display:none">
+
+        <div id="student-account" class="row" style="display:none;margin-top:0px;">
+          <div class="col-lg-12">
+            <h3>
+              Name
+            </h3>
+            <span class="label-box">You can modify your name at any time</span>
+            <p contenteditable="true" id="student_name" class="editable-box"></p>
+
+            <h3>
+              Email
+            </h3>
+            <span class="label-box">Changing your email will require logging in using the updated email</span>
+            <p contenteditable="true" id="student_email" class="editable-box"></p>
+
+            <h3>
+              Interests and hobbies
+            </h3>
+            <span class="label-box">Changing your email will require logging in using the updated email</span>
+            <p contenteditable="true" id="student_hobbies_and_interests" class="editable-box"></p>
+
+            <span class="label-box">Language level</span><br>
+            <select id="student_language_level" name="student_language_level" class="editable-box" style="width: 100%;">
+              <option value="A1 - Nybegynner">A1 - Nybegynner</option>
+              <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
+              <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
+              <option value="B2 - Øvet">B2 - Øvet</option>
+              <option value="C1 - Avansert">C1 - Avansert</option>
+              <option value="C2 - Mester">C2 - Mester</option>
+            </select>
+          </div>
+        </div><br>
+
+        <div id="teacher-account" class="row" style="display:none;padding-top:0px;">
           <div class="col-lg-6">
             <div class="text-center">
               <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="teacher_image" />
             </div>
-
             <div class="text-center mt-3">
               <label for="profile_picture" class="btn">Seleccionar imagen</label>
               <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImage(event)" />
             </div>
-
             <div class="row user-details-tabs" style="padding-top: 5%">
               <div class="col-lg-2">
                 <ul class="nav nav-tabs flex-column">
@@ -84,8 +116,8 @@
                       <div class="col-lg-12 details order-2 order-lg-1">
                         <span class="label-box">Location where your classes take place, including any facilities
                           available</span>
-                        <span contenteditable="true" id="class_location" class="editable-box"
-                          style="display: block;"></span>
+                        <textarea contenteditable="true" id="class_location" class="editable-box"
+                          style="display: block;width: 100%;"></textarea>
                       </div>
                     </div>
                   </div>
@@ -94,8 +126,8 @@
                       <div class="col-lg-12 details order-2 order-lg-1">
                         <span class="label-box">The prices of your classes, including any discounts or special
                           offers</span>
-                        <span contenteditable="true" id="class_prices" class="editable-box"
-                          style="display: block;"></span>
+                          <textarea contenteditable="true" id="class_prices" class="editable-box"
+                          style="display: block;width: 100%;"></textarea>
                       </div>
                     </div>
                   </div>
@@ -104,8 +136,8 @@
                       <div class="col-lg-12 details order-2 order-lg-1">
                         <span class="label-box">How students can contact you, including email, phone number, or social
                           media profiles</span>
-                        <span contenteditable="true" id="contact_information" class="editable-box"
-                          style="display: block;"></span>
+                          <textarea contenteditable="true" id="contact_information" class="editable-box"
+                          style="display: block;width: 100%;"></textarea>
                       </div>
                     </div>
                   </div>
@@ -115,15 +147,28 @@
           </div>
           <div class="col-lg-6">
             <h3>
-              About
-              <span id="teacher_name" style="font-size: 22px"></span>
+              Name
+            </h3>
+            <span class="label-box">You can modify your name at any time</span>
+            <p contenteditable="true" id="teacher_name" class="editable-box"></p>
+
+            <h3>
+              Email
+            </h3>
+            <span class="label-box">Changing your email will require logging in using the updated email</span>
+            <p contenteditable="true" id="teacher_email" class="editable-box"></p>
+
+            
+            <h3>
+              Teaching style
             </h3>
             <span class="label-box">Yourself and your teaching style</span>
-            <p contenteditable="true" id="about_teacher" class="editable-box"></p>
+            <textarea contenteditable="true" id="about_teacher" class="editable-box" style="width: 100%;"></textarea>
+
             <h3>About classes</h3>
             <span class="label-box">Information about your classes, including what students will learn and any
               requirements</span>
-            <p contenteditable="true" id="about_classes" class="editable-box"></p>
+            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;"></textarea>
 
             <div class="form-check mt-3" style="padding-top: 10px">
               <input class="form-check-input" type="checkbox" id="public_profile" />
@@ -131,40 +176,50 @@
                 <strong>Public profile</strong>
               </span>
             </div>
-
           </div>
         </div>
 
-        <div id="student-account" class="row" style="display:none">
+        
+        <div id="collaborator-account" class="row" style="display:none;">
           <div class="col-lg-12">
             <h3>
-              About me
-              <span id="student_name" style="font-size: 22px"></span>
+              Name
             </h3>
+            <span class="label-box">You can modify your name at any time</span>
+            <p contenteditable="true" id="collaborator_name" class="editable-box"></p>
 
-            <span class="label-box">Name</span>
-            <p contenteditable="true" id="student_name" class="editable-box"></p>
+            <h3>
+              Email
+            </h3>
+            <span class="label-box">Changing your email will require logging in using the updated email</span>
+            <p contenteditable="true" id="collaborator_email" class="editable-box"></p>
 
-            <span class="label-box">Interests and hobbies</span><br>
-            <textarea contenteditable="true" id="student_hobbies" class="editable-box" style="width: 100%;"></textarea>
+            <h3>
+              Contact
+            </h3>
+            <span class="label-box">Provide ways for others to contact you (e.g., email, phone number, social media handles)</span>
+            <p contenteditable="true" id="collaborator_contact" class="editable-box"></p>
 
-            <span class="label-box">Language level</span><br>
-            <select id="nivelNoruego" name="nivelNoruego" class="editable-box" style="width: 100%;">
-              <option value="A1 - Nybegynner">A1 - Nybegynner</option>
-              <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
-              <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
-              <option value="B2 - Øvet">B2 - Øvet</option>
-              <option value="C1 - Avansert">C1 - Avansert</option>
-              <option value="C2 - Mester">C2 - Mester</option>
-            </select>
+
+            <h3>
+              Biography
+            </h3>
+            <span class="label-box">Introduce yourself briefly (optional, max 300 chars)</span>
+            <textarea contenteditable="true" id="collaborator_biography" class="editable-box" style="width: 100%;"></textarea>
+
           </div>
         </div><br>
+
+
+
+
+
         <div class="mt-3 text-center">
           <button type="button" class="btn" data-toggle="modal" data-target="#confirmDeleteModal">
             Delete account
           </button>
           <button type="button" class="btn" onclick="window.location = '/index'">
-            Cancel changes
+            Cancel
           </button>
           <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
             Save changes

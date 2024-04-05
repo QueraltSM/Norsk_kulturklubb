@@ -42,8 +42,8 @@ app.get('/api/getWordOfTheDay', (req, res) => {
   };
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }
@@ -56,8 +56,8 @@ app.get('/api/getTeachers', (req, res) => {
   };
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }
@@ -73,7 +73,7 @@ app.get('/api/translateText', (req, res) => {
   new AWS.Translate().translateText(params, (err, data) => {
     if (err) {
       console.error('Error al traducir texto:', err);
-      res.status(500).send('Error interno del servidor al traducir texto');
+      res.status(500).send('Internal server error al traducir texto');
     } else {
       res.json({ translatedText: data.TranslatedText });
     }
@@ -92,7 +92,7 @@ app.get('/api/detectLanguage', (req, res) => {
   comprehend.detectDominantLanguage(params, (err, data) => {
     if (err) {
       console.error('Error al detectar el idioma:', err);
-      res.status(500).send('Error interno del servidor al detectar el idioma');
+      res.status(500).send('Internal server error al detectar el idioma');
     } else {
       if (data.Languages && data.Languages.length > 0) {
         const detectedLanguage = data.Languages[0].LanguageCode;
@@ -127,7 +127,7 @@ app.post('/api/login', (req, res) => {
         res.status(200).send({
           ID: user.ID,
           role: user.role,
-          message: `Hallo ${user.name}`
+          message: `Hallo ${user.first_name}`
         });
       } else {
         res.status(401).send('Email or password incorrect');
@@ -184,26 +184,43 @@ app.post('/api/updateUserData', (req, res) => {
   }
   const userData = req.body.userData;
   const tableName = req.body.table;
-  const params = {
-    TableName: tableName,
-    Key: {
-      "ID": userID
-    },
-    UpdateExpression: "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile, profile_picture = :profile_picture",
-    ExpressionAttributeValues: {
+  let updateExpression = "";
+  let expressionAttributeValues = {};
+
+  // TABLA USUARIOS datos personales de la cuenta
+  // teachers, collabotarios -> solo el resto qe sea especifico
+  
+  if (tableName === "Collaborators") {
+    updateExpression = "set first_name = :first_name, email = :email, biography = :biography";
+    expressionAttributeValues = {
+      ":first_name": userData.first_name,
+      ":email": userData.email,
+      ":biography": userData.biography
+    };
+  } else {
+    updateExpression = "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile, profile_picture = :profile_picture";
+    expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
       ":class_location": userData.class_location,
       ":class_prices": userData.class_prices,
       ":contact_information": userData.contact_information,
-      ":profile_picture": userData.profile_picture,
-      ":public_profile": userData.public_profile
+      ":public_profile": userData.public_profile,
+      ":profile_picture": userData.profile_picture
+    };
+  }
+  const params = {
+    TableName: req.query.table,
+    Key: {
+      "ID": userID
     },
+    UpdateExpression: updateExpression,
+    ExpressionAttributeValues: expressionAttributeValues,
     ReturnValues: "UPDATED_NEW"
   };
   dynamoDB.update(params, (err, data) => {
     if (err) {
-      console.error('Error al actualizar la información del usuario:', err);
+      console.error('Error updating user information:', err);
       res.status(500).send('Internal Server Error');
     } else {
       res.status(200).json({ success: true });
@@ -240,8 +257,8 @@ app.get('/api/getCultureEntries', (req, res) => {
   };
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }
@@ -262,7 +279,7 @@ app.get('/api/getCulture', (req, res) => {
   dynamoDB.get(params, (err, data) => {
     if (err) {
       console.error('Error al obtener el profesor de la base de datos:', err);
-      res.status(500).send('Error interno del servidor al obtener el profesor');
+      res.status(500).send('Internal server error al obtener el profesor');
     } else if (!data.Item) {
       res.status(404).send('No se encontró el profesor con el ID proporcionado');
     } else {
@@ -321,10 +338,10 @@ app.get('/api/getUser', (req, res) => {
   };
   dynamoDB.get(params, (err, data) => {
     if (err) {
-      console.error('Error al obtener el profesor de la base de datos:', err);
-      res.status(500).send('Error interno del servidor al obtener el profesor');
+      console.error('Error retrieving user from the database:', err);
+      res.status(500).send('Internal server error');
     } else if (!data.Item) {
-      res.status(404).send('No se encontró el profesor con el ID proporcionado');
+      res.status(404).send('No user found');
     } else {
       res.json(data.Item);
     }
@@ -337,8 +354,8 @@ app.get('/api/getWords', (req, res) => {
   };
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }
@@ -400,8 +417,8 @@ app.get('/api/getLessons', (req, res) => {
   };
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }
@@ -419,7 +436,7 @@ app.get('/api/getLesson', (req, res) => {
   dynamoDB.get(params, (err, data) => {
     if (err) {
       console.error('Error al obtener el profesor de la base de datos:', err);
-      res.status(500).send('Error interno del servidor al obtener el profesor');
+      res.status(500).send('Internal server error al obtener el profesor');
     } else if (!data.Item) {
       res.status(404).send('No se encontró el profesor con el ID proporcionado');
     } else {
@@ -445,8 +462,8 @@ app.get('/api/getMyContributions', (req, res) => {
   console.log(JSON.stringify(params))
   dynamoDB.scan(params, (err, data) => {
     if (err) {
-      console.error('Error al escanear la tabla:', err);
-      res.status(500).send('Error interno del servidor');
+      console.error('Error scanning the table:', err);
+      res.status(500).send('Internal server error');
     } else {
       res.json(data);
     }

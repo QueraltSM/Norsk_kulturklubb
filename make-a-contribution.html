@@ -80,8 +80,9 @@
                                         Meaning
                                     </h3>
                                     <span class="label-box">Write the description or definition of the entered
-                                        word</span>
-                                    <p contenteditable="true" id="word_of_the_day_meaning" class="editable-box"></p>
+                                        word (max. 300
+                                        characters)</span>
+                                    <textarea contenteditable="true" id="word_of_the_day_meaning" class="editable-box" oninput="limitTextarea(this, 300)"></textarea>
 
                                     <h3>
                                         Date
@@ -132,6 +133,11 @@
                                     <input type="file" id="lesson_content_url"
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box" style="width: 100%;">
+
+                                        <h3>Image</h3>
+                                        <span class="label-box">Select the image of the lesson</span><br>
+                                        <input type="file" id="lesson_image" accept="image/jpeg,image/png,image/gif"
+                                            contenteditable="true" class="editable-box" style="width: 100%;">
 
                                     <h3>
                                         Language level

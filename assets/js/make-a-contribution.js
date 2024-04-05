@@ -28,7 +28,7 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
   fetch(`http://localhost:3000/api/getWords`)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("No se pudo obtener la respuesta del servidor.");
+        throw new Error("Failed to get server response.");
       }
       return response.json();
     })
@@ -52,7 +52,7 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
 
 function publishWord() {
   const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
-  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
+  const meaning = document.getElementById("word_of_the_day_meaning").value.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
     fetch("http://localhost:3000/api/uploadWord", {

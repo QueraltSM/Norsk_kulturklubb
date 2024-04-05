@@ -4,7 +4,7 @@ function getTeacher(id) {
     return fetch(`http://localhost:3000/api/getUser?id=${id}&table=Teachers`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("No se pudo obtener la respuesta del servidor.");
+          throw new Error("Failed to get server response.");
         }
         return response.json();
       })
@@ -26,7 +26,7 @@ function getTeacher(id) {
     try {
       const response = await fetch("http://localhost:3000/api/getLessons");
       if (!response.ok) {
-        throw new Error("No se pudo obtener la respuesta del servidor.");
+        throw new Error("Failed to get server response.");
       }
       const data = await response.json();
   

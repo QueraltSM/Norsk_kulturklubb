@@ -28,14 +28,6 @@ function loadLessonDetails(lessonId) {
 }
 
 function deleteLesson() {
-  alert("ID->" + localStorage.getItem(
-    "selectedLessonID"
-  ));
-
-  alert("CONTENT->" + localStorage.getItem(
-    "selectedLessonContentUrl"
-  ));
-
   fetch(
     'http://localhost:3000/api/deleteLesson',
     {
@@ -92,51 +84,63 @@ async function fetchDataWords() {
       )}&table=Words`
     );
     if (!response.ok) {
-      throw new Error("No se pudo obtener la respuesta del servidor.");
+      throw new Error("Failed to get server response.");
     }
     const data = await response.json();
-    words = data.Items;
+    let words = data.Items || [];
+
+    if (words.length === 0) {
+      const noDataMessage = `
+      <div style="text-align: center;">
+      <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
+        <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+      </div>
+      `;
+      words_container.innerHTML = noDataMessage;
+
+    } else {
     words.sort((a, b) => {
-      const dateA = new Date(convertToDateObject(a.date));
-      const dateB = new Date(convertToDateObject(b.date));
+      const dateA = new Date(convertToDateObject(a.pubdate));
+      const dateB = new Date(convertToDateObject(b.pubdate));
       return dateB - dateA;
     });
-
-    const wordsHTML = `
-<table class="lessons-table">
-<thead>
-  <tr>
-    <th>Publication date</th>
-    <th>Word</th>
-    <th></th>
-  </tr>
-</thead>
-<tbody>
-  ${words
-    .map(
-      (w) => `
-        <tr>
-          <td>${w.date}</td>
-          <td>${w.word}</td>
-          <td style="text-align: center;">
-            <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-            <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-
-          </td>
-        </tr>
-      `
-    )
-    .join("")}
-</tbody>
-</table>
-`;
-    words_container.innerHTML = wordsHTML;
+      const wordsHTML = `
+        <table class="lessons-table">
+          <thead>
+            <tr>
+              <th>Published</th>
+              <th>Word</th>
+              <th>Meaning</th>
+              <th>Displayed</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${words
+              .map(
+                (w) => `
+                  <tr>
+                    <td>${w.pubdate}</td>
+                    <td>${w.word}</td>
+                    <td>${w.meaning}</td>
+                    <td>${w.date}</td>
+                    <td style="text-align: center;">
+                      <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                      <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                    </td>
+                  </tr>
+                `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+      words_container.innerHTML = wordsHTML;
+    }
   } catch (error) {
-    document.getElementById("words_container").textContent =
-      "Error fetching data";
+    console.log("Error fetching data");
   }
 }
-
 
 async function fetchDataLessons() {
   try {
@@ -146,57 +150,62 @@ async function fetchDataLessons() {
       )}&table=Lessons`
     );
     if (!response.ok) {
-      throw new Error("No se pudo obtener la respuesta del servidor.");
+      throw new Error("Failed to get server response.");
     }
     const data = await response.json();
-    lessons = data.Items;
-
-    lessons.sort((a, b) => {
-      const dateA = new Date(convertToDateObject(a.pubdate));
-      const dateB = new Date(convertToDateObject(b.pubdate));
-
-      return dateB - dateA;
-    });
-
-    const lessonHTML = `
-<table class="lessons-table">
-<thead>
-  <tr>
-    <th>Publication date</th>
-    <th>Language level</th>
-    <th>Lesson's title</th>
-    <th></th>
-  </tr>
-</thead>
-<tbody>
-  ${lessons
-    .map(
-      (lesson) => `
-        <tr>
-          <td>${lesson.pubdate}</td>
-          <td>${lesson.language_level}</td>
-          <td>${lesson.title}</td>
-          <td style="text-align: center;">
-            <a onclick="updateLesson('${
-              lesson.ID
-            }')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-            <a href="#" onclick="askDelete('${lesson.ID}:::${lesson.content_url}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-
-          </td>
-        </tr>
-      `
-    )
-    .join("")}
-</tbody>
-</table>
-`;
-    lessons_container.innerHTML = lessonHTML;
+    let lessons = data.Items || [];
+    if (lessons.length === 0) {
+      const noDataMessage = `
+      <div style="text-align: center;">
+      <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
+        <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+      </div>
+      `;
+      lessons_container.innerHTML = noDataMessage;
+    } else {
+      lessons.sort((a, b) => {
+        const dateA = new Date(convertToDateObject(a.pubdate));
+        const dateB = new Date(convertToDateObject(b.pubdate));
+        return dateB - dateA;
+      });
+      const lessonHTML = `
+        <table class="lessons-table">
+          <thead>
+            <tr>
+              <th>Published</th>
+              <th>Language level</th>
+              <th>Title</th>
+              <th>Brief description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lessons
+              .map(
+                (l) => `
+                  <tr>
+                    <td>${l.pubdate}</td>
+                    <td>${l.language_level}</td>
+                    <td>${l.title}</td>
+                    <td>${l.short_description}</td>
+                    <td style="text-align: center;">
+                      <a onclick="updateLesson('${l.ID}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                      <a href="#" onclick="askDelete('${l.ID}:::${l.content_url}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                    </td>
+                  </tr>
+                `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+      lessons_container.innerHTML = lessonHTML;
+    }
   } catch (error) {
-    console.error("Error fetching data:", error);
-    document.getElementById("lessons_container").textContent =
-      "Error fetching data";
+    console.error("Error fetching data:");
   }
 }
+
 
 async function fetchDataCulture() {
   try {
@@ -206,48 +215,56 @@ async function fetchDataCulture() {
       )}&table=Culture`
     );
     if (!response.ok) {
-      throw new Error("No se pudo obtener la respuesta del servidor.");
+      throw new Error("Failed to get server response.");
     }
     const data = await response.json();
-    posts = data.Items;
-    posts.sort((a, b) => {
-      const dateA = new Date(convertToDateObject(a.date));
-      const dateB = new Date(convertToDateObject(b.date));
-      return dateB - dateA;
-    });
-    const postsHTML = `
-<table class="lessons-table">
-<thead>
-  <tr>
-    <th>Publication date</th>
-    <th>Title</th>
-    <th></th>
-  </tr>
-</thead>
-<tbody>
-  ${posts
-    .map(
-      (w) => `
-        <tr>
-          <td>${w.date}</td>
-          <td>${w.title}</td>
-          <td style="text-align: center;">
-            <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-            <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-
-          </td>
-        </tr>
-      `
-    )
-    .join("")}
-</tbody>
-</table>
-`;
-    posts_container.innerHTML = postsHTML;
+    let posts = data.Items || [];
+    if (posts.length === 0) {
+      const noDataMessage = `
+        <div style="text-align: center;">
+        <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
+          <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+        </div>
+      `;
+      posts_container.innerHTML = noDataMessage;
+    } else {
+      posts.sort((a, b) => {
+        const dateA = new Date(convertToDateObject(a.date));
+        const dateB = new Date(convertToDateObject(b.date));
+        return dateB - dateA;
+      });
+      const postsHTML = `
+        <table class="lessons-table">
+          <thead>
+            <tr>
+              <th>Published</th>
+              <th>Title</th>
+              <th>Brief description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${posts
+              .map(
+                (p) => `
+                  <tr>
+                    <td>${p.date}</td>
+                    <td>${p.title}</td>
+                    <td>${p.short_description}</td>
+                    <td style="text-align: center;">
+                      <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                      <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                    </td>
+                  </tr>
+                `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+      posts_container.innerHTML = postsHTML;
+    }
   } catch (error) {
-    document.getElementById("posts_container").textContent =
-      "Error fetching data";
+    console.log("Error fetching data");
   }
 }
-
-

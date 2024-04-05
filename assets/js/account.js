@@ -1,6 +1,7 @@
 var userLoggedInID = localStorage.getItem("userLoggedInID");
 var userLoggedInRole = localStorage.getItem("userLoggedInRole");
-userLoggedInRole = "Student";
+
+userLoggedInRole = "Teacher";
 
 if (userLoggedInRole == "Teacher") {
   document.getElementById("teacher-account").style.display = "flex";
@@ -10,46 +11,97 @@ if (userLoggedInRole == "Teacher") {
   document.getElementById("collaborator-account").style.display = "flex";
 }
 
-fetch(
-  `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=${userLoggedInRole + "s"}`
-)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("No response could be obtained from the server");
-    }
-    return response.json();
-  })
-  .then((user) => {
-    if (userLoggedInRole == "Teacher") {
-      if (user.profile_picture == undefined)
-        user.profile_picture = "/assets/img/user.png";
-      if (user.name != undefined)
-        document.getElementById("teacher_name").innerHTML = user.name;
-      if (user.about_teacher != undefined)
-        document.getElementById("about_teacher").innerHTML = user.about_teacher;
-      if (user.about_classes != undefined)
-        document.getElementById("about_classes").innerHTML = user.about_classes;
-      if (user.class_location != undefined)
-        document.getElementById("class_location").innerHTML =
-          user.class_location;
-      if (user.class_prices != undefined)
-        document.getElementById("class_prices").innerHTML = user.class_prices;
-      if (user.contact_information != undefined)
-        document.getElementById("contact_information").innerHTML =
-          user.contact_information;
-      if (user.public_profile != undefined)
-        document.getElementById("public_profile").checked = user.public_profile;
-      document.getElementById("teacher_image").src = user.profile_picture;
-    } else if (userLoggedInRole == "Student") {
-      if (user.name != undefined)
-        document.getElementById("student_name").innerHTML = user.name;
-      if (user.email != undefined)
-        document.getElementById("student_name").innerHTML = user.email;
-    }
-  })
-  .catch((error) => {
-    console.error("Error al obtener los datos:", error);
-  });
+getBasicInformation();
+getInformationByRole();
+
+function getBasicInformation() {
+  fetch(
+    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=Users`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No response could be obtained from the server");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      
+      if (user.first_name != undefined) {
+        if (userLoggedInRole == "Student") document.getElementById("student_name").innerHTML = user.first_name;
+        if (userLoggedInRole == "Teacher") document.getElementById("teacher_name").innerHTML = user.first_name;
+        if (userLoggedInRole == "Collaborator") document.getElementById("collaborator_name").innerHTML = user.first_name;
+      }
+
+      if (user.email != undefined) {
+        if (userLoggedInRole == "Student") document.getElementById("student_email").innerHTML = user.email;
+        if (userLoggedInRole == "Teacher") document.getElementById("teacher_email").innerHTML = user.email;
+        if (userLoggedInRole == "Collaborator") document.getElementById("collaborator_email").innerHTML = user.email;
+      }
+
+    })
+    .catch((error) => {
+      console.error("Error al obtener los datos:", error);
+    });
+}
+
+function getInformationByRole() {
+  fetch(
+    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=${userLoggedInRole + "s"}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No response could be obtained from the server");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      if (userLoggedInRole == "Teacher") {
+        if (user.profile_picture == undefined)
+          user.profile_picture = "/assets/img/user.png";
+        if (user.first_name != undefined)
+          document.getElementById("teacher_name").innerHTML = user.first_name;
+        if (user.about_teacher != undefined)
+          document.getElementById("about_teacher").value = user.about_teacher;
+        if (user.about_classes != undefined)
+          document.getElementById("about_classes").value = user.about_classes;
+        if (user.class_location != undefined)
+          document.getElementById("class_location").value =
+            user.class_location;
+        if (user.class_prices != undefined)
+          document.getElementById("class_prices").value = user.class_prices;
+        if (user.contact_information != undefined)
+          document.getElementById("contact_information").value =
+            user.contact_information;
+        if (user.public_profile != undefined)
+          document.getElementById("public_profile").checked = user.public_profile;
+        document.getElementById("teacher_image").src = user.profile_picture;
+      
+      
+      } else if (userLoggedInRole == "Student") {
+
+        if (user.hobbies_and_interests != undefined) document.getElementById("student_hobbies_and_interests").innerHTML = user.hobbies_and_interests;
+        var selectElement = document.getElementById("student_language_level");
+        for (var i = 0; i < selectElement.options.length; i++) {
+            var option = selectElement.options[i];
+            if (option.value === user.language_level) {
+                option.selected = true;
+                break;
+            }
+        }
+      
+        } else {
+        if (user.biography != undefined) document.getElementById("collaborator_biography").innerHTML = user.biography;
+        if (user.contact != undefined) document.getElementById("collaborator_contact").innerHTML = user.contact;
+      }
+
+
+    })
+    .catch((error) => {
+      console.error("Error al obtener los datos:", error);
+    });
+}
+
+
 
 function checkDataFields() {
   var about_teacher = document.getElementById("about_teacher").innerHTML.trim();
@@ -79,12 +131,12 @@ function checkDataFields() {
   return true;
 }
 
-function updateUserData(userData) {
+function updateUserData(userData, table) {
   var request = {
     userData: userData,
-    table: "Teachers",
+    table: table,
   };
-  fetch(`http://localhost:3000/api/updateUserData?id=${userLoggedInID}`, {
+  fetch(`http://localhost:3000/api/updateUserData?id=${userLoggedInID}&table=${table}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -161,7 +213,34 @@ function dataURItoBlob(dataURI) {
 }
 
 function updateProfile() {
-  if (!document.getElementById("profile_picture").files[0]) {
+
+  if (userLoggedInRole == "Teacher") {
+    console.log("teacher");
+  } else if (userLoggedInRole == "Student") {
+    console.log("student");
+  } else {
+
+    var collaborator_name = document.getElementById("collaborator_name").innerHTML.trim();
+    var collaborator_email = document.getElementById("collaborator_email").innerHTML.trim();
+
+    if (!collaborator_name || !collaborator_email) {
+      showAlert(
+        "danger",
+        "Both name and email are required fields and cannot be empty",
+        "alertContainer",
+        3000
+      );
+    } else {
+      var userData = {
+        email: collaborator_email,
+        first_name: collaborator_name,
+        biography: document.getElementById("collaborator_biography").value.trim()
+      };
+      updateUserData(userData, "Collaborators")
+    }
+  }
+
+  /*if (!document.getElementById("profile_picture").files[0]) {
     showAlert(
       "danger",
       "You must select a profile picture to make your profile public",
@@ -193,7 +272,7 @@ function updateProfile() {
           );
         });
     }
-  }
+  } */
 }
 
 function deleteAccount() {
