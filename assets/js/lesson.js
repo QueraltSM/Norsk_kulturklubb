@@ -2,7 +2,7 @@ const lessonContainer = document.getElementById("lesson_container");
 var teacher_public_profile = false;
 
 function getTeacher(id) {
-  return fetch(`http://localhost:3000/api/getUser?id=${id}&table=Teachers`)
+  return fetch(`http://localhost:3000/api/getUser?id=${id}&table=Users`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to get server response.");
@@ -11,7 +11,7 @@ function getTeacher(id) {
     })
     .then((teacher) => {
       teacher_public_profile = teacher.public_profile;
-      return teacher.name;
+      return teacher.first_name;
     })
     .catch((error) => {
       console.error("Error:", error);

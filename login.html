@@ -28,13 +28,6 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Mentor
-  * Updated: Jan 29 2024 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -44,8 +37,7 @@
   <!-- End Header -->
 
   <main id="main" data-aos="fade-in">
-  
-    <section class="h-100 gradient-form" style="background-color: #f9faf9;">
+    <section class="h-100 gradient-form">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-xl-10">
@@ -66,7 +58,7 @@
                         <input class="input100" type="password" name="password" placeholder="Password" required>
                         <span class="focus-input100" data-placeholder="Password"></span>
                       </div>
-                      <div class="container-login100-form-btn">
+                      <div class="container-login100-form-btn d-flex justify-content-center">
                         <button type="submit" class="login100-form-btn">Login</button>
                       </div>
                       <div class="text-center p-t-46 p-b-20">
@@ -87,10 +79,6 @@
     </section>
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer"></footer>
-  <!-- End Footer -->
-
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
@@ -106,7 +94,6 @@
   <script>
     $(document).ready( function() { 
       $('#header').load('header.html');
-      $('#footer').load('footer.html');
       document.getElementById("login_form").addEventListener("submit", function(event) {
         event.preventDefault();
       });

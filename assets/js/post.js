@@ -1,5 +1,6 @@
-let cultureID = new URLSearchParams(window.location.search).get("aWQ").substring(1);
+let cultureID = localStorage.getItem('postID');
 const culture_entry = document.getElementById("culture_entry");
+document.getElementById("postTitle").innerHTML =  localStorage.getItem('postTitle');
 
 fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
   .then((response) => {
@@ -27,15 +28,8 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
       cardBody.classList.add("card-body");
       cardBody.style.borderColor = "#9C3030";
       
-      const cardTitle = document.createElement("h5");
-      cardTitle.classList.add("card-title");
-      const titleLink = document.createElement("a");
-      titleLink.textContent = cultureData.title;
-      titleLink.style.color = "#9C3030";
-      cardTitle.appendChild(titleLink);
-      
       const dateText = document.createElement("p");
-      dateText.textContent = cultureData.date + " · " + cultureData.min_read + " min read";
+      dateText.textContent = "Published on " + cultureData.pubdate.split(" ")[0];
       dateText.style.color = "#777";
       dateText.style.fontSize = "13px";
       dateText.style.textAlign = "center";
@@ -45,8 +39,7 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
       cardText.textContent = cultureData.description;
       cardText.style.textAlign = "justify";
       cardText.style.fontSize = "13px";
-      
-      cardBody.appendChild(cardTitle);
+
       cardBody.appendChild(dateText);
       cardBody.appendChild(cardText);
 

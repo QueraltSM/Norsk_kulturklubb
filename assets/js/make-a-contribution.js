@@ -109,16 +109,24 @@ async function publishLesson() {
     try {
       var fileInput = document.getElementById("lesson_content_url");
       var file = fileInput.files[0];
-      if (!file) {
-        showAlert("danger", "No file selected", "alertContainer", 3000);
+      var imageInput = document.getElementById("lesson_image");
+      var image = imageInput.files[0];
+      if (!file || !image) {
+        showAlert("danger", "Please select both file and image", "alertContainer", 3000);
         return "";
       }
       var formData = new FormData();
       formData.append("file", file);
-      var filename = uuidv4() + "." + file.name.split('.').pop(); // Generamos un nombre único
+      formData.append("image", image); 
+
+      var filename = uuidv4() + "." + file.name.split('.').pop();
+      var image_filename = uuidv4() + "." + image.name.split('.').pop();
+     
       const response = await fetch(
         `http://localhost:3000/api/uploadFileLesson?filename=${encodeURIComponent(
           filename
+        )}&image_filename=${encodeURIComponent(
+          image_filename
         )}`,
         {
           method: "POST",
@@ -141,6 +149,7 @@ async function publishLesson() {
           description: description,
           language_level: languageLevel,
           content_url: data.fileUrl,
+          header_image: data.imageUrl,
           teacher_id: localStorage.getItem("userLoggedInID"),
           pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
         }),
@@ -179,7 +188,9 @@ async function publishPost() {
   const title = document.getElementById("post_title").innerHTML.trim();
   const short_description = document.getElementById("post_short_description").innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
-  if (title && short_description && description) {
+  const min_read = document.getElementById("post_min_read").innerHTML.trim();
+
+  if (title && short_description && description && min_read) {
     try {
       var fileInput = document.getElementById("post_image");
       var file = fileInput.files[0];
@@ -213,7 +224,8 @@ async function publishPost() {
           title: title,
           short_description: short_description,
           description: description,
-          content_url: data.fileUrl,
+          image: data.fileUrl,
+          min_read: min_read,
           user_id: localStorage.getItem("userLoggedInID"),
           pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
         }),
@@ -228,7 +240,7 @@ async function publishPost() {
         .then((data) => {
           showAlert("success", "The post was submitted", "alertContainer", 3000);
           setTimeout(() => {
-            window.location.href = "/lessons.html";
+            window.location.href = "/culture.html";
           }, 3000);
         })
         .catch((error) => {

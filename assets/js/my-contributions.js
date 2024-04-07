@@ -92,8 +92,8 @@ async function fetchDataWords() {
     if (words.length === 0) {
       const noDataMessage = `
       <div style="text-align: center;">
-      <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
-        <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+      <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
+        <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;">
       </div>
       `;
       words_container.innerHTML = noDataMessage;
@@ -157,8 +157,8 @@ async function fetchDataLessons() {
     if (lessons.length === 0) {
       const noDataMessage = `
       <div style="text-align: center;">
-      <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
-        <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+      <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
+        <img src="/assets/img/not-found.png" alt="No data found" style="width:300px">
       </div>
       `;
       lessons_container.innerHTML = noDataMessage;
@@ -222,8 +222,8 @@ async function fetchDataCulture() {
     if (posts.length === 0) {
       const noDataMessage = `
         <div style="text-align: center;">
-        <h3 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>Sorry, you haven't posted anything yet</strong></h3>
-          <img src="/assets/img/data-not-found.png" alt="No data found" style="width:500px">
+        <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
+          <img src="/assets/img/not-found.png" alt="No data found" style="width:300px">
         </div>
       `;
       posts_container.innerHTML = noDataMessage;
@@ -239,7 +239,6 @@ async function fetchDataCulture() {
             <tr>
               <th>Published</th>
               <th>Title</th>
-              <th>Brief description</th>
               <th></th>
             </tr>
           </thead>
@@ -248,9 +247,8 @@ async function fetchDataCulture() {
               .map(
                 (p) => `
                   <tr>
-                    <td>${p.date}</td>
+                    <td>${p.pubdate}</td>
                     <td>${p.title}</td>
-                    <td>${p.short_description}</td>
                     <td style="text-align: center;">
                       <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                       <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>

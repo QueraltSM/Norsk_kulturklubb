@@ -1,8 +1,6 @@
 var userLoggedInID = localStorage.getItem("userLoggedInID");
 var userLoggedInRole = localStorage.getItem("userLoggedInRole");
 
-userLoggedInRole = "Teacher";
-
 if (userLoggedInRole == "Teacher") {
   document.getElementById("teacher-account").style.display = "flex";
 } else if (userLoggedInRole == "Student") {
@@ -276,8 +274,61 @@ function updateProfile() {
 }
 
 function deleteAccount() {
+  
+  deleteLessons();
+  deleteCulturePosts();
+
+    /*fetch(
+      `http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      if (response.status === 200) {
+
+        if (userLoggedInRole == "Teacher") {
+          deleteLessons();
+        
+        } else {
+          successDeletion();
+        }
+
+      } else if (response.status === 500) {
+        errorDeletion();
+      }
+    });*/
+  }
+
+function successDeletion() {
+  showAlert(
+    "success",
+    "Your account was removed sucessfully",
+    "alertContainer",
+    3000
+  );
+  setTimeout(() => {
+    document.getElementById("handleUserMenuLink").style.display = "none";
+    document.getElementById("loginBtn").style.display = "block";
+    localStorage.setItem("isLoggedIn", false);
+    window.location.href = "/index.html";
+  }, 3000);
+
+}
+
+function errorDeletion() {
+  showAlert(
+    "danger",
+    "An issue occurred while deleting the account",
+    "alertContainer",
+    5000
+  );
+}
+
+function deleteProfileImage() {
   var imageData = localStorage.getItem("profile_image");
-  var image = "";
   userLoggedInRole += "s";
   if (imageData != null) {
     var blob = dataURItoBlob(imageData);
@@ -286,42 +337,79 @@ function deleteAccount() {
     });
     var formData = new FormData();
     formData.append("image", imageFile);
-    var filename =
-      userLoggedInID +
-      "." +
-      imageData.split(":")[1].split(";")[0].split("/")[1];
-    image = `&profile_picture=${filename}`;
-  }
-  fetch(
-    `http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole}` +
-      image,
+    var filename = userLoggedInID + "." +imageData.split(":")[1].split(";")[0].split("/")[1];
+    fetch(
+      `http://localhost:3000/api/deleteFromS3?folder=Users&url=${filename}`,
     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     }
-  ).then((response) => {
-    if (response.status === 200) {
-      showAlert(
-        "success",
-        "Your account was removed sucessfully",
-        "alertContainer",
-        3000
-      );
-      setTimeout(() => {
-        document.getElementById("handleUserMenuLink").style.display = "none";
-        document.getElementById("loginBtn").style.display = "block";
-        localStorage.setItem("isLoggedIn", false);
-        window.location.href = "/index.html";
-      }, 3000);
-    } else if (response.status === 500) {
-      showAlert(
-        "danger",
-        "An issue occurred while deleting the account",
-        "alertContainer",
-        5000
-      );
+    ).then((response) => {
+      if (response.status !== 200) {
+        errorDeletion();
+      }      
+    });
+  }
+}
+
+async function deleteLessons() {
+  try {
+    const response = await fetch("http://localhost:3000/api/getLessons");
+    if (!response.ok) {
+      throw new Error("Failed to fetch lessons");
     }
-  });
+    const data = await response.json();
+    data.Items.forEach(async (lesson) => {
+      if (lesson.teacher_id === userLoggedInID) {
+        const response = await fetch('http://localhost:3000/api/deleteLesson', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: lesson.ID,
+            content_url: lesson.content_url.substring(lesson.content_url.lastIndexOf('/') + 1),
+            header_image: lesson.header_image.substring(lesson.header_image.lastIndexOf('/') + 1)
+          })
+        });
+        if (response.status !== 200) {
+          errorDeletion();
+        }
+        
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+async function deleteCulturePosts() {
+  try {
+    const response = await fetch("http://localhost:3000/api/getCultureEntries");
+    if (!response.ok) {
+      throw new Error("Failed to fetch lessons");
+    }
+    const data = await response.json();
+    data.Items.forEach(async (post) => {
+      if (post.user_id === userLoggedInID) {
+        const response = await fetch('http://localhost:3000/api/deleteCulture', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: post.ID,
+            content_url: post.image.substring(post.image.lastIndexOf('/') + 1),
+          })
+        });
+        if (response.status !== 200) {
+          errorDeletion();
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching:", error);
+  } 
 }
