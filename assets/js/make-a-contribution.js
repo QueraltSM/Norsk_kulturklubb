@@ -8,6 +8,42 @@ const div_lesson = document.getElementById("div_lesson");
 const div_post = document.getElementById("div_post");
 const div_event = document.getElementById("div_event");
 
+
+async function checkIfPublicProfile() {
+  const response = await fetch(
+    `http://localhost:3000/api/getUser?id=${localStorage.getItem("userLoggedInID")}&table=${localStorage.getItem("userLoggedInRole")}s`
+  );
+  if (!response.ok) {
+    throw new Error("No response could be obtained from the server");
+  }
+  const userData = await response.json();
+  if (!userData.public_profile) {
+    document.getElementById("public_profile").innerHTML = "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><i><u>Account</u></i></a> to complete your profile.</span>";
+    div_word.style.pointerEvents = "none";
+    div_word.style.opacity = "0.5";
+    div_lesson.style.pointerEvents = "none";
+    div_lesson.style.opacity = "0.5";
+    div_post.style.pointerEvents = "none";
+    div_post.style.opacity = "0.5";
+    div_event.style.pointerEvents = "none";
+    div_event.style.opacity = "0.5";
+  } else {
+    div_word.style.pointerEvents = "auto";
+    div_word.style.opacity = "1";
+    div_lesson.style.pointerEvents = "auto";
+    div_lesson.style.opacity = "1";
+    div_post.style.pointerEvents = "auto";
+    div_post.style.opacity = "1";
+    div_event.style.pointerEvents = "auto";
+    div_event.style.opacity = "1";
+  }
+}
+
+if (localStorage.getItem("userLoggedInRole") == "Teacher") {
+checkIfPublicProfile();
+}
+
+
 if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
   li_post.style.display = "block";
   li_post.classList.add("filter-active");

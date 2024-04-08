@@ -49,7 +49,7 @@ function deleteLesson() {
         3000
       );
       setTimeout(() => {
-        window.location.href = "/my-contributions.html";
+        window.location.href = "/contributions.html";
       }, 3000);
     } else if (response.status === 500) {
       showAlert(

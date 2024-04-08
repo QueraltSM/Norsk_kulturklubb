@@ -213,7 +213,36 @@ function dataURItoBlob(dataURI) {
 function updateProfile() {
 
   if (userLoggedInRole == "Teacher") {
-    console.log("teacher");
+    var teacher_name = document.getElementById("teacher_name").innerHTML;
+    var teacher_email = document.getElementById("teacher_email").innerHTML;
+    var about_classes = document.getElementById("about_classes").value;
+    var about_teacher =  document.getElementById("about_teacher").value;
+    var class_location = document.getElementById("class_location").value;
+    var class_prices = document.getElementById("class_prices").value;
+    var contact_information = document.getElementById("contact_information").value;
+
+    if (document.getElementById("public_profile").checked) {
+      if (!teacher_name || !teacher_email || !about_classes || !about_teacher || !class_location || !class_prices || !contact_information) {
+        showAlert(
+          "danger",
+          "All fields are required to have a public profile.",
+          "alertContainer",
+          3000
+        );
+      } else if (!document.getElementById("profile_picture").files[0]) {
+        showAlert(
+          "danger",
+          "You must select a profile picture to make your profile public",
+          "alertContainer",
+          3000
+        );
+      } else {
+        saveTeacher();
+      }
+    } else {
+      saveTeacher();
+    }
+    
   } else if (userLoggedInRole == "Student") {
     console.log("student");
   } else {
@@ -238,40 +267,46 @@ function updateProfile() {
     }
   }
 
-  /*if (!document.getElementById("profile_picture").files[0]) {
+}
+
+function saveTeacher() {
+  var teacher_name = document.getElementById("teacher_name").innerHTML;
+  var teacher_email = document.getElementById("teacher_email").innerHTML;
+  var about_classes = document.getElementById("about_classes").value;
+  var about_teacher =  document.getElementById("about_teacher").value;
+  var class_location = document.getElementById("class_location").value;
+  var class_prices = document.getElementById("class_prices").value;
+  var contact_information = document.getElementById("contact_information").value;
+
+  var user = {
+    first_name: teacher_name,
+    email: teacher_email
+  }
+  updateUserData(user, "Users");
+
+  updateProfileImage()
+  .then((imageUrl) => {
+    var userData = {
+      about_classes: about_classes,
+      about_teacher: about_teacher,
+      class_location: class_location,
+      class_prices: class_prices,
+      contact_information: contact_information,
+      public_profile: document.getElementById("public_profile").checked,
+      profile_picture: imageUrl,
+    };
+    updateUserData(userData, "Teachers");
+  })
+  .catch((error) => {
     showAlert(
       "danger",
-      "You must select a profile picture to make your profile public",
+      "Failed to update profile image",
       "alertContainer",
       3000
     );
-  } else {
-    if (checkDataFields()) {
-      updateProfileImage()
-        .then((imageUrl) => {
-          var userData = {
-            about_classes: document.getElementById("about_classes").innerHTML,
-            about_teacher: document.getElementById("about_teacher").innerHTML,
-            class_location: document.getElementById("class_location").innerHTML,
-            class_prices: document.getElementById("class_prices").innerHTML,
-            contact_information: document.getElementById("contact_information")
-              .innerHTML,
-            public_profile: document.getElementById("public_profile").checked,
-            profile_picture: imageUrl,
-          };
-          updateUserData(userData);
-        })
-        .catch((error) => {
-          showAlert(
-            "danger",
-            "Failed to update profile image",
-            "alertContainer",
-            3000
-          );
-        });
-    }
-  } */
+  });
 }
+
 
 function deleteAccount() {
   
