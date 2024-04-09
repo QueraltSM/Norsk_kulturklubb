@@ -56,6 +56,8 @@
         </div>
         <div>
 
+          <div id="copyMessageContainer"></div>
+
           <form id="translationForm" class="needs-validation translator-form" novalidate>
             <div class="form-row">
               <div class="col-6">
@@ -79,12 +81,11 @@
               <div class="col-6">
                 <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
                   <li class="nav-item">
-                    <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
-                  </li>
-                  <li class="nav-item">
                     <a class="nav-link active" id="norweigan_tab" data-toggle="tab" href="#norwegianText">Norsk</a>
                   </li>
-
+                  <li class="nav-item">
+                    <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
+                  </li>
                   <li class="nav-item dropdown" id="otherLanguageDropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="others_tab" role="button" aria-haspopup="true"
                       aria-expanded="false">
@@ -125,7 +126,6 @@
                       style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;">
                       <i class="fas fa-copy"></i>
                     </a>
-                    <div id="copyMessageContainer" class="fixed-bottom w-100 d-flex justify-content-center"></div>
                   </div>
                 </div>
               </div>
@@ -172,7 +172,7 @@
               <br>
             </div>
             <div class="text-center">
-              <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translate();">Translate</a>
+              <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translateText();">Translate</a>
             </div>
           </form>
         </div>
@@ -196,8 +196,6 @@
   <script src="assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script src="assets/js/translator.js"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/virtual-keyboard/dist/js/jquery.keyboard.min.js"></script>
 
@@ -210,82 +208,29 @@
 
   <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 
+  <script src="/assets/js/translator.js"></script>
+
   <script>
     const Keyboard = window.SimpleKeyboard.default;
 
     const myKeyboard = new Keyboard({
+      layout: {
+    default: [
+      "q w e r t y u i o p",
+      "a s d f g h j k l",
+      "z x c v b n m",
+      "",
+      "Q W E R T Y U I O P",
+      "A S D F G H J K L",
+      "Z X C V B N M",
+      "",
+    ],
+  },
       onChange: input => onChange(input),
       onKeyPress: button => onKeyPress(button),
 
     });
 
-    function onChange(input) {
-      document.querySelector(".input").value = input;
-    }
-
-    let layoutName = "default";
-
-    function onKeyPress(button) {
-      setTimeout(() => {
-        document.getElementById('text').focus(); 
-      }, 100);
-      document.getElementById("text").value = document.getElementById("text").value + button;
-      if (button === "{shift}" || button === "{shiftactivated}") {
-    layoutName = layoutName === "default" ? "shift" : "default";
-    myKeyboard.setOptions({ layoutName: layoutName });
-  }
-    }
-
-
-
-    function changeLanguage(languageCode) {
-      switch (languageCode) {
-        case "no":
-    myKeyboard.setOptions({
-      layout: {
-        default: [
-          "q w e r t y u i o p å",
-          "a s d f g h j k l ø æ",
-          "{shift} z x c v b n m {bksp}",
-          "{space} {enter}"
-        ],
-        shift: [
-          "Q W E R T Y U I O P Å",
-          "A S D F G H J K L Ø Æ",
-          "{shiftactivated} Z X C V B N M {bksp}",
-          "{space} {enter}"
-        ],
-      },
-      display: {
-        "{enter}": "<i class='fas fa-arrow-right'></i>",
-        "{space}": " ", // Espacio en blanco
-        "{shift}": "<i class='fas fa-arrow-up'></i>", // Botón de cambio de mayúsculas
-        "{bksp}": "<i class='fas fa-backspace'></i>" // Botón de retroceso
-      },
-      buttonTheme: [
-        {
-          class: "space",
-          html: "<span>␣</span>", // Icono de espacio
-          attribute: "space"
-        },
-        {
-          class: "shift",
-          html: "<i class='fas fa-arrow-up'></i>", // Icono de cambio de mayúsculas
-          attribute: "shift"
-        }
-      ]
-    });
-    break;
-        case "fr":
-          break;
-
-        default:
-          break;
-      }
-    }
-  </script>
-
-  <script>
     document.getElementById('otherLanguageDropdown').addEventListener('click', function () {
       var dropdownMenu = document.getElementById('dropdown-menu-item');
       if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
@@ -345,12 +290,11 @@
       }
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
       document
         .getElementById("copyButton")
         .addEventListener("click", function () {
           var translatedText =
-            document.getElementById("translatedText").value;
+            document.getElementById("translated_text").value;
           var tempInput = document.createElement("textarea");
           tempInput.value = translatedText;
           document.body.appendChild(tempInput);
@@ -374,56 +318,13 @@
             alertMessage.style.display = "none";
           }, 3000);
         });
-    });
     document
       .getElementById("text")
       .addEventListener("input", function () {
         adjustTextareaHeight();
       });
     adjustTextareaHeight();
-
-    function adjustTextareaHeight() {
-      var textarea = document.getElementById("text");
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    }
-
-    function translate() {
-      var english_tab = document.getElementById("english_tab").classList.contains('active');
-      var norweigan_tab = document.getElementById("norweigan_tab").classList.contains('active');
-      var others_tab = document.getElementById("others_tab").classList.contains('active');
-      var target_language = "";
-      if (english_tab) {
-        target_language = "en";
-      } else if (norweigan_tab) {
-        target_language = "no";
-      } else if (others_tab) {
-        target_language = localStorage.getItem("selected_language");
-      }
-      var source_language = "";
-      const text = document.getElementById("text").value;
-      fetch(`http://localhost:3000/api/detectLanguage?text=${encodeURIComponent(text)}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('No se pudo realizar la solicitud al servidor');
-          }
-          return response.json();
-        })
-        .then(data => {
-          source_language = data.detectedLanguage;
-          fetch(`http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source_language}&TargetLanguageCode=${target_language}`)
-            .then(response => response.json())
-            .then(data => {
-              document.getElementById("translated_text").innerText = data.translatedText;
-            })
-            .catch(error => {
-              document.getElementById("translated_text").innerText = 'Error';
-            });
-        })
-        .catch(error => {
-          alert('Error:' + error);
-        });
-    }
   </script>
 </body>
+
 </html>

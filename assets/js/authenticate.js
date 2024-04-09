@@ -16,7 +16,7 @@ function login() {
       }
     })
     .then((data) => {
-      localStorage.setItem("welcomeUser", data.message);
+      localStorage.setItem("user_first_name", data.user_first_name);
       localStorage.setItem("userLoggedInID", data.ID);
       localStorage.setItem("userLoggedInRole", data.role);
       localStorage.setItem("isLoggedIn", true);

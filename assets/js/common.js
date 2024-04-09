@@ -11,8 +11,8 @@ if (localStorage.getItem("isLoggedIn") == "true") {
       element.style.display = roleDisplayOptions[localStorage.getItem("userLoggedInRole")][option];
     }
   }
-  const welcomeUser = localStorage.getItem("welcomeUser");
-  document.getElementById("welcomeUser").innerHTML = welcomeUser;
+
+  document.getElementById("welcomeUser").innerHTML = "Hallo " + localStorage.getItem("user_first_name");
   document.getElementById("handleUserMenuLink").style.display = "block";
 } else {
   document.getElementById("loginBtn").style.display = "block";

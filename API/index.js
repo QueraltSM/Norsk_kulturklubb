@@ -127,7 +127,7 @@ app.post('/api/login', (req, res) => {
         res.status(200).send({
           ID: user.ID,
           role: user.role,
-          message: `Hallo ${user.first_name}`
+          user_first_name: user.first_name
         });
       } else {
         res.status(401).send('Email or password incorrect');
@@ -187,18 +187,19 @@ app.post('/api/updateUserData', (req, res) => {
   let updateExpression = "";
   let expressionAttributeValues = {};
 
-  // TABLA USUARIOS datos personales de la cuenta
-  // teachers, collabotarios -> solo el resto qe sea especifico
-  
-  if (tableName === "Collaborators") {
-    updateExpression = "set first_name = :first_name, email = :email, biography = :biography";
+  if (tableName === "Users") {
+    updateExpression = "set first_name = :first_name, email = :email";
     expressionAttributeValues = {
       ":first_name": userData.first_name,
-      ":email": userData.email,
+      ":email": userData.email
+    };
+  } else if (tableName === "Collaborators") {
+    updateExpression = "set biography = :biography";
+    expressionAttributeValues = {
       ":biography": userData.biography
     };
-  } else {
-    updateExpression = "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile, profile_picture = :profile_picture";
+  } else if (tableName === "Teachers") {
+    updateExpression = "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
@@ -206,8 +207,11 @@ app.post('/api/updateUserData', (req, res) => {
       ":class_prices": userData.class_prices,
       ":contact_information": userData.contact_information,
       ":public_profile": userData.public_profile,
-      ":profile_picture": userData.profile_picture
     };
+    if (userData.profile_picture != null && userData.profile_picture !== "") {
+      updateExpression += ", profile_picture = :profile_picture";
+      expressionAttributeValues[":profile_picture"] = userData.profile_picture;
+    }
   }
   const params = {
     TableName: req.query.table,
@@ -232,8 +236,7 @@ app.post('/api/updateUserData', (req, res) => {
 app.post('/api/updateProfileImage', multer().single('image'), (req, res) => {
   const image = req.file;
   if (!image) {
-      console.log("No se proporcionó una imagen");
-      return res.status(400).send('No se proporcionó una imagen');
+      return res.status(400).send('No image');
   }
   const params = {
       Bucket: 'norskkulturklubb',
