@@ -175,7 +175,6 @@ async function fetchDataLessons() {
               <th>Published</th>
               <th>Language level</th>
               <th>Title</th>
-              <th>Brief description</th>
               <th></th>
             </tr>
           </thead>
@@ -187,7 +186,6 @@ async function fetchDataLessons() {
                     <td>${l.pubdate}</td>
                     <td>${l.language_level}</td>
                     <td>${l.title}</td>
-                    <td>${l.short_description}</td>
                     <td style="text-align: center;">
                       <a onclick="updateLesson('${l.ID}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                       <a href="#" onclick="askDelete('${l.ID}:::${l.content_url}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
@@ -229,8 +227,8 @@ async function fetchDataCulture() {
       posts_container.innerHTML = noDataMessage;
     } else {
       posts.sort((a, b) => {
-        const dateA = new Date(convertToDateObject(a.date));
-        const dateB = new Date(convertToDateObject(b.date));
+        const dateA = new Date(convertToDateObject(a.pubdate));
+        const dateB = new Date(convertToDateObject(b.pubdate));
         return dateB - dateA;
       });
       const postsHTML = `
@@ -239,6 +237,7 @@ async function fetchDataCulture() {
             <tr>
               <th>Published</th>
               <th>Title</th>
+              <th>Brief description</th>
               <th></th>
             </tr>
           </thead>
@@ -249,6 +248,7 @@ async function fetchDataCulture() {
                   <tr>
                     <td>${p.pubdate}</td>
                     <td>${p.title}</td>
+                    <td>${p.short_description}</td>
                     <td style="text-align: center;">
                       <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                       <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>

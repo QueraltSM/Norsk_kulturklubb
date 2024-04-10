@@ -304,7 +304,7 @@ app.post('/api/deleteUser', (req, res) => {
       res.status(500).send("Error deleting");
     } else {
       const params = {
-        TableName: req.query.role + "s",
+        TableName: req.query.role,
         Key: {
           'ID': req.query.id
         }

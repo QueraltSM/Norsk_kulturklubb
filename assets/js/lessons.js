@@ -11,10 +11,10 @@ const lessonsContainer = document.getElementById("lessons_container");
       performSearch();
     }
   });
-
+  
   function performSearch() {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const lessons = document.querySelectorAll(".col-lg-4");
+    const lessons = document.querySelectorAll(".col-4");
     lessons.forEach(function(card) {
       const languageLevel = card.querySelector(".course-content h4").textContent.toLowerCase();
       const title = card.querySelector(".course-content h3").textContent.toLowerCase();
@@ -27,22 +27,22 @@ const lessonsContainer = document.getElementById("lessons_container");
     });
   }
   
-async function fetchData() {
-  const lessonsContainer = document.getElementById("lessons_container");
-  try {
-    const response = await fetch("http://localhost:3000/api/getLessons");
-    if (!response.ok) {
-      throw new Error("Failed to get server response.");
-    }
-    const data = await response.json();
-    var entered = false;
-    for (const lesson of data.Items) {
-      try {
-        getUser(lesson.teacher_id).then((result) => {
+  async function fetchData() {
+    try {
+      const response = await fetch("http://localhost:3000/api/getLessons");
+      if (!response.ok) {
+        throw new Error("No response could be obtained from the server");
+      }
+      const data = await response.json();
+      
+      var entered = false;
+      for (const lesson of data.Items) {
+        try {
+          const result = await getUser(lesson.teacher_id);
           if (result) {
             entered = true;
             const lessonHTML = `
-            <div class="col-lg-4" style="padding-bottom:10px;">
+            <div class="col-4" style="padding-bottom:10px;">
               <a href="#" onclick="loadLessonDetails('${lesson.ID}')" style="text-decoration: none; color: inherit;">
                 <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden;">
                   <div class="course-img" style="height: 200px; overflow: hidden;">
@@ -58,15 +58,16 @@ async function fetchData() {
             </div>
           `;
           lessonsContainer.innerHTML += lessonHTML;
-          }
-        });
+        }
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching user data:', error);
       }
     }
+    if (!entered) {
+      setNoPosts();
+    }
   } catch (error) {
-    console.error('Error fetching data:', error);
-    lessonsContainer.textContent = "Error fetching data";
+    console.error("Error fetching data:", error);
   }
 }
 
@@ -86,7 +87,7 @@ function setNoPosts() {
   message.style.color = "#9C3030";
   noDataDiv.appendChild(message);
   noDataDiv.appendChild(img);
-  cultureEntries.appendChild(noDataDiv);
+  lessonsContainer.appendChild(noDataDiv);
 }
 
 async function getUser(id) {

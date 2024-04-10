@@ -1,20 +1,22 @@
 const cultureEntries = document.getElementById("culture_entries");
 
-fetch("http://localhost:3000/api/getCultureEntries")
-  .then((response) => {
+async function fetchData() {
+  try {
+    const response = await fetch("http://localhost:3000/api/getCultureEntries");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
-    return response.json();
-  })
-  .then((data) => {
+    const data = await response.json();
+    
     var entered = false;
-    data.Items.forEach((cultureData) => {
-      getUser(cultureData.user_id).then((result) => {
+    for (const cultureData of data.Items) {
+      try {
+        const result = await getUser(cultureData.user_id);
         if (result) {
           entered = true;
+
           const cultureCard = document.createElement("div");
-          cultureCard.classList.add("col-md-6", "d-flex", "align-items-stretch");
+          cultureCard.classList.add("col-6");
           const postLink = document.createElement("a");
           postLink.href = "#";
           postLink.style.textDecoration = "none";
@@ -42,21 +44,22 @@ fetch("http://localhost:3000/api/getCultureEntries")
           const titleLink = document.createElement("a");
           titleLink.href = "#";
           titleLink.textContent = cultureData.title;
-          titleLink.style.color = "black";
+          titleLink.style.color = "#9C3030"; // Cambia el color del texto a #9C3030
           titleLink.style.textDecoration = "none";
           cardTitle.appendChild(titleLink);
-          
+
           const dateText = document.createElement("p");
           dateText.textContent = cultureData.pubdate.split(" ")[0] + " · " + cultureData.min_read + " min read";
-          dateText.style.color = "gray";
-          dateText.style.fontSize = "13px";
+          dateText.style.color = "#666"; 
+          dateText.style.fontSize = "11px";
           dateText.style.textAlign = "center";
           
           const cardText = document.createElement("p");
           cardText.classList.add("card-text");
           cardText.textContent = cultureData.short_description;
-          cardText.style.textAlign = "justify";
+          cardText.style.textAlign = "center";
           cardText.style.fontSize = "13px";
+          cardText.style.color = "#000000";
           
           cardBody.appendChild(cardTitle);
           cardBody.appendChild(cardText);
@@ -67,23 +70,27 @@ fetch("http://localhost:3000/api/getCultureEntries")
     
           postLink.appendChild(card);
           cultureCard.appendChild(postLink);
-          cultureEntries.appendChild("<br><br>");
-          cultureEntries.appendChild(cultureCard);
+          cultureEntries.appendChild(document.createElement("br"));
+          cultureEntries.appendChild(document.createElement("br"));
+          cultureEntries.appendChild(cultureCard); 
+
         }
-      });
-      if (!entered) {
-        setNoPosts();
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
-    });
-  })
-  .catch((error) => {
+    }
+    if (!entered) {
+      setNoPosts();
+    }
+  } catch (error) {
     console.error("Error fetching data:", error);
-  });
+  }
+}
 
   function setNoPosts() {
     const noDataDiv = document.createElement("div");
     noDataDiv.classList.add("col-md-12", "text-center", "mt-5");
-    noDataDiv.style.paddingTop = "0"; // Eliminar el padding top
+    noDataDiv.style.paddingTop = "0";
     const img = document.createElement("img");
     img.src = "/assets/img/not-found.png";
     img.alt = "No Data";
@@ -111,16 +118,17 @@ document.getElementById("searchInput").addEventListener("keypress", function(eve
     performSearch();
   }
 });
+
 function performSearch() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  const cultureCards = document.querySelectorAll(".col-md-6");
+  const cultureCards = document.querySelectorAll(".col-6");
   cultureCards.forEach(function(card) {
     const title = card.querySelector(".card-title a").textContent.toLowerCase();
     const description = card.querySelector(".card-text").textContent.toLowerCase();
     if (title.includes(searchTerm) || description.includes(searchTerm)) {
-      card.style.visibility = "visible";
+      card.style.display = "block";
     } else {
-      card.style.visibility = "hidden";
+      card.style.display = "none";
     }
   });
 }
@@ -148,6 +156,8 @@ async function getUser(id) {
     return true;
   } catch (error) {
     console.error("Error fetching user data:", error);
-    throw error; // Re-throw the error to handle it in the calling function
+    throw error;
   }
 }
+
+fetchData();

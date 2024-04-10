@@ -14,9 +14,7 @@ getBasicInformation();
 getInformationByRole();
 
 function getBasicInformation() {
-  fetch(
-    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=Users`
-  )
+  fetch(`http://localhost:3000/api/getUser?id=${userLoggedInID}&table=Users`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("No response could be obtained from the server");
@@ -24,19 +22,24 @@ function getBasicInformation() {
       return response.json();
     })
     .then((user) => {
-      
       if (user.first_name != undefined) {
-        if (userLoggedInRole == "Student") document.getElementById("student_name").innerHTML = user.first_name;
-        if (userLoggedInRole == "Teacher") document.getElementById("teacher_name").innerHTML = user.first_name;
-        if (userLoggedInRole == "Collaborator") document.getElementById("collaborator_name").innerHTML = user.first_name;
+        if (userLoggedInRole == "Student")
+          document.getElementById("student_name").innerHTML = user.first_name;
+        if (userLoggedInRole == "Teacher")
+          document.getElementById("teacher_name").innerHTML = user.first_name;
+        if (userLoggedInRole == "Collaborator")
+          document.getElementById("collaborator_name").innerHTML =
+            user.first_name;
       }
 
       if (user.email != undefined) {
-        if (userLoggedInRole == "Student") document.getElementById("student_email").innerHTML = user.email;
-        if (userLoggedInRole == "Teacher") document.getElementById("teacher_email").innerHTML = user.email;
-        if (userLoggedInRole == "Collaborator") document.getElementById("collaborator_email").innerHTML = user.email;
+        if (userLoggedInRole == "Student")
+          document.getElementById("student_email").innerHTML = user.email;
+        if (userLoggedInRole == "Teacher")
+          document.getElementById("teacher_email").innerHTML = user.email;
+        if (userLoggedInRole == "Collaborator")
+          document.getElementById("collaborator_email").innerHTML = user.email;
       }
-
     })
     .catch((error) => {
       console.error("Error al obtener los datos:", error);
@@ -45,7 +48,9 @@ function getBasicInformation() {
 
 function getInformationByRole() {
   fetch(
-    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=${userLoggedInRole + "s"}`
+    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=${
+      userLoggedInRole + "s"
+    }`
   )
     .then((response) => {
       if (!response.ok) {
@@ -67,70 +72,40 @@ function getInformationByRole() {
         if (user.about_classes != undefined)
           document.getElementById("about_classes").value = user.about_classes;
         if (user.class_location != undefined)
-          document.getElementById("class_location").value =
-            user.class_location;
+          document.getElementById("class_location").value = user.class_location;
         if (user.class_prices != undefined)
           document.getElementById("class_prices").value = user.class_prices;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
         if (user.public_profile != undefined)
-          document.getElementById("public_profile").checked = user.public_profile;
+          document.getElementById("public_profile").checked =
+            user.public_profile;
         document.getElementById("teacher_image").src = user.profile_picture;
-      
-      
       } else if (userLoggedInRole == "Student") {
-
-        if (user.hobbies_and_interests != undefined) document.getElementById("student_hobbies_and_interests").innerHTML = user.hobbies_and_interests;
+        if (user.hobbies_and_interests != undefined)
+          document.getElementById("student_hobbies_and_interests").innerHTML =
+            user.hobbies_and_interests;
         var selectElement = document.getElementById("student_language_level");
         for (var i = 0; i < selectElement.options.length; i++) {
-            var option = selectElement.options[i];
-            if (option.value === user.language_level) {
-                option.selected = true;
-                break;
-            }
+          var option = selectElement.options[i];
+          if (option.value === user.language_level) {
+            option.selected = true;
+            break;
+          }
         }
-      
-        } else {
-        if (user.biography != undefined) document.getElementById("collaborator_biography").innerHTML = user.biography;
-        if (user.contact != undefined) document.getElementById("collaborator_contact").innerHTML = user.contact;
+      } else {
+        if (user.biography != undefined)
+          document.getElementById("collaborator_biography").innerHTML =
+            user.biography;
+        if (user.contact != undefined)
+          document.getElementById("collaborator_contact").innerHTML =
+            user.contact;
       }
-
-
     })
     .catch((error) => {
       console.error("Error al obtener los datos:", error);
     });
-}
-
-
-
-function checkDataFields() {
-  var about_teacher = document.getElementById("about_teacher").innerHTML.trim();
-  var about_classes = document.getElementById("about_classes").innerHTML.trim();
-  var class_location = document
-    .getElementById("class_location")
-    .innerHTML.trim();
-  var class_prices = document.getElementById("class_prices").innerHTML.trim();
-  var contact_information = document
-    .getElementById("contact_information")
-    .innerHTML.trim();
-  if (
-    about_teacher == "" ||
-    about_classes == "" ||
-    class_location == "" ||
-    class_prices == "" ||
-    contact_information == ""
-  ) {
-    showAlert(
-      "danger",
-      "You must fill out all fields to make your profile public",
-      "alertContainer",
-      3000
-    );
-    return false;
-  }
-  return true;
 }
 
 function updateUserData(userData, table) {
@@ -138,13 +113,16 @@ function updateUserData(userData, table) {
     userData: userData,
     table: table,
   };
-  fetch(`http://localhost:3000/api/updateUserData?id=${userLoggedInID}&table=${table}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(request),
-  }).then((response) => {
+  fetch(
+    `http://localhost:3000/api/updateUserData?id=${userLoggedInID}&table=${table}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    }
+  ).then((response) => {
     if (response.status === 200) {
       showAlert(
         "success",
@@ -152,7 +130,7 @@ function updateUserData(userData, table) {
         "alertContainer",
         3000
       );
-      setTimeout(function() {
+      setTimeout(function () {
         location.reload();
       }, 3000);
     } else if (response.status === 500) {
@@ -218,22 +196,31 @@ function dataURItoBlob(dataURI) {
 }
 
 function updateProfile() {
-
   if (userLoggedInRole == "Teacher") {
     var teacher_name = document.getElementById("teacher_name").innerHTML;
     var teacher_email = document.getElementById("teacher_email").innerHTML;
     var about_classes = document.getElementById("about_classes").value;
-    var about_teacher =  document.getElementById("about_teacher").value;
+    var about_teacher = document.getElementById("about_teacher").value;
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
-    var contact_information = document.getElementById("contact_information").value;
+    var contact_information = document.getElementById(
+      "contact_information"
+    ).value;
 
     if (document.getElementById("profile_picture").files[0]) {
       teacher_photo = true;
     }
 
     if (document.getElementById("public_profile").checked) {
-      if (!teacher_name || !teacher_email || !about_classes || !about_teacher || !class_location || !class_prices || !contact_information) {
+      if (
+        !teacher_name ||
+        !teacher_email ||
+        !about_classes ||
+        !about_teacher ||
+        !class_location ||
+        !class_prices ||
+        !contact_information
+      ) {
         showAlert(
           "danger",
           "All fields are required to have a public profile.",
@@ -253,15 +240,15 @@ function updateProfile() {
     } else {
       saveTeacher();
     }
-    
   } else if (userLoggedInRole == "Student") {
     console.log("student");
-
-    
   } else {
-
-    var collaborator_name = document.getElementById("collaborator_name").innerHTML.trim();
-    var collaborator_email = document.getElementById("collaborator_email").innerHTML.trim();
+    var collaborator_name = document
+      .getElementById("collaborator_name")
+      .innerHTML.trim();
+    var collaborator_email = document
+      .getElementById("collaborator_email")
+      .innerHTML.trim();
 
     if (!collaborator_name || !collaborator_email) {
       showAlert(
@@ -274,27 +261,30 @@ function updateProfile() {
       var userData = {
         email: collaborator_email,
         first_name: collaborator_name,
-        biography: document.getElementById("collaborator_biography").value.trim()
+        biography: document
+          .getElementById("collaborator_biography")
+          .value.trim(),
       };
-      updateUserData(userData, "Collaborators")
+      updateUserData(userData, "Collaborators");
     }
   }
-
 }
 
 async function saveTeacher() {
   var teacher_name = document.getElementById("teacher_name").innerHTML;
   var teacher_email = document.getElementById("teacher_email").innerHTML;
   var about_classes = document.getElementById("about_classes").value;
-  var about_teacher =  document.getElementById("about_teacher").value;
+  var about_teacher = document.getElementById("about_teacher").value;
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
-  var contact_information = document.getElementById("contact_information").value;
+  var contact_information = document.getElementById(
+    "contact_information"
+  ).value;
 
   var userData = {
     first_name: teacher_name,
-    email: teacher_email
-  }
+    email: teacher_email,
+  };
   updateUserData(userData, "Users");
   localStorage.setItem("user_first_name", teacher_name);
 
@@ -315,35 +305,19 @@ async function saveTeacher() {
   updateUserData(userData, "Teachers");
 }
 
-
 function deleteAccount() {
-  
-  deleteLessons();
-  deleteCulturePosts();
-
-    /*fetch(
-      `http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
-      if (response.status === 200) {
-
-        if (userLoggedInRole == "Teacher") {
-          deleteLessons();
-        
-        } else {
-          successDeletion();
-        }
-
-      } else if (response.status === 500) {
-        errorDeletion();
-      }
-    });*/
+  var error = false;
+  if (userLoggedInRole == "Teacher") {
+    if (!deleteLessons()) error = true;
+    if (!deleteCulturePosts()) error = true;
   }
+alert("error was :  "+ error);
+  if (!error) {
+    deleteUser()
+  } else {
+    errorDeletion();
+  }
+}
 
 function successDeletion() {
   showAlert(
@@ -358,7 +332,6 @@ function successDeletion() {
     localStorage.setItem("isLoggedIn", false);
     window.location.href = "/index.html";
   }, 3000);
-
 }
 
 function errorDeletion() {
@@ -380,19 +353,22 @@ function deleteProfileImage() {
     });
     var formData = new FormData();
     formData.append("image", imageFile);
-    var filename = userLoggedInID + "." +imageData.split(":")[1].split(";")[0].split("/")[1];
+    var filename =
+      userLoggedInID +
+      "." +
+      imageData.split(":")[1].split(";")[0].split("/")[1];
     fetch(
       `http://localhost:3000/api/deleteFromS3?folder=Users&url=${filename}`,
-    {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    }
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     ).then((response) => {
       if (response.status !== 200) {
         errorDeletion();
-      }      
+      }
     });
   }
 }
@@ -406,21 +382,22 @@ async function deleteLessons() {
     const data = await response.json();
     data.Items.forEach(async (lesson) => {
       if (lesson.teacher_id === userLoggedInID) {
-        const response = await fetch('http://localhost:3000/api/deleteLesson', {
+        const response = await fetch("http://localhost:3000/api/deleteLesson", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             id: lesson.ID,
-            content_url: lesson.content_url.substring(lesson.content_url.lastIndexOf('/') + 1),
-            header_image: lesson.header_image.substring(lesson.header_image.lastIndexOf('/') + 1)
-          })
+            content_url: lesson.content_url.substring(
+              lesson.content_url.lastIndexOf("/") + 1
+            ),
+            header_image: lesson.header_image.substring(
+              lesson.header_image.lastIndexOf("/") + 1
+            ),
+          }),
         });
-        if (response.status !== 200) {
-          errorDeletion();
-        }
-        
+        return response.status === 200;
       }
     });
   } catch (error) {
@@ -437,22 +414,42 @@ async function deleteCulturePosts() {
     const data = await response.json();
     data.Items.forEach(async (post) => {
       if (post.user_id === userLoggedInID) {
-        const response = await fetch('http://localhost:3000/api/deleteCulture', {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: post.ID,
-            content_url: post.image.substring(post.image.lastIndexOf('/') + 1),
-          })
-        });
-        if (response.status !== 200) {
-          errorDeletion();
-        }
+        const response = await fetch(
+          "http://localhost:3000/api/deleteCulture",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: post.ID,
+              content_url: post.image.substring(
+                post.image.lastIndexOf("/") + 1
+              ),
+            }),
+          }
+        );
+        return response.status === 200;
       }
     });
   } catch (error) {
     console.error("Error fetching:", error);
-  } 
+  }
+}
+
+async function deleteUser() {
+  const response = await fetch(
+    `http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole} + "s"`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (response.status !== 200) {
+    errorDeletion();
+  } else {
+    successDeletion();
+  }
 }

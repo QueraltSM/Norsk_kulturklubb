@@ -88,7 +88,7 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
 
 function publishWord() {
   const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
-  const meaning = document.getElementById("word_of_the_day_meaning").value.trim();
+  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
     fetch("http://localhost:3000/api/uploadWord", {
@@ -102,7 +102,7 @@ function publishWord() {
       meaning: meaning,
       date: calendar,
       teacher_id: localStorage.getItem("userLoggedInID"),
-      pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
+      pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
     }),
   })
     .then((response) => {
@@ -187,7 +187,7 @@ async function publishLesson() {
           content_url: data.fileUrl,
           header_image: data.imageUrl,
           teacher_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
+          pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
         }),
       })
         .then((response) => {
@@ -263,7 +263,7 @@ async function publishPost() {
           image: data.fileUrl,
           min_read: min_read,
           user_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
+          pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
         }),
       })
         .then((response) => {
@@ -320,7 +320,7 @@ function publishEvent() {
       platform_url: platform_url,
       date: calendar,
       teacher_id: localStorage.getItem("userLoggedInID"),
-      pubdate: new Date().toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit', hour12: false}).replace(',', '')
+      pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
     }),
   })
     .then((response) => {
