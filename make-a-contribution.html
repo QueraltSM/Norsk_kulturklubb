@@ -12,6 +12,7 @@
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Google Fonts -->
     <link
@@ -190,9 +191,27 @@
                                     <h3>
                                         Description
                                     </h3>
-                                    <span class="label-box">Write the description of the post</span><br>
+                                    <span class="label-box">Write the description of the post</span>
+                                    <div class="format-buttons">
+                                        <button onclick="formatText('justify','post_description')" title="Justify"><i
+                                                class="material-icons">format_align_justify</i></button>
+                                        <button onclick="formatText('alignRight','post_description')"
+                                            title="Align right"><i
+                                                class="material-icons">format_align_right</i></button>
+                                        <button onclick="formatText('alignCenter','post_description')"
+                                            title="Align center"><i
+                                                class="material-icons">format_align_center</i></button>
+                                        <button onclick="formatText('alignLeft','post_description')"
+                                            title="Align left"><i class="material-icons">format_align_left</i></button>
+                                        <button onclick="formatText('underline','post_description')"
+                                            title="Underline"><i class="material-icons">format_underline</i></button>
+                                        <button onclick="formatText('italic','post_description')" title="Italic"><i
+                                                class="material-icons">format_italic</i></button>
+                                        <button onclick="formatText('bold','post_description')" title="Bold"><i
+                                                class="material-icons">format_bold</i></button>
+                                    </div>
                                     <textarea contenteditable="true" id="post_description" class="editable-box"
-                                        style="width: 100%;"></textarea>
+                                        style="width: 100%;min-height: 400px;"></textarea>
 
                                     <h3>Image</h3>
                                     <span class="label-box">Select the image of the post (JPG, PNG)</span><br>

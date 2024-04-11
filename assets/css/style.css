@@ -2264,3 +2264,14 @@ textarea {
 .contributions-details .contributions-description p {
   padding: 0;
 }
+.format-buttons button {
+  margin-right: 5px; /* Espaciado entre los botones */
+  cursor: pointer; /* Cambio de cursor al pasar sobre los botones */
+  background: none;
+  border: none;
+  float: right;
+}
+
+.format-buttons i.material-icons {
+  font-size: 22px; /* Tamaño de los iconos */
+}

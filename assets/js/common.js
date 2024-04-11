@@ -59,3 +59,55 @@ function limitTextarea(element, maxLength) {
       element.textContent = element.textContent.slice(0, maxLength);
   }
 }
+
+function formatText(command, id) {
+  var textarea = document.getElementById(id);
+  if (command === "bold") {
+      toggleStyle(textarea, "fontWeight", "bold");
+  } else if (command === "italic") {
+      toggleStyle(textarea, "fontStyle", "italic");
+  } else if (command === "underline") {
+      toggleStyle(textarea, "textDecoration", "underline");
+  } else if (command === "alignLeft") {
+      toggleTextAlign(textarea, "left");
+  } else if (command === "alignCenter") {
+      toggleTextAlign(textarea, "center");
+  } else if (command === "alignRight") {
+      toggleTextAlign(textarea, "right");
+  } else if (command === "justify") {
+      toggleTextAlign(textarea, "justify");
+  }
+}
+
+function toggleStyle(element, styleName, styleValue) {
+  // Obtiene el inicio y el fin de la selección en el textarea
+  var selectionStart = element.selectionStart;
+  var selectionEnd = element.selectionEnd;
+
+  // Obtiene el texto antes y después de la selección
+  var textBeforeSelection = element.value.substring(0, selectionStart);
+  var selectedText = element.value.substring(selectionStart, selectionEnd);
+  var textAfterSelection = element.value.substring(selectionEnd);
+
+  // Aplica el estilo al texto seleccionado
+  var styledText = `<${styleName}>${selectedText}</${styleName}>`;
+
+  // Construye el nuevo contenido del textarea
+  var newContent = textBeforeSelection + styledText + textAfterSelection;
+
+  // Establece el nuevo contenido en el textarea
+  element.value = newContent;
+
+  // Mueve el cursor al final del texto estilizado
+  var newCursorPosition = textBeforeSelection.length + styledText.length;
+  element.setSelectionRange(newCursorPosition, newCursorPosition);
+}
+
+
+function toggleTextAlign(element, alignment) {
+  if (element.style.textAlign === alignment) {
+      element.style.textAlign = "left";
+  } else {
+      element.style.textAlign = alignment;
+  }
+}

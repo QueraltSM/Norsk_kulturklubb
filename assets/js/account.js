@@ -65,16 +65,27 @@ function getInformationByRole() {
         } else {
           teacher_photo = true;
         }
-        if (user.first_name != undefined)
-          document.getElementById("teacher_name").innerHTML = user.first_name;
+        if (user.short_description != undefined)
+          document.getElementById("short_description").innerHTML =
+            user.short_description;
         if (user.about_teacher != undefined)
           document.getElementById("about_teacher").value = user.about_teacher;
         if (user.about_classes != undefined)
           document.getElementById("about_classes").value = user.about_classes;
+        if (user.city_residence != undefined)
+          document.getElementById("city_residence").innerHTML = user.city_residence;
+        if (user.teaching_in_person != undefined)
+          document.getElementById("teaching_in_person").checked =
+            user.teaching_in_person;
+        if (user.teaching_online != undefined)
+          document.getElementById("teaching_online").checked =
+            user.teaching_online;
         if (user.class_location != undefined)
           document.getElementById("class_location").value = user.class_location;
         if (user.class_prices != undefined)
           document.getElementById("class_prices").value = user.class_prices;
+          if (user.hourly_rate != undefined)
+          document.getElementById("hourly_rate").value = user.hourly_rate;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
@@ -199,13 +210,14 @@ function updateProfile() {
   if (userLoggedInRole == "Teacher") {
     var teacher_name = document.getElementById("teacher_name").innerHTML;
     var teacher_email = document.getElementById("teacher_email").innerHTML;
+    var short_description = document.getElementById("short_description").innerHTML;
+    var city_residence = document.getElementById("city_residence").innerHTML;
     var about_classes = document.getElementById("about_classes").value;
     var about_teacher = document.getElementById("about_teacher").value;
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
-    var contact_information = document.getElementById(
-      "contact_information"
-    ).value;
+    var contact_information = document.getElementById("contact_information").value;
+    var hourly_rate = document.getElementById("hourly_rate").innerHTML;
 
     if (document.getElementById("profile_picture").files[0]) {
       teacher_photo = true;
@@ -219,7 +231,10 @@ function updateProfile() {
         !about_teacher ||
         !class_location ||
         !class_prices ||
-        !contact_information
+        !contact_information ||
+        !hourly_rate ||
+        !short_description ||
+        !city_residence
       ) {
         showAlert(
           "danger",
@@ -273,14 +288,14 @@ function updateProfile() {
 async function saveTeacher() {
   var teacher_name = document.getElementById("teacher_name").innerHTML;
   var teacher_email = document.getElementById("teacher_email").innerHTML;
+  var short_description = document.getElementById("short_description").innerHTML;
+  var city_residence = document.getElementById("city_residence").innerHTML;
   var about_classes = document.getElementById("about_classes").value;
   var about_teacher = document.getElementById("about_teacher").value;
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
-  var contact_information = document.getElementById(
-    "contact_information"
-  ).value;
-
+  var contact_information = document.getElementById("contact_information").value;
+  var hourly_rate = document.getElementById("hourly_rate").innerHTML;
   var userData = {
     first_name: teacher_name,
     email: teacher_email,
@@ -288,12 +303,19 @@ async function saveTeacher() {
   updateUserData(userData, "Users");
   localStorage.setItem("user_first_name", teacher_name);
 
+  alert(hourly_rate);
+
   var userData = {
     about_classes: about_classes,
     about_teacher: about_teacher,
     class_location: class_location,
     class_prices: class_prices,
     contact_information: contact_information,
+    short_description: short_description,
+    city_residence: city_residence,
+    hourly_rate: hourly_rate,
+    teaching_in_person:  document.getElementById("teaching_in_person").checked,
+    teaching_online:  document.getElementById("teaching_online").checked,
     public_profile: document.getElementById("public_profile").checked,
   };
 
@@ -311,9 +333,8 @@ function deleteAccount() {
     if (!deleteLessons()) error = true;
     if (!deleteCulturePosts()) error = true;
   }
-alert("error was :  "+ error);
   if (!error) {
-    deleteUser()
+    deleteUser();
   } else {
     errorDeletion();
   }

@@ -79,66 +79,18 @@
           </div>
         </div><br>
 
-        <div id="teacher-account" class="row" style="display:none;padding-top:0px;">
-          <div class="col-lg-6">
+        <div id="teacher-account" class="row" style="display:none;margin-top:0px;">
+          <div class="col-lg-12">
+            <h3>
+              Profile image
+            </h3>
             <div class="text-center">
               <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="teacher_image" />
             </div>
             <div class="text-center mt-3">
               <label for="profile_picture" class="btn btn-sm">Select Image</label>
               <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImage(event)" />
-            </div>            
-            <div class="row user-details-tabs" style="padding-top: 5%">
-              <div class="col-lg-2">
-                <ul class="nav nav-tabs flex-column">
-                  <li class="nav-item">
-                    <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Place</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Prices</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Contact</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-8">
-                <div class="tab-content">
-                  <div class="tab-pane active show" id="tab-1">
-                    <div class="row">
-                      <div class="col-lg-12 details order-2 order-lg-1">
-                        <span class="label-box">Location where your classes take place, including any facilities
-                          available</span>
-                        <textarea contenteditable="true" id="class_location" class="editable-box"
-                          style="display: block;width: 100%;"></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="tab-pane" id="tab-2">
-                    <div class="row">
-                      <div class="col-lg-12 details order-2 order-lg-1">
-                        <span class="label-box">The prices of your classes, including any discounts or special
-                          offers</span>
-                          <textarea contenteditable="true" id="class_prices" class="editable-box"
-                          style="display: block;width: 100%;"></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="tab-pane" id="tab-3">
-                    <div class="row">
-                      <div class="col-lg-12 details order-2 order-lg-1">
-                        <span class="label-box">How students can contact you, including email, phone number, or social
-                          media profiles</span>
-                          <textarea contenteditable="true" id="contact_information" class="editable-box"
-                          style="display: block;width: 100%;"></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
+            </div> 
             <h3>
               Name
             </h3>
@@ -151,23 +103,56 @@
             <span class="label-box">Changing your email will require logging in using the updated email</span>
             <p contenteditable="true" id="teacher_email" class="editable-box"></p>
 
+            <h3>
+              Brief description of yourself
+            </h3>
+            <span class="label-box">Short description that will be visible when students search for teachers (max. 300 characteres)</span>
+            <p contenteditable="true" id="short_description" class="editable-box" style="width: 100%;" oninput="limitTextarea(this, 300)"></p>
             
             <h3>
               Teaching style
             </h3>
             <span class="label-box">Yourself and your teaching style</span>
-            <textarea contenteditable="true" id="about_teacher" class="editable-box" style="width: 100%;"></textarea>
+            <textarea contenteditable="true" id="about_teacher" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
 
             <h3>About classes</h3>
             <span class="label-box">Information about your classes, including what students will learn and any
               requirements</span>
-            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;"></textarea>
+            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
 
+            <h3>City of residence</h3>
+            <span class="label-box">Location where you reside</span>
+            <p contenteditable="true" id="city_residence" class="editable-box" style="width: 100%;"></p>
+
+            <h3>Place of classes</h3>
+            <span class="label-box">Location where your classes take place, including any facilities available</span>
+            <textarea contenteditable="true" id="class_location" class="editable-box" style="width: 100%;"></textarea>
+
+            <div class="row">
+              <div class="form-check mt-3" style="padding-top: 10px">
+                <input class="form-check-input" type="checkbox" id="teaching_in_person" />
+                <span class="label-box">I teach in-person classes</span>
+              </div>
+              <div class="form-check mt-3" style="padding-top: 10px">
+                <input class="form-check-input" type="checkbox" id="teaching_online" />
+                <span class="label-box">I teach classes remotely</span>
+              </div>
+            </div>
+            
+            <h3>Price of classes</h3>
+            <span class="label-box">The prices of your classes, including any discounts or special offers</span>
+            <textarea contenteditable="true" id="class_prices" class="editable-box" style="width: 100%;"></textarea>
+            <span class="label-box">Provide an approximate amount for the cost of your classes. This information will be visible when a student searches for you</span>
+            <p contenteditable="true" id="hourly_rate" class="editable-box" style="width: 100%;"></p>
+
+            <h3>Contact</h3>
+            <span class="label-box">How students can contact you, including email, phone number, or social media profiles</span>
+            <textarea contenteditable="true" id="contact_information" class="editable-box" style="width: 100%;"></textarea>
+
+            <h3>Public profile</h3>
             <div class="form-check mt-3" style="padding-top: 10px">
               <input class="form-check-input" type="checkbox" id="public_profile" />
-              <span class="form-check-label" for="public_profile" style="font-size: 14px">
-                <strong>Public profile</strong>
-              </span>
+              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing students to find you, and enabling you to contribute lessons, posts, and events.</span>
             </div>
           </div>
         </div>
@@ -206,7 +191,7 @@
           <button type="button" class="btn" data-toggle="modal" data-target="#confirmDeleteModal">
             Delete account
           </button>
-          <button type="button" class="btn" onclick="window.location = '/index'">
+          <button type="button" class="btn" onclick="window.location = '/index.html'">
             Cancel
           </button>
           <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
