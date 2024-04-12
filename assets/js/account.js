@@ -85,7 +85,7 @@ function getInformationByRole() {
         if (user.class_prices != undefined)
           document.getElementById("class_prices").value = user.class_prices;
           if (user.hourly_rate != undefined)
-          document.getElementById("hourly_rate").value = user.hourly_rate;
+          document.getElementById("hourly_rate").innerHTML = user.hourly_rate;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;

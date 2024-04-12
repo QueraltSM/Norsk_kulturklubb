@@ -225,8 +225,10 @@ async function publishPost() {
   const short_description = document.getElementById("post_short_description").innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
   const min_read = document.getElementById("post_min_read").innerHTML.trim();
+  const category_select = document.getElementById("category_select").value;
+  const subcategory_select = document.getElementById("subcategory_select").value;
 
-  if (title && short_description && description && min_read) {
+  if (title && short_description && description && category_select && subcategory_select && min_read) {
     try {
       var fileInput = document.getElementById("post_image");
       var file = fileInput.files[0];
@@ -261,6 +263,8 @@ async function publishPost() {
           short_description: short_description,
           description: description,
           image: data.fileUrl,
+          category: category_select,
+          subcategory: subcategory_select,
           min_read: min_read,
           user_id: localStorage.getItem("userLoggedInID"),
           pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
@@ -295,8 +299,6 @@ async function publishPost() {
   } else {
     showAlert("danger", "Please fill all fields before submitting", "alertContainer", 3000);
   }
-
-
 }
 
 function publishEvent() {
