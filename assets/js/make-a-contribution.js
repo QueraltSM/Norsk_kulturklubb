@@ -380,3 +380,26 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   });
 });
+
+function toggleCategoryPost() {
+  document.getElementById("History and traditions").style.display = "none";
+  document.getElementById("Art and literature").style.display = "none";
+  document.getElementById("Nature and landscapes").style.display = "none";
+  document.getElementById("Gastronomy").style.display = "none";
+  document.getElementById("Lifestyle and society").style.display = "none";
+  document.getElementById("Travel and tourism").style.display = "none";
+  document.getElementById("Language and linguistics").style.display = "none";
+  document.getElementById("Events and festivals").style.display = "none";
+  
+  var category_select = document.getElementById("category_select").value;
+  var categories = document.querySelectorAll('.subcategory-container');
+
+  categories.forEach(category => {
+    category.style.display = "none";
+  });
+
+  var selectedCategory = document.getElementById(category_select);
+  if (selectedCategory) {
+    selectedCategory.style.display = "block";
+  }
+}

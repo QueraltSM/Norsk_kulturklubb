@@ -1,47 +1,62 @@
 const lessonsContainer = document.getElementById("lessons_container");
 
-  function loadLessonDetails(lessonId) {
-    localStorage.setItem('lessonID', lessonId);
-    window.location.href = 'lesson.html';
-  }
-  
-  document.getElementById("searchInput").addEventListener("keypress", function(event) {
+function loadLessonDetails(lessonId) {
+  localStorage.setItem("lessonID", lessonId);
+  window.location.href = "lesson.html";
+}
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       event.preventDefault();
       performSearch();
     }
   });
-  
-  function performSearch() {
-    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const lessons = document.querySelectorAll(".col-4");
-    lessons.forEach(function(card) {
-      const languageLevel = card.querySelector(".course-content h4").textContent.toLowerCase();
-      const title = card.querySelector(".course-content h3").textContent.toLowerCase();
-      const description = card.querySelector(".course-content p").textContent.toLowerCase();
-      if (languageLevel.includes(searchTerm) || title.includes(searchTerm) || description.includes(searchTerm)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
-  }
-  
-  async function fetchData() {
-    try {
-      const response = await fetch("http://localhost:3000/api/getLessons");
-      if (!response.ok) {
-        throw new Error("No response could be obtained from the server");
-      }
-      const data = await response.json();
-      
-      var entered = false;
-      for (const lesson of data.Items) {
-        try {
-          const result = await getUser(lesson.teacher_id);
-          if (result) {
-            entered = true;
-            const lessonHTML = `
+
+function performSearch() {
+  const selectedLevel = document
+    .getElementById("languageLevel")
+    .value.toLowerCase();
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  const lessons = lessonsContainer.querySelectorAll(".col-4");
+  lessons.forEach(function (card) {
+    const title = card
+      .querySelector(".course-content h3")
+      .textContent.toLowerCase();
+    const languageLevel = card
+      .querySelector(".course-content h4")
+      .textContent.toLowerCase();
+    const description = card
+      .querySelector(".course-content p")
+      .textContent.toLowerCase();
+    const levelMatch =
+      selectedLevel === "" || languageLevel.includes(selectedLevel);
+    const searchTermMatch =
+      title.includes(searchTerm) || description.includes(searchTerm);
+    if (levelMatch && searchTermMatch) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+async function fetchData() {
+  try {
+    const response = await fetch("http://localhost:3000/api/getLessons");
+    if (!response.ok) {
+      throw new Error("No response could be obtained from the server");
+    }
+    const data = await response.json();
+
+    var entered = false;
+    for (const lesson of data.Items) {
+      try {
+        const result = await getUser(lesson.teacher_id);
+        if (result) {
+          entered = true;
+          const lessonHTML = `
             <div class="col-4" style="padding-bottom:10px;">
               <a href="#" onclick="loadLessonDetails('${lesson.ID}')" style="text-decoration: none; color: inherit;">
                 <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden;">
@@ -60,7 +75,7 @@ const lessonsContainer = document.getElementById("lessons_container");
           lessonsContainer.innerHTML += lessonHTML;
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     }
     if (!entered) {

@@ -2,7 +2,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #444444;
 }
 
@@ -22,7 +22,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -477,7 +477,7 @@ h6 {
 #preview_lessons .btn-get-started,
 #preview_teachers .btn-get-started,
 #preview_events .btn-get-started {
-  font-family: "Raleway", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 15px;
   letter-spacing: 1px;
@@ -663,7 +663,7 @@ section {
 }
 
 .translator .counters p {
-  font-family: "Raleway", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: #37423b;
@@ -1349,7 +1349,7 @@ section {
   transition: none;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Raleway", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   transition: 0.3s;
 }
@@ -1543,7 +1543,7 @@ section {
   font-size: 13px;
   line-height: 24px;
   margin-bottom: 0;
-  font-family: "Raleway", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #777777;
   text-align: justify;
 }
@@ -1921,7 +1921,7 @@ textarea {
 }
 
 .select-role p {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
   color: #333;
   margin-bottom: 10px;
@@ -1936,7 +1936,7 @@ textarea {
 }
 
 .role-option label {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
   color: #333;
   cursor: pointer;
@@ -2274,4 +2274,13 @@ textarea {
 
 .format-buttons i.material-icons {
   font-size: 22px; /* Tamaño de los iconos */
+}
+
+.blog-categories {
+  background-color: #9C3030; /* Cambia el color de fondo del badge */
+  color: #fff; /* Cambia el color del texto del badge */
+  font-size: 12px; /* Cambia el tamaño del texto del badge */
+  padding: 4px 8px; /* Ajusta el relleno del badge */
+  margin: 2px; /* Ajusta el margen del badge */
+  border-radius: 5px; /* Ajusta el radio de borde del badge */
 }
