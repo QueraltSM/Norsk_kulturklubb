@@ -6,11 +6,13 @@ const cultureEntries = document.getElementById("culture_entries");
 const cultureCardsContainer = document.createElement("div");
 cultureCardsContainer.classList.add("col-8");
 
+var culture = [];
+
 function calculateTotalPages(totalItems, itemsPerPage) {
   return Math.ceil(totalItems / itemsPerPage);
 }
 
-async function fetchData(pageNumber) {
+async function fetchData() {
   try {
     const response = await fetch("http://localhost:3000/api/getCultureEntries");
     if (!response.ok) {
@@ -18,29 +20,19 @@ async function fetchData(pageNumber) {
     }
     const data = await response.json();
     var entered = false;
-
     culture = data.Items;
-
-    const itemsPerPage = 3;
-
-    const startIndex = (pageNumber - 1) * itemsPerPage;
-
-    const endIndex = startIndex + itemsPerPage;
-
     cultureCardsContainer.innerHTML = "";
-
-
-    for (let i = startIndex; i < endIndex && i < culture.length; i++) {
+    for (let i = 0; i < culture.length; i++) {
       try {
         const cultureData = culture[i];
         const result = await getUser(cultureData.user_id);
         if (result) {
           entered = true;
-          if (document.getElementById("pagination") != undefined) document.getElementById("pagination").innerHTML = "";
 
           const cultureCard = document.createElement("div");
+          cultureCard.id = cultureData.ID;
           cultureCard.classList.add("card");
-          cultureCard.classList.add("mb-3"); // Añadir margen inferior para separar las tarjetas
+          cultureCard.classList.add("mb-3");
 
           const postLink = document.createElement("a");
           postLink.href = "#";
@@ -55,85 +47,78 @@ async function fetchData(pageNumber) {
           cardImg.style.width = "100%";
           cardImg.style.height = "400px";
           cardImg.style.objectFit = "cover";
-          cardImg.style.transition = "none"; // Desactivar cualquier transición en hover
-          cardImg.style.filter = "none"; // Eliminar cualquier filtro que se aplique en hover
-          cardImg.style.transform = "none"; // Eliminar cualquier transformación en hover
+          cardImg.style.transition = "none";
+          cardImg.style.filter = "none";
+          cardImg.style.transform = "none";
 
           const cardBody = document.createElement("div");
           cardBody.classList.add("card-body");
-          cardBody.style.backgroundColor = "#fff"; // Fondo blanco para los textos
-          cardBody.style.padding = "50px"; // Espaciado interior
-          cardBody.style.textAlign = "justify"; // Centrar texto
-          cardBody.style.boxShadow = "0px 10px 15px -10px rgba(0, 0, 0, 0.1)"; // Sombra con desplazamiento negativo en Y para eliminar la parte superior
+          cardBody.style.backgroundColor = "#fff";
+          cardBody.style.padding = "50px";
+          cardBody.style.textAlign = "justify";
+          cardBody.style.boxShadow = "0px 10px 15px -10px rgba(0, 0, 0, 0.1)";
 
           const cardTitle = document.createElement("h5");
           cardTitle.classList.add("card-title");
           cardTitle.textContent = cultureData.title;
-          cardTitle.style.color = "#000000"; // Cambia el color del texto a #9C3030
+          cardTitle.style.color = "#000000";
           cardTitle.style.textDecoration = "none";
-          cardTitle.style.textAlign = "justify"; // Centrar texto
-          cardTitle.style.transition = "color 0.3s"; // Agrega una transición suave al cambio de color
+          cardTitle.style.textAlign = "justify";
+          cardTitle.style.transition = "color 0.3s";
           cultureCard.addEventListener("mouseover", function () {
-            cardTitle.style.color = "#9C3030"; // Cambia el color del texto al hacer hover
+            cardTitle.style.color = "#9C3030";
           });
           cultureCard.addEventListener("mouseout", function () {
-            cardTitle.style.color = "#000000"; // Restaura el color normal del texto al dejar de hacer hover
+            cardTitle.style.color = "#000000";
           });
 
           const dateContainer = document.createElement("div");
           const daySpan = document.createElement("span");
           daySpan.textContent = formatDate(
             cultureData.pubdate.split(" ")[0]
-          ).split(" ")[0]; // Separar el día del mes
-          daySpan.style.fontWeight = "bold"; // Hacer el número del día en negrita
+          ).split(" ")[0];
+          daySpan.style.fontWeight = "bold";
 
           const monthSpan = document.createElement("span");
           monthSpan.textContent = formatDate(
             cultureData.pubdate.split(" ")[0]
-          ).split(" ")[1]; // Obtener el mes
-          monthSpan.style.fontWeight = "normal"; // Hacer el mes en texto normal
+          ).split(" ")[1];
+          monthSpan.style.fontWeight = "normal";
 
-          // Agregar los elementos al contenedor de fecha
           dateContainer.appendChild(daySpan);
           dateContainer.appendChild(document.createElement("br"));
           dateContainer.appendChild(monthSpan);
-          dateContainer.classList.add("date-container"); // Agregar una clase para aplicar estilos
+          dateContainer.classList.add("date-container");
 
-          // Estilos CSS para el contenedor de fecha
           dateContainer.style.backgroundColor = "#9C3030";
           dateContainer.style.color = "#FFFFFF";
           dateContainer.style.fontSize = "15px";
           dateContainer.style.width = "fit-content";
           dateContainer.style.padding = "15px 25px";
           dateContainer.style.borderRadius = "5px";
-          dateContainer.style.display = "inline-block"; // Para que el contenedor se ajuste al contenido
-          dateContainer.style.position = "absolute"; // Posición absoluta
-          dateContainer.style.transform = "translate(-50%, -50%)"; // Centrar el contenedor
-          dateContainer.style.textAlign = "center"; // Centrar texto
+          dateContainer.style.display = "inline-block";
+          dateContainer.style.position = "absolute";
+          dateContainer.style.transform = "translate(-50%, -50%)";
+          dateContainer.style.textAlign = "center";
 
-          // Establecer la posición relativa en el cardBody
           cardBody.style.position = "relative";
 
-          // Establecer la posición absoluta en el dateContainer
           dateContainer.style.position = "absolute";
-          dateContainer.style.top = "-50px"; // Ajusta este valor según sea necesario
+          dateContainer.style.top = "-50px";
           dateContainer.style.left = "10%";
           dateContainer.style.transform = "translateX(-50%)";
 
-          // Crear un elemento <span> para contener el icono y el texto del tiempo de lectura
           const minReadText = document.createElement("span");
-          minReadText.classList.add("d-inline-block", "align-middle"); // Agregar clases de Bootstrap para alineación vertical
-
-          // Agregar el icono al span
+          minReadText.classList.add("d-inline-block", "align-middle");
           const iconElement = document.createElement("i");
-          iconElement.classList.add("bi", "bi-clock"); // Agregar clases de Bootstrap para el icono
-          minReadText.appendChild(iconElement); // Adjuntar el icono al span
+          iconElement.classList.add("bi", "bi-clock");
+          minReadText.appendChild(iconElement);
 
           const textNode = document.createTextNode(
             "\u00A0" + cultureData.min_read + " min read"
           );
 
-          minReadText.appendChild(textNode); // Adjuntar el texto al span
+          minReadText.appendChild(textNode);
 
           minReadText.style.color = "#666";
           minReadText.style.fontSize = "11px";
@@ -165,21 +150,6 @@ async function fetchData(pageNumber) {
     } else {
       document.getElementById("search_container").style.display = "block";
       document.getElementById("categories_container").style.display = "block";
-      
-      const paginationContainer = document.createElement("ul");
-      paginationContainer.id = "pagination";
-      paginationContainer.classList.add("pagination");
-
-      const totalItems = culture.length;
-      calculateTotalPages(totalItems, itemsPerPage);
-
-      const totalPages = Math.ceil(culture.length / itemsPerPage);
-      const paginationElement = createPagination(totalPages, pageNumber);
-
-
-      paginationContainer.appendChild(paginationElement);
-
-      cultureEntries.appendChild(paginationContainer);
     }
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -187,53 +157,9 @@ async function fetchData(pageNumber) {
   }
 }
 
-function createPagination(totalPages, currentPage) {
-  const paginationContainer = document.createElement("nav");
-
-  const paginationList = document.createElement("ul");
-  paginationList.classList.add("pagination");
-
-  paginationList.style.justifyContent = "center";
-
-  for (let i = 1; i <= totalPages; i++) {
-    const pageItem = document.createElement("li");
-    pageItem.classList.add("page-item");
-    const pageLink = document.createElement("a");
-    pageLink.classList.add("page-link");
-    pageLink.href = "#";
-    pageLink.textContent = i;
-    pageItem.appendChild(pageLink);
-    paginationList.appendChild(pageItem);
-
-    if (i === currentPage) {
-      pageItem.classList.add("active");
-      pageLink.style.color = "#FFFFFF"; // Color del texto cuando está seleccionado
-      pageLink.style.backgroundColor = "#9C3030"; // Fondo del enlace cuando está seleccionado
-    } else {
-      pageLink.style.color = "#9C3030"; // Color del texto cuando no está seleccionado
-      pageLink.style.backgroundColor = "transparent"; // Fondo del enlace cuando no está seleccionado
-      pageLink.style.outline = "none"; // Quitar outline
-    }
-  }
-
-  paginationContainer.appendChild(paginationList);
-
-  // Agregar un event listener a los elementos de paginación
-  paginationList.querySelectorAll(".page-link").forEach((pageLink) => {
-    pageLink.addEventListener("click", handlePaginationClick);
-  });
-
-  return paginationContainer;
-}
-
-// Agregar las tarjetas de cultura al contenedor
 rowContainer.appendChild(cultureCardsContainer);
-
-// Crear un div para contener el formulario de búsqueda
 const searchContainer = document.createElement("div");
 searchContainer.classList.add("col-4");
-
-// Agregar el código HTML del formulario de búsqueda al contenedor del formulario
 searchContainer.innerHTML = `
 <div id="search_container" class="container" style="background-color: #f9faf9;padding:5px;border-radius: 5px;display:none">
 <form class="d-flex justify-content-end" style="border: none;background-color: #f9faf9;">
@@ -248,14 +174,14 @@ searchContainer.innerHTML = `
 <div id="categories_container" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
 <h5 style="font-weight: bold;">Categories</h5>
 <div class="d-flex flex-wrap">
-<span class="blog-categories" onclick="toggleSubcategories('history','History and traditions')">History and traditions</span>
-<span class="blog-categories" onclick="toggleSubcategories('art','Art and literature')">Art and literature</span>
-<span class="blog-categories" onclick="toggleSubcategories('nature', 'Nature and landscapes')">Nature and landscapes</span>
-<span class="blog-categories" onclick="toggleSubcategories('gastronomy','Gastronomy')">Gastronomy</span>
-<span class="blog-categories" onclick="toggleSubcategories('lifestyle','Lifestyle and society')">Lifestyle and society</span>
-<span class="blog-categories" onclick="toggleSubcategories('travel','Travel and tourism')">Travel and tourism</span>
-<span class="blog-categories" onclick="toggleSubcategories('language','Language and linguistics')">Language and linguistics</span>
-<span class="blog-categories" onclick="toggleSubcategories('events','Events and festivals')">Events and festivals</span>
+  <span class="blog-categories" onclick="toggleSubcategories('History and traditions','History and traditions')">History and traditions</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Art and literature','Art and literature')">Art and literature</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Nature and landscapes', 'Nature and landscapes')">Nature and landscapes</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Gastronomy','Gastronomy')">Gastronomy</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Lifestyle and society','Lifestyle and society')">Lifestyle and society</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Travel and tourism','Travel and tourism')">Travel and tourism</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Language and linguistics','Language and linguistics')">Language and linguistics</span>
+  <span class="blog-categories" onclick="toggleSubcategories('Events and festivals','Events and festivals')">Events and festivals</span>
 </div>
 </div>
 <div id="subcategories" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
@@ -263,82 +189,68 @@ searchContainer.innerHTML = `
 <div class="d-flex flex-wrap">
 
 <!-- History and traditions -->
-<div class="blog-subcategories " id="history" style="display:none">
-<span class="blog-categories">Norwegian history</span>
-<span class="blog-categories">Mythology</span>
-<span class="blog-categories">Traditional festivals and celebrations</span>
-<span class="blog-categories">Customs and ceremonies</span>
+<div class="blog-subcategories " id="History and traditions" style="display:none">
+  <span class="blog-categories">Norwegian history</span>
+  <span class="blog-categories">Mythology</span>
+  <span class="blog-categories">Traditional festivals and celebrations</span>
+  <span class="blog-categories">Customs and ceremonies</span>
 </div>
 
 <!-- Art and literature -->
-<div class="blog-subcategories" id="art" style="display:none">
-<span class="blog-categories">Norwegian literature</span>
-<span class="blog-categories">Norwegian art and artists</span>
-<span class="blog-categories">Traditional and modern music</span>
-<span class="blog-categories">Norwegian theater and cinema</span>
+<div class="blog-subcategories" id="Art and literature" style="display:none">
+  <span class="blog-categories">Norwegian literature</span>
+  <span class="blog-categories">Norwegian art and artists</span>
+  <span class="blog-categories">Traditional and modern music</span>
+  <span class="blog-categories">Norwegian theater and cinema</span>
 </div>
 
 <!-- Nature and landscapes -->
-<div class="blog-subcategories" id="nature" style="display:none">
-<span class="blog-categories">Fjords and mountains</span>
-<span class="blog-categories">Norwegian fauna and flora</span>
-<span class="blog-categories">Outdoor sports and activities</span>
+<div class="blog-subcategories" id="Nature and landscapes" style="display:none">
+  <span class="blog-categories">Fjords and mountains</span>
+  <span class="blog-categories">Norwegian fauna and flora</span>
+  <span class="blog-categories">Outdoor sports and activities</span>
 </div>
 
 <!-- Gastronomy -->
-<div class="blog-subcategories" id="gastronomy" style="display:none">
-<span class="blog-categories">Traditional norwegian dishes</span>
-<span class="blog-categories">Local ingredients and recipes</span>
-<span class="blog-categories">Culinary customs and festivals</span>
+<div class="blog-subcategories" id="Gastronomy" style="display:none">
+  <span class="blog-categories">Traditional norwegian dishes</span>
+  <span class="blog-categories">Local ingredients and recipes</span>
+  <span class="blog-categories">Culinary customs and festivals</span>
 </div>
 
 <!--Lifestyle and society-->
-<div class="blog-subcategories" id="lifestyle" style="display:none">
-<span class="blog-categories">Norwegian cultural values</span>
-<span class="blog-categories">Scandinavian fashion and design</span>
-<span class="blog-categories">Daily life and modern traditions</span>
+<div class="blog-subcategories" id="Lifestyle and society" style="display:none">
+  <span class="blog-categories">Norwegian cultural values</span>
+  <span class="blog-categories">Scandinavian fashion and design</span>
+  <span class="blog-categories">Daily life and modern traditions</span>
 </div>
 
 <!-- Travel and tourism -->
-<div class="blog-subcategories" id="travel" style="display:none">
-<span class="blog-categories">Tourist destinations in Norway</span>
-<span class="blog-categories">Travel tips for the country</span>
-<span class="blog-categories">Unique experiences and adventures</span>
+<div class="blog-subcategories" id="Travel and tourism" style="display:none">
+  <span class="blog-categories">Tourist destinations in Norway</span>
+  <span class="blog-categories">Travel tips for the country</span>
+  <span class="blog-categories">Unique experiences and adventures</span>
 </div>
 
 <!-- Language and linguistics -->
-<div class="blog-subcategories" id="language" style="display:none">
-<span class="blog-categories">Basic norwegian lessons</span>
-<span class="blog-categories">Common expressions and phrases</span>
-<span class="blog-categories">Dialects and regional variations</span>
+<div class="blog-subcategories" id="Language and linguistics" style="display:none">
+  <span class="blog-categories">Basic norwegian lessons</span>
+  <span class="blog-categories">Common expressions and phrases</span>
+  <span class="blog-categories">Dialects and regional variations</span>
 </div>
 
 <!-- Events and festivals -->
-<div class="blog-subcategories" id="events" style="display:none">
-<span class="blog-categories">Cultural and artistic events</span>
-<span class="blog-categories">Music and film festivals</span>
-<span class="blog-categories">Traditional fairs and markets</span>
+<div class="blog-subcategories" id="Events and festivals" style="display:none">
+  <span class="blog-categories">Cultural and artistic events</span>
+  <span class="blog-categories">Music and film festivals</span>
+  <span class="blog-categories">Traditional fairs and markets</span>
 </div>
 </div>
 </div>
 `;
 
-// Agregar el contenedor del formulario de búsqueda a la fila
 rowContainer.appendChild(searchContainer);
-
-// Agregar la fila al contenedor principal de entradas de cultura
 cultureEntries.appendChild(rowContainer);
-
-// Función para manejar el evento de clic en los elementos de paginación
-function handlePaginationClick(event) {
-  // Evitar que se siga el enlace por defecto
-  event.preventDefault();
-
-  // Obtener el número de página seleccionado
-  const selectedPage = parseInt(event.target.textContent);
-
-  fetchData(selectedPage);
-}
 
 function setNoPosts() {
   document.getElementById("search_container").style.display = "none";
@@ -434,13 +346,8 @@ function formatDate(dateString) {
     "Nov",
     "Dec",
   ];
-  const currentDate = new Date();
   const date = new Date(dateString);
   return `${date.getDate()} ${months[date.getMonth()]}`;
-}
-
-function searchBySubcategory(subcategoria) {
-  alert("Seleccionaste la subcategoría:" + subcategoria);
 }
 
 function toggleSubcategories(category, title) {
@@ -450,7 +357,9 @@ function toggleSubcategories(category, title) {
     subcategory.classList.remove("d-flex", "flex-wrap");
     subcategory.querySelectorAll(".blog-categories").forEach((sub) => {
       sub.addEventListener("click", function () {
-        searchBySubcategory(sub.textContent);
+        culture.forEach((entry) => {
+          document.getElementById(entry.ID).style.display = (entry.subcategory !== sub.textContent) ? "none" : "block";
+        });
       });
     });
   });
@@ -459,6 +368,9 @@ function toggleSubcategories(category, title) {
   document.getElementById("subcategories").style.display = "block";
   document.getElementById(category).classList.add("d-flex", "flex-wrap");
   subcategories.style.display = "block";
+  culture.forEach((entry) => {
+    document.getElementById(entry.ID).style.display = (entry.category !== category) ? "none" : "block";
+  });
 }
 
-fetchData(1);
+fetchData();

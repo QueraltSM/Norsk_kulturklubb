@@ -2277,10 +2277,11 @@ textarea {
 }
 
 .blog-categories {
-  background-color: #9C3030; /* Cambia el color de fondo del badge */
-  color: #fff; /* Cambia el color del texto del badge */
-  font-size: 12px; /* Cambia el tamaño del texto del badge */
-  padding: 4px 8px; /* Ajusta el relleno del badge */
-  margin: 2px; /* Ajusta el margen del badge */
-  border-radius: 5px; /* Ajusta el radio de borde del badge */
+  background-color: #9C3030;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin: 2px;
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -37,147 +37,166 @@
 
 </head>
 
-<style></style>
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 30%;
+    height: 50%;
+    overflow: auto;
+  }
+  .modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #a09999;
+    width: 100%;
+  }
+</style>
 
 <body>
   <!-- ======= Header ======= -->
   <header id="header"></header>
 
-
   <!-- End Header -->
   <main id="main" data-aos="fade-in">
     <!-- ======= translator Section ======= -->
-    <section id="translator" class="translator">
+    <section id="translator" class="translator" style="padding-bottom: 0px;">
       <div class="container">
-
         <div class="section-title">
           <h2>Oversetter</h2>
           <p>Translator</p>
         </div>
         <div>
-
           <div id="copyMessageContainer"></div>
-
-          <form id="translationForm" class="needs-validation translator-form" novalidate>
-            <div class="form-row">
-              <div class="col-6">
-                <ul class="nav nav-tabs" id="languageTabs_totranslate" style="border:none">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="automaticDetection" data-toggle="tab">Automatic detection</a>
-                  </li>
-                </ul>
-                <div class="d-flex align-items-start"
-                  style="border: 0.5px solid lightgray;border-radius: 5px;margin-top:1px">
-                  <div class="d-flex align-items-start" style="width: 100%;">
-                    <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px;"
-                      required></textarea>
-                    <a title="Active keyboard" class="translator-buttons" type="button" id="activeKeyboard"
-                      style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:20px;">
-                      <i class="fas fa-keyboard"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="norweigan_tab" data-toggle="tab" href="#norwegianText">Norsk</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
-                  </li>
-                  <li class="nav-item dropdown" id="otherLanguageDropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="others_tab" role="button" aria-haspopup="true"
-                      aria-expanded="false">
-                      Others
-                    </a>
-                    <div id="dropdown-menu-item" class="dropdown-menu" style="display: none;">
-                      <ul style="list-style: none;font-size: 13px;columns: 3" class="centered-text">
-                        <li data-code="es">Español</li>
-                        <li data-code="fr">Français</li>
-                        <li data-code="de">Deutsch</li>
-                        <li data-code="it">Italiano</li>
-                        <li data-code="pt">Português</li>
-                        <li data-code="nl">Nederlands</li>
-                        <li data-code="pl">Polski</li>
-                        <li data-code="ru">Русский</li>
-                        <li data-code="zh">中文(简体)</li>
-                        <li data-code="zh-TW">中文(繁體)</li>
-                        <li data-code="ja">日本語</li>
-                        <li data-code="ko">한국어</li>
-                        <li data-code="ar">العربية</li>
-                        <li data-code="tr">Türkçe</li>
-                        <li data-code="hi">हिन्दी</li>
-                        <li data-code="sv">Svenska</li>
-                        <li data-code="da">Dansk</li>
-                        <li data-code="fi">Suomi</li>
-                        <li data-code="he">עברית</li>
-                        <li data-code="el">Ελληνικά</li>
-                        <li data-code="id">Bahasa Indonesia</li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
-                <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
-                  <div class="d-flex align-items-start" style="background-color: #f5f5f5; position: relative;">
-                    <textarea class="form-control auto-height-textarea" id="translated_text"
-                      style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
-                    <a title="Copy text" class="translator-buttons" type="button" id="copyButton"
-                      style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;">
-                      <i class="fas fa-copy"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div id="keyboard_container" style="display: none;">
-              <div style="background:#f5f5f5">
-                <li class="nav-item dropdown" id="otherLanguageDropdownKeyboard"
-                  style="list-style: none;float:right;color:#9C3030;">
-                  <a class="nav-link dropdown-toggle" href="#" id="keyboard_language" role="button" aria-haspopup="true"
-                    aria-expanded="false">
-                    Language
-                  </a>
-                  <div id="dropdown-menu-item-keyboard" class="dropdown-menu" style="display: none;">
-                    <ul style="list-style: none;font-size: 13px;columns: 3;" class="centered-text">
-                      <li data-code="no">Norweigan</li>
-                      <li data-code="en">English</li>
-                      <li data-code="es">Español</li>
-                      <li data-code="fr">Français</li>
-                      <li data-code="de">Deutsch</li>
-                      <li data-code="it">Italiano</li>
-                      <li data-code="pt">Português</li>
-                      <li data-code="nl">Nederlands</li>
-                      <li data-code="pl">Polski</li>
-                      <li data-code="ru">Русский</li>
-                      <li data-code="zh">中文(简体)</li>
-                      <li data-code="zh-TW">中文(繁體)</li>
-                      <li data-code="ja">日本語</li>
-                      <li data-code="ko">한국어</li>
-                      <li data-code="ar">العربية</li>
-                      <li data-code="tr">Türkçe</li>
-                      <li data-code="hi">हिन्दी</li>
-                      <li data-code="sv">Svenska</li>
-                      <li data-code="da">Dansk</li>
-                      <li data-code="fi">Suomi</li>
-                      <li data-code="he">עברית</li>
-                      <li data-code="el">Ελληνικά</li>
-                      <li data-code="id">Bahasa Indonesia</li>
-                    </ul>
-                  </div>
-                </li>
-                <div class="simple-keyboard"></div><br>
-              </div>
-              <br>
-            </div>
-            <div class="text-center">
-              <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translateText();">Translate</a>
-            </div>
-          </form>
         </div>
       </div>
     </section>
+
+    <form id="translationForm" class="needs-validation translator-form" novalidate style="width: 80%; margin: 0 auto;">
+      <div class="form-row">
+        <div class="col-6">
+          <ul class="nav nav-tabs" id="languageTabs_totranslate" style="border:none">
+            <li class="nav-item">
+              <a class="nav-link active" id="automaticDetection" data-toggle="tab">Automatic detection</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-start" style="border: 0.5px solid lightgray;border-radius: 5px;margin-top:1px">
+            <div class="d-flex align-items-start" style="width: 100%; position: relative;">
+              <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px; margin-right: 40px;" required></textarea>
+              <a title="Active keyboard" class="translator-buttons" type="button" id="activeKeyboard" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;margin: 10px;">
+                <i class="fas fa-keyboard" style="font-size: 15px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
+            <li class="nav-item">
+              <a class="nav-link active" id="norweigan_tab" data-toggle="tab" href="#norwegianText">Norsk</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="english_tab" data-toggle="tab" href="#englishText">English</a>
+            </li>
+            <li class="nav-item dropdown" id="otherLanguageDropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="others_tab" role="button" aria-haspopup="true"
+                aria-expanded="false">
+                Others
+              </a>
+              <div id="dropdown-menu-item" class="dropdown-menu" style="display: none;">
+                <ul style="list-style: none;font-size: 13px;columns: 3" class="centered-text">
+                  <li data-code="es">Español</li>
+                  <li data-code="fr">Français</li>
+                  <li data-code="it">Italiano</li>
+                  <li data-code="pt">Português</li>
+                  <li data-code="de">Deutsch</li>
+                  <li data-code="nl">Nederlands</li>
+                  <li data-code="sv">Svenska</li>
+                  <li data-code="da">Dansk</li>
+                  <li data-code="fi">Suomi</li>
+                  <li data-code="zh">中文(简体)</li>
+                  <li data-code="zh-TW">中文(繁體)</li>
+                  <li data-code="ja">日本語</li>
+                  <li data-code="ko">한국어</li>
+                  <li data-code="ar">العربية</li>
+                  <li data-code="tr">Türkçe</li>
+                  <li data-code="hi">हिन्दी</li>
+                  <li data-code="pl">Polski</li>
+                  <li data-code="ru">Русский</li>
+                  <li data-code="he">עברית</li>
+                  <li data-code="el">Ελληνικά</li>
+                  <li data-code="id">Bahasa Indonesia</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
+
+            <div class="d-flex align-items-start" style="background-color: #f5f5f5; width: 100%; position: relative;">
+              <textarea class="form-control auto-height-textarea" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
+              <a title="Copy text" class="translator-buttons" type="button" id="copyButton" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;margin: 10px;">
+                <i class="fas fa-copy" style="font-size: 15px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="text-center">
+        <a id="translate" style="cursor: pointer" class="get-started-btn" onclick="translateText();">Translate</a>
+      </div>
+    </form>
+
+    <div id="keyboardModal" class="modal" style="position: fixed;
+    top: 70%;
+    left: 70%;
+    transform: translate(-50%, -50%);">
+      <div class="modal-content" id="modal-content">
+        <h4 style="color: #9C3030;font-weight: bold;text-align: center;">Virtual keyboard</h4>
+        <div id="keyboard_container">
+          <li class="nav-item dropdown" id="otherLanguageDropdownKeyboard"
+            style="list-style: none;float:left;color:#9C3030;font-size:14px">
+            <a class="nav-link dropdown-toggle" href="#" id="keyboard_language" role="button" aria-haspopup="true"
+              aria-expanded="false">
+              Language
+            </a>
+            <div id="dropdown-menu-item-keyboard" class="dropdown-menu" style="display: none;">
+              <ul style="list-style: none;font-size: 13px;columns: 3;" class="centered-text">
+                <li data-code-keyboard="no">Norweigan</li>
+                <li data-code-keyboard="en">English</li>
+                <li data-code-keyboard="es">Español</li>
+                <li data-code-keyboard="fr">Français</li>
+                <li data-code-keyboard="de">Deutsch</li>
+                <li data-code-keyboard="it">Italiano</li>
+                <li data-code-keyboard="pt">Português</li>
+                <li data-code-keyboard="nl">Nederlands</li>
+                <li data-code-keyboard="pl">Polski</li>
+                <li data-code-keyboard="ru">Русский</li>
+                <li data-code-keyboard="tr">Türkçe</li>
+                <li data-code-keyboard="sv">Svenska</li>
+                <li data-code-keyboard="da">Dansk</li>
+                <li data-code-keyboard="fi">Suomi</li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item dropdown" id="otherLanguageDropdownKeyboard"
+            style="list-style: none;float:left;color:#9C3030;font-size:14px">
+            <a class="nav-link" href="#" id="characters" role="button" aria-haspopup="true" aria-expanded="false">
+              Uppercase
+            </a>
+          </li>
+          <li class="nav-item dropdown" style="list-style: none;float:right;color:#9C3030;font-size:14px">
+            <a class="nav-link" href="#" id="closeButton" role="button" aria-haspopup="true" aria-expanded="false">
+              Close
+            </a>
+          </li>
+          <div class="simple-keyboard"></div><br>
+        </div>
+      </div>
+    </div>
+
   </main>
   <!-- End #main -->
 
@@ -195,40 +214,21 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/virtual-keyboard/dist/js/jquery.keyboard.min.js"></script>
-
-
-  <script>
-    $(document).ready(function () {
-      $("#header").load("header.html");
-    });
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
-
   <script src="/assets/js/translator.js"></script>
 
   <script>
-    const Keyboard = window.SimpleKeyboard.default;
-
-    const myKeyboard = new Keyboard({
-      layout: {
-    default: [
-      "q w e r t y u i o p",
-      "a s d f g h j k l",
-      "z x c v b n m",
-      "",
-      "Q W E R T Y U I O P",
-      "A S D F G H J K L",
-      "Z X C V B N M",
-      "",
-    ],
-  },
+    $("#header").load("header.html");
+    
+    var modal = document.getElementById("keyboardModal");
+    var modalContent = document.getElementById("modal-content");
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    modalContent.onmousedown = dragMouseDown;
+    
+    const virtual_keyboard = new window.SimpleKeyboard.default({
       onChange: input => onChange(input),
       onKeyPress: button => onKeyPress(button),
-
     });
 
     document.getElementById('otherLanguageDropdown').addEventListener('click', function () {
@@ -249,35 +249,28 @@
       }
     });
 
-    document.getElementById('activeKeyboard').addEventListener('click', function () {
-      var keyboardContainer = document.getElementById("keyboard_container");
-      if (keyboardContainer.style.display === "block" || keyboardContainer.style.display === "") {
-        keyboardContainer.style.display = "none";
-        document.getElementById('activeKeyboard').title = "Active keyboard";
-      } else {
-        keyboardContainer.style.display = "block";
-        document.getElementById('activeKeyboard').title = "Disable keyboard";
-      }
-    });
-
     document.querySelectorAll('#dropdown-menu-item li').forEach(item => {
       item.addEventListener('click', event => {
-        const selectedLanguage = event.target.textContent;
-        document.getElementById('others_tab').textContent = selectedLanguage;
-        localStorage.setItem("selected_language", event.target.getAttribute('data-code'))
+        document.getElementById('others_tab').textContent = event.target.textContent;
         document.getElementById('others_tab').classList.add('active');
         document.getElementById('english_tab').classList.remove('active');
         document.getElementById('norweigan_tab').classList.remove('active');
       });
     });
 
+    document.getElementById('characters').addEventListener('click', function () {
+      var isUpperCase = localStorage.getItem("keyboard_is_uppercase");
+      isUpperCase = isUpperCase === "true" ? "false" : "true";
+      document.getElementById('characters').innerHTML = isUpperCase ? "Lowercase" : "Uppercase";
+      localStorage.setItem("keyboard_is_uppercase", isUpperCase);
+      changeLanguage(localStorage.getItem("keyboard_language"));
+    });
 
     document.querySelectorAll('#dropdown-menu-item-keyboard li').forEach(item => {
       item.addEventListener('click', event => {
-        const selectedLanguage = event.target.textContent;
-        document.getElementById('keyboard_language').textContent = selectedLanguage;
-        changeLanguage(event.target.getAttribute('data-code'));
-
+        document.getElementById('keyboard_language').textContent = event.target.textContent;
+        localStorage.setItem("keyboard_language", event.target.getAttribute('data-code-keyboard'));
+        changeLanguage(event.target.getAttribute('data-code-keyboard'));
       });
     });
 
@@ -290,40 +283,76 @@
       }
     });
 
-      document
-        .getElementById("copyButton")
-        .addEventListener("click", function () {
-          var translatedText =
-            document.getElementById("translated_text").value;
-          var tempInput = document.createElement("textarea");
-          tempInput.value = translatedText;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          tempInput.setSelectionRange(0, 99999);
-          document.execCommand("copy");
-          document.body.removeChild(tempInput);
-          var alertMessage = document.createElement("div");
-          alertMessage.classList.add(
-            "alert",
-            "alert-success",
-            "mt-3",
-            "p-2",
-            "text-center"
-          );
-          alertMessage.innerHTML = "Text copied to clipboard";
-          document
-            .getElementById("copyMessageContainer")
-            .appendChild(alertMessage);
-          setTimeout(function () {
-            alertMessage.style.display = "none";
-          }, 3000);
-        });
     document
-      .getElementById("text")
+      .getElementById("copyButton")
+      .addEventListener("click", function () {
+        var translatedText =
+          document.getElementById("translated_text").value;
+        var tempInput = document.createElement("textarea");
+        tempInput.value = translatedText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        var alertMessage = document.createElement("div");
+        alertMessage.classList.add(
+          "alert",
+          "alert-success",
+          "mt-3",
+          "p-2",
+          "text-center"
+        );
+        alertMessage.innerHTML = "Text copied to clipboard";
+        document
+          .getElementById("copyMessageContainer")
+          .appendChild(alertMessage);
+        setTimeout(function () {
+          alertMessage.style.display = "none";
+        }, 3000);
+      });
+    document.getElementById("text")
       .addEventListener("input", function () {
         adjustTextareaHeight();
+        document.getElementById("translated_text").style.height = "auto";
+        document.getElementById("translated_text").style.height = document.getElementById("text").scrollHeight + "px";
       });
-    adjustTextareaHeight();
+
+    document.getElementById("activeKeyboard").onclick = function () {
+      changeLanguage(localStorage.getItem("keyboard_language"));
+      modal.style.display = "block";
+    }
+
+    document.getElementById("closeButton").onclick = function () {
+      modal.style.display = "none";
+    }
+
+    function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      modal.style.top = (modal.offsetTop - pos2) + "px";
+      modal.style.left = (modal.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+    if (localStorage.getItem("keyboard_is_uppercase")==null) localStorage.setItem("keyboard_is_uppercase", "false"); 
+    if (localStorage.getItem("keyboard_language")==null) localStorage.setItem("keyboard_language", "en")
   </script>
 </body>
 

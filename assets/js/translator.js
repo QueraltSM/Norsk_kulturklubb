@@ -1,297 +1,220 @@
 function changeLanguage(languageCode) {
+  var isUpperCase = localStorage.getItem("keyboard_is_uppercase") === "true";
   switch (languageCode) {
     case "no":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Norweigan";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p å",
-            "a s d f g h j k l ø æ",
-            "z x c v b n m",
-            "", 
-            "Q W E R T Y U I O P Å",
-            "A S D F G H J K L Ø Æ",
-            "Z X C V B N M",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Y U I O P Å",
+                "A S D F G H J K L Ø Æ",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p å",
+                "a s d f g h j k l ø æ",
+                "z x c v b n m",
+              ],
+        },
+      });
+      break;
+    case "es":
+      document.getElementById("keyboard_language").textContent = "Español";
+      virtual_keyboard.setOptions({
+        layout: {
+          default: isUpperCase
+            ? ["Q W E R T Y U I O P", "A S D F G H J K L Ñ", "Z X C V B N M"]
+            : ["q w e r t y u i o p", "a s d f g h j k l ñ", "z x c v b n m"],
         },
       });
       break;
     case "fr":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Français";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "a z e r t y u i o p",
-            "q s d f g h j k l m",
-            "", 
-            "A Z E R T Y U I O P",
-            "Q S D F G H J K L M",
-          ],
+          default: isUpperCase
+            ? ["A Z E R T Y U I O P", "Q S D F G H J K L M", "W X C V B N"]
+            : [
+                "a z e r t y u i o p",
+                "q s d f g h j k l m",
+                "w x c v b n é è ç à ù",
+              ],
         },
       });
       break;
-    case "sv":
-      myKeyboard.setOptions({
+    case "de":
+      document.getElementById("keyboard_language").textContent = "Deutsch";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "a s d f g h j k l ö",
-            "z x c v b n m",
-            "q w e r t y u i o p å",
-            "", 
-            "A S D F G H J K L Ö",
-            "Z X C V B N M",
-            "Q W E R T Y U I O P Å",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Z U I O P Ü",
+                "A S D F G H J K L Ö Ä",
+                "Y X C V B N M",
+              ]
+            : [
+                "q w e r t z u i o p ü",
+                "a s d f g h j k l ö ä",
+                "y x c v b n m ß",
+              ],
         },
       });
       break;
-    case "da":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "a b c d e f g h i j",
-            "k l m n o p q r s t",
-            "u v w x y z æ ø å",
-            "", 
-            "A B C D E F G H I J",
-            "K L M N O P Q R S T",
-            "U V W X Y Z Æ Ø Å",
-          ],
-        },
-      });
-      break;
-    case "fi":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "a s d f g h j k l",
-            "z x c v b n m",
-            "q w e r t y u i o p å",
-            "", 
-            "A S D F G H J K L",
-            "Z X C V B N M",
-            "Q W E R T Y U I O P Å",
-          ],
-        },
-      });
-      break;
-
     case "it":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Italiano";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p è +",
-            "a s d f g h j k l ò à",
-            "z x c v b n m",
-            "", 
-            "Q W E R T Y U I O P È",
-            "A S D F G H J K L Ò À",
-            "Z X C V B N M",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Y U I O P È +",
+                "A S D F G H J K L Ì Ò À",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p è ù",
+                "a s d f g h j k l ì ò à",
+                "z x c v b n m",
+              ],
         },
       });
       break;
     case "pt":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Português";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "a s d f g h j k l ç",
-            "z x c v b n m",
-            "q w e r t y u i o p",
-            "", 
-            "A S D F G H J K L Ç",
-            "Z X C V B N M",
-            "Q W E R T Y U I O P",
-          ],
+          default: isUpperCase
+            ? ["Q W E R T Y U I O P", "A S D F G H J K L Ç", "Z X C V B N M"]
+            : ["q w e r t y u i o p", "a s d f g h j k l ç", "z x c v b n m"],
         },
       });
       break;
     case "nl":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Nederlands";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p",
-            "a s d f g h j k l",
-            "z x c v b n m",
-            "", 
-            "Q W E R T Y U I O P",
-            "A S D F G H J K L",
-            "Z X C V B N M",
-          ],
+          default: isUpperCase
+            ? ["Q W E R T Y U I O P", "A S D F G H J K L", "Z X C V B N M"]
+            : ["q w e r t y u i o p", "a s d f g h j k l", "z x c v b n m"],
         },
       });
       break;
-
     case "pl":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Polski";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "a ą s ś d ę f g h j",
-            "k ł z ź c ć v b n m",
-            "", 
-            "A Ą S Ś D Ę F G H J",
-            "K Ł Z Ź C Ć V B N",
-            "M < > ?",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Y U I O P ń ć ź",
+                "A S D F G H J K L Ł ę",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p ż ś ó",
+                "a s d f g h j k l ł ą",
+                "z x c v b n m",
+              ],
         },
       });
       break;
     case "ru":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Русский";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "й ц у к е н г ш щ з х ъ",
-            "ф ы в а п р о л д ж э",
-            "я ч с м и т ь б ю",
-            "", 
-            "Й Ц У К Е Н Г Ш Щ З Х Ъ",
-            "Ф Ы В А П Р О Л Д Ж Э",
-            "Я Ч С М И Т Ь Б Ю",
-          ],
-        },
-      });
-      break;
-    case "zh":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "， ； 、 。 ？ ！",
-            "1 2 3 4 5 6 7 8 9 0",
-            "q w e r t y u i o p",
-            "a s d f g h j k l",
-            "z x c v b n m",
-          ],
-        },
-      });
-      break;
-    case "zh-TW":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "， ； 、 。 ？ ！",
-            "1 2 3 4 5 6 7 8 9 0",
-            "q w e r t y u i o p",
-            "a s d f g h j k l",
-            "z x c v b n m",
-          ],
-        },
-      });
-      break;
-    case "ja":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "1 2 3 4 5 6 7 8 9 0",
-            "q w e r t y u i o p @",
-            "a s d f g h j k l ;",
-            "z x c v b n m , .",
-          ],
-        },
-      });
-      break;
-    case "ko":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "1 2 3 4 5 6 7 8 9 0",
-            "ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ",
-            "ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ",
-            "ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ",
-          ],
-        },
-      });
-      break;
-
-    case "ar":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "ض ص ث ق ف غ ع ه خ ح ج",
-            "ش س ي ب ل ا ت ن م ك",
-            "ء ئ ؤ ر لا",
-          ],
+          default: isUpperCase
+            ? [
+                "Й Ц У К Е Н Г Ш Щ З Х ъ",
+                "Ф Ы В А П Р О Л Д Ж Э",
+                "Я Ч С М И Т Ь Б Ю Ё",
+              ]
+            : [
+                "й ц у к е н г ш щ з х ъ",
+                "ф ы в а п р о л д ж э",
+                "я ч с м и т ь б ю ё",
+              ],
         },
       });
       break;
     case "tr":
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "Türkçe";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p",
-            "ğ ü ı o ü p ğ ü",
-            "a s d f g h j k l",
-            "ş i i z x c v b n m",
-          ],
-        },
-      });
-      break;
-    case "hi":
-      myKeyboard.setOptions({
-        layout: {
-          default: [
-            "१ २ ३ ४ ५ ६ ७ ८ ९ ०",
-            "ौ ै ा ी ू ो े ् ि प",
-            "ट र त य ू ि ओ प",
-            "आ स द ग ह ज क ल",
-            "श ष स ड ़ त थ ध आ",
-            "अ ड द ज़ ग ह ज क ल",
-            "ः ा ि ी ू ृ ण च ट",
-            "ॉ ं म न व ब ड़ ढ़",
-            " ग़ ज़ द फ़ ग अ",
-          ],
+          default: isUpperCase
+            ? [
+                "F G Ğ I O D R N H P Q W X",
+                "U İ E A Ü T K M L Y Ş",
+                "J Ö V C Ç Z S B",
+              ]
+            : [
+                "f g ğ ı o d r n h p q w x",
+                "u i e a ü t k m l y ş",
+                "j ö v c ç z s b",
+              ],
         },
       });
       break;
 
-    case "he":
-      myKeyboard.setOptions({
+    case "sv":
+      document.getElementById("keyboard_language").textContent = "Svenska";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "ק ר א ט ו ן ם פ ע ו",
-            "ש ד ג כ ע י ח ל ך צ",
-            "ז ס ב ה נ מ צ ת",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Y U I O P Å",
+                "A S D F G H J K L Ö Ä",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p å",
+                "a s d f g h j k l ö ä",
+                "z x c v b n m",
+              ],
         },
       });
       break;
-    case "el":
-      myKeyboard.setOptions({
+    case "da":
+      document.getElementById("keyboard_language").textContent = "Dansk";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "; ς ε ρ τ υ θ ι ο π [ ]",
-            "α σ δ φ γ η ξ κ λ ' \\",
-            "shift: < ζ χ ψ ω β ν μ , . /",
-          ],
+          default: isUpperCase
+            ? [
+                "Q W E R T Y U I O P Å",
+                "A S D F G H J K L Æ Ø",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p å",
+                "a s d f g h j k l æ ø",
+                "z x c v b n m",
+              ],
         },
       });
       break;
-    case "id":
-      myKeyboard.setOptions({
+    case "fi":
+      document.getElementById("keyboard_language").textContent = "Suomi";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p",
-            "a s d f g h j k l",
-            "z x c v b n m",
-            "", 
-            "Q W E R T Y U I O P",
-            "A S D F G H J K L",
-            "Z X C V B N M",
-          ],
+          default: !isUpperCase
+            ? [
+                "Q W E R T Y U I O P Å",
+                "A S D F G H J K L Ö Ä",
+                "Z X C V B N M",
+              ]
+            : [
+                "q w e r t y u i o p å",
+                "a s d f g h j k l ö ä",
+                "z x c v b n m",
+              ],
         },
       });
       break;
-
     default:
-      // Configuración para el idioma español
-      myKeyboard.setOptions({
+      document.getElementById("keyboard_language").textContent = "English";
+      virtual_keyboard.setOptions({
         layout: {
-          default: [
-            "q w e r t y u i o p",
-            "a s d f g h j k l ñ",
-            "z x c v b n m",
-            "", 
-            "Q W E R T Y U I O P",
-            "A S D F G H J K L Ñ",
-            "Z X C V B N M",
-          ],
+          default: isUpperCase
+            ? ["Q W E R T Y U I O P", "A S D F G H J K L", "Z X C V B N M"]
+            : ["q w e r t y u i o p", "a s d f g h j k l", "z x c v b n m"],
         },
       });
       break;
@@ -312,7 +235,7 @@ function onKeyPress(button) {
     document.getElementById("text").value + button;
   if (button === "{shift}" || button === "{shiftactivated}") {
     layoutName = layoutName === "default" ? "shift" : "default";
-    myKeyboard.setOptions({ layoutName: layoutName });
+    virtual_keyboard.setOptions({ layoutName: layoutName });
   }
 }
 
