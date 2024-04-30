@@ -41,18 +41,19 @@
     <section id="user-details" class="user-details">
       <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
+        <div class="section-title" style="padding-bottom:0px;">
           <h2>Profil</h2>
           <p>Account</p>
         </div>
 
+        <div id="alertContainer"></div>
 
         <div id="student-account" class="row" style="display:none;margin-top:0px;">
           <div class="col-lg-12">
             <h3>
               Name
             </h3>
-            <span class="label-box">You can modify your name at any time</span>
+            <span class="label-box">You can modify your first name anytime</span>
             <p contenteditable="true" id="student_name" class="editable-box"></p>
 
             <h3>
@@ -94,7 +95,7 @@
             <h3>
               Name
             </h3>
-            <span class="label-box">You can modify your name at any time</span>
+            <span class="label-box">You can modify your first name anytime</span>
             <p contenteditable="true" id="teacher_name" class="editable-box"></p>
 
             <h3>
@@ -151,7 +152,7 @@
 
             <h3>Public profile</h3>
             <div class="form-check mt-3" style="padding-top: 10px">
-              <input class="form-check-input" type="checkbox" id="public_profile" />
+              <input class="form-check-input" type="checkbox" id="teacher_public_profile" />
               <span class="label-box">By selecting this option, you accept that your profile will be public, allowing students to find you, and enabling you to contribute lessons, posts, and events.</span>
             </div>
           </div>
@@ -163,7 +164,7 @@
             <h3>
               Name
             </h3>
-            <span class="label-box">You can modify your name at any time</span>
+            <span class="label-box">You can modify your first name anytime</span>
             <p contenteditable="true" id="collaborator_name" class="editable-box"></p>
 
             <h3>
@@ -175,15 +176,21 @@
             <h3>
               Contact
             </h3>
-            <span class="label-box">Provide ways for others to contact you (e.g., email, phone number, social media handles)</span>
+            <span class="label-box">Provide ways for others to contact you (e.g. email, phone number, social media handles)</span>
             <p contenteditable="true" id="collaborator_contact" class="editable-box"></p>
 
 
             <h3>
               Biography
             </h3>
-            <span class="label-box">Introduce yourself briefly (optional, max 300 chars)</span>
+            <span class="label-box">Introduce yourself briefly (max 300 chars)</span>
             <textarea contenteditable="true" id="collaborator_biography" class="editable-box" style="width: 100%;"></textarea>
+
+            <h3>Public profile</h3>
+            <div class="form-check mt-3" style="padding-top: 10px">
+              <input class="form-check-input" type="checkbox" id="collaborator_public_profile" />
+              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing users to find you, and enabling you to contribute posts and events.</span>
+            </div>
 
           </div>
         </div><br>
@@ -197,7 +204,6 @@
           <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
             Save changes
           </button>
-          <div id="alertContainer"></div>
         </div>
       </div>
     </section>

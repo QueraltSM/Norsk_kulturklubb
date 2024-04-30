@@ -41,6 +41,7 @@ function logout() {
 }
 
 function showAlert(alertType, message, containerId, timeout) {
+  window.scrollTo(0, 0);
   var container = document.getElementById(containerId);
   container.innerHTML = "";
   var alertElement = document.createElement("div");
@@ -54,60 +55,47 @@ function showAlert(alertType, message, containerId, timeout) {
   }, timeout);
 }
 
+function showAlert(alertType, message, containerId, timeout) {
+  window.scrollTo(0, 0);
+  var container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  var alertElement = document.createElement("div");
+  alertElement.classList.add("alert", "alert-dismissible", "fade", "show");
+  alertElement.classList.add("alert-" + alertType);
+  alertElement.role = "alert";
+
+  var closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.classList.add("btn-close");
+  closeButton.setAttribute("data-bs-dismiss", "alert");
+  closeButton.setAttribute("aria-label", "Close");
+
+  var messageElement = document.createElement("p");
+  messageElement.textContent = message;
+
+  alertElement.appendChild(messageElement);
+  alertElement.appendChild(closeButton);
+  container.appendChild(alertElement);
+
+  setTimeout(function () {
+    alertElement.classList.remove("show");
+    setTimeout(function () {
+      alertElement.remove();
+    }, 300);
+  }, timeout);
+}
+
 function limitTextarea(element, maxLength) {
   if (element.textContent.length > maxLength) {
       element.textContent = element.textContent.slice(0, maxLength);
   }
 }
 
-function formatText(command, id) {
-  var textarea = document.getElementById(id);
-  if (command === "bold") {
-      toggleStyle(textarea, "fontWeight", "bold");
-  } else if (command === "italic") {
-      toggleStyle(textarea, "fontStyle", "italic");
-  } else if (command === "underline") {
-      toggleStyle(textarea, "textDecoration", "underline");
-  } else if (command === "alignLeft") {
-      toggleTextAlign(textarea, "left");
-  } else if (command === "alignCenter") {
-      toggleTextAlign(textarea, "center");
-  } else if (command === "alignRight") {
-      toggleTextAlign(textarea, "right");
-  } else if (command === "justify") {
-      toggleTextAlign(textarea, "justify");
-  }
-}
-
-function toggleStyle(element, styleName, styleValue) {
-  // Obtiene el inicio y el fin de la selección en el textarea
-  var selectionStart = element.selectionStart;
-  var selectionEnd = element.selectionEnd;
-
-  // Obtiene el texto antes y después de la selección
-  var textBeforeSelection = element.value.substring(0, selectionStart);
-  var selectedText = element.value.substring(selectionStart, selectionEnd);
-  var textAfterSelection = element.value.substring(selectionEnd);
-
-  // Aplica el estilo al texto seleccionado
-  var styledText = `<${styleName}>${selectedText}</${styleName}>`;
-
-  // Construye el nuevo contenido del textarea
-  var newContent = textBeforeSelection + styledText + textAfterSelection;
-
-  // Establece el nuevo contenido en el textarea
-  element.value = newContent;
-
-  // Mueve el cursor al final del texto estilizado
-  var newCursorPosition = textBeforeSelection.length + styledText.length;
-  element.setSelectionRange(newCursorPosition, newCursorPosition);
-}
-
-
-function toggleTextAlign(element, alignment) {
-  if (element.style.textAlign === alignment) {
-      element.style.textAlign = "left";
-  } else {
-      element.style.textAlign = alignment;
-  }
+function cleanPaste(event, element) {
+  alert("clean")
+  event.preventDefault();
+  var pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
+  var cleanedText = pastedText.replace(/<[^>]+>/g, '');
+  document.execCommand("insertHTML", false, cleanedText);
 }

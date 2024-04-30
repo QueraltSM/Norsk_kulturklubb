@@ -2,14 +2,12 @@ const li_word_of_the_day = document.getElementById("li_word_of_the_day");
 const li_lesson = document.getElementById("li_lesson");
 const li_post = document.getElementById("li_post");
 const li_event = document.getElementById("li_event");
-
 const div_word = document.getElementById("div_word");
 const div_lesson = document.getElementById("div_lesson");
 const div_post = document.getElementById("div_post");
 const div_event = document.getElementById("div_event");
 
-
-async function checkIfPublicProfile() {
+async function checkPublicProfile(userType) {
   const response = await fetch(
     `http://localhost:3000/api/getUser?id=${localStorage.getItem("userLoggedInID")}&table=${localStorage.getItem("userLoggedInRole")}s`
   );
@@ -27,6 +25,11 @@ async function checkIfPublicProfile() {
     div_post.style.opacity = "0.5";
     div_event.style.pointerEvents = "none";
     div_event.style.opacity = "0.5";
+    if (userType === 'Collaborator') {
+      li_post.style.display = "block";
+      li_post.classList.add("filter-active");
+      li_event.style.display = "block";
+    }
   } else {
     div_word.style.pointerEvents = "auto";
     div_word.style.opacity = "1";
@@ -36,21 +39,15 @@ async function checkIfPublicProfile() {
     div_post.style.opacity = "1";
     div_event.style.pointerEvents = "auto";
     div_event.style.opacity = "1";
+    if (userType === 'Collaborator') {
+      li_post.style.display = "block";
+      li_post.classList.add("filter-active");
+      li_event.style.display = "block";
+    }
   }
 }
 
-if (localStorage.getItem("userLoggedInRole") == "Teacher") {
-checkIfPublicProfile();
-}
-
-
-if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
-  li_post.style.display = "block";
-  li_post.classList.add("filter-active");
-  li_event.style.display = "block";
-  div_post.style.display = "block";
-  div_event.style.display = "block";
-} else {
+if (localStorage.getItem("userLoggedInRole") == "Student") {
   li_word_of_the_day.style.display = "block";
   li_word_of_the_day.classList.add("filter-active");
   li_lesson.style.display = "block";
@@ -84,6 +81,8 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
     .catch((error) => {
       console.error("Error al obtener los datos:", error);
     });
+} else {
+  checkPublicProfile(localStorage.getItem("userLoggedInRole"));
 }
 
 function publishWord() {
@@ -113,7 +112,7 @@ function publishWord() {
       }
     })
     .then((data) => {
-      showAlert("success", "The word of the day was submitted", "alertContainer", 3000);
+      showAlert("success", "The Word of the day was submitted", "alertContainer", 3000);
       setTimeout(() => {
         window.location.href = "/index.html";
       }, 3000);

@@ -194,9 +194,10 @@ app.post('/api/updateUserData', (req, res) => {
       ":email": userData.email
     };
   } else if (tableName === "Collaborators") {
-    updateExpression = "set biography = :biography";
+    updateExpression = "set biography = :biography, contact = :contact";
     expressionAttributeValues = {
-      ":biography": userData.biography
+      ":biography": userData.biography,
+      ":contact": userData.contact
     };
   } else if (tableName === "Teachers") {
     updateExpression = "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, public_profile = :public_profile";
@@ -590,7 +591,6 @@ app.post('/api/deleteCulture', (req, res) => {
       'ID': req.body.id
     }
   };
-  console.log("params:"+JSON.stringify(params))
   dynamoDB.delete(params, (err, dataObjects) => {
     if (err) {
       res.status(500).send("Error deleting");
@@ -611,6 +611,19 @@ app.post('/api/deleteCulture', (req, res) => {
   });
 });
 
+const path = require('path');
+
+// app.get('/Culture/:encodedTitle', (req, res) => {
+//   const encodedTitle = req.params.encodedTitle;
+//   const decodedTitle = decodeURIComponent(encodedTitle.replace(/-/g, ' '));
+//   const filePath = path.join(__dirname, '../post.html');
+//   const contenidoHTML = fs.readFileSync(filePath, 'utf8');
+//   res.send(contenidoHTML);
+// });
+
+app.get('/Culture/:encodedTitle', (req, res) => {
+  res.send(fs.readFileSync( path.join(__dirname, '../post.html'), 'utf8'));
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);

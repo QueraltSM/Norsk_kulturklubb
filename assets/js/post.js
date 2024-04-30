@@ -1,7 +1,6 @@
 let cultureID = localStorage.getItem("postID");
 const culture_entry = document.getElementById("culture_entry");
-document.getElementById("postTitle").innerHTML =
-  localStorage.getItem("postTitle");
+document.getElementById("postTitle").innerHTML = localStorage.getItem("postTitle");
 
 fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
   .then((response) => {
@@ -26,6 +25,7 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
     cardImg.classList.add("card-img");
 
     const img = document.createElement("img");
+    img.style.maxWidth = "100%"; 
     img.src = cultureData.image;
     cardImg.style.borderRadius = "10px";
 
@@ -37,7 +37,7 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
 
     const cardText = document.createElement("p");
     cardText.classList.add("card-text");
-    cardText.textContent = cultureData.description;
+    cardText.innerHTML  = cultureData.description;
     cardText.style.textAlign = "justify";
     cardText.style.fontSize = "13px";
 

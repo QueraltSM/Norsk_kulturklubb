@@ -90,7 +90,7 @@ function getInformationByRole() {
           document.getElementById("contact_information").value =
             user.contact_information;
         if (user.public_profile != undefined)
-          document.getElementById("public_profile").checked =
+          document.getElementById("teacher_public_profile").checked =
             user.public_profile;
         document.getElementById("teacher_image").src = user.profile_picture;
       } else if (userLoggedInRole == "Student") {
@@ -107,11 +107,9 @@ function getInformationByRole() {
         }
       } else {
         if (user.biography != undefined)
-          document.getElementById("collaborator_biography").innerHTML =
-            user.biography;
+          document.getElementById("collaborator_biography").innerHTML = user.biography;
         if (user.contact != undefined)
-          document.getElementById("collaborator_contact").innerHTML =
-            user.contact;
+          document.getElementById("collaborator_contact").innerHTML = user.contact;
       }
     })
     .catch((error) => {
@@ -223,7 +221,7 @@ function updateProfile() {
       teacher_photo = true;
     }
 
-    if (document.getElementById("public_profile").checked) {
+    if (document.getElementById("teacher_public_profile").checked) {
       if (
         !teacher_name ||
         !teacher_email ||
@@ -273,14 +271,18 @@ function updateProfile() {
         3000
       );
     } else {
-      var userData = {
+      updateUserData({
         email: collaborator_email,
         first_name: collaborator_name,
+      }, "Users");
+      updateUserData({
         biography: document
           .getElementById("collaborator_biography")
           .value.trim(),
-      };
-      updateUserData(userData, "Collaborators");
+        contact: document
+          .getElementById("collaborator_contact")
+          .innerHTML,
+      }, "Collaborators");
     }
   }
 }
@@ -303,8 +305,6 @@ async function saveTeacher() {
   updateUserData(userData, "Users");
   localStorage.setItem("user_first_name", teacher_name);
 
-  alert(hourly_rate);
-
   var userData = {
     about_classes: about_classes,
     about_teacher: about_teacher,
@@ -316,7 +316,7 @@ async function saveTeacher() {
     hourly_rate: hourly_rate,
     teaching_in_person:  document.getElementById("teaching_in_person").checked,
     teaching_online:  document.getElementById("teaching_online").checked,
-    public_profile: document.getElementById("public_profile").checked,
+    public_profile: document.getElementById("teacher_public_profile").checked,
   };
 
   if (document.getElementById("profile_picture").files[0]) {

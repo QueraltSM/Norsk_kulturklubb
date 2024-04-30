@@ -290,9 +290,9 @@ document
 
 function performSearch() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  const cultureCards = document.querySelectorAll(".col-6");
+  const cultureCards = document.querySelectorAll(".card");
   cultureCards.forEach(function (card) {
-    const title = card.querySelector(".card-title a").textContent.toLowerCase();
+    const title = card.querySelector(".card-title").textContent.toLowerCase();
     const description = card
       .querySelector(".card-text")
       .textContent.toLowerCase();
@@ -332,6 +332,8 @@ async function getUser(id) {
 }
 
 function formatDate(dateString) {
+  const parts = dateString.split("/");
+  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
   const months = [
     "Jan",
     "Feb",
@@ -346,7 +348,7 @@ function formatDate(dateString) {
     "Nov",
     "Dec",
   ];
-  const date = new Date(dateString);
+  const date = new Date(formattedDate);
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
 
@@ -372,5 +374,4 @@ function toggleSubcategories(category, title) {
     document.getElementById(entry.ID).style.display = (entry.category !== category) ? "none" : "block";
   });
 }
-
 fetchData();

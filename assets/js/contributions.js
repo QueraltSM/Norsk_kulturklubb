@@ -1,18 +1,32 @@
-const words_container = document.getElementById("words_container");
-const lessons_container = document.getElementById("lessons_container");
-const posts_container = document.getElementById("posts_container");
-const events_container = document.getElementById("events_container");
+const li_word_of_the_day = document.getElementById("li_word_of_the_day");
+const li_lesson = document.getElementById("li_lesson");
+const li_post = document.getElementById("li_post");
+const li_event = document.getElementById("li_event");
 
-fetchDataWords();
+const div_word = document.getElementById("div_word");
+const div_lesson = document.getElementById("div_lesson");
+const div_post = document.getElementById("div_post");
+const div_event = document.getElementById("div_event");
+
+
+//fetchWords();
+
+if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
+  li_post.style.display = "block";
+  li_post.classList.add("filter-active");
+  li_event.style.display = "block";
+}
 
 $('#contributions-flters li').click(function () {
   var filter = $(this).attr('data-filter');
   if (filter == ".words") {
-    fetchDataWords();
+    fetchWords();
   } else if (filter == ".lessons") {
-    fetchDataLessons();
+    fetchLessons();
   } else if (filter == ".posts") {
-    fetchDataCulture();
+    fetchCulture();
+  } else if (filter == ".events") {
+    //fetchEvents();
   }
   // events
   $('.contributions-item').hide();
@@ -76,7 +90,7 @@ function convertToDateObject(dateString) {
   return `${year}/${month}/${day} ${hours}:${minutes}`;
 }
 
-async function fetchDataWords() {
+async function fetchWords() {
   try {
     const response = await fetch(
       `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
@@ -105,7 +119,7 @@ async function fetchDataWords() {
       return dateB - dateA;
     });
       const wordsHTML = `
-        <table class="lessons-table">
+        <table class="contributions-table">
           <thead>
             <tr>
               <th>Published</th>
@@ -142,7 +156,7 @@ async function fetchDataWords() {
   }
 }
 
-async function fetchDataLessons() {
+async function fetchLessons() {
   try {
     const response = await fetch(
       `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
@@ -169,7 +183,7 @@ async function fetchDataLessons() {
         return dateB - dateA;
       });
       const lessonHTML = `
-        <table class="lessons-table">
+        <table class="contributions-table">
           <thead>
             <tr>
               <th>Published</th>
@@ -205,7 +219,7 @@ async function fetchDataLessons() {
 }
 
 
-async function fetchDataCulture() {
+async function fetchCulture() {
   try {
     const response = await fetch(
       `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
@@ -222,8 +236,7 @@ async function fetchDataCulture() {
         <div style="text-align: center;">
         <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
           <img src="/assets/img/not-found.png" alt="No data found" style="width:300px">
-        </div>
-      `;
+        </div>`;
       posts_container.innerHTML = noDataMessage;
     } else {
       posts.sort((a, b) => {
@@ -232,13 +245,12 @@ async function fetchDataCulture() {
         return dateB - dateA;
       });
       const postsHTML = `
-        <table class="lessons-table">
+        <table class="contributions-table">
           <thead>
             <tr>
               <th>Published</th>
               <th>Title</th>
-              <th>Brief description</th>
-              <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -247,12 +259,13 @@ async function fetchDataCulture() {
                 (p) => `
                   <tr>
                     <td>${p.pubdate}</td>
-                    <td>${p.title}</td>
-                    <td>${p.short_description}</td>
-                    <td style="text-align: center;">
-                      <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                      <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-                    </td>
+                    <td>${p.title}</td> 
+                  <td style="text-align: center;">
+                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'view')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="View"><i class="fas fa-eye"></i></a>
+                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}','edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                  </td>
+                                  
                   </tr>
                 `
               )
@@ -264,5 +277,13 @@ async function fetchDataCulture() {
     }
   } catch (error) {
     console.log("Error fetching data");
+  }
+}
+
+async function manage_action(ID, title, action) {
+  if (action === "view") {
+    localStorage.setItem("postID", ID);
+    localStorage.setItem("postTitle", title);
+    window.location.href = "/post.html";
   }
 }

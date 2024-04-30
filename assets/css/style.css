@@ -1968,7 +1968,6 @@ textarea {
 }
 
 .editable-box {
-  font-style: italic;
   font-weight: normal; 
   outline:none;  
   text-align: justify;
@@ -2070,39 +2069,40 @@ textarea {
 }
 
 /* Estilos generales para la tabla */
-.lessons-table {
+.contributions-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  text-align: center;
 }
 
 /* Estilos para las cabeceras de la tabla */
-.lessons-table th {
+.contributions-table th {
   padding: 10px;
   border: 1px solid #ccc;
   background-color: #f2f2f2;
 }
 
 /* Estilos para las celdas de la tabla */
-.lessons-table td {
+.contributions-table td {
   padding: 10px;
   border: 1px solid #ccc;
 }
 
 /* Estilos para las filas pares de la tabla */
-.lessons-table tbody tr:nth-child(even) {
+.contributions-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 /* Estilos para los botones de acciones */
-.lessons-table button {
+.contributions-table button {
   background-color: transparent;
   border: none;
   cursor: pointer;
 }
 
 /* Estilos para los iconos dentro de los botones */
-.lessons-table button i {
+.contributions-table button i {
   font-size: 15px;
 }
 

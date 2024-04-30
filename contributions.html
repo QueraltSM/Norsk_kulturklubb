@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Norsk Kulturklubb · Contributions</title>
+  <title>Contributions · Bidrag</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -47,23 +47,24 @@
           <h2>Bidrag</h2>
           <p>Contributions</p>
         </div>
-        <ul id="contributions-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-          <li data-filter=".words" class="filter-active">Words of the Day</li>
-          <li data-filter=".lessons">Norsk lessons</li>
-          <li data-filter=".posts">Culture posts</li>
-          <li data-filter=".events">Virtual events</li>
-        </ul>
+        <ul id="contributions-flters" class="d-flex justify-content-center" data-aos-delay="100">
+          <li id="li_word_of_the_day" data-filter=".words" style="display: none;">Word
+              of the Day</li>
+          <li id="li_lesson" data-filter=".lessons" style="display: none;">Norsk lesson</li>
+          <li id="li_post" data-filter=".posts" style="display: none;">Culture post</li>
+          <li id="li_event" data-filter=".events" style="display: none;">Virtual event</li>
+      </ul>
         <div class="row contributions-container" data-aos="fade-up" data-aos-delay="200">
-          <div class="col-lg-12 contributions-item words">
+          <div class="col-lg-12 contributions-item words" id="div_words" style="display: none;">
             <div class="row" data-aos="zoom-in" data-aos-delay="100" id="words_container"></div>
           </div>
-          <div class="col-lg-12 contributions-item lessons">
+          <div class="col-lg-12 contributions-item lessons" id="div_lesson" style="display: none;">
             <div class="row" data-aos="zoom-in" data-aos-delay="100" id="lessons_container"></div>
           </div>
-          <div class="col-lg-12 contributions-item posts">
+          <div class="col-lg-12 contributions-item posts" id="div_posts" style="display: none;">
             <div class="row" data-aos="zoom-in" data-aos-delay="100" id="posts_container"></div>
           </div>
-          <div class="col-lg-12 contributions-item events">
+          <div class="col-lg-12 contributions-item events" id="div_events" style="display: none;">
             <div class="row" data-aos="zoom-in" data-aos-delay="100" id="events_container"></div>
           </div>
         </div>
@@ -97,10 +98,6 @@
   </main>
   <!-- End #main -->
 
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
@@ -117,10 +114,10 @@
     $(document).ready(function () {
       $("#header").load("header.html");
       $('.contributions-item').hide();
-      $('.words').show();
     });
   </script>
   <script src="/assets/js/contributions.js"></script>
+  <!-- <script src="/Culture/index.js"></script> -->
 </body>
 
 </html>
