@@ -2,7 +2,7 @@ let cultureID = localStorage.getItem("postID");
 const culture_entry = document.getElementById("culture_entry");
 document.getElementById("postTitle").innerHTML = localStorage.getItem("postTitle");
 
-fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
+fetch(`/api/getCulture?id=${cultureID}`)
   .then((response) => {
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
@@ -86,7 +86,7 @@ fetch(`http://localhost:3000/api/getCulture?id=${cultureID}`)
 async function getUser(id) {
   try {
     const response1 = await fetch(
-      `http://localhost:3000/api/getUser?id=${id}&table=Users`
+      `/api/getUser?id=${id}&table=Users`
     );
     if (!response1.ok) {
       throw new Error("No response could be obtained from the server");
@@ -96,7 +96,7 @@ async function getUser(id) {
     const role = user.role;
 
     const response2 = await fetch(
-      `http://localhost:3000/api/getUser?id=${id}&table=${role}s`
+      `/api/getUser?id=${id}&table=${role}s`
     );
     if (!response2.ok) {
       throw new Error("No response could be obtained from the server");
@@ -109,6 +109,6 @@ async function getUser(id) {
     return [name, user_info];
   } catch (error) {
     console.error("Error fetching user data:", error);
-    throw error; // Re-throw the error to handle it in the calling function
+    throw error;
   }
 }

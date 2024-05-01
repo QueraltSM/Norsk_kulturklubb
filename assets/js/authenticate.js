@@ -1,7 +1,7 @@
 function login() {
   const email = document.querySelector('input[name="email"]').value;
   const password = document.querySelector('input[name="password"]').value;
-  fetch("http://localhost:3000/api/login", {
+  fetch("/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function signup() {
       ),
       role: selectedRole.value.slice(0, -1),
     };
-    fetch("http://localhost:3000/api/insertUser", {
+    fetch("/api/insertUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +103,7 @@ function insertUserDataToServer(userData, table) {
     userData: userData,
     table: table,
   };
-  fetch("http://localhost:3000/api/insertUserDataToServer", {
+  fetch("/api/insertUserDataToServer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

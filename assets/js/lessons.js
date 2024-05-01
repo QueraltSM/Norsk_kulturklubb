@@ -44,7 +44,7 @@ function performSearch() {
 
 async function fetchData() {
   try {
-    const response = await fetch("http://localhost:3000/api/getLessons");
+    const response = await fetch("/api/getLessons");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
@@ -108,7 +108,7 @@ function setNoPosts() {
 async function getUser(id) {
   try {
     const response1 = await fetch(
-      `http://localhost:3000/api/getUser?id=${id}&table=Users`
+      `/api/getUser?id=${id}&table=Users`
     );
     if (!response1.ok) {
       throw new Error("No response could be obtained from the server");
@@ -116,7 +116,7 @@ async function getUser(id) {
     const user = await response1.json();
     const role = user.role;
     const response2 = await fetch(
-      `http://localhost:3000/api/getUser?id=${id}&table=${role}s`
+      `/api/getUser?id=${id}&table=${role}s`
     );
     if (!response2.ok) {
       throw new Error("No response could be obtained from the server");

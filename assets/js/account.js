@@ -14,7 +14,7 @@ getBasicInformation();
 getInformationByRole();
 
 function getBasicInformation() {
-  fetch(`http://localhost:3000/api/getUser?id=${userLoggedInID}&table=Users`)
+  fetch(`/api/getUser?id=${userLoggedInID}&table=Users`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("No response could be obtained from the server");
@@ -48,7 +48,7 @@ function getBasicInformation() {
 
 function getInformationByRole() {
   fetch(
-    `http://localhost:3000/api/getUser?id=${userLoggedInID}&table=${
+    `/api/getUser?id=${userLoggedInID}&table=${
       userLoggedInRole + "s"
     }`
   )
@@ -123,7 +123,7 @@ function updateUserData(userData, table) {
     table: table,
   };
   fetch(
-    `http://localhost:3000/api/updateUserData?id=${userLoggedInID}&table=${table}`,
+    `/api/updateUserData?id=${userLoggedInID}&table=${table}`,
     {
       method: "POST",
       headers: {
@@ -168,7 +168,7 @@ async function updateProfileImage() {
       imageData.split(":")[1].split(";")[0].split("/")[1];
 
     const response = await fetch(
-      `http://localhost:3000/api/updateProfileImage?filename=${encodeURIComponent(
+      `/api/updateProfileImage?filename=${encodeURIComponent(
         filename
       )}`,
       {
@@ -379,7 +379,7 @@ function deleteProfileImage() {
       "." +
       imageData.split(":")[1].split(";")[0].split("/")[1];
     fetch(
-      `http://localhost:3000/api/deleteFromS3?folder=Users&url=${filename}`,
+      `/api/deleteFromS3?folder=Users&url=${filename}`,
       {
         method: "POST",
         headers: {
@@ -396,14 +396,14 @@ function deleteProfileImage() {
 
 async function deleteLessons() {
   try {
-    const response = await fetch("http://localhost:3000/api/getLessons");
+    const response = await fetch("/api/getLessons");
     if (!response.ok) {
       throw new Error("Failed to fetch lessons");
     }
     const data = await response.json();
     data.Items.forEach(async (lesson) => {
       if (lesson.teacher_id === userLoggedInID) {
-        const response = await fetch("http://localhost:3000/api/deleteLesson", {
+        const response = await fetch("/api/deleteLesson", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -428,7 +428,7 @@ async function deleteLessons() {
 
 async function deleteCulturePosts() {
   try {
-    const response = await fetch("http://localhost:3000/api/getCultureEntries");
+    const response = await fetch("/api/getCultureEntries");
     if (!response.ok) {
       throw new Error("Failed to fetch lessons");
     }
@@ -436,7 +436,7 @@ async function deleteCulturePosts() {
     data.Items.forEach(async (post) => {
       if (post.user_id === userLoggedInID) {
         const response = await fetch(
-          "http://localhost:3000/api/deleteCulture",
+          "/api/deleteCulture",
           {
             method: "POST",
             headers: {
@@ -460,7 +460,7 @@ async function deleteCulturePosts() {
 
 async function deleteUser() {
   const response = await fetch(
-    `http://localhost:3000/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole} + "s"`,
+    `/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole} + "s"`,
     {
       method: "POST",
       headers: {

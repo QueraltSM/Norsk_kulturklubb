@@ -9,7 +9,7 @@ const div_event = document.getElementById("div_event");
 
 async function checkPublicProfile(userType) {
   const response = await fetch(
-    `http://localhost:3000/api/getUser?id=${localStorage.getItem("userLoggedInID")}&table=${localStorage.getItem("userLoggedInRole")}s`
+    `/api/getUser?id=${localStorage.getItem("userLoggedInID")}&table=${localStorage.getItem("userLoggedInRole")}s`
   );
   if (!response.ok) {
     throw new Error("No response could be obtained from the server");
@@ -58,7 +58,7 @@ if (localStorage.getItem("userLoggedInRole") == "Student") {
   div_post.style.display = "block";
   div_event.style.display = "block";
   var events = [];
-  fetch(`http://localhost:3000/api/getWords`)
+  fetch(`/api/getWords`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to get server response.");
@@ -90,7 +90,7 @@ function publishWord() {
   const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
-    fetch("http://localhost:3000/api/uploadWord", {
+    fetch("/api/uploadWord", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -158,7 +158,7 @@ async function publishLesson() {
       var image_filename = uuidv4() + "." + image.name.split('.').pop();
      
       const response = await fetch(
-        `http://localhost:3000/api/uploadFileLesson?filename=${encodeURIComponent(
+        `/api/uploadFileLesson?filename=${encodeURIComponent(
           filename
         )}&image_filename=${encodeURIComponent(
           image_filename
@@ -172,7 +172,7 @@ async function publishLesson() {
         throw new Error("Failed to upload file");
       }
       const data = await response.json();
-      fetch("http://localhost:3000/api/uploadLesson", {
+      fetch("/api/uploadLesson", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -239,7 +239,7 @@ async function publishPost() {
       formData.append("file", file);
       var filename = uuidv4() + "." + file.name.split('.').pop();
       const response = await fetch(
-        `http://localhost:3000/api/uploadPostImage?filename=${encodeURIComponent(
+        `/api/uploadPostImage?filename=${encodeURIComponent(
           filename
         )}`,
         {
@@ -251,7 +251,7 @@ async function publishPost() {
         throw new Error("Failed to upload file");
       }
       const data = await response.json();
-      fetch("http://localhost:3000/api/uploadPost", {
+      fetch("/api/uploadPost", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -308,7 +308,7 @@ function publishEvent() {
   const calendar = document.getElementById("event_calendar").value;
 
   if (title && short_description && description && platform_url && calendar) {
-    fetch("http://localhost:3000/api/uploadEvent", {
+    fetch("/api/uploadEvent", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

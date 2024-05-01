@@ -266,7 +266,7 @@ function translateText() {
   var source_language = "";
   const text = document.getElementById("text").value;
   fetch(
-    `http://localhost:3000/api/detectLanguage?text=${encodeURIComponent(text)}`
+    `/api/detectLanguage?text=${encodeURIComponent(text)}`
   )
     .then((response) => {
       if (!response.ok) {
@@ -277,7 +277,7 @@ function translateText() {
     .then((data) => {
       source_language = data.detectedLanguage;
       fetch(
-        `http://localhost:3000/api/translateText?text=${text}&SourceLanguageCode=${source_language}&TargetLanguageCode=${target_language}`
+        `/api/translateText?text=${text}&SourceLanguageCode=${source_language}&TargetLanguageCode=${target_language}`
       )
         .then((response) => response.json())
         .then((data) => {

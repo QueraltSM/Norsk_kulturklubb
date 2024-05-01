@@ -7,7 +7,7 @@ function loadTeacherProfile(id) {
 
 async function fetchData() {
   try {
-    const response = await fetch("http://localhost:3000/api/getTeachers");
+    const response = await fetch("/api/getTeachers");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
@@ -68,7 +68,7 @@ async function fetchData() {
 async function get_teacher_name(id) {
   try {
     const response1 = await fetch(
-      `http://localhost:3000/api/getUser?id=${id}&table=Users`
+      `/api/getUser?id=${id}&table=Users`
     );
     if (!response1.ok) {
       throw new Error("No response could be obtained from the server");

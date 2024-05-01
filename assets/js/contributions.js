@@ -8,9 +8,6 @@ const div_lesson = document.getElementById("div_lesson");
 const div_post = document.getElementById("div_post");
 const div_event = document.getElementById("div_event");
 
-
-//fetchWords();
-
 if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
   li_post.style.display = "block";
   li_post.classList.add("filter-active");
@@ -43,7 +40,7 @@ function loadLessonDetails(lessonId) {
 
 function deleteLesson() {
   fetch(
-    'http://localhost:3000/api/deleteLesson',
+    '/api/deleteLesson',
     {
       method: "POST",
       headers: {
@@ -93,7 +90,7 @@ function convertToDateObject(dateString) {
 async function fetchWords() {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
+      `/api/getMyContributions?user_id=${localStorage.getItem(
         "userLoggedInID"
       )}&table=Words`
     );
@@ -159,7 +156,7 @@ async function fetchWords() {
 async function fetchLessons() {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
+      `/api/getMyContributions?user_id=${localStorage.getItem(
         "userLoggedInID"
       )}&table=Lessons`
     );
@@ -222,7 +219,7 @@ async function fetchLessons() {
 async function fetchCulture() {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/getMyContributions?user_id=${localStorage.getItem(
+      `/api/getMyContributions?user_id=${localStorage.getItem(
         "userLoggedInID"
       )}&table=Culture`
     );
@@ -257,11 +254,10 @@ async function fetchCulture() {
             ${posts
               .map(
                 (p) => `
-                  <tr>
+                  <tr style='cursor:pointer;' onclick="manage_action('${p.ID}', '${p.title}', 'view')">
                     <td>${p.pubdate}</td>
                     <td>${p.title}</td> 
                   <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'view')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="View"><i class="fas fa-eye"></i></a>
                     <a href="#" onclick="manage_action('${p.ID}', '${p.title}','edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                     <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
                   </td>
@@ -282,8 +278,9 @@ async function fetchCulture() {
 
 async function manage_action(ID, title, action) {
   if (action === "view") {
-    localStorage.setItem("postID", ID);
-    localStorage.setItem("postTitle", title);
-    window.location.href = "/post.html";
+      localStorage.setItem("postID", ID);
+      localStorage.setItem("postTitle", title);
+      window.location.href = `/Culture/${title.replace(/\s+/g, '-')}`;
   }
 }
+
