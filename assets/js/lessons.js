@@ -1,4 +1,3 @@
-const lessonsContainer = document.getElementById("lessons_container");
 
 function loadLessonDetails(lessonId) {
   localStorage.setItem("lessonID", lessonId);
@@ -15,20 +14,17 @@ document
   });
 
 function performSearch() {
-  const selectedLevel = document
-    .getElementById("languageLevel")
-    .value.toLowerCase();
-  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  /*const searchTerm = document.getElementById("searchInput").value.toLowerCase();
   const lessons = lessonsContainer.querySelectorAll(".col-4");
   lessons.forEach(function (card) {
     const title = card
-      .querySelector(".course-content h3")
+      .querySelector(".lesson-content h3")
       .textContent.toLowerCase();
     const languageLevel = card
-      .querySelector(".course-content h4")
+      .querySelector(".lesson-content h4")
       .textContent.toLowerCase();
     const description = card
-      .querySelector(".course-content p")
+      .querySelector(".lesson-content p")
       .textContent.toLowerCase();
     const levelMatch =
       selectedLevel === "" || languageLevel.includes(selectedLevel);
@@ -39,7 +35,7 @@ function performSearch() {
     } else {
       card.style.display = "none";
     }
-  });
+  });*/
 }
 
 async function fetchData() {
@@ -56,15 +52,13 @@ async function fetchData() {
         const result = await getUser(lesson.teacher_id);
         if (result) {
           entered = true;
-          const lessonHTML = `
-            <div class="col-4" style="padding-bottom:10px;">
+          const lessonHTML = `<div class="col-4" style="padding-bottom:10px;">
               <a href="#" onclick="loadLessonDetails('${lesson.ID}')" style="text-decoration: none; color: inherit;">
                 <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden;">
                   <div class="course-img" style="height: 200px; overflow: hidden;">
                     <img src="${lesson.header_image}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
                   </div>
-                  <div class="course-content" style="text-align: center; padding: 20px;">
-                    <h4 style="margin-bottom: 10px;">${lesson.language_level}</h4>
+                  <div class="lesson-content" style="text-align: center; padding: 20px;">
                     <h3 style="margin-bottom: 10px;">${lesson.title}</h3>
                     <p style="margin-bottom: 0; word-wrap: break-word;">${lesson.short_description}</p>
                   </div>
@@ -72,7 +66,8 @@ async function fetchData() {
               </a>
             </div>
           `;
-          lessonsContainer.innerHTML += lessonHTML;
+          document.getElementById(lesson.language_level).innerHTML += lessonHTML;
+          console.log(lessonHTML);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);

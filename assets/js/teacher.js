@@ -23,5 +23,5 @@ fetch(`/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
       teacher.contact_information;
   })
   .catch((error) => {
-    alert("Error al obtener los datos:"+ error);
+    alert("Error retrieving data"+ error);
   });

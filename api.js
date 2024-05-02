@@ -196,10 +196,11 @@ app.post('/api/updateUserData', (req, res) => {
       ":email": userData.email
     };
   } else if (tableName === "Collaborators") {
-    updateExpression = "set biography = :biography, contact = :contact";
+    updateExpression = "set biography = :biography, contact = :contact, public_profile = :public_profile";
     expressionAttributeValues = {
       ":biography": userData.biography,
-      ":contact": userData.contact
+      ":contact": userData.contact,
+      ":public_profile": userData.public_profile
     };
   } else if (tableName === "Teachers") {
     updateExpression = "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, public_profile = :public_profile";
@@ -220,6 +221,12 @@ app.post('/api/updateUserData', (req, res) => {
       updateExpression += ", profile_picture = :profile_picture";
       expressionAttributeValues[":profile_picture"] = userData.profile_picture;
     }
+  } else if (tableName === "Students") {
+      updateExpression = "set hobbies_and_interests = :hobbies_and_interests, language_level = :language_level";
+      expressionAttributeValues = {
+        ":hobbies_and_interests": userData.hobbies_and_interests,
+        ":language_level": userData.language_level
+      };
   }
   const params = {
     TableName: req.query.table,

@@ -2,13 +2,7 @@ var userLoggedInID = localStorage.getItem("userLoggedInID");
 var userLoggedInRole = localStorage.getItem("userLoggedInRole");
 var teacher_photo = false;
 
-if (userLoggedInRole == "Teacher") {
-  document.getElementById("teacher-account").style.display = "flex";
-} else if (userLoggedInRole == "Student") {
-  document.getElementById("student-account").style.display = "flex";
-} else {
-  document.getElementById("collaborator-account").style.display = "flex";
-}
+document.getElementById(userLoggedInRole.toLowerCase() + "-account").style.display = "flex";
 
 getBasicInformation();
 getInformationByRole();
@@ -22,64 +16,30 @@ function getBasicInformation() {
       return response.json();
     })
     .then((user) => {
-      if (user.first_name != undefined) {
-        if (userLoggedInRole == "Student")
-          document.getElementById("student_name").innerHTML = user.first_name;
-        if (userLoggedInRole == "Teacher")
-          document.getElementById("teacher_name").innerHTML = user.first_name;
-        if (userLoggedInRole == "Collaborator")
-          document.getElementById("collaborator_name").innerHTML =
-            user.first_name;
-      }
-
-      if (user.email != undefined) {
-        if (userLoggedInRole == "Student")
-          document.getElementById("student_email").innerHTML = user.email;
-        if (userLoggedInRole == "Teacher")
-          document.getElementById("teacher_email").innerHTML = user.email;
-        if (userLoggedInRole == "Collaborator")
-          document.getElementById("collaborator_email").innerHTML = user.email;
-      }
+      if (user.first_name != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_name").innerHTML = user.first_name;
+      if (user.email != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_email").innerHTML = user.email;
     })
     .catch((error) => {
-      console.error("Error al obtener los datos:", error);
+      console.error("Error retrieving data", error);
     });
 }
 
 function getInformationByRole() {
-  fetch(
-    `/api/getUser?id=${userLoggedInID}&table=${
-      userLoggedInRole + "s"
-    }`
-  )
+  fetch(`/api/getUser?id=${userLoggedInID}&table=${userLoggedInRole + "s"}`)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("No response could be obtained from the server");
-      }
+      if (!response.ok) throw new Error("No response could be obtained from the server");
       return response.json();
     })
     .then((user) => {
       if (userLoggedInRole == "Teacher") {
-        if (user.profile_picture == undefined) {
-          user.profile_picture = "/assets/img/user.png";
-        } else {
-          teacher_photo = true;
-        }
-        if (user.short_description != undefined)
-          document.getElementById("short_description").innerHTML =
-            user.short_description;
-        if (user.about_teacher != undefined)
-          document.getElementById("about_teacher").value = user.about_teacher;
-        if (user.about_classes != undefined)
-          document.getElementById("about_classes").value = user.about_classes;
-        if (user.city_residence != undefined)
-          document.getElementById("city_residence").innerHTML = user.city_residence;
-        if (user.teaching_in_person != undefined)
-          document.getElementById("teaching_in_person").checked =
-            user.teaching_in_person;
-        if (user.teaching_online != undefined)
-          document.getElementById("teaching_online").checked =
-            user.teaching_online;
+        if (user.profile_picture == undefined) user.profile_picture = "/assets/img/user.png";
+        else teacher_photo = true;
+        if (user.short_description != undefined) document.getElementById("short_description").innerHTML = user.short_description;
+        if (user.about_teacher != undefined) document.getElementById("about_teacher").value = user.about_teacher;
+        if (user.about_classes != undefined) document.getElementById("about_classes").value = user.about_classes;
+        if (user.city_residence != undefined) document.getElementById("city_residence").innerHTML = user.city_residence;
+        if (user.teaching_in_person != undefined) document.getElementById("teaching_in_person").checked = user.teaching_in_person;
+        if (user.teaching_online != undefined) document.getElementById("teaching_online").checked = user.teaching_online;
         if (user.class_location != undefined)
           document.getElementById("class_location").value = user.class_location;
         if (user.class_prices != undefined)
@@ -106,14 +66,13 @@ function getInformationByRole() {
           }
         }
       } else {
-        if (user.biography != undefined)
-          document.getElementById("collaborator_biography").innerHTML = user.biography;
-        if (user.contact != undefined)
-          document.getElementById("collaborator_contact").innerHTML = user.contact;
+        if (user.biography != undefined) document.getElementById("collaborator_biography").innerHTML = user.biography;
+        if (user.contact != undefined) document.getElementById("collaborator_contact").innerHTML = user.contact;
+        if (user.public_profile != undefined) document.getElementById("collaborator_public_profile").checked = user.public_profile;
       }
     })
     .catch((error) => {
-      console.error("Error al obtener los datos:", error);
+      console.error("Error retrieving data", error);
     });
 }
 
@@ -123,31 +82,22 @@ function updateUserData(userData, table) {
     table: table,
   };
   fetch(
-    `/api/updateUserData?id=${userLoggedInID}&table=${table}`,
-    {
+    `/api/updateUserData?id=${userLoggedInID}&table=${table}`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),
-    }
-  ).then((response) => {
+    }).then((response) => {
     if (response.status === 200) {
       showAlert(
         "success",
-        "Your personal information has been updated",
-        "alertContainer",
-        3000
+        "Your personal information has been updated"
       );
-      setTimeout(function () {
-        location.reload();
-      }, 3000);
     } else if (response.status === 500) {
       showAlert(
         "danger",
-        "There was an error while updating your information",
-        "alertContainer",
-        5000
+        "There was an error while updating your information"
       );
     }
   });
@@ -163,10 +113,7 @@ async function updateProfileImage() {
     var formData = new FormData();
     formData.append("image", imageFile);
     var filename =
-      userLoggedInID +
-      "." +
-      imageData.split(":")[1].split(";")[0].split("/")[1];
-
+      userLoggedInID + "." + imageData.split(":")[1].split(";")[0].split("/")[1];
     const response = await fetch(
       `/api/updateProfileImage?filename=${encodeURIComponent(
         filename
@@ -176,7 +123,6 @@ async function updateProfileImage() {
         body: formData,
       }
     );
-
     if (!response.ok) {
       throw new Error("Failed to upload image");
     }
@@ -185,9 +131,7 @@ async function updateProfileImage() {
   } catch (error) {
     showAlert(
       "danger",
-      "Failed to update profile image",
-      "alertContainer",
-      3000
+      "Failed to update profile image"
     );
     return "";
   }
@@ -217,13 +161,9 @@ function updateProfile() {
     var contact_information = document.getElementById("contact_information").value;
     var hourly_rate = document.getElementById("hourly_rate").innerHTML;
 
-    if (document.getElementById("profile_picture").files[0]) {
-      teacher_photo = true;
-    }
-
+    if (document.getElementById("profile_picture").files[0]) teacher_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
-      if (
-        !teacher_name ||
+      if (!teacher_name ||
         !teacher_email ||
         !about_classes ||
         !about_teacher ||
@@ -232,20 +172,15 @@ function updateProfile() {
         !contact_information ||
         !hourly_rate ||
         !short_description ||
-        !city_residence
-      ) {
+        !city_residence) {
         showAlert(
           "danger",
-          "All fields are required to have a public profile.",
-          "alertContainer",
-          3000
+          "All fields are required to have a public profile."
         );
       } else if (!teacher_photo) {
         showAlert(
           "danger",
-          "You must select a profile picture to make your profile public",
-          "alertContainer",
-          3000
+          "You must select a profile picture to make your profile public"
         );
       } else {
         saveTeacher();
@@ -254,37 +189,60 @@ function updateProfile() {
       saveTeacher();
     }
   } else if (userLoggedInRole == "Student") {
-    console.log("student");
-  } else {
-    var collaborator_name = document
-      .getElementById("collaborator_name")
-      .innerHTML.trim();
-    var collaborator_email = document
-      .getElementById("collaborator_email")
-      .innerHTML.trim();
-
-    if (!collaborator_name || !collaborator_email) {
+    var name = document.getElementById("student_name").innerHTML.trim();
+    var email = document.getElementById("student_email").innerHTML.trim();
+    var hobbies_and_interests =  document.getElementById("student_hobbies_and_interests").value.trim();
+    var language_level = document.getElementById("student_language_level").value;
+    if (!name || !email) {
       showAlert(
         "danger",
-        "Both name and email are required fields and cannot be empty",
-        "alertContainer",
-        3000
+        "Your name or email can not be empty"
       );
     } else {
-      updateUserData({
-        email: collaborator_email,
-        first_name: collaborator_name,
-      }, "Users");
-      updateUserData({
-        biography: document
-          .getElementById("collaborator_biography")
-          .value.trim(),
-        contact: document
-          .getElementById("collaborator_contact")
-          .innerHTML,
-      }, "Collaborators");
+      saveStudent(name, email, hobbies_and_interests, language_level);
+    }
+  } else {
+    var name = document.getElementById("collaborator_name").innerHTML.trim();
+    var email = document.getElementById("collaborator_email").innerHTML.trim();
+    var biography =  document.getElementById("collaborator_biography").value.trim();
+    var contact =  document.getElementById("collaborator_contact").innerHTML.trim();
+    var public_profile =  document.getElementById("collaborator_public_profile").checked;
+    if (public_profile) {
+      if (!name || !email || !biography || !contact) {
+        showAlert(
+          "danger",
+          "Public profile requires all fields to be completed"
+        );
+      } else {
+        saveCollaborator(email, name, biography, contact, public_profile);
+      }
+    } else {
+      saveCollaborator(email, name, biography, contact, public_profile);
     }
   }
+}
+
+function saveStudent(name, email, hobbies_and_interests, language_level) {
+  updateUserData({
+    email: email,
+    first_name: name,
+  }, "Users");
+  updateUserData({
+    hobbies_and_interests: hobbies_and_interests,
+    language_level: language_level
+  }, "Students");
+}
+
+function saveCollaborator(email, name, biography, contact, public_profile) {
+  updateUserData({
+    email: email,
+    first_name: name,
+  }, "Users");
+  updateUserData({
+    biography: biography,
+    contact: contact,
+    public_profile: public_profile
+  }, "Collaborators");
 }
 
 async function saveTeacher() {
@@ -343,9 +301,7 @@ function deleteAccount() {
 function successDeletion() {
   showAlert(
     "success",
-    "Your account was removed sucessfully",
-    "alertContainer",
-    3000
+    "Your account was removed sucessfully"
   );
   setTimeout(() => {
     document.getElementById("handleUserMenuLink").style.display = "none";
@@ -358,9 +314,7 @@ function successDeletion() {
 function errorDeletion() {
   showAlert(
     "danger",
-    "An issue occurred while deleting the account",
-    "alertContainer",
-    5000
+    "An issue occurred while deleting the account"
   );
 }
 

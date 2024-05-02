@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Norsk Kulturklubb · Lessons</title>
+  <title>Lessons · Leksjoner</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -66,7 +66,7 @@
 
         <div class="container" style="background-color: #f9faf9;padding:5px;border-radius: 5px;">
           <div class="row">
-            <div class="col-8">
+            <div class="col-12">
               <form class="d-flex justify-content-end" style="border: none;background-color: #f9faf9;">
                 <div class="input-group">
                   <span class="input-group-text" style="background-color: transparent; border: none;">
@@ -77,24 +77,74 @@
                 </div>
               </form>
             </div>
-            <div class="col-4">
-              <div>
-                <select class="form-select" id="languageLevel" style="font-size: 13px;" onchange="performSearch()">
-                  <option value="" selected>Select language level</option>
-                  <option value="A1 - Nybegynner">A1 - Nybegynner</option>
-                  <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
-                  <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
-                  <option value="B2 - Øvet">B2 - Øvet</option>
-                  <option value="C1 - Avansert">C1 - Avansert</option>
-                  <option value="C2 - Mester">C2 - Mester</option>
-                </select>
-              </div>
-            </div>
           </div>
         </div>
 
         <br><br><br>
 
+        <div class="accordion accordion-flush">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" id="accordion_A1 - Nybegynner" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                A1 - Nybegynner
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="collapseOne" data-bs-parent="#accordionFlushExample">
+              <div id="A1 - Nybegynner" class="accordion-body"></div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                A2 - Grunnleggende
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo" data-bs-parent="#accordionFlushExample">
+              <div id="A2 - Grunnleggende" class="accordion-body"></div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                B1 - Mellomnivå
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="collapseThree" data-bs-parent="#accordionFlushExample">
+              <div id="B1 - Mellomnivå" class="accordion-body"></div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                B2 - Øvet
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="collapseFour" data-bs-parent="#accordionFlushExample">
+              <div id="B2 - Øvet" class="accordion-body"></div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                C1 - Avansert
+              </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="collapseFive" data-bs-parent="#accordionFlushExample">
+              <div id="C1 - Avansert" class="accordion-body"></div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                C2 - Mester
+              </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="collapseSix" data-bs-parent="#accordionFlushExample">
+              <div id="C2 - Mester" class="accordion-body"></div>
+            </div>
+          </div>
+        </div>
+        
         <div class="row" data-aos="zoom-in" data-aos-delay="100" id="lessons_container"></div>
 
       </div>
@@ -118,7 +168,7 @@
       $("#header").load("/header.html");
     });
   </script>
-  <script src="/assets/js/lessons.js"></script>
+ <script src="/assets/js/lessons.js"></script>
 </body>
 
 </html>

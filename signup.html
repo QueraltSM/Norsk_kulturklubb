@@ -4,20 +4,16 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
   <title>Sign up · Registrer deg</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
-
   <!-- Favicons -->
   <link href="/assets/img/favicon.png" rel="icon" />
   <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
-
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet" />
-
   <!-- Vendor CSS Files -->
   <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
   <link href="/assets/vendor/aos/aos.css" rel="stylesheet" />
@@ -26,19 +22,15 @@
   <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
   <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
   <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
-
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet" />
-  
 </head>
-
 <body>
   <!-- ======= Header ======= -->
   <header id="header"></header>
   <!-- End Header -->
-
   <main id="main" data-aos="fade-in">
-    <section class="h-100 gradient-form section-bg">
+    <section class="h-100 gradient-form">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-xl-10">
@@ -51,22 +43,6 @@
                       <p>Sign up</p>
                     </div>
                     <form id="signup_form" class="validate-form" onsubmit="return signup()">
-                      <div class="select-role" required>
-                        <p><strong>Who are you?</strong></p>
-                        <div class="role-option">
-                          <input type="radio" id="Students" name="role" value="Students">
-                          <label for="Students">I'm a student</label>
-                        </div>
-                        <div class="role-option">
-                          <input type="radio" id="Teachers" name="role" value="Teachers">
-                          <label for="Teachers">I'm a teacher</label>
-                        </div>
-                        <div class="role-option">
-                          <input type="radio" id="Collaborators" name="role" value="Collaborators">
-                          <label for="Collaborators">I'm a collaborator</label>
-                        </div>
-                      </div>
-                      <br>
                       <div class="wrap-input100" data-validate="Valid email is required: ex@abc.xyz">
                         <input class="input100" type="text" name="name" placeholder="Name" required />
                         <span class="focus-input100" data-placeholder="Name"></span>
@@ -79,10 +55,28 @@
                         <input class="input100" type="password" name="password" placeholder="Password" required />
                         <span class="focus-input100" data-placeholder="Password"></span>
                       </div>
+                      <div class="wrap-input100" data-validate="Confirm password is required">
+                        <input class="input100" type="password" name="confirm_password" placeholder="Confirm password" required />
+                        <span class="focus-input100" data-placeholder="Confirm password"></span>
+                      </div>
+                      <div class="select-role" required>
+                        <div class="role-option">
+                          <input type="radio" id="Students" name="role" value="Students">
+                          <label for="Students" style="font-size: 13px">I'm a student</label>
+                        </div>
+                        <div class="role-option">
+                          <input type="radio" id="Teachers" name="role" value="Teachers">
+                          <label for="Teachers" style="font-size: 13px">I'm a teacher</label>
+                        </div>
+                        <div class="role-option">
+                          <input type="radio" id="Collaborators" name="role" value="Collaborators">
+                          <label for="Collaborators" style="font-size: 13px">I'm a collaborator</label>
+                        </div>
+                      </div>
+                      <div id="alertContainer" style="padding: 20px;text-align: center;"></div>
                       <div class="container-login100-form-btn d-flex justify-content-center">
                         <button type="submit" class="login100-form-btn">Sign up</button>
                       </div>
-                      <div id="alertContainer"></div>
                     </form>
                   </div>
                 </div>

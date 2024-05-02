@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Norsk Kulturklubb · Account</title>
+  <title>Account · Profil</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -40,14 +40,11 @@
   <main id="main" data-aos="fade-in">
     <section id="user-details" class="user-details">
       <div class="container" data-aos="fade-up">
-
         <div class="section-title" style="padding-bottom:0px;">
           <h2>Profil</h2>
           <p>Account</p>
         </div>
-
-        <div id="alertContainer"></div>
-
+        <div id="alertContainer" style="padding: 20px;text-align: center;"></div>
         <div id="student-account" class="row" style="display:none;margin-top:0px;">
           <div class="col-lg-12">
             <h3>
@@ -65,10 +62,13 @@
             <h3>
               Interests and hobbies
             </h3>
-            <span class="label-box">Changing your email will require logging in using the updated email</span>
-            <p contenteditable="true" id="student_hobbies_and_interests" class="editable-box"></p>
+            <span class="label-box">Tell us about your interests and hobbies! What are you passionate about? What activities do you enjoy in your free time? Sharing your interests and hobbies helps us get to know you better</span>
+            <textarea contenteditable="true" id="student_hobbies_and_interests" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
 
-            <span class="label-box">Language level</span><br>
+            <h3>
+              Language level
+            </h3>
+            <span class="label-box">Select your level of understanding of Norwegian</span>
             <select id="student_language_level" name="student_language_level" class="editable-box" style="width: 100%;">
               <option value="A1 - Nybegynner">A1 - Nybegynner</option>
               <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
@@ -82,16 +82,6 @@
 
         <div id="teacher-account" class="row" style="display:none;margin-top:0px;">
           <div class="col-lg-12">
-            <h3>
-              Profile image
-            </h3>
-            <div class="text-center">
-              <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="teacher_image" />
-            </div>
-            <div class="text-center mt-3">
-              <label for="profile_picture" class="btn btn-sm">Select Image</label>
-              <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImage(event)" />
-            </div> 
             <h3>
               Name
             </h3>
@@ -128,15 +118,16 @@
             <h3>Place of classes</h3>
             <span class="label-box">Location where your classes take place, including any facilities available</span>
             <textarea contenteditable="true" id="class_location" class="editable-box" style="width: 100%;"></textarea>
-
             <div class="row">
-              <div class="form-check mt-3" style="padding-top: 10px">
-                <input class="form-check-input" type="checkbox" id="teaching_in_person" />
-                <span class="label-box">I teach in-person classes</span>
-              </div>
-              <div class="form-check mt-3" style="padding-top: 10px">
-                <input class="form-check-input" type="checkbox" id="teaching_online" />
-                <span class="label-box">I teach classes remotely</span>
+              <div class="col">
+                <div class="form-check mt-3" style="display: inline-block; margin-right: 20px;">
+                  <input class="form-check-input" type="checkbox" id="teaching_in_person" />
+                  <label class="label-box" for="teaching_in_person">I teach in-person classes</label>
+                </div>
+                <div class="form-check mt-3" style="display: inline-block;">
+                  <input class="form-check-input" type="checkbox" id="teaching_online" />
+                  <label class="label-box" for="teaching_online">I teach classes remotely</label>
+                </div>
               </div>
             </div>
             
@@ -149,6 +140,17 @@
             <h3>Contact</h3>
             <span class="label-box">How students can contact you, including email, phone number, or social media profiles</span>
             <textarea contenteditable="true" id="contact_information" class="editable-box" style="width: 100%;"></textarea>
+
+            <h3>
+              Profile image
+            </h3>
+            <div class="text-center">
+              <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="teacher_image" />
+            </div>
+            <div class="text-center mt-3">
+              <label for="profile_picture" class="btn btn-sm">Select Image</label>
+              <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImage(event)" />
+            </div> 
 
             <h3>Public profile</h3>
             <div class="form-check mt-3" style="padding-top: 10px">
@@ -179,19 +181,16 @@
             <span class="label-box">Provide ways for others to contact you (e.g. email, phone number, social media handles)</span>
             <p contenteditable="true" id="collaborator_contact" class="editable-box"></p>
 
-
             <h3>
               Biography
             </h3>
             <span class="label-box">Introduce yourself briefly (max 300 chars)</span>
             <textarea contenteditable="true" id="collaborator_biography" class="editable-box" style="width: 100%;"></textarea>
-
             <h3>Public profile</h3>
             <div class="form-check mt-3" style="padding-top: 10px">
               <input class="form-check-input" type="checkbox" id="collaborator_public_profile" />
-              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing users to find you, and enabling you to contribute posts and events.</span>
+              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing users to find you and enabling you to contribute posts and events.</span>
             </div>
-
           </div>
         </div><br>
         <div class="mt-3 text-center">
@@ -202,7 +201,7 @@
             Cancel
           </button>
           <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
-            Save changes
+            Save profile
           </button>
         </div>
       </div>

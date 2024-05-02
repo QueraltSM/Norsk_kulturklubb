@@ -700,6 +700,13 @@ section {
   font-weight: bold;
 }
 
+.badge {
+  background-color: #9C3030;
+  font-weight: bold;
+  color: #FFF;
+  float:left;
+}
+
 .more-btn i {
   font-size: 14px;
 }
@@ -787,39 +794,41 @@ section {
   border: 1px solid #eef0ef;
 }
 
-.lessons .course-content {
+.lessons .lesson-content {
   padding: 15px;
+  background-color: #FFF;
 }
 
-.lessons .course-content h3 {
+.lessons .lesson-content h3 {
   font-weight: 700;
   font-size: 20px;
 }
 
-.lessons .course-content h3 a {
+.lessons .lesson-content h3 a {
   color: #37423b;
   transition: 0.3s;
 }
 
-.lessons .course-content h3 a:hover {
+.lessons .lesson-content h3 a:hover {
   color: #9C3030;
 }
 
-.lessons .course-content p {
+.lessons .lesson-content p {
   font-size: 13px;
   color: #777777;
 }
 
-.lessons .course-content h4 {
+.lessons .lesson-content h4 {
   font-size: 14px;
-  background: #9C3030;
+  background-color: #9C3030;
+  color: #FFF;
   padding: 7px 14px;
-  color: #fff;
   margin: 0;
   border-radius: 5px;
+  font-weight: bold;
 }
 
-.lessons .course-content .price {
+.lessons .lesson-content .price {
   margin: 0;
   font-weight: 700;
   font-size: 18px;
@@ -2284,4 +2293,32 @@ textarea {
   margin: 2px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+/* Estilo para el acordeón */
+.accordion-item {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+.accordion-button {
+  font-weight: bold; /* Texto en negrita */
+  border: none; /* Sin borde */
+  outline: none;
+  padding: 15px 20px; /* Espaciado interior */
+  text-align: left; /* Alineación del texto */
+  background-color: #f8f8f8;
+}
+
+/* Estilo para el acordeón cuando está enfocado */
+.accordion-button:focus {
+  box-shadow: none; /* Quita la sombra al enfocar */
+  background-color: #f8f8f8;
+}
+
+/* Estilo para el acordeón cuando está colapsado */
+.accordion-button:not(.collapsed) {
+  color: #9C3030; /* Cambia el color del texto al expandirse */
 }

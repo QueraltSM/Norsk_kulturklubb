@@ -16,7 +16,7 @@ async function checkPublicProfile(userType) {
   }
   const userData = await response.json();
   if (!userData.public_profile) {
-    document.getElementById("public_profile").innerHTML = "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><i><u>Account</u></i></a> to complete your profile.</span>";
+    document.getElementById("public_profile").innerHTML = "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><u>Account</u></a> to complete your profile.</span>";
     div_word.style.pointerEvents = "none";
     div_word.style.opacity = "0.5";
     div_lesson.style.pointerEvents = "none";
@@ -79,7 +79,7 @@ if (localStorage.getItem("userLoggedInRole") == "Student") {
       });
     })
     .catch((error) => {
-      console.error("Error al obtener los datos:", error);
+      console.error("Error retrieving data", error);
     });
 } else {
   checkPublicProfile(localStorage.getItem("userLoggedInRole"));
