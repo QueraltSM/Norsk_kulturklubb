@@ -112,7 +112,9 @@
                                         style="width: 100%;"></textarea>
 
                                     <h3>Lesson</h3>
-                                    <a href="#" onclick="openDocumentModal(event);"><span class="label-box" style="color:#9C3030; font-weight: bold;"><i class="bi bi-book"></i> View current lesson</span></a>
+                                    <a href="#" onclick="handleDocumentViewer();"><i class="bi bi-book"  style="color:#9C3030; font-weight: bold;"></i>&nbsp;<span class="label-box" style="color:#9C3030; font-weight: bold;" id="document_label">View current lesson</span></a>
+                                    <iframe id="content_document" width="100%" height="842px" frameborder="0" style="display: none;" download="false"></iframe>
+
                                     <br>
                                     <span class="label-box">Select the file of your lesson (PDF, TXT, DOCX, PPTX or
                                         MP4)</span>
@@ -155,11 +157,6 @@
                             <div id="content_image_modal" class="modal">
                                 <div class="modal-content">
                                   <img id="content_image" class="img-fluid" style="width: 400px; height: 260px">
-                                </div>
-                              </div>
-                              <div id="content_document_modal" class="modal">
-                                <div class="modal-content">
-                                  <iframe id="content_document" style="display:none" width="100%" height="842px" frameborder="0"></iframe>
                                 </div>
                               </div>
                         </section>

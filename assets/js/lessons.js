@@ -68,7 +68,6 @@ async function fetchData() {
         
           `;
           document.getElementById(lesson.language_level).innerHTML += lessonHTML;
-          console.log(lessonHTML);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);

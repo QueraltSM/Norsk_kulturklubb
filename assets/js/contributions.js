@@ -161,9 +161,7 @@ async function fetchWords() {
       `;
       words_container.innerHTML = wordsHTML;
     }
-  } catch (error) {
-    console.log("Error fetching data");
-  }
+  } catch (error) {}
 }
 
 async function fetchLessons() {
@@ -284,9 +282,7 @@ async function fetchCulture() {
       `;
       posts_container.innerHTML = postsHTML;
     }
-  } catch (error) {
-    console.log("Error fetching data");
-  }
+  } catch (error) {}
 }
 
 async function manage_action(ID, title, content_type, action) {

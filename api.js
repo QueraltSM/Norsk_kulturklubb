@@ -454,7 +454,6 @@ app.get('/api/getLessons', (req, res) => {
   const params = {
     TableName: 'Lessons',
   };
-  console.log("params:"+JSON.stringify(params));
   dynamoDB.scan(params, (err, data) => {
     if (err) {
       res.status(500).send('Internal server error');
@@ -498,7 +497,6 @@ app.get('/api/getMyContributions', (req, res) => {
       ':id': req.query.user_id
     }
   };
-  console.log(JSON.stringify(params))
   dynamoDB.scan(params, (err, data) => {
     if (err) {
       console.error('Error scanning the table:', err);
@@ -569,7 +567,6 @@ app.post('/api/uploadPostImage', multer().single('file'), (req, res) => {
       Body: req.file.buffer,
       ACL: 'public-read'
   };
-  console.log("params:"+JSON.stringify(params));
   s3.upload(params, (err, data) => {
       if (err) {
           console.error('Error al subir el fichero a S3:', err);
@@ -622,10 +619,8 @@ app.post('/api/deleteCulture', (req, res) => {
 app.get('/edit/:type/:title', (req, res) => {
   const title = req.params.title;
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('edit-content.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -634,10 +629,8 @@ app.get('/edit/:type/:title', (req, res) => {
 app.get('/Culture/:title', (req, res) => {
   const title = req.params.title;
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('post.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -646,10 +639,8 @@ app.get('/Culture/:title', (req, res) => {
 app.get('/Lessons/:title', (req, res) => {
   const title = req.params.title;
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('lesson.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -658,10 +649,8 @@ app.get('/Lessons/:title', (req, res) => {
 app.get('/Culture/', (req, res) => {
   const title = "Culture";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('culture.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -670,10 +659,8 @@ app.get('/Culture/', (req, res) => {
 app.get('/Lessons/', (req, res) => {
   const title = "Lessons";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('lessons.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -682,10 +669,8 @@ app.get('/Lessons/', (req, res) => {
 app.get('/Teachers/', (req, res) => {
   const title = "Teachers";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('teachers.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -694,10 +679,8 @@ app.get('/Teachers/', (req, res) => {
 app.get('/Account/', (req, res) => {
   const title = "Account";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('account.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -706,10 +689,8 @@ app.get('/Account/', (req, res) => {
 app.get('/Translator/', (req, res) => {
   const title = "Translator";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('translator.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
@@ -718,15 +699,23 @@ app.get('/Translator/', (req, res) => {
 app.get('/Share-Content/', (req, res) => {
   const title = "Share-Content";
   if (cachedContents[title]) {
-    console.log("Enviando contenido en caché para", title);
     return res.send(cachedContents[title]);
   }
-  console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('share-content.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });
 
+
+app.get('/Users/:title', (req, res) => {
+  const title = req.params.title;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync('user.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
 app.use(express.static(path.join(__dirname, '')));
 
 app.get('/', (req, res) => {

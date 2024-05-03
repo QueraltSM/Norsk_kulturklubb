@@ -4,10 +4,15 @@ var type = localStorage.getItem("contentType").toLowerCase();
 
 document.getElementById("div_"+type).style.display = "block";
 
-function openDocumentModal(event) {
-  event.preventDefault();
-  var modal = document.getElementById("content_document_modal");
-  modal.style.display = "block";
+function handleDocumentViewer() {
+  const iframe = document.getElementById("content_document");
+  if (iframe.style.display === "none") {
+    iframe.style.display = "block";
+    document.getElementById("document_label").innerHTML = "Close current lesson";
+  } else {
+    iframe.style.display = "none";
+    document.getElementById("document_label").innerHTML = "View current lesson";
+  }
 }
 
 function openImageModal(event) {
