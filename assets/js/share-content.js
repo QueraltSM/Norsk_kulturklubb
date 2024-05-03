@@ -7,16 +7,19 @@ const div_lesson = document.getElementById("div_lesson");
 const div_post = document.getElementById("div_post");
 const div_event = document.getElementById("div_event");
 
-async function checkPublicProfile(userType) {
+async function fetchData() {
   const response = await fetch(
-    `/api/getUser?id=${localStorage.getItem("userLoggedInID")}&table=${localStorage.getItem("userLoggedInRole")}s`
+    `/api/getUser?id=${localStorage.getItem(
+      "userLoggedInID"
+    )}&table=${localStorage.getItem("userLoggedInRole")}s`
   );
   if (!response.ok) {
     throw new Error("No response could be obtained from the server");
   }
   const userData = await response.json();
   if (!userData.public_profile) {
-    document.getElementById("public_profile").innerHTML = "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><u>Account</u></a> to complete your profile.</span>";
+    document.getElementById("public_profile").innerHTML =
+      "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><u>Account</u></a> to complete your profile.</span>";
     div_word.style.pointerEvents = "none";
     div_word.style.opacity = "0.5";
     div_lesson.style.pointerEvents = "none";
@@ -25,7 +28,7 @@ async function checkPublicProfile(userType) {
     div_post.style.opacity = "0.5";
     div_event.style.pointerEvents = "none";
     div_event.style.opacity = "0.5";
-    if (userType === 'Collaborator') {
+    if (localStorage.getItem("userLoggedInRole") === "Collaborator") {
       li_post.style.display = "block";
       li_post.classList.add("filter-active");
       li_event.style.display = "block";
@@ -39,92 +42,76 @@ async function checkPublicProfile(userType) {
     div_post.style.opacity = "1";
     div_event.style.pointerEvents = "auto";
     div_event.style.opacity = "1";
-    if (userType === 'Collaborator') {
+    if (localStorage.getItem("userLoggedInRole") === "Collaborator") {
       li_post.style.display = "block";
       li_post.classList.add("filter-active");
       li_event.style.display = "block";
+    } else if (localStorage.getItem("userLoggedInRole") === "Teacher") {
+      li_word_of_the_day.style.display = "block";
+      li_word_of_the_day.classList.add("filter-active");
+      li_lesson.style.display = "block";
+      li_post.style.display = "block";
+      li_event.style.display = "block";
     }
-  }
-}
-
-if (localStorage.getItem("userLoggedInRole") == "Student") {
-  li_word_of_the_day.style.display = "block";
-  li_word_of_the_day.classList.add("filter-active");
-  li_lesson.style.display = "block";
-  li_post.style.display = "block";
-  li_event.style.display = "block";
-  div_word.style.display = "block";
-  div_lesson.style.display = "block";
-  div_post.style.display = "block";
-  div_event.style.display = "block";
-  var events = [];
-  fetch(`/api/getWords`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to get server response.");
-      }
-      return response.json();
-    })
-    .then((words) => {
-      words.Items.forEach((word, index) => {
-        const fechaFormateada = word.date.split("/").reverse().join("-");
-        events.push(fechaFormateada);
-      });
-      flatpickr("#word_of_the_day_calendar", {
-        dateFormat: "d/m/Y",
-        minDate: "today",
-        disable: events.concat(["today"]).map(function (event) {
-          return new Date(event);
-        }),
-      });
-    })
-    .catch((error) => {
-      console.error("Error retrieving data", error);
-    });
-} else {
-  checkPublicProfile(localStorage.getItem("userLoggedInRole"));
+  }  
 }
 
 function publishWord() {
   const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
-  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
+  const meaning = document
+    .getElementById("word_of_the_day_meaning")
+    .innerHTML.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
     fetch("/api/uploadWord", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ID: uuidv4(),
-      word: word,
-      meaning: meaning,
-      date: calendar,
-      teacher_id: localStorage.getItem("userLoggedInID"),
-      pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
-    }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Network response was not ok");
-      }
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ID: uuidv4(),
+        word: word,
+        meaning: meaning,
+        date: calendar,
+        teacher_id: localStorage.getItem("userLoggedInID"),
+        pubdate: new Date()
+          .toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+          .replace(",", ""),
+      }),
     })
-    .then((data) => {
-      showAlert("success", "The Word of the day was submitted", "alertContainer", 3000);
-      setTimeout(() => {
-        window.location.href = "/index.html";
-      }, 3000);
-    })
-    .catch((error) => {
-      showAlert(
-        "danger",
-        "An error occurred during uploading",
-        "alertContainer",
-        5000
-      );
-    });
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      })
+      .then((data) => {
+        showAlert(
+          "success",
+          "The Word of the day was submitted",
+          "alertContainer",
+          3000
+        );
+        setTimeout(() => {
+          window.location.href = "/index.html";
+        }, 3000);
+      })
+      .catch((error) => {
+        showAlert(
+          "danger",
+          "An error occurred during uploading",
+          "alertContainer",
+          5000
+        );
+      });
   } else {
     showAlert(
       "danger",
@@ -137,7 +124,9 @@ function publishWord() {
 
 async function publishLesson() {
   var title = document.getElementById("lesson_title").innerHTML.trim();
-  var short_description = document.getElementById("lesson_short_description").innerHTML.trim();
+  var short_description = document
+    .getElementById("lesson_short_description")
+    .innerHTML.trim();
   var description = document.getElementById("lesson_description").value.trim();
   var languageLevel = document.getElementById("lesson_language_level").value;
   if (title && short_description && description && languageLevel) {
@@ -147,22 +136,25 @@ async function publishLesson() {
       var imageInput = document.getElementById("lesson_image");
       var image = imageInput.files[0];
       if (!file || !image) {
-        showAlert("danger", "Please select both file and image", "alertContainer", 3000);
+        showAlert(
+          "danger",
+          "Please select both file and image",
+          "alertContainer",
+          3000
+        );
         return "";
       }
       var formData = new FormData();
       formData.append("file", file);
-      formData.append("image", image); 
+      formData.append("image", image);
 
-      var filename = uuidv4() + "." + file.name.split('.').pop();
-      var image_filename = uuidv4() + "." + image.name.split('.').pop();
-     
+      var filename = uuidv4() + "." + file.name.split(".").pop();
+      var image_filename = uuidv4() + "." + image.name.split(".").pop();
+
       const response = await fetch(
         `/api/uploadFileLesson?filename=${encodeURIComponent(
           filename
-        )}&image_filename=${encodeURIComponent(
-          image_filename
-        )}`,
+        )}&image_filename=${encodeURIComponent(image_filename)}`,
         {
           method: "POST",
           body: formData,
@@ -186,7 +178,16 @@ async function publishLesson() {
           content_url: data.fileUrl,
           header_image: data.imageUrl,
           teacher_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
+          pubdate: new Date()
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", ""),
         }),
       })
         .then((response) => {
@@ -197,7 +198,12 @@ async function publishLesson() {
           }
         })
         .then((data) => {
-          showAlert("success", "The lesson was submitted", "alertContainer", 3000);
+          showAlert(
+            "success",
+            "The lesson was submitted",
+            "alertContainer",
+            3000
+          );
           setTimeout(() => {
             window.location.href = "/lessons.html";
           }, 3000);
@@ -215,33 +221,46 @@ async function publishLesson() {
       return "";
     }
   } else {
-    showAlert("danger", "Please fill all fields before submitting", "alertContainer", 3000);
+    showAlert(
+      "danger",
+      "Please fill all fields before submitting",
+      "alertContainer",
+      3000
+    );
   }
 }
 
 async function publishPost() {
   const title = document.getElementById("post_title").innerHTML.trim();
-  const short_description = document.getElementById("post_short_description").innerHTML.trim();
+  const short_description = document
+    .getElementById("post_short_description")
+    .innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
   const min_read = document.getElementById("post_min_read").innerHTML.trim();
   const category_select = document.getElementById("category_select").value;
-  const subcategory_select = document.getElementById("subcategory_select").value;
+  const subcategory_select =
+    document.getElementById("subcategory_select").value;
 
-  if (title && short_description && description && category_select && subcategory_select && min_read) {
+  if (
+    title &&
+    short_description &&
+    description &&
+    category_select &&
+    subcategory_select &&
+    min_read
+  ) {
     try {
       var fileInput = document.getElementById("post_image");
       var file = fileInput.files[0];
       if (!file) {
         showAlert("danger", "No file selected", "alertContainer", 3000);
         return "";
-      } 
+      }
       var formData = new FormData();
       formData.append("file", file);
-      var filename = uuidv4() + "." + file.name.split('.').pop();
+      var filename = uuidv4() + "." + file.name.split(".").pop();
       const response = await fetch(
-        `/api/uploadPostImage?filename=${encodeURIComponent(
-          filename
-        )}`,
+        `/api/uploadPostImage?filename=${encodeURIComponent(filename)}`,
         {
           method: "POST",
           body: formData,
@@ -266,7 +285,16 @@ async function publishPost() {
           subcategory: subcategory_select,
           min_read: min_read,
           user_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
+          pubdate: new Date()
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", ""),
         }),
       })
         .then((response) => {
@@ -277,7 +305,12 @@ async function publishPost() {
           }
         })
         .then((data) => {
-          showAlert("success", "The post was submitted", "alertContainer", 3000);
+          showAlert(
+            "success",
+            "The post was submitted",
+            "alertContainer",
+            3000
+          );
           setTimeout(() => {
             window.location.href = "/culture.html";
           }, 3000);
@@ -294,57 +327,74 @@ async function publishPost() {
       showAlert("danger", "Failed to upload file", "alertContainer", 3000);
       return "";
     }
-
   } else {
-    showAlert("danger", "Please fill all fields before submitting", "alertContainer", 3000);
+    showAlert(
+      "danger",
+      "Please fill all fields before submitting",
+      "alertContainer",
+      3000
+    );
   }
 }
 
 function publishEvent() {
   const title = document.getElementById("title_event").innerHTML.trim();
-  const short_description = document.getElementById("event_short_description").innerHTML.trim();
+  const short_description = document
+    .getElementById("event_short_description")
+    .innerHTML.trim();
   const description = document.getElementById("event_description").value.trim();
-  const platform_url = document.getElementById("event_platform_url").innerHTML.trim();
+  const platform_url = document
+    .getElementById("event_platform_url")
+    .innerHTML.trim();
   const calendar = document.getElementById("event_calendar").value;
 
   if (title && short_description && description && platform_url && calendar) {
     fetch("/api/uploadEvent", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ID: uuidv4(),
-      title: title,
-      short_description: short_description,
-      description: description,
-      platform_url: platform_url,
-      date: calendar,
-      teacher_id: localStorage.getItem("userLoggedInID"),
-      pubdate: new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')
-    }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Network response was not ok");
-      }
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ID: uuidv4(),
+        title: title,
+        short_description: short_description,
+        description: description,
+        platform_url: platform_url,
+        date: calendar,
+        teacher_id: localStorage.getItem("userLoggedInID"),
+        pubdate: new Date()
+          .toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+          .replace(",", ""),
+      }),
     })
-    .then((data) => {
-      showAlert("success", "Event was submitted", "alertContainer", 3000);
-      setTimeout(() => {
-        window.location.href = "/events.html";
-      }, 3000);
-    })
-    .catch((error) => {
-      showAlert(
-        "danger",
-        "An error occurred during uploading",
-        "alertContainer",
-        5000
-      );
-    });
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      })
+      .then((data) => {
+        showAlert("success", "Event was submitted", "alertContainer", 3000);
+        setTimeout(() => {
+          window.location.href = "/events.html";
+        }, 3000);
+      })
+      .catch((error) => {
+        showAlert(
+          "danger",
+          "An error occurred during uploading",
+          "alertContainer",
+          5000
+        );
+      });
   } else {
     showAlert(
       "danger",
@@ -355,30 +405,30 @@ function publishEvent() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  var filterItems = document.querySelectorAll('#contributions-flters li');
+document.addEventListener("DOMContentLoaded", function () {
+  var filterItems = document.querySelectorAll("#contributions-flters li");
   filterItems.forEach(function (item) {
-      item.addEventListener('click', function () {
-          filterItems.forEach(function (filterItem) {
-              filterItem.classList.remove('filter-active');
-          });
-          item.classList.add('filter-active');
-          var filter = item.getAttribute('data-filter').substring(1);
-          var contributionsItems = document.querySelectorAll('.contributions-item');
-          contributionsItems.forEach(function (contributionItem) {
-              if (contributionItem.classList.contains(filter)) {
-                  contributionItem.style.display = 'block';
-                  if (filter == "events") {
-                    flatpickr("#event_calendar", {
-                      dateFormat: "d/m/Y",
-                      minDate: "today"
-                    });
-                  }
-              } else {
-                  contributionItem.style.display = 'none';
-              }
-          });
+    item.addEventListener("click", function () {
+      filterItems.forEach(function (filterItem) {
+        filterItem.classList.remove("filter-active");
       });
+      item.classList.add("filter-active");
+      var filter = item.getAttribute("data-filter").substring(1);
+      var contributionsItems = document.querySelectorAll(".contributions-item");
+      contributionsItems.forEach(function (contributionItem) {
+        if (contributionItem.classList.contains(filter)) {
+          contributionItem.style.display = "block";
+          if (filter == "events") {
+            flatpickr("#event_calendar", {
+              dateFormat: "d/m/Y",
+              minDate: "today",
+            });
+          }
+        } else {
+          contributionItem.style.display = "none";
+        }
+      });
+    });
   });
 });
 
@@ -391,11 +441,11 @@ function toggleCategoryPost() {
   document.getElementById("Travel and tourism").style.display = "none";
   document.getElementById("Language and linguistics").style.display = "none";
   document.getElementById("Events and festivals").style.display = "none";
-  
-  var category_select = document.getElementById("category_select").value;
-  var categories = document.querySelectorAll('.subcategory-container');
 
-  categories.forEach(category => {
+  var category_select = document.getElementById("category_select").value;
+  var categories = document.querySelectorAll(".subcategory-container");
+
+  categories.forEach((category) => {
     category.style.display = "none";
   });
 
@@ -404,3 +454,5 @@ function toggleCategoryPost() {
     selectedCategory.style.display = "block";
   }
 }
+
+fetchData();

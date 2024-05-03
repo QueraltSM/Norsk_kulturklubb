@@ -273,9 +273,9 @@ function setNoPosts() {
   cultureEntries.appendChild(noDataDiv);
 }
 
-function loadPostDetails(postId, postTitle) {
-  localStorage.setItem("postID", postId);
-  localStorage.setItem("postTitle", postTitle);
+function loadPostDetails(contentID, contentTitle) {
+  localStorage.setItem("contentID", contentID);
+  localStorage.setItem("contentTitle", contentTitle);
   window.location.href = "post.html";
 }
 

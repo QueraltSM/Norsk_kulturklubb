@@ -619,6 +619,18 @@ app.post('/api/deleteCulture', (req, res) => {
   });
 });
 
+app.get('/edit/:type/:title', (req, res) => {
+  const title = req.params.title;
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('edit-content.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
 app.get('/Culture/:title', (req, res) => {
   const title = req.params.title;
   if (cachedContents[title]) {
@@ -627,6 +639,18 @@ app.get('/Culture/:title', (req, res) => {
   }
   console.log("Añadiendo a caché y enviando contenido para", title);
   const contenidoHTML = fs.readFileSync('post.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Lessons/:title', (req, res) => {
+  const title = req.params.title;
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('lesson.html', 'utf8');
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });

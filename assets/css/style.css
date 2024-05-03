@@ -796,21 +796,22 @@ section {
 
 .lessons .lesson-content {
   padding: 15px;
-  background-color: #FFF;
+
 }
 
 .lessons .lesson-content h3 {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
+  color: #003657;
 }
 
 .lessons .lesson-content h3 a {
-  color: #37423b;
-  transition: 0.3s;
+  color: #003657;
 }
 
 .lessons .lesson-content h3 a:hover {
   color: #9C3030;
+  border: none;
 }
 
 .lessons .lesson-content p {
@@ -2295,14 +2296,13 @@ textarea {
   cursor: pointer;
 }
 
-/* Estilo para el acordeón */
 .accordion-item {
-  background-color: #f8f8f8;
+  background-color: #f9faf9;
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 20px;
-  background-color: #f8f8f8;
 }
+
 .accordion-button {
   font-weight: bold; /* Texto en negrita */
   border: none; /* Sin borde */
@@ -2310,15 +2310,18 @@ textarea {
   padding: 15px 20px; /* Espaciado interior */
   text-align: left; /* Alineación del texto */
   background-color: #f8f8f8;
+  color: #003657;
+  font-size: 20px;
 }
 
-/* Estilo para el acordeón cuando está enfocado */
 .accordion-button:focus {
   box-shadow: none; /* Quita la sombra al enfocar */
   background-color: #f8f8f8;
+  border: none;
+  outline: none;
 }
 
-/* Estilo para el acordeón cuando está colapsado */
 .accordion-button:not(.collapsed) {
-  color: #9C3030; /* Cambia el color del texto al expandirse */
+  color: #9C3030;
+  background-color: #f8f8f8;
 }

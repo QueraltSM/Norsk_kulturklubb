@@ -12,7 +12,20 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
   li_post.style.display = "block";
   li_post.classList.add("filter-active");
   li_event.style.display = "block";
+  $('.posts').show();
+  $('.posts').addClass('filter-active');
+  fetchCulture();
+} else if (localStorage.getItem("userLoggedInRole") == "Teacher") {
+  li_word_of_the_day.style.display = "block";
+  li_word_of_the_day.classList.add("filter-active");
+  li_lesson.style.display = "block";
+  li_post.style.display = "block";
+  li_event.style.display = "block";
+  $('.words').show();
+  $('.words').addClass('filter-active');
+  fetchWords();
 }
+
 
 $('#contributions-flters li').click(function () {
   var filter = $(this).attr('data-filter');
@@ -25,7 +38,7 @@ $('#contributions-flters li').click(function () {
   } else if (filter == ".events") {
     //fetchEvents();
   }
-  // events
+ 
   $('.contributions-item').hide();
   $(filter).show();
   $('#contributions-flters li').removeClass('filter-active');
@@ -123,7 +136,7 @@ async function fetchWords() {
               <th>Word</th>
               <th>Meaning</th>
               <th>Displayed</th>
-              <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -184,26 +197,26 @@ async function fetchLessons() {
           <thead>
             <tr>
               <th>Published</th>
-              <th>Language level</th>
               <th>Title</th>
-              <th></th>
+              <th>Language level</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             ${lessons
               .map(
                 (l) => `
-                  <tr>
+                  <tr style='cursor:pointer;'>
                     <td>${l.pubdate}</td>
-                    <td>${l.language_level}</td>
                     <td>${l.title}</td>
+                    <td>${l.language_level}</td>
                     <td style="text-align: center;">
-                      <a onclick="updateLesson('${l.ID}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                      <a href="#" onclick="askDelete('${l.ID}:::${l.content_url}')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                      <a href="#" title="View" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'view')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-eye"></i></a>
+                      <a href="#" title="Edit" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                      <a href="#" title="Delete" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
-                `
-              )
+                `)
               .join("")}
           </tbody>
         </table>
@@ -254,12 +267,12 @@ async function fetchCulture() {
             ${posts
               .map(
                 (p) => `
-                  <tr style='cursor:pointer;' onclick="manage_action('${p.ID}', '${p.title}', 'view')">
+                  <tr style='cursor:pointer;' onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'view')">
                     <td>${p.pubdate}</td>
                     <td>${p.title}</td> 
                   <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}','edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
+                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
                   </td>
                                   
                   </tr>
@@ -276,11 +289,13 @@ async function fetchCulture() {
   }
 }
 
-async function manage_action(ID, title, action) {
-  if (action === "view") {
-      localStorage.setItem("postID", ID);
-      localStorage.setItem("postTitle", title);
-      window.location.href = `/Culture/${title.replace(/\s+/g, '-')}`;
+async function manage_action(ID, title, content_type, action) {
+  localStorage.setItem("contentID", ID);
+  localStorage.setItem("contentTitle", title);
+  localStorage.setItem("contentType", content_type);
+  if (action == "view") {
+      window.location.href = `/${content_type}/${title.replace(/\s+/g, '-')}`;
+  } else if (action == "edit") {
+    window.location.href = `/edit/${content_type}/${title.replace(/\s+/g, '-')}`;
   }
 }
-

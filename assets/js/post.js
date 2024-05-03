@@ -1,6 +1,6 @@
-let cultureID = localStorage.getItem("postID");
+let cultureID = localStorage.getItem("contentID");
 const culture_entry = document.getElementById("culture_entry");
-document.getElementById("postTitle").innerHTML = localStorage.getItem("postTitle");
+document.getElementById("contentTitle").innerHTML = localStorage.getItem("contentTitle");
 
 fetch(`/api/getCulture?id=${cultureID}`)
   .then((response) => {
