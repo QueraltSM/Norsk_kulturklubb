@@ -1,9 +1,3 @@
-
-function loadLessonDetails(lessonId) {
-  localStorage.setItem("lessonID", lessonId);
-  window.location.href = "lesson.html";
-}
-
 document
   .getElementById("searchInput")
   .addEventListener("keypress", function (event) {
@@ -59,7 +53,7 @@ async function fetchData() {
         if (result) {
           entered = true;
           const lessonHTML = `<div class="col-6" style="padding-bottom:10px;">
-          <a href="#" onclick="loadLessonDetails('${lesson.ID}')" style="text-decoration: none; color: inherit; display: flex;">
+          <a href="#" onclick="loadLesson('${lesson.ID}', '${lesson.title}')" style="text-decoration: none; color: inherit; display: flex;">
             <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
               <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
                 <img src="${lesson.header_image}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
@@ -132,6 +126,13 @@ async function getUser(id) {
     console.error("Error fetching user data:", error);
     throw error; // Re-throw the error to handle it in the calling function
   }
+}
+
+function loadLesson(ID, title) {
+  localStorage.setItem("contentID", ID);
+  localStorage.setItem("contentTitle", title);
+  localStorage.setItem("contentType", "Lessons");
+  window.location.href = `/Lessons/${title.replace(/\s+/g, '-')}`;
 }
 
 fetchData();

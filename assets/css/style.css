@@ -2325,3 +2325,171 @@ textarea {
   color: #9C3030;
   background-color: #f8f8f8;
 }
+
+/*--------------------------------------------------------------
+# Features Details Section
+--------------------------------------------------------------*/
+.features-details .features-item+.features-item {
+  margin-top: 60px;
+}
+
+.features-details .features-item .content {
+  background-color: #f9faf9;
+  padding: 30px;
+  border-radius: 10px;
+  color: #3e5055;
+}
+
+.features-details .features-item h3 {
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 15px;
+  
+}
+
+.features-details .features-item .more-btn {
+  background-color: #f9faf9;
+  color: #9C3030;
+  padding: 6px 30px;
+  border-radius: 6px;
+}
+
+.features-details .features-item .more-btn:hover {
+  background-color: rgba(#f9faf9, 0.8);
+}
+
+.features-details .features-item ul {
+  list-style: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+.features-details .features-item ul li {
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.features-details .features-item ul li:last-child {
+  padding-bottom: 0;
+}
+
+.features-details .features-item ul i {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #9C3030;
+}
+
+.features-details .features-item img {
+  border-radius: 15px;
+}
+
+/*--------------------------------------------------------------
+# community Section
+--------------------------------------------------------------*/
+.community .nav-tabs {
+  border: 0;
+}
+
+.community .nav-item {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.community .nav-item:last-child {
+  margin-bottom: 0;
+}
+
+.community .nav-link {
+  border: 0;
+  padding: 30px;
+  transition: 0.3s;
+  border-radius: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.community .nav-link i {
+  background-color: #9C3030;
+  color: #9C3030;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  flex-shrink: 0;
+  border-radius: 50px;
+}
+
+.community .nav-link h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  transition: 0.3s;
+}
+
+.community .nav-link p {
+  font-size: 15px;
+  margin: 0;
+}
+
+.community .nav-link:hover {
+  background: #9C3030;
+}
+
+.community .nav-link.active {
+  background: #9C3030;
+}
+
+.community .tab-pane img {
+  border-radius: 15px;
+}
+
+/*--------------------------------------------------------------
+# community Details Section
+--------------------------------------------------------------*/
+.community-details .community-item+.community-item {
+  margin-top: 60px;
+}
+
+.community-details .community-item .content {
+  background-color: rgba(56, 141, 168, 0.1);
+  color: #666666;
+  padding: 30px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.community-details .community-item h3 {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #003657;
+}
+
+.community-details .community-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.community-details .community-item ul li {
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.community-details .community-item ul li:last-child {
+  padding-bottom: 0;
+}
+
+.community-details .community-item ul i {
+  font-size: 17px;
+  margin-right: 10px;
+  color:#9C3030;
+}
+
+.community-details .community-item img {
+  border-radius: 15px;
+}

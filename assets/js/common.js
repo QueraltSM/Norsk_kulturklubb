@@ -45,10 +45,11 @@ function showAlert(alertType, message) {
   var container = document.getElementById('alertContainer');
   container.innerHTML = "";
   var content = document.createElement("span");
+  content.style.display = "block";
+  content.style.margin = "auto";
+  content.style.fontWeight = "bold";
+  content.style.fontSize = "15px"
   content.style.textAlign = "center";
-  content.style.padding = "20px";
-  // content.style.fontWeight = "bold";
-  content.style.fontSize = "15px";
   if (alertType === "danger") {
     content.style.color = "#ff4444";
     content.innerHTML = "<i class='bi bi-exclamation-circle-fill'></i> " + message;
@@ -58,6 +59,7 @@ function showAlert(alertType, message) {
   }
   container.appendChild(content);
 }
+
 
 function limitTextarea(element, maxLength) {
   if (element.textContent.length > maxLength) {

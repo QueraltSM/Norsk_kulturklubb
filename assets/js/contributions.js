@@ -46,7 +46,7 @@ $('#contributions-flters li').click(function () {
 });
 
 
-function loadLessonDetails(lessonId) {
+function loadLesson(lessonId) {
   localStorage.setItem("lessonID", lessonId);
   window.location.href = "lesson.html";
 }
@@ -146,7 +146,7 @@ async function fetchWords() {
                   <tr>
                     <td>${w.pubdate}</td>
                     <td>${w.word}</td>
-                    <td>${w.meaning}</td>
+                    <td>${w.meaning.length > 150 ? w.meaning.slice(0, 150) + '...' : w.meaning}</td>
                     <td>${w.date}</td>
                     <td style="text-align: center;">
                       <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>

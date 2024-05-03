@@ -69,12 +69,8 @@
           <h2>Oversetter</h2>
           <p>Translator</p>
         </div>
-        <div>
-          <div id="copyMessageContainer"></div>
-        </div>
       </div>
     </section>
-
     <form id="translationForm" class="needs-validation translator-form" novalidate style="width: 80%; margin: 0 auto;">
       <div class="form-row">
         <div class="col-6">
@@ -133,7 +129,6 @@
             </li>
           </ul>
           <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
-
             <div class="d-flex align-items-start" style="background-color: #f5f5f5; width: 100%; position: relative;">
               <textarea class="form-control auto-height-textarea" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
               <a title="Copy text" class="translator-buttons" type="button" id="copyButton" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;margin: 10px;">
@@ -141,6 +136,7 @@
               </a>
             </div>
           </div>
+          <div id="alertContainer"></div>
         </div>
       </div>
       <br>
@@ -215,6 +211,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/virtual-keyboard/dist/js/jquery.keyboard.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+  <script src="/assets/js/common.js"></script>
   <script src="/assets/js/translator.js"></script>
 
   <script>
@@ -287,28 +284,19 @@
       .addEventListener("click", function () {
         var translatedText =
           document.getElementById("translated_text").value;
-        var tempInput = document.createElement("textarea");
-        tempInput.value = translatedText;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        tempInput.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-        var alertMessage = document.createElement("div");
-        alertMessage.classList.add(
-          "alert",
-          "alert-success",
-          "mt-3",
-          "p-2",
-          "text-center"
-        );
-        alertMessage.innerHTML = "Text copied to clipboard";
-        document
-          .getElementById("copyMessageContainer")
-          .appendChild(alertMessage);
-        setTimeout(function () {
-          alertMessage.style.display = "none";
-        }, 3000);
+          if (translatedText) {
+            var tempInput = document.createElement("textarea");
+            tempInput.value = translatedText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            showAlert("success", "Text copied to clipboard")
+            setTimeout(function () {
+              document.getElementById("alertContainer").style.display = "none";
+            }, 3000);
+          }
       });
     document.getElementById("text")
       .addEventListener("input", function () {

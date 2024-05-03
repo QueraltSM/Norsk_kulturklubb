@@ -38,7 +38,7 @@ async function fetchData() {
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
-            loadPostDetails(cultureData.ID, cultureData.title);
+            loadPost(cultureData.ID, cultureData.title);
           });
 
           const cardImg = document.createElement("img");
@@ -273,10 +273,11 @@ function setNoPosts() {
   cultureEntries.appendChild(noDataDiv);
 }
 
-function loadPostDetails(contentID, contentTitle) {
-  localStorage.setItem("contentID", contentID);
-  localStorage.setItem("contentTitle", contentTitle);
-  window.location.href = "post.html";
+function loadPost(ID, title) {
+  localStorage.setItem("contentID", ID);
+  localStorage.setItem("contentTitle", title);
+  localStorage.setItem("contentType", "Lessons");
+  window.location.href = `/Culture/${title.replace(/\s+/g, '-')}`;
 }
 
 document

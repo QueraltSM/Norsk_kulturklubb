@@ -29,9 +29,7 @@ function loadTeacherProfile(id) {
 async function fetchData() {
   try {
     const response = await fetch(
-      `/api/getLesson?id=${localStorage.getItem(
-        "lessonID"
-      )}`
+      `/api/getLesson?id=${localStorage.getItem("contentID")}`
     );
     if (!response.ok) {
       throw new Error("Failed to get server response.");
@@ -46,7 +44,7 @@ async function fetchData() {
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>${lesson.language_level}</h4>
                 </div>
-                <h3><a href="#" onclick="loadLessonDetails('${lesson.ID}')">${lesson.title}</a></h3>
+                <h3><a href="#" onclick="loadLesson('${lesson.ID}')">${lesson.title}</a></h3>
                 <p>${lesson.description}</p>
                 <video controls style="display:none" id="video_container" style="width:100%">
                   <source id="video_url" type="video/mp4">

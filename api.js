@@ -655,6 +655,78 @@ app.get('/Lessons/:title', (req, res) => {
   res.send(contenidoHTML);
 });
 
+app.get('/Culture/', (req, res) => {
+  const title = "Culture";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('culture.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Lessons/', (req, res) => {
+  const title = "Lessons";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('lessons.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Teachers/', (req, res) => {
+  const title = "Teachers";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('teachers.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Account/', (req, res) => {
+  const title = "Account";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('account.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Translator/', (req, res) => {
+  const title = "Translator";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('translator.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get('/Share-Content/', (req, res) => {
+  const title = "Share-Content";
+  if (cachedContents[title]) {
+    console.log("Enviando contenido en caché para", title);
+    return res.send(cachedContents[title]);
+  }
+  console.log("Añadiendo a caché y enviando contenido para", title);
+  const contenidoHTML = fs.readFileSync('share-content.html', 'utf8');
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
 app.use(express.static(path.join(__dirname, '')));
 
 app.get('/', (req, res) => {
