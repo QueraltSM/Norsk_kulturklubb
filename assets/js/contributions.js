@@ -45,54 +45,6 @@ $('#contributions-flters li').click(function () {
   $(this).addClass('filter-active');
 });
 
-
-function loadLesson(lessonId) {
-  localStorage.setItem("lessonID", lessonId);
-  window.location.href = "lesson.html";
-}
-
-function deleteLesson() {
-  fetch(
-    '/api/deleteLesson',
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: localStorage.getItem("selectedLessonID"),
-        content_url: localStorage.getItem("selectedLessonContentUrl")
-      })
-    }
-  ).then((response) => {
-    if (response.status === 200) {
-      showAlert(
-        "success",
-        "Your lesson was removed sucessfully",
-        "alertContainer",
-        3000
-      );
-      setTimeout(() => {
-        window.location.href = "/contributions.html";
-      }, 3000);
-    } else if (response.status === 500) {
-      showAlert(
-        "danger",
-        "An issue occurred while deleting the lesson",
-        "alertContainer",
-        5000
-      );
-    }
-  });
-}
-
-function askDelete(params) {
-  const [lessonID, contentURL] = params.split(':::');
-  localStorage.setItem("selectedLessonID", lessonID);
-  localStorage.setItem("selectedLessonContentUrl", contentURL.substring(contentURL.lastIndexOf('/') + 1));
-  $("#confirmDeleteModal").modal("show");
-}
-
 function convertToDateObject(dateString) {
   const [datePart, timePart] = dateString.split(" ");
   const [day, month, year] = datePart.split("/");
@@ -128,37 +80,36 @@ async function fetchWords() {
       const dateB = new Date(convertToDateObject(b.pubdate));
       return dateB - dateA;
     });
-      const wordsHTML = `
-        <table class="contributions-table">
-          <thead>
-            <tr>
-              <th>Published</th>
-              <th>Word</th>
-              <th>Meaning</th>
-              <th>Displayed</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${words
-              .map(
-                (w) => `
-                  <tr>
-                    <td>${w.pubdate}</td>
-                    <td>${w.word}</td>
-                    <td>${w.meaning.length > 150 ? w.meaning.slice(0, 150) + '...' : w.meaning}</td>
-                    <td>${w.date}</td>
-                    <td style="text-align: center;">
-                      <a style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                      <a href="#" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-                    </td>
-                  </tr>
-                `
-              )
-              .join("")}
-          </tbody>
-        </table>
-      `;
+    const wordsHTML = `
+    <table class="contributions-table">
+      <thead>
+        <tr>
+          <th>Published</th>
+          <th>Word</th>
+          <th>Meaning</th>
+          <th>Displayed</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${words
+          .map(
+            (data, index) => `
+              <tr>
+                <td>${data.pubdate}</td>
+                <td>${data.word}</td>
+                <td>${data.meaning}</td>
+                <td>${data.date}</td>
+                <td style="text-align: center;">
+                  <a href="#" onclick="manage_action('${data.ID}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                  <a href="#" onclick="manage_action('${data.ID}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                </td>
+              </tr>`
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
       words_container.innerHTML = wordsHTML;
     }
   } catch (error) {}
@@ -197,22 +148,22 @@ async function fetchLessons() {
               <th>Published</th>
               <th>Title</th>
               <th>Language level</th>
-              <th>Actions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             ${lessons
               .map(
-                (l) => `
+                (data) => `
                   <tr style='cursor:pointer;'>
-                    <td>${l.pubdate}</td>
-                    <td>${l.title}</td>
-                    <td>${l.language_level}</td>
+                    <td>${data.pubdate}</td>
+                    <td>${data.title}</td>
+                    <td>${data.language_level}</td>
                     <td style="text-align: center;">
-                      <a href="#" title="View" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'view')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-eye"></i></a>
-                      <a href="#" title="Edit" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                      <a href="#" title="Delete" onclick="manage_action('${l.ID}', '${l.title}', 'Lessons', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-                    </td>
+                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
+                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                  </td>
                   </tr>
                 `)
               .join("")}
@@ -225,7 +176,6 @@ async function fetchLessons() {
     console.error("Error fetching data:");
   }
 }
-
 
 async function fetchCulture() {
   try {
@@ -258,21 +208,23 @@ async function fetchCulture() {
             <tr>
               <th>Published</th>
               <th>Title</th>
-              <th>Actions</th>
+              <th>Category</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             ${posts
               .map(
-                (p) => `
-                  <tr style='cursor:pointer;' onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'view')">
-                    <td>${p.pubdate}</td>
-                    <td>${p.title}</td> 
-                  <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'edit')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" onclick="manage_action('${p.ID}', '${p.title}', 'Culture', 'delete')" style="border-radius: 0px;color:#9C3030;margin:10px;" title="Delete"><i class="fa fa-trash"></i></a>
-                  </td>
-                                  
+                (data) => `
+                  <tr>
+                    <td>${data.pubdate}</td>
+                    <td>${data.title}</td> 
+                    <td>${data.category} > ${data.subcategory}</td> 
+                    <td style="text-align: center;">
+                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
+                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                  </td>          
                   </tr>
                 `
               )
@@ -285,13 +237,79 @@ async function fetchCulture() {
   } catch (error) {}
 }
 
-async function manage_action(ID, title, content_type, action) {
-  localStorage.setItem("contentID", ID);
-  localStorage.setItem("contentTitle", title);
-  localStorage.setItem("contentType", content_type);
+async function manage_action(ID, content_type, action) {
+  localStorage.setItem("contentType",content_type);
+  const response = await fetch("/api/getContent?id="+ID+"&table="+content_type);
+  const data = await response.json();
+  localStorage.setItem("contentData", JSON.stringify(data));
   if (action == "view") {
-      window.location.href = `/${content_type}/${title.replace(/\s+/g, '-')}`;
+      window.location.href = `/${content_type}/${data.title.replace(/\s+/g, '-')}`;
   } else if (action == "edit") {
-    window.location.href = `/edit/${content_type}/${title.replace(/\s+/g, '-')}`;
+    window.location.href = `/edit/${content_type}/${data.title.replace(/\s+/g, '-')}`;
+  } else {
+    $('#confirmDeleteModal').modal('show');
+  }
+}
+
+function deleteContentS3(url, key) {
+  fetch('/api/deleteContentS3',
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("contentID"),
+        key: key,
+        url: url,
+      })
+    }).then((response) => {
+      if (response.status === 500) {
+        showAlert("danger","An issue occurred while deleting");
+        return false;
+      }
+    });
+  return true;
+}
+
+function deleteContentDB(ID) {
+  fetch('/api/deleteContent',
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: ID,
+        table: localStorage.getItem("contentType")
+      })
+    }
+  ).then((response) => {
+    if (response.status === 200) {
+      location.reload();
+    } else if (response.status === 500) {
+      showAlert("danger","An issue occurred while deleting");
+    }
+  });
+}
+
+function deleteContent() {
+  var type = localStorage.getItem("contentType");
+  var data = JSON.parse(localStorage.getItem("contentData"));
+  if (type == "Words") {
+    deleteContentDB(data.ID);
+  } else if (type == "Lessons") {
+    var content_url = (data.content_url).substring((data.content_url).lastIndexOf("/") + 1);
+    if (deleteContentS3(content_url, "Lessons")) {
+      var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
+      if (deleteContentS3(image_url, "Lesson-Images")) {
+        deleteContentDB(data.ID);
+      }
+    }
+  } else if ("Culture") {
+    var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
+    if (deleteContentS3(image_url, "Culture-Images")) {
+      deleteContentDB(data.ID);
+    }
   }
 }

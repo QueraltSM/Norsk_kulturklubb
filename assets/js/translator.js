@@ -289,6 +289,5 @@ function translateText() {
         });
     })
     .catch((error) => {
-      alert("Error:" + error);
     });
 }

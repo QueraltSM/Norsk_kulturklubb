@@ -350,7 +350,7 @@ function deleteProfileImage() {
 
 async function deleteLessons() {
   try {
-    const response = await fetch("/api/getLessons");
+    const response = await fetch("/api/getAllContents?table=Lessons");
     if (!response.ok) {
       throw new Error("Failed to fetch lessons");
     }
@@ -367,8 +367,8 @@ async function deleteLessons() {
             content_url: lesson.content_url.substring(
               lesson.content_url.lastIndexOf("/") + 1
             ),
-            header_image: lesson.header_image.substring(
-              lesson.header_image.lastIndexOf("/") + 1
+            image_url: lesson.image_url.substring(
+              lesson.image_url.lastIndexOf("/") + 1
             ),
           }),
         });
@@ -382,7 +382,7 @@ async function deleteLessons() {
 
 async function deleteCulturePosts() {
   try {
-    const response = await fetch("/api/getCultureEntries");
+    const response = await fetch("/api/getAllContents?table=Culture");
     if (!response.ok) {
       throw new Error("Failed to fetch lessons");
     }

@@ -49,6 +49,7 @@ async function fetchData() {
     } else if (localStorage.getItem("userLoggedInRole") === "Teacher") {
       li_word_of_the_day.style.display = "block";
       li_word_of_the_day.classList.add("filter-active");
+      fetchDataCalendarWords();
       li_lesson.style.display = "block";
       li_post.style.display = "block";
       li_event.style.display = "block";
@@ -56,14 +57,16 @@ async function fetchData() {
   }  
 }
 
-function publishWord() {
+function fetchDataCalendarWords() {
+
+}
+
+async function publishWord() {
   const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
-  const meaning = document
-    .getElementById("word_of_the_day_meaning")
-    .innerHTML.trim();
+  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
   if (word && meaning && calendar) {
-    fetch("/api/uploadWord", {
+    await fetch("/api/uploadContent?table=Words", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,39 +88,28 @@ function publishWord() {
           })
           .replace(",", ""),
       }),
-    })
-      .then((response) => {
+    }).then((response) => {
         if (response.ok) {
           return response.json();
         } else {
           throw new Error("Network response was not ok");
         }
-      })
-      .then((data) => {
+      }).then((data) => {
         showAlert(
           "success",
-          "The Word of the day was submitted",
-          "alertContainer",
-          3000
+          "The Word of the day was submitted"
         );
-        setTimeout(() => {
-          window.location.href = "/index.html";
-        }, 3000);
       })
       .catch((error) => {
         showAlert(
           "danger",
-          "An error occurred during uploading",
-          "alertContainer",
-          5000
+          "An error occurred during uploading"
         );
       });
   } else {
     showAlert(
       "danger",
-      "Please fill all fields before submitting",
-      "alertContainer",
-      5000
+      "Please fill all fields before submitting"
     );
   }
 }
@@ -138,9 +130,7 @@ async function publishLesson() {
       if (!file || !image) {
         showAlert(
           "danger",
-          "Please select both file and image",
-          "alertContainer",
-          3000
+          "Please select both file and image"
         );
         return "";
       }
@@ -176,7 +166,7 @@ async function publishLesson() {
           description: description,
           language_level: languageLevel,
           content_url: data.fileUrl,
-          header_image: data.imageUrl,
+          image_url: data.imageUrl,
           teacher_id: localStorage.getItem("userLoggedInID"),
           pubdate: new Date()
             .toLocaleString("en-GB", {
@@ -200,9 +190,7 @@ async function publishLesson() {
         .then((data) => {
           showAlert(
             "success",
-            "The lesson was submitted",
-            "alertContainer",
-            3000
+            "The lesson was submitted"
           );
           setTimeout(() => {
             window.location.href = "/lessons.html";
@@ -211,21 +199,17 @@ async function publishLesson() {
         .catch((error) => {
           showAlert(
             "danger",
-            "An error occurred during uploading",
-            "alertContainer",
-            5000
+            "An error occurred during uploading"
           );
         });
     } catch (error) {
-      showAlert("danger", "Failed to upload file", "alertContainer", 3000);
+      showAlert("danger", "Failed to upload file");
       return "";
     }
   } else {
     showAlert(
       "danger",
-      "Please fill all fields before submitting",
-      "alertContainer",
-      3000
+      "Please fill all fields before submitting"
     );
   }
 }
@@ -253,7 +237,7 @@ async function publishPost() {
       var fileInput = document.getElementById("post_image");
       var file = fileInput.files[0];
       if (!file) {
-        showAlert("danger", "No file selected", "alertContainer", 3000);
+        showAlert("danger", "No file selected");
         return "";
       }
       var formData = new FormData();
@@ -307,9 +291,7 @@ async function publishPost() {
         .then((data) => {
           showAlert(
             "success",
-            "The post was submitted",
-            "alertContainer",
-            3000
+            "The post was submitted"
           );
           setTimeout(() => {
             window.location.href = "/culture.html";
@@ -318,21 +300,17 @@ async function publishPost() {
         .catch((error) => {
           showAlert(
             "danger",
-            "An error occurred during uploading",
-            "alertContainer",
-            5000
+            "An error occurred during uploading"
           );
         });
     } catch (error) {
-      showAlert("danger", "Failed to upload file", "alertContainer", 3000);
+      showAlert("danger", "Failed to upload file");
       return "";
     }
   } else {
     showAlert(
       "danger",
-      "Please fill all fields before submitting",
-      "alertContainer",
-      3000
+      "Please fill all fields before submitting"
     );
   }
 }
@@ -382,7 +360,7 @@ function publishEvent() {
         }
       })
       .then((data) => {
-        showAlert("success", "Event was submitted", "alertContainer", 3000);
+        showAlert("success", "Event was submitted");
         setTimeout(() => {
           window.location.href = "/events.html";
         }, 3000);
@@ -390,17 +368,13 @@ function publishEvent() {
       .catch((error) => {
         showAlert(
           "danger",
-          "An error occurred during uploading",
-          "alertContainer",
-          5000
+          "An error occurred during uploading"
         );
       });
   } else {
     showAlert(
       "danger",
-      "Please fill all fields before submitting",
-      "alertContainer",
-      5000
+      "Please fill all fields before submitting"
     );
   }
 }
@@ -418,12 +392,6 @@ document.addEventListener("DOMContentLoaded", function () {
       contributionsItems.forEach(function (contributionItem) {
         if (contributionItem.classList.contains(filter)) {
           contributionItem.style.display = "block";
-          if (filter == "events") {
-            flatpickr("#event_calendar", {
-              dateFormat: "d/m/Y",
-              minDate: "today",
-            });
-          }
         } else {
           contributionItem.style.display = "none";
         }
@@ -456,3 +424,11 @@ function toggleCategoryPost() {
 }
 
 fetchData();
+flatpickr("#word_of_the_day_calendar", {
+  dateFormat: "d/m/Y",
+  minDate: "today",
+});
+flatpickr("#event_calendar", {
+  dateFormat: "d/m/Y",
+  minDate: "today",
+});

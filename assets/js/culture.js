@@ -14,7 +14,7 @@ function calculateTotalPages(totalItems, itemsPerPage) {
 
 async function fetchData() {
   try {
-    const response = await fetch("/api/getCultureEntries");
+    const response = await fetch("/api/getAllContents?table=Culture");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
@@ -42,7 +42,7 @@ async function fetchData() {
           });
 
           const cardImg = document.createElement("img");
-          cardImg.src = cultureData.image;
+          cardImg.src = cultureData.image_url;
           cardImg.classList.add("card-img-top");
           cardImg.style.width = "100%";
           cardImg.style.height = "400px";

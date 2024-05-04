@@ -185,7 +185,7 @@
   </script>
   <script>
     const word_of_the_day_section = document.getElementById('word_of_the_day_section');
-    fetch('/api/getWordOfTheDay')
+    fetch('/api/getAllContents?table=Words')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to get server response.');

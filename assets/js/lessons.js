@@ -40,7 +40,7 @@ function performSearch() {
 
 async function fetchData() {
   try {
-    const response = await fetch("/api/getLessons");
+    const response = await fetch("/api/getAllContents?table=Lessons");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
@@ -56,7 +56,7 @@ async function fetchData() {
           <a href="#" onclick="loadLesson('${lesson.ID}', '${lesson.title}')" style="text-decoration: none; color: inherit; display: flex;">
             <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
               <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
-                <img src="${lesson.header_image}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
+                <img src="${lesson.image_url}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
               </div>
               <div class="lesson-content" style="padding: 20px; width: 60%;">
                 <h3 style="margin-bottom: 10px;">${lesson.title}</h3>

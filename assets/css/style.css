@@ -2493,3 +2493,32 @@ textarea {
 .community-details .community-item img {
   border-radius: 15px;
 }
+.contributions-table {
+  width: 100%;
+  border-radius: 10px; /* Radio de borde para la tabla */
+  overflow: hidden; /* Esto es importante para que los bordes redondos se apliquen correctamente */
+  border-spacing: 0; /* Espacio entre celdas de la tabla */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.contributions-table th,
+.contributions-table td {
+  border: none;
+  padding: 8px;
+}
+.contributions-table tbody tr:nth-child(even) {
+  background-color: rgba(56, 141, 168, 0.1);
+}
+.contributions-table .actions {
+  text-align: center;
+}
+.contributions-table th {
+  background-color: #003657;
+  color: white;
+  border: none;
+  padding: 8px;
+}
+.contributions-table td,
+.contributions-table th {
+  padding: 15px;
+}
