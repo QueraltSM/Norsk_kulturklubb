@@ -2,7 +2,7 @@ let cultureID = localStorage.getItem("contentID");
 const culture_entry = document.getElementById("culture_entry");
 document.getElementById("contentTitle").innerHTML = localStorage.getItem("contentTitle");
 
-fetch(`/api/getCulture?id=${cultureID}`)
+fetch("/api/getContent?id="+cultureID+"&table=Culture")
   .then((response) => {
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
@@ -22,10 +22,10 @@ fetch(`/api/getCulture?id=${cultureID}`)
     const cardImg = document.createElement("div");
     cardImg.classList.add("card-img");
     const img = document.createElement("img");
-    img.style.width = "100%"; // Asegura que la imagen se ajuste al ancho de la tarjeta
-    img.src = cultureData.image;
-    img.style.borderRadius = "10px"; // Aplica un borde redondeado a la imagen
-    cardImg.style.borderRadius = "10px"; // Aplica un borde redondeado al contenedor de la imagen
+    img.style.width = "100%";
+    img.src = cultureData.image_url;
+    img.style.borderRadius = "10px";
+    cardImg.style.borderRadius = "10px";
     cardImg.appendChild(img);
     const cardBody = document.createElement("div");
     cardBody.classList.add("card-body");

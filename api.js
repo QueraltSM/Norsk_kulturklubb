@@ -42,19 +42,6 @@ const s3 = new AWS.S3({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-app.get("/api/getTeachers", (req, res) => {
-  const params = {
-    TableName: "Teachers",
-  };
-  dynamoDB.scan(params, (err, data) => {
-    if (err) {
-      console.error("Error scanning the table:", err);
-      res.status(500).send("Internal server error");
-    } else {
-      res.json(data);
-    }
-  });
-});
 
 app.get("/api/translateText", (req, res) => {
   const params = {
@@ -76,11 +63,8 @@ app.get("/api/detectLanguage", (req, res) => {
   const params = {
     Text: req.query.text,
   };
-
   AWS.config.update({ region: "us-east-1" });
-
   const comprehend = new AWS.Comprehend();
-
   comprehend.detectDominantLanguage(params, (err, data) => {
     if (err) {
       console.error("Error al detectar el idioma:", err);
@@ -264,31 +248,6 @@ app.post("/api/updateProfileImage", multer().single("image"), (req, res) => {
   });
 });
 
-app.get("/api/getCulture", (req, res) => {
-  if (!req.query.id) {
-    res.status(400).send("ID is required");
-    return;
-  }
-  const params = {
-    TableName: "Culture",
-    Key: {
-      ID: req.query.id,
-    },
-  };
-  dynamoDB.get(params, (err, data) => {
-    if (err) {
-      console.error("Error al obtener el profesor de la base de datos:", err);
-      res.status(500).send("Internal server error al obtener el profesor");
-    } else if (!data.Item) {
-      res
-        .status(404)
-        .send("No se encontró el profesor con el ID proporcionado");
-    } else {
-      res.json(data.Item);
-    }
-  });
-});
-
 app.post("/api/deleteUser", (req, res) => {
   const params = {
     TableName: "Users",
@@ -352,19 +311,6 @@ app.get("/api/getUser", (req, res) => {
   });
 });
 
-app.get("/api/getWords", (req, res) => {
-  const params = {
-    TableName: "Words",
-  };
-  dynamoDB.scan(params, (err, data) => {
-    if (err) {
-      console.error("Error scanning the table:", err);
-      res.status(500).send("Internal server error");
-    } else {
-      res.json(data);
-    }
-  });
-});
 
 app.post("/api/uploadContent", (req, res) => {
   const params = {
@@ -505,27 +451,6 @@ app.post("/api/updateImage", upload.single("image"), (req, res) => {
       return res.status(500).send("Error uploading image to S3");
     }
     res.status(200).json({ imageUrl: data.Location });
-  });
-});
-
-app.get("/api/getLesson", (req, res) => {
-  const params = {
-    TableName: "Lessons",
-    Key: {
-      ID: req.query.id,
-    },
-  };
-  dynamoDB.get(params, (err, data) => {
-    if (err) {
-      console.error("Error al obtener el profesor de la base de datos:", err);
-      res.status(500).send("Internal server error al obtener el profesor");
-    } else if (!data.Item) {
-      res
-        .status(404)
-        .send("No se encontró el profesor con el ID proporcionado");
-    } else {
-      res.json(data.Item);
-    }
   });
 });
 

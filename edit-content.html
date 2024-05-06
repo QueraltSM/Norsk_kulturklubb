@@ -32,7 +32,6 @@
 
     <!-- Template Main CSS File -->
     <link href="/assets/css/style.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 </head>
@@ -58,18 +57,16 @@
                                     <h3>
                                         Word
                                     </h3>
-                                    <span class="label-box">Write the name of the word in Norwegian</span>
-                                    <p contenteditable="true" id="word_of_the_day_word" class="editable-box"></p>
-
+                                    <span class="label-box">Edit the name of the word</span>
+                                    <p contenteditable="true" id="word_title" class="editable-box"></p>
                                     <h3>
                                         Meaning
                                     </h3>
-                                    <span class="label-box">Write the description or definition of the entered
+                                    <span class="label-box">Edit the description or definition of the entered
                                         word (max. 300
                                         characters)</span><br>
-                                    <p contenteditable="true" id="word_of_the_day_meaning" class="editable-box"
+                                    <p contenteditable="true" id="word_meaning" class="editable-box"
                                         oninput="limitTextarea(this, 300)" style="width: 100%;"></p>
-
                                     <h3>
                                         Date
                                     </h3>
@@ -83,7 +80,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishWord();">
-                                    Save
+                                    Update
                                 </button>
                             </div>
                         </section>
@@ -156,7 +153,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="saveLesson();">
-                                    Save
+                                    Update
                                 </button>
                             </div>
                         </section>
@@ -343,7 +340,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishPost();">
-                                    Save
+                                    Update
                                 </button>
                             </div>
 
@@ -396,7 +393,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishEvent();">
-                                    Save
+                                    Update
                                 </button>
                             </div>
                         </section>

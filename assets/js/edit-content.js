@@ -1,8 +1,7 @@
-var ID = localStorage.getItem("contentID");
-var title = localStorage.getItem("contentTitle");
-var type = localStorage.getItem("contentType").toLowerCase();
+var ID = JSON.parse(localStorage.getItem("contentData")).ID;
+var type = localStorage.getItem("contentType");
 
-document.getElementById("div_" + type).style.display = "block";
+document.getElementById("div_" + type.toLocaleLowerCase()).style.display = "block";
 
 function handleDocumentViewer() {
   var document_container = document.getElementById("document_container");
@@ -91,44 +90,45 @@ async function saveLesson() {
     } else {
       showAlert("success", "Lesson was updated");
     }
-    fetchLesson();
+    fetchData();
     location.reload();
   }
 }
 
-async function fetchLesson() {
+async function fetchData() {
   try {
-    const response = await fetch(`/api/getLesson?id=${ID}`);
+    const response = await fetch("/api/getContent?id="+ID+"&table="+type);
     if (!response.ok) {
       throw new Error("Failed to get server response.");
     }
-    const lesson = await response.json();
-    document.getElementById("lesson_title").innerHTML = lesson.title;
-    document.getElementById("lesson_short_description").innerHTML =
-      lesson.short_description;
-    document.getElementById("lesson_description").innerHTML =
-      lesson.description;
-    document.getElementById("content_image").src = lesson.image_url;
-    document.getElementById("lesson_language_level").value =
-      lesson.language_level;
-    
-    var content_url = lesson.content_url;
-    localStorage.setItem("lesson_content_url", lesson.content_url);
-    localStorage.setItem("contentURL", content_url.substring(content_url.lastIndexOf('/') + 1, content_url.lastIndexOf('.')));
-
-    const contentType = lesson.content_url.split(".").pop();
-    if (contentType == "mp4") {
-      document.getElementById("video_url").src = lesson.content_url;
-      document.getElementById("video_container").style.display = "block";
-    } else {
-      document.getElementById("iframe_container").src = "https://docs.google.com/viewer?url=" +lesson.content_url +"&embedded=true";
-      document.getElementById("iframe_container").style.display = "block";
+    const data = await response.json();
+    if (type=="Words") {
+      document.getElementById("word_title").innerHTML = data.title;
+      document.getElementById("word_meaning").innerHTML = data.meaning;
+    } else if (type=="Lessons") {
+      document.getElementById("lesson_title").innerHTML = data.title;
+      document.getElementById("lesson_short_description").innerHTML =
+      data.short_description;
+      document.getElementById("lesson_description").innerHTML =
+      data.description;
+      document.getElementById("content_image").src = data.image_url;
+      document.getElementById("lesson_language_level").value =
+      data.language_level;
+      var content_url = data.content_url;
+      localStorage.setItem("lesson_content_url", data.content_url);
+      localStorage.setItem("contentURL", content_url.substring(content_url.lastIndexOf('/') + 1, content_url.lastIndexOf('.')));
+      const contentType = data.content_url.split(".").pop();
+      if (contentType == "mp4") {
+        document.getElementById("video_url").src = data.content_url;
+        document.getElementById("video_container").style.display = "block";
+      } else {
+        document.getElementById("iframe_container").src = "https://docs.google.com/viewer?url=" +data.content_url +"&embedded=true";
+        document.getElementById("iframe_container").style.display = "block";
+      }
     }
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
 
-if (type == "lessons") {
-  fetchLesson();
-}
+fetchData();

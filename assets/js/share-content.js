@@ -62,10 +62,10 @@ function fetchDataCalendarWords() {
 }
 
 async function publishWord() {
-  const word = document.getElementById("word_of_the_day_word").innerHTML.trim();
+  const title = document.getElementById("word_of_the_day_word").innerHTML.trim();
   const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_of_the_day_calendar").value;
-  if (word && meaning && calendar) {
+  if (title && meaning && calendar) {
     await fetch("/api/uploadContent?table=Words", {
       method: "POST",
       headers: {
@@ -73,7 +73,7 @@ async function publishWord() {
       },
       body: JSON.stringify({
         ID: uuidv4(),
-        word: word,
+        title: title,
         meaning: meaning,
         date: calendar,
         teacher_id: localStorage.getItem("userLoggedInID"),

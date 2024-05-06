@@ -28,8 +28,9 @@ function loadTeacherProfile(id) {
 
 async function fetchData() {
   try {
+    alert(222)
     const response = await fetch(
-      `/api/getLesson?id=${localStorage.getItem("contentID")}`
+      "/api/getContent?id="+localStorage.getItem("contentID")+"&table=Lessons"
     );
     if (!response.ok) {
       throw new Error("Failed to get server response.");

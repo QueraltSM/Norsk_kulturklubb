@@ -7,7 +7,7 @@ function loadTeacherProfile(id) {
 
 async function fetchData() {
   try {
-    const response = await fetch("/api/getTeachers");
+    const response = await fetch("/api/getAllContents?table=Teachers");
     if (!response.ok) {
       throw new Error("No response could be obtained from the server");
     }
