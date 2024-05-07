@@ -54,7 +54,7 @@ async function fetchData() {
       li_post.style.display = "block";
       li_event.style.display = "block";
     }
-  }  
+  }
 }
 
 async function publishWord() {
@@ -84,129 +84,112 @@ async function publishWord() {
           })
           .replace(",", ""),
       }),
-    }).then((response) => {
+    })
+      .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
           throw new Error("Network response was not ok");
         }
-      }).then((data) => {
-        showAlert(
-          "success",
-          "The Word of the day was submitted"
-        );
+      })
+      .then((data) => {
+        showAlert("success", "The Word of the day was submitted");
       })
       .catch((error) => {
-        showAlert(
-          "danger",
-          "An error occurred during uploading"
-        );
+        showAlert("danger", "An error occurred during uploading");
       });
   } else {
-    showAlert(
-      "danger",
-      "Please fill all fields before submitting"
-    );
+    showAlert("danger", "Please fill all fields before submitting");
   }
 }
 
 async function publishLesson() {
+  var ID = uuidv4();
   var title = document.getElementById("lesson_title").innerHTML.trim();
   var short_description = document
     .getElementById("lesson_short_description")
     .innerHTML.trim();
   var description = document.getElementById("lesson_description").value.trim();
-  var languageLevel = document.getElementById("lesson_language_level").value;
-  if (title && short_description && description && languageLevel) {
-    try {
-      var fileInput = document.getElementById("lesson_content_url");
-      var file = fileInput.files[0];
-      var imageInput = document.getElementById("lesson_image");
-      var image = imageInput.files[0];
-      if (!file || !image) {
-        showAlert(
-          "danger",
-          "Please select both file and image"
-        );
-        return "";
-      }
-      var formData = new FormData();
-      formData.append("file", file);
-      formData.append("image", image);
-
-      var filename = uuidv4() + "." + file.name.split(".").pop();
-      var image_filename = uuidv4() + "." + image.name.split(".").pop();
-
-      const response = await fetch(
-        `/api/uploadFileLesson?filename=${encodeURIComponent(
-          filename
-        )}&image_filename=${encodeURIComponent(image_filename)}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to upload file");
-      }
-      const data = await response.json();
-      fetch("/api/uploadLesson", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ID: uuidv4(),
-          title: title,
-          short_description: short_description,
-          description: description,
-          language_level: languageLevel,
-          content_url: data.fileUrl,
-          image_url: data.imageUrl,
-          teacher_id: localStorage.getItem("userLoggedInID"),
-          pubdate: new Date()
-            .toLocaleString("en-GB", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            })
-            .replace(",", ""),
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Network response was not ok");
-          }
-        })
-        .then((data) => {
-          showAlert(
-            "success",
-            "The lesson was submitted"
-          );
-          setTimeout(() => {
-            window.location.href = "/lessons.html";
-          }, 3000);
-        })
-        .catch((error) => {
-          showAlert(
-            "danger",
-            "An error occurred during uploading"
-          );
-        });
-    } catch (error) {
-      showAlert("danger", "Failed to upload file");
-      return "";
-    }
+  var language_level = document.getElementById("lesson_language_level").value;
+  var lesson_content_url =
+    document.getElementById("lesson_content_url").files[0];
+  var lesson_image_url = document.getElementById("lesson_image").files[0];
+  var content_url = "";
+  var image_url = "";
+  if (
+    !title ||
+    !short_description ||
+    !description ||
+    !language_level ||
+    !lesson_content_url ||
+    !lesson_image
+  ) {
+    showAlert("danger", "All fields must be completed to share");
   } else {
-    showAlert(
-      "danger",
-      "Please fill all fields before submitting"
+    var formData = new FormData();
+    formData.append("file", lesson_content_url);
+    var filename = ID + "." + lesson_content_url.name.split(".").pop();
+    var response = await fetch(
+      `/api/uploadFile?key=Lessons&filename=${filename}`,
+      {
+        method: "POST",
+        body: formData,
+      }
     );
+    if (!response.ok) {
+      throw new Error("Failed to upload file");
+    } else {
+      const responseData = await response.json();
+      content_url = responseData.fileUrl;
+    }
+    var formData = new FormData();
+    formData.append("image", lesson_image_url);
+    var filename = ID + "." + lesson_image_url.name.split(".").pop();
+    response = await fetch(
+      `/api/updateImage?key=Lesson-Images&filename=${filename}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to upload file");
+    } else {
+      const responseData = await response.json();
+      image_url = responseData.imageUrl;
+    }
+    await fetch("/api/uploadContent?table=Lessons", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ID: ID,
+        title: title,
+        short_description: short_description,
+        description: description,
+        language_level: language_level,
+        content_url: content_url,
+        image_url: image_url,
+        teacher_id: localStorage.getItem("userLoggedInID"),
+        pubdate: new Date()
+          .toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+          .replace(",", ""),
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        showAlert("success", "The lesson was submitted");
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    });
   }
 }
 
@@ -217,10 +200,12 @@ async function publishPost() {
     .innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
   const min_read = document.getElementById("post_min_read").innerHTML.trim();
-  const category_select = document.getElementById("category_select").value;
-  const subcategory_select =
-    document.getElementById("subcategory_select").value;
-
+  const category_select = document
+    .getElementById("category_select")
+    .value.replace(/-/g, " ");
+  const subcategory_select = document
+    .getElementById("subcategory_select")
+    .value.replace(/-/g, " ");
   if (
     title &&
     short_description &&
@@ -250,7 +235,7 @@ async function publishPost() {
         throw new Error("Failed to upload file");
       }
       const data = await response.json();
-      fetch("/api/uploadPost", {
+      fetch("/api/uploadContent?table=Culture", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -285,29 +270,20 @@ async function publishPost() {
           }
         })
         .then((data) => {
-          showAlert(
-            "success",
-            "The post was submitted"
-          );
+          showAlert("success", "The post was submitted");
           setTimeout(() => {
             window.location.href = "/culture.html";
           }, 3000);
         })
         .catch((error) => {
-          showAlert(
-            "danger",
-            "An error occurred during uploading"
-          );
+          showAlert("danger", "An error occurred during uploading");
         });
     } catch (error) {
       showAlert("danger", "Failed to upload file");
       return "";
     }
   } else {
-    showAlert(
-      "danger",
-      "Please fill all fields before submitting"
-    );
+    showAlert("danger", "Please fill all fields before submitting");
   }
 }
 
@@ -362,16 +338,10 @@ function publishEvent() {
         }, 3000);
       })
       .catch((error) => {
-        showAlert(
-          "danger",
-          "An error occurred during uploading"
-        );
+        showAlert("danger", "An error occurred during uploading");
       });
   } else {
-    showAlert(
-      "danger",
-      "Please fill all fields before submitting"
-    );
+    showAlert("danger", "Please fill all fields before submitting");
   }
 }
 
@@ -395,29 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-function toggleCategoryPost() {
-  document.getElementById("History and traditions").style.display = "none";
-  document.getElementById("Art and literature").style.display = "none";
-  document.getElementById("Nature and landscapes").style.display = "none";
-  document.getElementById("Gastronomy").style.display = "none";
-  document.getElementById("Lifestyle and society").style.display = "none";
-  document.getElementById("Travel and tourism").style.display = "none";
-  document.getElementById("Language and linguistics").style.display = "none";
-  document.getElementById("Events and festivals").style.display = "none";
-
-  var category_select = document.getElementById("category_select").value;
-  var categories = document.querySelectorAll(".subcategory-container");
-
-  categories.forEach((category) => {
-    category.style.display = "none";
-  });
-
-  var selectedCategory = document.getElementById(category_select);
-  if (selectedCategory) {
-    selectedCategory.style.display = "block";
-  }
-}
 
 fetchData();
 flatpickr("#word_date", {

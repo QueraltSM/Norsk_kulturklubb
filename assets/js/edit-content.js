@@ -1,6 +1,5 @@
 var ID = JSON.parse(localStorage.getItem("contentData")).ID;
 var type = localStorage.getItem("contentType");
-
 document.getElementById("div_" + type.toLocaleLowerCase()).style.display = "block";
 
 function handleDocumentViewer() {
@@ -16,13 +15,13 @@ function handleDocumentViewer() {
 }
 
 function handleImageViewer() {
-  const image = document.getElementById("content_image");
+  const image = document.getElementById("content_image_"+type.toLocaleLowerCase());
   if (image.style.display == "none") {
     image.style.display = "block";
-    document.getElementById("image_label").innerHTML = "Close image";
+    document.getElementById("image_label_"+type.toLocaleLowerCase()).innerHTML = "Close image";
   } else {
     image.style.display = "none";
-    document.getElementById("image_label").innerHTML = "View image";
+    document.getElementById("image_label_"+type.toLocaleLowerCase()).innerHTML = "View image";
   }
 }
 
@@ -34,7 +33,7 @@ async function updateLesson() {
   var description = document.getElementById("lesson_description").innerHTML;
   var language_level = document.getElementById("lesson_language_level").value;
   var lesson_image = document.getElementById("lesson_image").files[0];
-  var image_url = document.getElementById("content_image").src;
+  var image_url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var content_url = localStorage.getItem("lesson_content_url");
   if (!title || !short_description || !description || !language_level) {
@@ -44,7 +43,7 @@ async function updateLesson() {
       var formData = new FormData();
       formData.append("file", lesson_content_url);
       var filename = localStorage.getItem("contentURL") + "." + lesson_content_url.name.match(/\.([^.]+)$/)[1];
-      const response = await fetch(`/api/updateFile?key=Lessons&filename=${filename}`, {
+      const response = await fetch(`/api/uploadFile?key=Lessons&filename=${filename}`, {
         method: "POST",
         body: formData,
       });
@@ -58,7 +57,7 @@ async function updateLesson() {
     if (lesson_image) {
       var formData = new FormData();
       formData.append("image", lesson_image);
-      url = document.getElementById("content_image").src;
+      url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
       var filename = url.substring(url.lastIndexOf("/") + 1);
       const response = await fetch(`/api/updateImage?key=Lesson-Images&filename=${filename}`, {
         method: "POST",
@@ -128,6 +127,7 @@ async function fetchData() {
       throw new Error("Failed to get server response.");
     }
     const data = await response.json();
+    
     if (type=="Words") {
       document.getElementById("word_title").innerHTML = data.title;
       document.getElementById("word_meaning").innerHTML = data.meaning;
@@ -138,7 +138,7 @@ async function fetchData() {
       data.short_description;
       document.getElementById("lesson_description").innerHTML =
       data.description;
-      document.getElementById("content_image").src = data.image_url;
+      document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
       document.getElementById("lesson_language_level").value =
       data.language_level;
       var content_url = data.content_url;
@@ -152,6 +152,17 @@ async function fetchData() {
         document.getElementById("iframe_container").src = "https://docs.google.com/viewer?url=" +data.content_url +"&embedded=true";
         document.getElementById("iframe_container").style.display = "block";
       }
+    } else if (type=="Culture") {
+      var category = data.category.replace(/\s+/g, '-');
+      var subcategory = data.subcategory.replace(/\s+/g, '-');
+      document.getElementById("post_title").innerHTML = data.title;
+      document.getElementById("post_short_description").innerHTML = data.short_description;
+      document.getElementById("post_description").innerHTML = data.description;
+      document.getElementById("category_select").value = category;
+      document.getElementById(category).style.display = "block";
+      document.getElementById("subcategory_select").value = subcategory;
+      document.getElementById("post_min_read").innerHTML = data.min_read;
+      document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
     }
   } catch (error) {
     console.error("Error fetching data:", error);

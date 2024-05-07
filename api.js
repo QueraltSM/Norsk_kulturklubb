@@ -326,19 +326,6 @@ app.post("/api/uploadContent", (req, res) => {
   });
 });
 
-app.post("/api/uploadLesson", (req, res) => {
-  const params = {
-    TableName: "Lessons",
-    Item: req.body,
-  };
-  dynamoDB.put(params, (err, data) => {
-    if (err) {
-      res.status(500).send("Error inserting");
-    } else {
-      res.status(200).json({ success: true });
-    }
-  });
-});
 
 app.post("/api/updateContent", (req, res) => {
   const params = {
@@ -430,7 +417,7 @@ app.post(
   }
 );
 
-app.post("/api/updateFile", upload.single("file"), (req, res) => {
+app.post("/api/uploadFile", upload.single("file"), (req, res) => {
   const file = req.file;
   const params = {
     Bucket: "norskkulturklubb",
@@ -586,19 +573,6 @@ app.post("/api/uploadPostImage", multer().single("file"), (req, res) => {
   });
 });
 
-app.post("/api/uploadPost", (req, res) => {
-  const params = {
-    TableName: "Culture",
-    Item: req.body,
-  };
-  dynamoDB.put(params, (err, data) => {
-    if (err) {
-      res.status(500).send("Error inserting");
-    } else {
-      res.status(200).json({ success: true });
-    }
-  });
-});
 
 app.post("/api/deleteCulture", (req, res) => {
   const params = {
@@ -682,6 +656,16 @@ app.get("/Lessons/:title", (req, res) => {
     return res.send(cachedContents[title]);
   }
   const contenidoHTML = fs.readFileSync("lesson.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/Lessons/:title/Practice", (req, res) => {
+  const title = "/Lessons/" + req.params.title + "/Practice";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("practice.html", "utf8");
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });

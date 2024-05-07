@@ -49,8 +49,8 @@ async function fetchData() {
     var entered = false;
     for (const lesson of data.Items) {
       try {
-        const result = await getUser(lesson.teacher_id);
-        if (result) {
+        const user = await getUser(lesson.teacher_id);
+        if (user.public_profile) {
           entered = true;
           const lessonHTML = `<div class="col-6" style="padding-bottom:10px;">
           <a href="#" onclick="loadLesson('${lesson.ID}', '${lesson.title}')" style="text-decoration: none; color: inherit; display: flex;">
@@ -98,33 +98,6 @@ function setNoPosts() {
   noDataDiv.appendChild(message);
   noDataDiv.appendChild(img);
   lessonsContainer.appendChild(noDataDiv);
-}
-
-async function getUser(id) {
-  try {
-    const response1 = await fetch(
-      `/api/getUser?id=${id}&table=Users`
-    );
-    if (!response1.ok) {
-      throw new Error("No response could be obtained from the server");
-    }
-    const user = await response1.json();
-    const role = user.role;
-    const response2 = await fetch(
-      `/api/getUser?id=${id}&table=${role}s`
-    );
-    if (!response2.ok) {
-      throw new Error("No response could be obtained from the server");
-    }
-    const userData = await response2.json();
-    if (role === "Teacher") {
-      return userData.public_profile;
-    }
-    return true;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    throw error; // Re-throw the error to handle it in the calling function
-  }
 }
 
 function loadLesson(ID, title) {

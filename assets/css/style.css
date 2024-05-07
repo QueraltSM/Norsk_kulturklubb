@@ -791,12 +791,10 @@ section {
 --------------------------------------------------------------*/
 .lessons .course-item {
   border-radius: 5px;
-  border: 1px solid #eef0ef;
 }
 
 .lessons .lesson-content {
   padding: 15px;
-
 }
 
 .lessons .lesson-content h3 {
@@ -812,6 +810,12 @@ section {
 .lessons .lesson-content h3 a:hover {
   color: #9C3030;
   border: none;
+}
+
+.lessons .lesson-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .lessons .lesson-content p {

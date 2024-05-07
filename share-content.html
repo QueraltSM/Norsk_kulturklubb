@@ -122,21 +122,23 @@
                                         oninput="limitTextarea(this, 150)" onpaste="cleanPaste(event, this)"></p>
 
                                     <h3>
-                                        Description
+                                        Theoretical lesson
                                     </h3>
-                                    <span class="label-box">Write the description of the lesson</span><br>
+                                    <span class="label-box">For the theoretical part of the lesson, write its content. You can also embed HTML code.</span><br>
                                     <textarea contenteditable="true" id="lesson_description" class="editable-box"
-                                        style="width: 100%;" onpaste="cleanPaste(event, this)"></textarea>
+                                       style="overflow: auto; width: 100%; min-height: 400px;" onpaste="cleanPaste(event, this)"></textarea>
 
-                                    <h3>Lesson</h3>
-                                    <span class="label-box">Select the file of your lesson (PDF, TXT, DOCX, PPTX or
+                                    <h3>Practical lesson</h3>
+                                    <span class="label-box">For the practical part of the lesson, select a file (PDF, TXT, DOCX, PPTX or
                                         MP4)</span><br>
                                     <input type="file" id="lesson_content_url"
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box" style="width: 100%;">
 
                                     <h3>Image</h3>
-                                    <span class="label-box">Select the image of the lesson (JPG, PNG)</span><br>
+                                    <span class="label-box">Select the image of the lesson
+                                        
+                                        (JPG, PNG)</span><br>
                                     <input type="file" id="lesson_image" accept="image/jpeg,image/png,image/gif"
                                         contenteditable="true" class="editable-box" style="width: 100%;">
 
@@ -200,57 +202,54 @@
                                     <span class="label-box">Select the main category of the post</span><br>
                                     <select id="category_select" class="editable-box" style="width: 100%;"
                                         onchange="toggleCategoryPost()">
-                                        <option value="History and traditions">History and traditions</option>
-                                        <option value="Art and literature">Art and literature</option>
-                                        <option value="Nature and landscapes">Nature and landscapes</option>
+                                        <option value="History-and-traditions">History and traditions</option>
+                                        <option value="Art-and-literature">Art and literature</option>
+                                        <option value="Nature-and-landscapes">Nature and landscapes</option>
                                         <option value="Gastronomy">Gastronomy</option>
-                                        <option value="Lifestyle and society">Lifestyle and society</option>
-                                        <option value="Travel and tourism">Travel and tourism</option>
-                                        <option value="Language and linguistics">Language and linguistics</option>
-                                        <option value="Events and festivals">Events and festivals</option>
+                                        <option value="Lifestyle-and-society">Lifestyle and society</option>
+                                        <option value="Travel-and-tourism">Travel and tourism</option>
+                                        <option value="Language-and-linguistics">Language and linguistics</option>
+                                        <option value="Events-and-festivals">Events and festivals</option>
                                     </select>
 
-
-                                    <div id="History and traditions">
+                                    <div id="History-and-traditions">
                                         <h3>
                                             History and traditions
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Norwegian history">Norwegian history</option>
+                                            <option value="Norwegian-history">Norwegian history</option>
                                             <option value="Mythology">Mythology</option>
-                                            <option value="Traditional festivals and celebrations">Traditional festivals and celebrations</option>
-                                            <option value="Customs and ceremonies">Customs and ceremonies</option>
+                                            <option value="Traditional-festivals-and-celebrations">Traditional festivals
+                                                and celebrations</option>
+                                            <option value="Customs-and-ceremonies">Customs and ceremonies</option>
                                         </select>
                                     </div>
 
-
-                                    <div id="Art and literature" style="display:none">
+                                    <div id="Art-and-literature" style="display:none">
                                         <h3>
                                             Art and literature
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Norwegian literature">Norwegian literature</option>
-                                            <option value="Norwegian art and artists">Norwegian art and artists</option>
-                                            <option value="Traditional and modern music">Traditional and modern music
+                                            <option value="Norwegian-literature">Norwegian literature</option>
+                                            <option value="Norwegian-art-and-artists">Norwegian art and artists</option>
+                                            <option value="Traditional-and-modern-music">Traditional and modern music
                                             </option>
-                                            <option value="Norwegian theater and cinema">Norwegian theater and cinema
+                                            <option value="Norwegian-theater-and-cinema">Norwegian theater and cinema
                                             </option>
                                         </select>
                                     </div>
 
-
-                                    
-                                    <div id="Nature and landscapes" style="display:none">
+                                    <div id="Nature-and-landscapes" style="display:none">
                                         <h3>
                                             Nature and landscapes
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
                                             <option value="Fjords and mountains">Fjords and mountains</option>
-                                            <option value="Norwegian fauna and flora">Norwegian fauna and flora</option>
-                                            <option value="Outdoor sports and activities">Outdoor sports and activities
+                                            <option value="Norwegian-fauna-and-flora">Norwegian fauna and flora</option>
+                                            <option value="Outdoor-sports-and-activities">Outdoor sports and activities
                                             </option>
 
                                         </select>
@@ -263,64 +262,75 @@
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Traditional norwegian dishes">Traditional norwegian dishes</option>
-                                            <option value="Local ingredients and recipes">Local ingredients and recipes</option>
-                                            <option value="Culinary customs and festivals">Culinary customs and festivals
+                                            <option value="Traditional-norwegian-dishes">Traditional norwegian dishes
+                                            </option>
+                                            <option value="Local-ingredients-and-recipes">Local ingredients and recipes
+                                            </option>
+                                            <option value="Culinary-customs-and-festivals">Culinary customs and
+                                                festivals
                                             </option>
                                         </select>
                                     </div>
 
-                                    <div id="Lifestyle and society" style="display:none">
+                                    <div id="Lifestyle-and-society" style="display:none">
                                         <h3>
                                             Lifestyle and society
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Norwegian cultural values">Norwegian cultural values</option>
-                                            <option value="Scandinavian fashion and design">Scandinavian fashion and design</option>
-                                            <option value="Daily life and modern traditions">Daily life and modern traditions
+                                            <option value="Norwegian-cultural-values">Norwegian cultural values</option>
+                                            <option value="Scandinavian-fashion-and-design">Scandinavian fashion and
+                                                design</option>
+                                            <option value="Daily-life-and-modern-traditions">Daily life and modern
+                                                traditions
                                             </option>
                                         </select>
                                     </div>
 
 
-                                    <div id="Travel and tourism" style="display:none">
+                                    <div id="Travel-and-tourism" style="display:none">
                                         <h3>
                                             Travel and tourism
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Tourist destinations in Norway">Tourist destinations in Norway</option>
-                                            <option value="Travel tips for the country">Travel tips for the country</option>
-                                            <option value="Unique experiences and adventures">Unique experiences and adventures
+                                            <option value="Tourist-destinations-in-Norway">Tourist destinations in
+                                                Norway</option>
+                                            <option value="Travel-tips-for-the-country">Travel tips for the country
+                                            </option>
+                                            <option value="Unique experiences-and-adventures">Unique experiences and
+                                                adventures
                                             </option>
                                         </select>
                                     </div>
 
 
-                                    <div id="Language and linguistics" style="display:none">
+                                    <div id="Language-and-linguistics" style="display:none">
                                         <h3>
                                             Language and linguistics
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Basic norwegian lessons">Basic norwegian lessons</option>
-                                            <option value="Common expressions and phrases">Common expressions and phrases</option>
-                                            <option value="Dialects and regional variations">Dialects and regional variations
+                                            <option value="Basic-norwegian-lessons">Basic norwegian lessons</option>
+                                            <option value="Common-expressions-and-phrases">Common expressions and
+                                                phrases</option>
+                                            <option value="Dialects-and-regional-variations">Dialects and regional
+                                                variations
                                             </option>
                                         </select>
                                     </div>
 
 
-                                    <div id="Events and festivals" style="display:none">
+                                    <div id="Events-and-festivals" style="display:none">
                                         <h3>
                                             Events and festivals
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
                                         <select id="subcategory_select" class="editable-box" style="width: 100%;">
-                                            <option value="Cultural and artistic events">Cultural and artistic events</option>
-                                            <option value="Music and film festivals">Music and film festivals</option>
-                                            <option value="Traditional fairs and markets">Traditional fairs and markets
+                                            <option value="Cultural-and-artistic-events">Cultural and artistic events
+                                            </option>
+                                            <option value="Music-and-film-festivals">Music and film festivals</option>
+                                            <option value="Traditional-fairs-and-markets">Traditional fairs and markets
                                             </option>
                                         </select>
                                     </div>

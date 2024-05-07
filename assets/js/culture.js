@@ -25,22 +25,19 @@ async function fetchData() {
     for (let i = 0; i < culture.length; i++) {
       try {
         const cultureData = culture[i];
-        const result = await getUser(cultureData.user_id);
-        if (result) {
+        const user = await getUser(cultureData.user_id);
+        if (user.public_profile) {
           entered = true;
-
           const cultureCard = document.createElement("div");
           cultureCard.id = cultureData.ID;
           cultureCard.classList.add("card");
           cultureCard.classList.add("mb-3");
-
           const postLink = document.createElement("a");
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
             loadPost(cultureData.ID, cultureData.title);
           });
-
           const cardImg = document.createElement("img");
           cardImg.src = cultureData.image_url;
           cardImg.classList.add("card-img-top");
@@ -303,33 +300,6 @@ function performSearch() {
       card.style.display = "none";
     }
   });
-}
-
-async function getUser(id) {
-  try {
-    const response1 = await fetch(
-      `/api/getUser?id=${id}&table=Users`
-    );
-    if (!response1.ok) {
-      throw new Error("No response could be obtained from the server");
-    }
-    const user = await response1.json();
-    const role = user.role;
-    const response2 = await fetch(
-      `/api/getUser?id=${id}&table=${role}s`
-    );
-    if (!response2.ok) {
-      throw new Error("No response could be obtained from the server");
-    }
-    const userData = await response2.json();
-    if (role === "Teacher") {
-      return userData.public_profile;
-    }
-    return true;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    throw error;
-  }
 }
 
 function formatDate(dateString) {

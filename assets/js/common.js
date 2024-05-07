@@ -106,3 +106,48 @@ function fetchCalendar() {
     console.error('Error retrieving data', error);
   });
 }
+
+function toggleCategoryPost() {
+  document.getElementById("History-and-traditions").style.display = "none";
+  document.getElementById("Art-and-literature").style.display = "none";
+  document.getElementById("Nature-and-landscapes").style.display = "none";
+  document.getElementById("Gastronomy").style.display = "none";
+  document.getElementById("Lifestyle-and-society").style.display = "none";
+  document.getElementById("Travel-and-tourism").style.display = "none";
+  document.getElementById("Language-and-linguistics").style.display = "none";
+  document.getElementById("Events-and-festivals").style.display = "none";
+  var category_select = document.getElementById("category_select").value;
+  var categories = document.querySelectorAll(".subcategory-container");
+  categories.forEach((category) => {
+    category.style.display = "none";
+  });
+  var selectedCategory = document.getElementById(category_select);
+  if (selectedCategory) {
+    selectedCategory.style.display = "block";
+  }
+}
+
+async function getUser(id) {
+  try {
+    const response1 = await fetch(
+      `/api/getUser?id=${id}&table=Users`
+    );
+    if (!response1.ok) {
+      throw new Error("No response could be obtained from the server");
+    }
+    const user = await response1.json();
+    const role = user.role;
+    const response2 = await fetch(
+      `/api/getUser?id=${id}&table=${role}s`
+    );
+    if (!response2.ok) {
+      throw new Error("No response could be obtained from the server");
+    }
+    const userData = await response2.json();
+    const mergedData = Object.assign({}, user, userData);
+    return mergedData;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+}

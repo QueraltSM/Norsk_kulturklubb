@@ -19,55 +19,58 @@ function getTeacher(id) {
     });
 }
 
-function loadTeacherProfile(id) {
-  if (teacher_public_profile) {
-    localStorage.setItem('teacherID', id);
-    window.location.href = 'teacher.html';
-  }
-}
-
 async function fetchData() {
   try {
-    alert(222)
     const response = await fetch(
-      "/api/getContent?id="+localStorage.getItem("contentID")+"&table=Lessons"
+      "/api/getContent?id=" +
+        localStorage.getItem("contentID") +
+        "&table=Lessons"
     );
     if (!response.ok) {
       throw new Error("Failed to get server response.");
     }
     const lesson = await response.json();
     try {
-      const teacherName = "Lesson published by" + await getTeacher(lesson.teacher_id);
+      document.getElementById("lesson_level").innerHTML = lesson.language_level;
+      document.getElementById("lesson_title").innerHTML = lesson.title;
       const lessonHTML = `
-          <div class="col-lg-12">
-            <div class="course-item">
-              <div class="lesson-content">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h4>${lesson.language_level}</h4>
-                </div>
-                <h3><a href="#" onclick="loadLesson('${lesson.ID}')">${lesson.title}</a></h3>
-                <p>${lesson.description}</p>
-                <video controls style="display:none" id="video_container" style="width:100%">
-                  <source id="video_url" type="video/mp4">
-                </video>
-                <iframe id="iframe_container" style="display:none" width="100%" height="842px" frameborder="0"></iframe>
-                <div class="trainer d-flex justify-content-between align-items-center">
-                  <div class="trainer-profile d-flex align-items-center">
-                    <span><a href="#" onclick="loadTeacherProfile('${lesson.teacher_id}')">${teacherName}</a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>`;
+      <div class="col-lg-12">
+        <div class="course-item">
+          <div class="lesson-content">
+            <p>${lesson.description}</p>
+            <div class="lesson-container"><a href="#" target="_blank" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a></div>
+          </div>
+        </div>
+      </div>`;
+      getUser(lesson.teacher_id).then((user) => {
+        const userDetailsSection = document.createElement("div");
+        userDetailsSection.classList.add("user-details");
+        const authorTitle = document.createElement("h3");
+        authorTitle.textContent = "Learn with " + user.first_name;
+        authorTitle.style.color = "#9C3030";
+        const authorText = document.createElement("p");
+        authorText.classList.add("card-text");
+        authorText.innerHTML = user.about_teacher;
+        authorText.style.textAlign = "justify";
+        authorText.style.fontSize = "13px";
+        userDetailsSection.appendChild(authorTitle);
+        userDetailsSection.appendChild(authorText);
+        const button = document.createElement("a");
+        button.href = "/Users/" + user.first_name;
+        button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
+        button.style.fontWeight = "bold";
+        button.style.float = "right";
+        userDetailsSection.appendChild(button);
+        const lessonContainer = document.createElement("div");
+        lessonContainer.classList.add("col-lg-12");
+        lessonContainer.appendChild(userDetailsSection);
+        document
+          .querySelector(".course-item")
+          .parentNode.appendChild(lessonContainer);
+      });
       lessonContainer.innerHTML += lessonHTML;
-      const contentType = lesson.content_url.split('.').pop();
-      if (contentType == "mp4") {
-        document.getElementById("video_url").src = lesson.content_url;
-        document.getElementById("video_container").style.display = "block";
-      } else {
-        document.getElementById("iframe_container").src = "https://docs.google.com/viewer?url=" + lesson.content_url + "&embedded=true";
-        document.getElementById("iframe_container").style.display = "block";
-      }
+      document.getElementById("practice_lesson").href =
+        "/Lessons/" + window.location.href.split("/").pop() + "/Practice/";
     } catch (error) {
       console.error("Error:", error);
     }
