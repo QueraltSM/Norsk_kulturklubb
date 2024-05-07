@@ -349,6 +349,7 @@ app.post("/api/updateContent", (req, res) => {
     ExpressionAttributeValues: {},
     ReturnValues: "UPDATED_NEW",
   };
+  const updateExpressionParts = [];
   if (req.query.table === "Lessons") {
     const title = req.body.title;
     const short_description = req.body.short_description;
@@ -356,7 +357,6 @@ app.post("/api/updateContent", (req, res) => {
     const language_level = req.body.language_level;
     const image_url = req.body.image_url;
     const content_url = req.body.content_url;
-    const updateExpressionParts = [];
     updateExpressionParts.push("title = :title");
     updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("description = :description");
@@ -369,8 +369,18 @@ app.post("/api/updateContent", (req, res) => {
     params.ExpressionAttributeValues[":language_level"] = language_level;
     params.ExpressionAttributeValues[":image_url"] = image_url;
     params.ExpressionAttributeValues[":content_url"] = content_url;
-    params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
+  } else if (req.query.table === "Words") {
+    const title = req.body.title;
+    const meaning = req.body.meaning;
+    const display_date = req.body.display_date;
+    updateExpressionParts.push("title = :title");
+    updateExpressionParts.push("meaning = :meaning");
+    updateExpressionParts.push("display_date = :display_date");
+    params.ExpressionAttributeValues[":title"] = title;
+    params.ExpressionAttributeValues[":meaning"] = meaning;
+    params.ExpressionAttributeValues[":display_date"] = display_date;
   }
+  params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
   dynamoDB.update(params, (err, data) => {
     if (err) {
       console.error("Error updating item in DynamoDB:", err);

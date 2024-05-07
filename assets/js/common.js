@@ -74,3 +74,35 @@ function cleanPaste(event, element) {
   var cleanedText = pastedText.replace(/<[^>]+>/g, '');
   document.execCommand("insertHTML", false, cleanedText);
 }
+
+function markDayAsTaken(calendarId, day) {
+  var calendar = document.getElementById(calendarId);
+  var formattedDay = formatDateForFlatpickr(day);
+  calendar._flatpickr.config.disable.push(formattedDay);
+  calendar._flatpickr.setDate(calendar._flatpickr.selectedDates, false);
+}
+
+function formatDateForFlatpickr(date) {
+  var parts = date.split('/');
+  var year = parts[2];
+  var month = parts[1] - 1;
+  var day = parts[0];
+  return new Date(year, month, day);
+}
+
+function fetchCalendar() {
+  fetch('/api/getAllContents?table=Words')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to get server response.');
+    }
+    return response.json();
+  })
+  .then(data => {
+    data.Items.forEach(word => {
+      markDayAsTaken("word_date", word.display_date); 
+    });
+  }).catch(error => {
+    console.error('Error retrieving data', error);
+  });
+}

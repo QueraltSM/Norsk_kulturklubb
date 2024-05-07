@@ -197,10 +197,10 @@
         wordsList.classList.add('row', 'counters', 'text-center');
         const currentDate = new Date().toLocaleDateString('en-GB');
         data.Items.forEach(word => {
-          if (currentDate == word.date) {
+          if (currentDate == word.display_date) {
             const wordDiv = document.createElement('div');
             wordDiv.innerHTML = `
-              <span>${word.word}</span>
+              <span>${word.title}</span>
               <p class="meaning" style="width:50%; margin: 0 auto;">${word.meaning}</p>
             `;
             wordDiv.style.margin = "0 auto";

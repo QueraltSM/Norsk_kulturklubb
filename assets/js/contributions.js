@@ -94,12 +94,12 @@ async function fetchWords() {
       <tbody>
         ${words
           .map(
-            (data, index) => `
+            (data) => `
               <tr>
                 <td>${data.pubdate}</td>
-                <td>${data.word}</td>
+                <td>${data.title}</td>
                 <td>${data.meaning}</td>
-                <td>${data.date}</td>
+                <td>${data.display_date}</td>
                 <td style="text-align: center;">
                   <a href="#" onclick="manage_action('${data.ID}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
                   <a href="#" onclick="manage_action('${data.ID}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>

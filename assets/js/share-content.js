@@ -49,7 +49,7 @@ async function fetchData() {
     } else if (localStorage.getItem("userLoggedInRole") === "Teacher") {
       li_word_of_the_day.style.display = "block";
       li_word_of_the_day.classList.add("filter-active");
-      fetchDataCalendarWords();
+      fetchCalendar();
       li_lesson.style.display = "block";
       li_post.style.display = "block";
       li_event.style.display = "block";
@@ -57,14 +57,10 @@ async function fetchData() {
   }  
 }
 
-function fetchDataCalendarWords() {
-
-}
-
 async function publishWord() {
-  const title = document.getElementById("word_of_the_day_word").innerHTML.trim();
-  const meaning = document.getElementById("word_of_the_day_meaning").innerHTML.trim();
-  const calendar = document.getElementById("word_of_the_day_calendar").value;
+  const title = document.getElementById("word_title").innerHTML.trim();
+  const meaning = document.getElementById("word_meaning").innerHTML.trim();
+  const calendar = document.getElementById("word_date").value;
   if (title && meaning && calendar) {
     await fetch("/api/uploadContent?table=Words", {
       method: "POST",
@@ -75,7 +71,7 @@ async function publishWord() {
         ID: uuidv4(),
         title: title,
         meaning: meaning,
-        date: calendar,
+        display_date: calendar,
         teacher_id: localStorage.getItem("userLoggedInID"),
         pubdate: new Date()
           .toLocaleString("en-GB", {
@@ -424,7 +420,7 @@ function toggleCategoryPost() {
 }
 
 fetchData();
-flatpickr("#word_of_the_day_calendar", {
+flatpickr("#word_date", {
   dateFormat: "d/m/Y",
   minDate: "today",
 });

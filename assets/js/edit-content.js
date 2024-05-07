@@ -26,7 +26,7 @@ function handleImageViewer() {
   }
 }
 
-async function saveLesson() {
+async function updateLesson() {
   var title = document.getElementById("lesson_title").innerHTML;
   var short_description = document.getElementById(
     "lesson_short_description"
@@ -86,12 +86,38 @@ async function saveLesson() {
       }),
     });
     if (!response.ok) {
-      throw new Error("Failed to upload file");
+      throw new Error("There was an error");
     } else {
       showAlert("success", "Lesson was updated");
     }
     fetchData();
     location.reload();
+  }
+}
+
+async function updateWord() {
+  var title = document.getElementById("word_title").innerHTML;
+  var meaning = document.getElementById("word_meaning").innerHTML;
+  var display_date = document.getElementById("word_date").value;
+  if (title && meaning && display_date) {
+    const response = await fetch(`/api/updateContent?table=Words&ID=` + ID, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        meaning: meaning,
+        display_date: display_date
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("There was an error");
+    } else {
+      showAlert("success", "Word was updated");
+    }
+  } else {
+    showAlert("danger", "All fields must be completed to update");
   }
 }
 
@@ -105,6 +131,7 @@ async function fetchData() {
     if (type=="Words") {
       document.getElementById("word_title").innerHTML = data.title;
       document.getElementById("word_meaning").innerHTML = data.meaning;
+      document.getElementById("word_date").value = data.display_date;
     } else if (type=="Lessons") {
       document.getElementById("lesson_title").innerHTML = data.title;
       document.getElementById("lesson_short_description").innerHTML =
@@ -131,4 +158,9 @@ async function fetchData() {
   }
 }
 
+
 fetchData();
+flatpickr("#word_date", {
+  dateFormat: "d/m/Y",
+  minDate: "today",
+});
