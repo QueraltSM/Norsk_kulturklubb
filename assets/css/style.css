@@ -413,6 +413,7 @@ h6 {
 # Hero Section
 --------------------------------------------------------------*/
 #hero,
+#not_found,
 #preview_lessons,
 #preview_teachers,
 #preview_events {
@@ -424,6 +425,7 @@ h6 {
 }
 
 #hero:before,
+#not_found:before,
 #preview_lessons:before,
 #preview_teachers:before,
 #preview_events:before {
@@ -437,6 +439,7 @@ h6 {
 }
 
 #hero .container,
+#not_found .container, 
 #preview_lessons .container,
 #preview_teachers .container,
 #preview_events .container {
@@ -445,6 +448,7 @@ h6 {
 
 @media (max-width: 992px) {
   #hero .container,
+  #not_found .container, 
   #preview_lessons .container,
   #preview_teachers .container,
   #preview_events .container {
@@ -453,6 +457,7 @@ h6 {
 }
 
 #hero h1,
+#not_found h1,
 #preview_lessons h1,
 #preview_teachers h1,
 #preview_events h1 {
@@ -465,6 +470,7 @@ h6 {
 }
 
 #hero h2,
+#not_found h2,
 #preview_lessons h2,
 #preview_teachers h2,
 #preview_events h2 {
@@ -474,6 +480,7 @@ h6 {
 }
 
 #hero .btn-get-started,
+#not_found .btn-get-started,
 #preview_lessons .btn-get-started,
 #preview_teachers .btn-get-started,
 #preview_events .btn-get-started {
@@ -491,6 +498,7 @@ h6 {
 }
 
 #hero .btn-get-started:hover,
+#not_found .btn-get-started:hover,
 #preview_lessons .btn-get-started:hover,
 #preview_teachers .btn-get-started:hover,
 #preview_events .btn-get-started:hover {
@@ -500,6 +508,7 @@ h6 {
 
 @media (min-width: 1024px) {
   #hero,
+  #not_found,
   #preview_lessons,
   #preview_teachers,
   #preview_events {
@@ -509,6 +518,7 @@ h6 {
 
 @media (max-width: 768px) {
   #hero,
+  #not_found,
   #preview_lessons,
   #preview_teachers,
   #preview_events {
@@ -516,6 +526,7 @@ h6 {
   }
 
   #hero h1,
+  #not_found h1,
   #preview_lessons h1,
   #preview_teachers h1,
   #preview_events h1 {
@@ -524,6 +535,7 @@ h6 {
   }
 
   #hero h2,
+  #not_found h2,
   #preview_lessons h2,
   #preview_teachers h2,
   #preview_events h2 {

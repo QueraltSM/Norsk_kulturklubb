@@ -40,15 +40,13 @@ function getInformationByRole() {
         if (user.city_residence != undefined) document.getElementById("city_residence").innerHTML = user.city_residence;
         if (user.teaching_in_person != undefined) document.getElementById("teaching_in_person").checked = user.teaching_in_person;
         if (user.teaching_online != undefined) document.getElementById("teaching_online").checked = user.teaching_online;
-        if (user.class_location != undefined)
-          document.getElementById("class_location").value = user.class_location;
-        if (user.class_prices != undefined)
-          document.getElementById("class_prices").value = user.class_prices;
-          if (user.hourly_rate != undefined)
-          document.getElementById("hourly_rate").innerHTML = user.hourly_rate;
+        if (user.class_location != undefined) document.getElementById("class_location").value = user.class_location;
+        if (user.class_prices != undefined) document.getElementById("class_prices").value = user.class_prices;
+        if (user.hourly_rate != undefined) document.getElementById("hourly_rate").innerHTML = user.hourly_rate;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
+        if (user.profile_url !== undefined) document.getElementById("profile_url").innerHTML = user.profile_url.replace(/-/g, " ");
         if (user.public_profile != undefined)
           document.getElementById("teacher_public_profile").checked =
             user.public_profile;
@@ -160,7 +158,7 @@ function updateProfile() {
     var class_prices = document.getElementById("class_prices").value;
     var contact_information = document.getElementById("contact_information").value;
     var hourly_rate = document.getElementById("hourly_rate").innerHTML;
-
+    var profile_url = document.getElementById("profile_url").innerHTML;
     if (document.getElementById("profile_picture").files[0]) teacher_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
       if (!teacher_name ||
@@ -172,7 +170,8 @@ function updateProfile() {
         !contact_information ||
         !hourly_rate ||
         !short_description ||
-        !city_residence) {
+        !city_residence ||
+        !profile_url) {
         showAlert(
           "danger",
           "All fields are required to have a public profile."
@@ -256,13 +255,14 @@ async function saveTeacher() {
   var class_prices = document.getElementById("class_prices").value;
   var contact_information = document.getElementById("contact_information").value;
   var hourly_rate = document.getElementById("hourly_rate").innerHTML;
+  var profile_url = document.getElementById("profile_url").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+
   var userData = {
     first_name: teacher_name,
     email: teacher_email,
   };
   updateUserData(userData, "Users");
   localStorage.setItem("user_first_name", teacher_name);
-
   var userData = {
     about_classes: about_classes,
     about_teacher: about_teacher,
@@ -274,9 +274,9 @@ async function saveTeacher() {
     hourly_rate: hourly_rate,
     teaching_in_person:  document.getElementById("teaching_in_person").checked,
     teaching_online:  document.getElementById("teaching_online").checked,
+    profile_url: profile_url,
     public_profile: document.getElementById("teacher_public_profile").checked,
   };
-
   if (document.getElementById("profile_picture").files[0]) {
     await updateProfileImage().then((imageUrl) => {
       userData.profile_picture = imageUrl;

@@ -182,7 +182,7 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Teachers") {
     updateExpression =
-      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, public_profile = :public_profile";
+      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, profile_url = :profile_url, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
@@ -194,6 +194,7 @@ app.post("/api/updateUserData", (req, res) => {
       ":city_residence": userData.city_residence,
       ":teaching_in_person": userData.teaching_in_person,
       ":teaching_online": userData.teaching_online,
+      ":profile_url" : userData.profile_url,
       ":public_profile": userData.public_profile,
     };
     if (userData.profile_picture != null && userData.profile_picture !== "") {
@@ -311,6 +312,26 @@ app.get("/api/getUser", (req, res) => {
   });
 });
 
+app.get("/api/getUserFromURL", (req, res) => {
+  console.log("get user from url: " + req.query.profile_url);
+  const params = {
+    TableName: req.query.table,
+    FilterExpression: "profile_url = :url",
+    ExpressionAttributeValues: {
+      ":url": req.query.profile_url
+    }
+  };
+  dynamoDB.scan(params, (err, data) => {
+    if (err) {
+      console.error("Error retrieving user from the database:", err);
+      res.status(500).send("Internal server error");
+    } else if (data.Items.length === 0) {
+      res.status(404).send("No user found");
+    } else {
+      res.json(data.Items[0]);
+    }
+  });
+});
 
 app.post("/api/uploadContent", (req, res) => {
   const params = {
@@ -690,6 +711,16 @@ app.get("/Lessons/", (req, res) => {
   res.send(contenidoHTML);
 });
 
+app.get("/Teachers/:profile_url", (req, res) => {
+  const title = "/Teachers/" + req.params.profile_url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("teacher.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
 app.get("/Teachers/", (req, res) => {
   const title = "/Teachers/";
   if (cachedContents[title]) {
@@ -739,6 +770,18 @@ app.get("/Users/:title", (req, res) => {
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });
+
+app.get("/404", (req, res) => {
+  const title = "/404";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("404.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+
 app.use(express.static(path.join(__dirname, "")));
 
 app.get("/", (req, res) => {

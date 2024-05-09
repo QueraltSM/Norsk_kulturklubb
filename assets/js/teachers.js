@@ -1,10 +1,5 @@
 const teachersContainer = document.getElementById("teachers_container");
 
-function loadTeacherProfile(id) {
-  localStorage.setItem("teacherID", id);
-  window.location.href = "teacher.html";
-}
-
 async function fetchData() {
   try {
     const response = await fetch("/api/getAllContents?table=Teachers");
@@ -18,13 +13,13 @@ async function fetchData() {
         teacherDiv.classList.add("col-lg-4");
         const teacherName = await get_teacher_name(teacher.ID);
         teacherDiv.innerHTML = `
-          <a href="#" onclick="loadTeacherProfile('${teacher.ID}')">
+          <a href="#" onclick="window.location.href = '/Teachers/' + '${teacher.profile_url}'">
             <div class="member" style="border-radius: 10px;">
               <div class="member-img">
                 <img src="${teacher.profile_picture}" class="img-fluid" alt="">
                 <div class="social" style="display: flex; justify-content: center; align-items: center;">
                   <div style="flex-grow: 1;">
-                    <h4 style="text-align: center; margin: 0;">Hei, I'm <strong>${teacherName}</strong></h4>
+                    <h4 style="text-align: center; margin: 0;"><strong>${teacherName}</strong></h4>
                   </div>
                   <div style="display: flex; align-items: center; padding-right: 5%;">
                     ${teacher.rating > 0 ? `

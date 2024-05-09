@@ -1,16 +1,15 @@
-alert(`/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
-fetch(`/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
-  .then((response) => {
+var profile_url = new URL(window.location.href).pathname.split('/')[2];
+async function fetchData() {
+  fetch("/api/getUserFromURL?profile_url="+profile_url+"&table=Teachers")
+  .then(async (response) => {
     if (!response.ok) {
       throw new Error("Failed to get server response.");
     }
-    return response.json();
-  })
-  .then((teacher) => {
+    const teacher = await response.json();
+    const user = await getUser(teacher.ID);
+    document.getElementById("teacher_name").innerHTML = user.first_name;
     document.getElementById("teacher_image").src =
       teacher.profile_picture;
-    document.getElementById("teacher_name").innerHTML =
-      "About " + teacher.name;
     document.getElementById("about_teacher").innerHTML =
       teacher.about_teacher;
     document.getElementById("about_class").innerHTML =
@@ -23,5 +22,7 @@ fetch(`/api/getUser?id=${localStorage.getItem('teacherID')}&table=Teachers`)
       teacher.contact_information;
   })
   .catch((error) => {
-    alert("Error retrieving data"+ error);
+    window.location.href = "/404.html";
   });
+}
+fetchData();
