@@ -26,16 +26,15 @@ function handleImageViewer() {
 }
 
 async function updateLesson() {
-  var title = document.getElementById("lesson_title").innerHTML;
-  var short_description = document.getElementById(
-    "lesson_short_description"
-  ).innerHTML;
-  var description = document.getElementById("lesson_description").innerHTML;
+  var title = document.getElementById("lesson_title").innerHTML.trim();
+  var short_description = document.getElementById("lesson_short_description").innerHTML.trim();
+  var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
   var lesson_image = document.getElementById("lesson_image").files[0];
   var image_url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var content_url = localStorage.getItem("lesson_content_url");
+
   if (!title || !short_description || !description || !language_level) {
     showAlert("danger", "All fields must be completed to update");
   } else {
@@ -43,7 +42,7 @@ async function updateLesson() {
       var formData = new FormData();
       formData.append("file", lesson_content_url);
       var filename = localStorage.getItem("contentURL") + "." + lesson_content_url.name.match(/\.([^.]+)$/)[1];
-      const response = await fetch(`/api/uploadFile?key=Lessons&filename=${filename}`, {
+      var response = await fetch(`/api/uploadFile?key=Lessons&filename=${filename}`, {
         method: "POST",
         body: formData,
       });
@@ -59,7 +58,7 @@ async function updateLesson() {
       formData.append("image", lesson_image);
       url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
       var filename = url.substring(url.lastIndexOf("/") + 1);
-      const response = await fetch(`/api/updateImage?key=Lesson-Images&filename=${filename}`, {
+      response = await fetch(`/api/updateImage?key=Lesson-Images&filename=${filename}`, {
         method: "POST",
         body: formData,
       });
@@ -69,8 +68,9 @@ async function updateLesson() {
         const responseData = await response.json();
         image_url =  responseData.imageUrl;
       }
+    
     }
-    const response = await fetch(`/api/updateContent?table=Lessons&ID=` + ID, {
+    response = await fetch(`/api/updateContent?table=Lessons&ID=` + ID, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,13 +134,10 @@ async function fetchData() {
       document.getElementById("word_date").value = data.display_date;
     } else if (type=="Lessons") {
       document.getElementById("lesson_title").innerHTML = data.title;
-      document.getElementById("lesson_short_description").innerHTML =
-      data.short_description;
-      document.getElementById("lesson_description").innerHTML =
-      data.description;
+      document.getElementById("lesson_short_description").innerHTML = data.short_description;
+      document.getElementById("lesson_description").innerHTML = data.description;
       document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
-      document.getElementById("lesson_language_level").value =
-      data.language_level;
+      document.getElementById("lesson_language_level").value = data.language_level;
       var content_url = data.content_url;
       localStorage.setItem("lesson_content_url", data.content_url);
       localStorage.setItem("contentURL", content_url.substring(content_url.lastIndexOf('/') + 1, content_url.lastIndexOf('.')));

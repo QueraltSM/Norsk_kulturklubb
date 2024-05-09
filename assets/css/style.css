@@ -2279,15 +2279,15 @@ textarea {
   padding: 0;
 }
 .format-buttons button {
-  margin-right: 5px; /* Espaciado entre los botones */
-  cursor: pointer; /* Cambio de cursor al pasar sobre los botones */
+  margin-right: 5px;
+  cursor: pointer;
   background: none;
   border: none;
   float: right;
 }
 
 .format-buttons i.material-icons {
-  font-size: 22px; /* Tamaño de los iconos */
+  font-size: 22px;
 }
 
 .blog-categories {
@@ -2308,18 +2308,18 @@ textarea {
 }
 
 .accordion-button {
-  font-weight: bold; /* Texto en negrita */
-  border: none; /* Sin borde */
+  font-weight: bold;
+  border: none;
   outline: none;
-  padding: 15px 20px; /* Espaciado interior */
-  text-align: left; /* Alineación del texto */
+  padding: 15px 20px;
+  text-align: left;
   background-color: #f8f8f8;
   color: #003657;
   font-size: 20px;
 }
 
 .accordion-button:focus {
-  box-shadow: none; /* Quita la sombra al enfocar */
+  box-shadow: none;
   background-color: #f8f8f8;
   border: none;
   outline: none;

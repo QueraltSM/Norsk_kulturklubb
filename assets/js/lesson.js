@@ -36,9 +36,11 @@ async function fetchData() {
       const lessonHTML = `
       <div class="col-lg-12">
         <div class="course-item">
-          <div class="lesson-content">
-            <p>${lesson.description}</p>
-            <div class="lesson-container"><a href="#" target="_blank" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a></div>
+          <div id="lesson_content_wrapper" class="lesson-content">
+            <iframe id="lesson_description" style='text-align:justify; width:100%; height:100%; overflow:hidden;'></iframe>
+            <div class="lesson-container">
+              <a href="#" target="_blank" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a>
+            </div>
           </div>
         </div>
       </div>`;
@@ -69,6 +71,18 @@ async function fetchData() {
           .parentNode.appendChild(lessonContainer);
       });
       lessonContainer.innerHTML += lessonHTML;
+      document.getElementById("lesson_description").srcdoc = lesson.description;
+      const lessonDescription = document.getElementById("lesson_description");
+      const lessonContentWrapper = document.getElementById(
+        "lesson_content_wrapper"
+      );
+      lessonDescription.addEventListener("load", () => {
+        const iframeHeight =
+          lessonDescription.contentWindow.document.body.scrollHeight;
+          var height = iframeHeight + 100;
+        lessonContentWrapper.style.height = `${height}px`;
+      });
+
       document.getElementById("practice_lesson").href =
         "/Lessons/" + window.location.href.split("/").pop() + "/Practice/";
     } catch (error) {

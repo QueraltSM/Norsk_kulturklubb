@@ -111,9 +111,9 @@
                                     <h3>
                                         Title
                                     </h3>
-                                    <span class="label-box">Write the title of the lesson (max. 25 characters)</span>
+                                    <span class="label-box">Write the title of the lesson (max. 100 characters)</span>
                                     <p contenteditable="true" id="lesson_title" class="editable-box"
-                                        oninput="limitTextarea(this, 25)" onpaste="cleanPaste(event, this)"></p>
+                                        oninput="limitTextarea(this, 100)" onpaste="cleanPaste(event, this)"></p>
 
                                     <h3>Brief description</h3>
                                     <span class="label-box">Write a short description of the lesson (max. 150
@@ -124,13 +124,12 @@
                                     <h3>
                                         Theoretical lesson
                                     </h3>
-                                    <span class="label-box">For the theoretical part of the lesson, write its content. You can also embed HTML code.</span><br>
+                                    <span class="label-box">For the theoretical part of the lesson, write its content. You can also embed HTML code</span><br>
                                     <textarea contenteditable="true" id="lesson_description" class="editable-box"
-                                       style="overflow: auto; width: 100%; min-height: 400px;" onpaste="cleanPaste(event, this)"></textarea>
+                                       style="overflow: auto; width: 100%; min-height: 400px;"></textarea>
 
                                     <h3>Practical lesson</h3>
-                                    <span class="label-box">For the practical part of the lesson, select a file (PDF, TXT, DOCX, PPTX or
-                                        MP4)</span><br>
+                                    <span class="label-box">For the practical part of the lesson, select a file (PDF, TXT, DOCX, PPTX or MP4)</span><br>
                                     <input type="file" id="lesson_content_url"
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box" style="width: 100%;">
@@ -193,7 +192,7 @@
                                     <h3>
                                         Description
                                     </h3>
-                                    <span class="label-box">Write the description of the post. You can also embed HTML code.</span>
+                                    <span class="label-box">Write the description of the post</span>
                                     <textarea contenteditable="true" id="post_description" onpaste="cleanPaste(event, this)" class="editable-box" style="overflow: auto; width: 100%; min-height: 400px;"></textarea>
                                 
                                     <h3>
