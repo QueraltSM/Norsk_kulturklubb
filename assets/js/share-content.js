@@ -61,6 +61,7 @@ async function publishWord() {
   const title = document.getElementById("word_title").innerHTML.trim();
   const meaning = document.getElementById("word_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_date").value;
+  var url_link = title.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-") + "-"+formatDate(calendar);
   if (title && meaning && calendar) {
     await fetch("/api/uploadContent?table=Words", {
       method: "POST",
@@ -73,6 +74,7 @@ async function publishWord() {
         meaning: meaning,
         display_date: calendar,
         teacher_id: localStorage.getItem("userLoggedInID"),
+        url_link: url_link,
         pubdate: new Date()
           .toLocaleString("en-GB", {
             day: "2-digit",
@@ -106,14 +108,12 @@ async function publishWord() {
 async function publishLesson() {
   var ID = uuidv4();
   var title = document.getElementById("lesson_title").innerHTML.trim();
-  var short_description = document
-    .getElementById("lesson_short_description")
-    .innerHTML.trim();
+  var short_description = document.getElementById("lesson_short_description").innerHTML.trim();
   var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
-  var lesson_content_url =
-    document.getElementById("lesson_content_url").files[0];
+  var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var lesson_image_url = document.getElementById("lesson_image").files[0];
+  var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
   var content_url = "";
   var image_url = "";
   if (
@@ -122,7 +122,8 @@ async function publishLesson() {
     !description ||
     !language_level ||
     !lesson_content_url ||
-    !lesson_image
+    !lesson_image || 
+    !url_link
   ) {
     showAlert("danger", "All fields must be completed to share");
   } else {
@@ -172,6 +173,7 @@ async function publishLesson() {
         content_url: content_url,
         image_url: image_url,
         teacher_id: localStorage.getItem("userLoggedInID"),
+        url_link: url_link,
         pubdate: new Date()
           .toLocaleString("en-GB", {
             day: "2-digit",

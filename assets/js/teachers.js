@@ -13,7 +13,7 @@ async function fetchData() {
         teacherDiv.classList.add("col-lg-4");
         const teacherName = await get_teacher_name(teacher.ID);
         teacherDiv.innerHTML = `
-          <a href="#" onclick="window.location.href = '/Teachers/' + '${teacher.url}'">
+          <a href="#" onclick="window.location.href = '/Teachers/' + '${teacher.url_link}'">
             <div class="member" style="border-radius: 10px;">
               <div class="member-img">
                 <img src="${teacher.profile_picture}" class="img-fluid" alt="">

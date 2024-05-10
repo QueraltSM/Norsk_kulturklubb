@@ -364,28 +364,34 @@ app.post("/api/updateContent", (req, res) => {
     const language_level = req.body.language_level;
     const image_url = req.body.image_url;
     const content_url = req.body.content_url;
+    const url_link = req.body.url_link;
     updateExpressionParts.push("title = :title");
     updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("description = :description");
     updateExpressionParts.push("language_level = :language_level");
     updateExpressionParts.push("image_url = :image_url");
     updateExpressionParts.push("content_url = :content_url");
+    updateExpressionParts.push("url_link = :url_link");
     params.ExpressionAttributeValues[":title"] = title;
     params.ExpressionAttributeValues[":short_description"] = short_description;
     params.ExpressionAttributeValues[":description"] = description;
     params.ExpressionAttributeValues[":language_level"] = language_level;
     params.ExpressionAttributeValues[":image_url"] = image_url;
     params.ExpressionAttributeValues[":content_url"] = content_url;
+    params.ExpressionAttributeValues[":url_link"] = url_link;
   } else if (req.query.table === "Words") {
     const title = req.body.title;
     const meaning = req.body.meaning;
     const display_date = req.body.display_date;
+    const url_link = req.body.url_link;
     updateExpressionParts.push("title = :title");
     updateExpressionParts.push("meaning = :meaning");
     updateExpressionParts.push("display_date = :display_date");
+    updateExpressionParts.push("url_link = :url_link");
     params.ExpressionAttributeValues[":title"] = title;
     params.ExpressionAttributeValues[":meaning"] = meaning;
     params.ExpressionAttributeValues[":display_date"] = display_date;
+    params.ExpressionAttributeValues[":url_link"] = url_link;
   }
   params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
   dynamoDB.update(params, (err, data) => {
@@ -650,8 +656,8 @@ app.post("/api/deleteContentS3", (req, res) => {
   });
 });
 
-app.get("/edit/:type/:title", (req, res) => {
-  const title = "/edit/" + req.params.type + "/" + req.params.title;
+app.get("/edit/:type/:url", (req, res) => {
+  const title = "/edit/" + req.params.type + "/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -750,8 +756,8 @@ app.get("/Translator/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Share-Content/", (req, res) => {
-  const title = "/Share-Content/";
+app.get("/share/", (req, res) => {
+  const title = "/share/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }

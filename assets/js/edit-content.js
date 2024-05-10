@@ -1,5 +1,7 @@
-var ID = JSON.parse(localStorage.getItem("contentData")).ID;
-var type = localStorage.getItem("contentType");
+var ID = "";
+var type = new URL(window.location.href).pathname.split('/')[2];
+var url = new URL(window.location.href).pathname.split('/')[3];
+
 document.getElementById("div_" + type.toLocaleLowerCase()).style.display = "block";
 
 function handleDocumentViewer() {
@@ -14,17 +16,6 @@ function handleDocumentViewer() {
   }
 }
 
-function handleImageViewer() {
-  const image = document.getElementById("content_image_"+type.toLocaleLowerCase());
-  if (image.style.display == "none") {
-    image.style.display = "block";
-    document.getElementById("image_label_"+type.toLocaleLowerCase()).innerHTML = "Close image";
-  } else {
-    image.style.display = "none";
-    document.getElementById("image_label_"+type.toLocaleLowerCase()).innerHTML = "View image";
-  }
-}
-
 async function updateLesson() {
   var title = document.getElementById("lesson_title").innerHTML.trim();
   var short_description = document.getElementById("lesson_short_description").innerHTML.trim();
@@ -34,8 +25,9 @@ async function updateLesson() {
   var image_url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var content_url = localStorage.getItem("lesson_content_url");
+  var url_link = document.getElementById("lesson_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
 
-  if (!title || !short_description || !description || !language_level) {
+  if (!title || !short_description || !description || !language_level || !url_link) {
     showAlert("danger", "All fields must be completed to update");
   } else {
     if (lesson_content_url) {
@@ -82,6 +74,7 @@ async function updateLesson() {
         language_level: language_level,
         image_url: image_url,
         content_url: content_url,
+        url_link: url_link,
       }),
     });
     if (!response.ok) {
@@ -89,16 +82,16 @@ async function updateLesson() {
     } else {
       showAlert("success", "Lesson was updated");
     }
-    fetchData();
-    location.reload();
+    window.location.href = "/edit/Lessons/" + url_link;
   }
 }
 
 async function updateWord() {
   var title = document.getElementById("word_title").innerHTML;
   var meaning = document.getElementById("word_meaning").innerHTML;
-  var display_date = document.getElementById("word_date").value;
-  if (title && meaning && display_date) {
+  var calendar = document.getElementById("word_date").value;
+  var url_link = title.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-") + "-"+formatDate(calendar);
+  if (title && meaning && calendar) {
     const response = await fetch(`/api/updateContent?table=Words&ID=` + ID, {
       method: "POST",
       headers: {
@@ -107,13 +100,14 @@ async function updateWord() {
       body: JSON.stringify({
         title: title,
         meaning: meaning,
-        display_date: display_date
+        display_date: calendar,
+        url_link: url_link
       }),
     });
     if (!response.ok) {
       throw new Error("There was an error");
     } else {
-      showAlert("success", "Word was updated");
+      window.location.href = "/edit/Words/" + url_link;
     }
   } else {
     showAlert("danger", "All fields must be completed to update");
@@ -122,12 +116,12 @@ async function updateWord() {
 
 async function fetchData() {
   try {
-    const response = await fetch("/api/getContent?id="+ID+"&table="+type);
+    const response = await fetch("/api/getFromURL?url_link="+url+"&table="+type);
     if (!response.ok) {
       throw new Error("Failed to get server response.");
     }
     const data = await response.json();
-    
+    ID = data.ID;
     if (type=="Words") {
       document.getElementById("word_title").innerHTML = data.title;
       document.getElementById("word_meaning").innerHTML = data.meaning;
@@ -138,6 +132,7 @@ async function fetchData() {
       document.getElementById("lesson_description").innerHTML = data.description;
       document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
       document.getElementById("lesson_language_level").value = data.language_level;
+      document.getElementById("lesson_url_link").innerHTML = data.url_link.replace(/-/g, " ");
       var content_url = data.content_url;
       localStorage.setItem("lesson_content_url", data.content_url);
       localStorage.setItem("contentURL", content_url.substring(content_url.lastIndexOf('/') + 1, content_url.lastIndexOf('.')));
@@ -165,8 +160,6 @@ async function fetchData() {
     console.error("Error fetching data:", error);
   }
 }
-
-
 fetchData();
 flatpickr("#word_date", {
   dateFormat: "d/m/Y",

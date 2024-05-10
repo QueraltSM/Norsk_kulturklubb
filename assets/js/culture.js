@@ -36,7 +36,7 @@ async function fetchData() {
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
-            loadPost(cultureData.ID, cultureData.title);
+            window.location.href = '/Lessons/' + cultureData.url_link; 
           });
           const cardImg = document.createElement("img");
           cardImg.src = cultureData.image_url;
@@ -268,13 +268,6 @@ function setNoPosts() {
   noDataDiv.appendChild(message);
   noDataDiv.appendChild(img);
   cultureEntries.appendChild(noDataDiv);
-}
-
-function loadPost(ID, title) {
-  localStorage.setItem("contentID", ID);
-  localStorage.setItem("contentTitle", title);
-  localStorage.setItem("contentType", "Lessons");
-  window.location.href = `/Culture/${title.replace(/\s+/g, '-')}`;
 }
 
 document

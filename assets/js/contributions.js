@@ -101,8 +101,8 @@ async function fetchWords() {
                 <td>${data.meaning}</td>
                 <td>${data.display_date}</td>
                 <td style="text-align: center;">
-                  <a href="#" onclick="manage_action('${data.ID}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                  <a href="#" onclick="manage_action('${data.ID}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
                 </td>
               </tr>`
           )
@@ -160,9 +160,9 @@ async function fetchLessons() {
                     <td>${data.title}</td>
                     <td>${data.language_level}</td>
                     <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
-                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" onclick="manage_action('${data.ID}', 'Lessons', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
                   </td>
                   </tr>
                 `)
@@ -221,14 +221,12 @@ async function fetchCulture() {
                     <td>${data.title}</td> 
                     <td>${data.category} > ${data.subcategory}</td> 
                     <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
-                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" onclick="manage_action('${data.ID}', 'Culture', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
                   </td>          
-                  </tr>
-                `
-              )
-              .join("")}
+                  </tr>`
+              ).join("")}
           </tbody>
         </table>
       `;
@@ -237,15 +235,11 @@ async function fetchCulture() {
   } catch (error) {}
 }
 
-async function manage_action(ID, content_type, action) {
-  localStorage.setItem("contentType",content_type);
-  const response = await fetch("/api/getContent?id="+ID+"&table="+content_type);
-  const data = await response.json();
-  localStorage.setItem("contentData", JSON.stringify(data));
+async function manage_action(url, content_type, action) {
   if (action == "view") {
-      window.location.href = `/${content_type}/${data.title.replace(/\s+/g, '-')}`;
+      window.location.href = "/"+content_type+"/"+url;
   } else if (action == "edit") {
-    window.location.href = `/edit/${content_type}/${data.title.replace(/\s+/g, '-')}`;
+    window.location.href = "/edit/"+content_type+"/"+url;
   } else {
     $('#confirmDeleteModal').modal('show');
   }

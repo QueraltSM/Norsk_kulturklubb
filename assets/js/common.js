@@ -151,3 +151,12 @@ async function getUser(id) {
     throw error;
   }
 }
+
+function formatDate(dateString) {
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  return dateString.split('/').reduce((acc, val, index) => {
+    if (index === 0) return val.padStart(2, '0') + '-' + acc;
+    if (index === 1) return acc + months[parseInt(val) - 1];
+    if (index === 2) return acc + '-' + val.slice(-2);
+  }, ''); //Output: "01-Jun-24"
+}
