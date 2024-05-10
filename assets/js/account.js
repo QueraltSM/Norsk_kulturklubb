@@ -46,7 +46,7 @@ function getInformationByRole() {
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
-        if (user.profile_url !== undefined) document.getElementById("profile_url").innerHTML = user.profile_url.replace(/-/g, " ");
+        if (user.url_link !== undefined) document.getElementById("url_link").innerHTML = user.url_link.replace(/-/g, " ");
         if (user.public_profile != undefined)
           document.getElementById("teacher_public_profile").checked =
             user.public_profile;
@@ -158,7 +158,7 @@ function updateProfile() {
     var class_prices = document.getElementById("class_prices").value;
     var contact_information = document.getElementById("contact_information").value;
     var hourly_rate = document.getElementById("hourly_rate").innerHTML;
-    var profile_url = document.getElementById("profile_url").innerHTML;
+    var url_link = document.getElementById("url_link").innerHTML;
     if (document.getElementById("profile_picture").files[0]) teacher_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
       if (!teacher_name ||
@@ -171,7 +171,7 @@ function updateProfile() {
         !hourly_rate ||
         !short_description ||
         !city_residence ||
-        !profile_url) {
+        !url_link) {
         showAlert(
           "danger",
           "All fields are required to have a public profile."
@@ -255,7 +255,7 @@ async function saveTeacher() {
   var class_prices = document.getElementById("class_prices").value;
   var contact_information = document.getElementById("contact_information").value;
   var hourly_rate = document.getElementById("hourly_rate").innerHTML;
-  var profile_url = document.getElementById("profile_url").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
 
   var userData = {
     first_name: teacher_name,
@@ -274,7 +274,7 @@ async function saveTeacher() {
     hourly_rate: hourly_rate,
     teaching_in_person:  document.getElementById("teaching_in_person").checked,
     teaching_online:  document.getElementById("teaching_online").checked,
-    profile_url: profile_url,
+    url_link: url_link,
     public_profile: document.getElementById("teacher_public_profile").checked,
   };
   if (document.getElementById("profile_picture").files[0]) {

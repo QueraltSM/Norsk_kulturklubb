@@ -69,7 +69,7 @@ function signup() {
             user.class_location = "";
             user.class_prices = "";
             user.contact_information = "";
-            user.profile_url = "";
+            user.url = "";
           } else if (selectedRole.value == "Students") {
             user.language_level = "A1 - Nybegynner";
             user.hobbies_and_interests = "";

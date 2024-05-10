@@ -1,6 +1,9 @@
-var profile_url = new URL(window.location.href).pathname.split('/')[2];
+if (localStorage.getItem("isLoggedIn") == "false") {
+  window.location.href = "/Teachers";
+}
+var url = new URL(window.location.href).pathname.split('/')[2];
 async function fetchData() {
-  fetch("/api/getUserFromURL?profile_url="+profile_url+"&table=Teachers")
+  fetch("/api/getFromURL?url_link="+url+"&table=Teachers")
   .then(async (response) => {
     if (!response.ok) {
       throw new Error("Failed to get server response.");

@@ -11,7 +11,8 @@
     <link href="/assets/img/favicon.png" rel="icon" />
     <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
     <!-- Vendor CSS Files -->
     <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
     <link href="/assets/vendor/aos/aos.css" rel="stylesheet" />
@@ -37,30 +38,33 @@
     <script src="/assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        async function fetchData() {
-            const response = await fetch(
-                "/api/getContent?id=" + localStorage.getItem("contentID") + "&table=Lessons"
-            );
-            if (!response.ok) {
-                throw new Error("Failed to get server response.");
+        document.addEventListener("DOMContentLoaded", function () {
+            var url = new URL(window.location.href).pathname.split('/')[3];
+            async function fetchData() {
+                try {
+                    const response = await fetch("/api/getFromURL?url_link=" + url + "&table=Lessons");
+                    if (!response.ok) {
+                        throw new Error("Failed to get server response.");
+                    }
+                    const lesson = await response.json();
+                    const extension = lesson.content_url.split(".").pop().toLowerCase();
+                    if (extension === "mp4") {
+                        const videoUrl = lesson.content_url;
+                        const videoViewer = document.getElementById("lesson_video_viewer");
+                        videoViewer.style.display = "block";
+                        videoViewer.src = videoUrl;
+                    } else if (extension === "pdf" || extension === "docx" || extension === "pptx") {
+                        const googleDocsUrl = "https://docs.google.com/gview?url=" + lesson.content_url + "&embedded=true";
+                        const documentViewer = document.getElementById("lesson_document_viewer");
+                        documentViewer.style.display = "block";
+                        documentViewer.src = googleDocsUrl;
+                    }
+                } catch (error) {
+                    window.location.href = "/404.html";
+                }
             }
-            const lesson = await response.json();
-            const extension = lesson.content_url.split(".").pop().toLowerCase();
-            if (extension === "mp4") {
-                const videoUrl = lesson.content_url;
-                const videoViewer = document.getElementById("lesson_video_viewer");
-                videoViewer.style.display = "block";
-                videoViewer.src = videoUrl;
-                console.log("Video URL:", videoUrl);
-            } else if (extension === "pdf" || extension === "docx" || extension === "pptx") {
-                const googleDocsUrl = "https://docs.google.com/gview?url=" + lesson.content_url + "&embedded=true";
-                const documentViewer = document.getElementById("lesson_document_viewer");
-                documentViewer.style.display = "block";
-                documentViewer.src = googleDocsUrl;
-                console.log("Google Docs URL:", googleDocsUrl);
-            }
-        }
-        fetchData();
+            fetchData();
+        });
     </script>
 </body>
 </html>

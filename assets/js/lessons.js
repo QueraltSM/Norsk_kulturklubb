@@ -53,7 +53,7 @@ async function fetchData() {
         if (user.public_profile) {
           entered = true;
           const lessonHTML = `<div class="col-6" style="padding-bottom:10px;">
-          <a href="#" onclick="loadLesson('${lesson.ID}', '${lesson.title}')" style="text-decoration: none; color: inherit; display: flex;">
+          <a href="#" onclick="window.location.href = '/Lessons/` + lesson.url_link +`';" style="text-decoration: none; color: inherit; display: flex;">
             <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
               <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
                 <img src="${lesson.image_url}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
@@ -64,9 +64,7 @@ async function fetchData() {
               </div>
             </div>
           </a>
-        </div>
-        
-          `;
+        </div>`;
           document.getElementById(lesson.language_level).innerHTML += lessonHTML;
         }
       } catch (error) {
@@ -98,13 +96,6 @@ function setNoPosts() {
   noDataDiv.appendChild(message);
   noDataDiv.appendChild(img);
   lessonsContainer.appendChild(noDataDiv);
-}
-
-function loadLesson(ID, title) {
-  localStorage.setItem("contentID", ID);
-  localStorage.setItem("contentTitle", title);
-  localStorage.setItem("contentType", "Lessons");
-  window.location.href = `/Lessons/${title.replace(/\s+/g, '-')}`;
 }
 
 fetchData();

@@ -1,4 +1,9 @@
+if (localStorage.getItem("isLoggedIn") == "false") {
+  window.location.href = "/Lessons";
+}
 const lessonContainer = document.getElementById("lesson_container");
+var url = new URL(window.location.href).pathname.split('/')[2];
+
 var teacher_public_profile = false;
 
 function getTeacher(id) {
@@ -21,11 +26,7 @@ function getTeacher(id) {
 
 async function fetchData() {
   try {
-    const response = await fetch(
-      "/api/getContent?id=" +
-        localStorage.getItem("contentID") +
-        "&table=Lessons"
-    );
+    const response = await fetch("/api/getFromURL?url_link="+url+"&table=Lessons");
     if (!response.ok) {
       throw new Error("Failed to get server response.");
     }
@@ -82,14 +83,12 @@ async function fetchData() {
           var height = iframeHeight + 100;
         lessonContentWrapper.style.height = `${height}px`;
       });
-
-      document.getElementById("practice_lesson").href =
-        "/Lessons/" + window.location.href.split("/").pop() + "/Practice/";
+      document.getElementById("practice_lesson").href = "/Lessons/Practice/" + url;
     } catch (error) {
       console.error("Error:", error);
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    window.location.href = "/404.html";
   }
 }
 fetchData();

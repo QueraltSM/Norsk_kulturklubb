@@ -182,7 +182,7 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Teachers") {
     updateExpression =
-      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, profile_url = :profile_url, public_profile = :public_profile";
+      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url = :url, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
@@ -194,7 +194,7 @@ app.post("/api/updateUserData", (req, res) => {
       ":city_residence": userData.city_residence,
       ":teaching_in_person": userData.teaching_in_person,
       ":teaching_online": userData.teaching_online,
-      ":profile_url" : userData.profile_url,
+      ":url" : userData.url,
       ":public_profile": userData.public_profile,
     };
     if (userData.profile_picture != null && userData.profile_picture !== "") {
@@ -312,13 +312,12 @@ app.get("/api/getUser", (req, res) => {
   });
 });
 
-app.get("/api/getUserFromURL", (req, res) => {
-  console.log("get user from url: " + req.query.profile_url);
+app.get("/api/getFromURL", (req, res) => {
   const params = {
     TableName: req.query.table,
-    FilterExpression: "profile_url = :url",
+    FilterExpression: "url_link = :url_link",
     ExpressionAttributeValues: {
-      ":url": req.query.profile_url
+      ":url_link": req.query.url_link
     }
   };
   dynamoDB.scan(params, (err, data) => {
@@ -671,8 +670,8 @@ app.get("/Culture/:title", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Lessons/:title", (req, res) => {
-  const title = "/Lessons/" + req.params.title;
+app.get("/Lessons/:URL", (req, res) => {
+  const title = "/Lessons/" + req.params.URL;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -681,8 +680,8 @@ app.get("/Lessons/:title", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Lessons/:title/Practice", (req, res) => {
-  const title = "/Lessons/" + req.params.title + "/Practice";
+app.get("/Lessons/Practice/:url", (req, res) => {
+  const title = "/Lessons/Practice/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -711,8 +710,8 @@ app.get("/Lessons/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Teachers/:profile_url", (req, res) => {
-  const title = "/Teachers/" + req.params.profile_url;
+app.get("/Teachers/:url", (req, res) => {
+  const title = "/Teachers/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
