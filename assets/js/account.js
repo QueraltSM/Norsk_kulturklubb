@@ -42,7 +42,6 @@ function getInformationByRole() {
         if (user.teaching_online != undefined) document.getElementById("teaching_online").checked = user.teaching_online;
         if (user.class_location != undefined) document.getElementById("class_location").value = user.class_location;
         if (user.class_prices != undefined) document.getElementById("class_prices").value = user.class_prices;
-        if (user.hourly_rate != undefined) document.getElementById("hourly_rate").innerHTML = user.hourly_rate;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
@@ -157,7 +156,6 @@ function updateProfile() {
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
     var contact_information = document.getElementById("contact_information").value;
-    var hourly_rate = document.getElementById("hourly_rate").innerHTML;
     var url_link = document.getElementById("url_link").innerHTML;
     if (document.getElementById("profile_picture").files[0]) teacher_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
@@ -168,7 +166,6 @@ function updateProfile() {
         !class_location ||
         !class_prices ||
         !contact_information ||
-        !hourly_rate ||
         !short_description ||
         !city_residence ||
         !url_link) {
@@ -254,7 +251,6 @@ async function saveTeacher() {
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
   var contact_information = document.getElementById("contact_information").value;
-  var hourly_rate = document.getElementById("hourly_rate").innerHTML;
   var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
 
   var userData = {
@@ -271,7 +267,6 @@ async function saveTeacher() {
     contact_information: contact_information,
     short_description: short_description,
     city_residence: city_residence,
-    hourly_rate: hourly_rate,
     teaching_in_person:  document.getElementById("teaching_in_person").checked,
     teaching_online:  document.getElementById("teaching_online").checked,
     url_link: url_link,

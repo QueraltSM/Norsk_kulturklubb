@@ -935,18 +935,6 @@ section {
   color: #003657;
   font-weight: bold;
 }
-.teachers .teacher .teacher-content .rating {
-  display: flex;
-  align-items: center;
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.teachers .teacher .teacher-content .rating .rating-value {
-  margin-left: 5px;
-  font-size: 13px;
-}
 
 .teachers .teacher .teacher-content .teacher-image .image-container {
   position: relative;
@@ -971,18 +959,10 @@ section {
   filter: grayscale(0%);
 }
 
-
-.teachers .teacher .teacher-content .rating .fa-star {
-  color: #ffb500;
-  font-size: 13px;
-  font-weight: bold;
-}
-
 .teachers .teacher .teacher-info {
   display: flex;
-  align-items: center; /* Centra verticalmente */
+  align-items: center;
 }
-
 
 .teachers .teacher .hourly-rate {
   margin-left: auto;
@@ -2302,7 +2282,7 @@ textarea {
   font-size: 22px;
 }
 
-.blog-categories {
+.select-categories {
   background-color: #9C3030;
   color: #fff;
   font-size: 12px;
@@ -2310,6 +2290,12 @@ textarea {
   margin: 2px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.select-categories-selected {
+  background : #FFFFFF;
+  color: #9C3030;
+  border: 1px solid #9C3030;
 }
 
 .accordion-item {

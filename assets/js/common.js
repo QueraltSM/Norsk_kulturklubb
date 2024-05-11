@@ -160,3 +160,24 @@ function formatDate(dateString) {
     if (index === 2) return acc + '-' + val.slice(-2);
   }, ''); //Output: "01-Jun-24"
 }
+
+function formatDateBlog(dateString) {
+  const parts = dateString.split("/");
+  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const date = new Date(formattedDate);
+  return `${date.getDate()} ${months[date.getMonth()]}`;
+}

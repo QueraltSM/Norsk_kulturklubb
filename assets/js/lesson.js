@@ -59,7 +59,7 @@ async function fetchData() {
         userDetailsSection.appendChild(authorTitle);
         userDetailsSection.appendChild(authorText);
         const button = document.createElement("a");
-        button.href = "/Users/" + user.first_name;
+        button.href = "/Teachers/" + user.url_link;
         button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
         button.style.fontWeight = "bold";
         button.style.float = "right";

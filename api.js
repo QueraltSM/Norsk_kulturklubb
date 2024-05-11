@@ -182,19 +182,18 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Teachers") {
     updateExpression =
-      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, hourly_rate = :hourly_rate, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url = :url, public_profile = :public_profile";
+      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":about_teacher": userData.about_teacher,
       ":class_location": userData.class_location,
       ":class_prices": userData.class_prices,
-      ":hourly_rate": userData.hourly_rate,
       ":contact_information": userData.contact_information,
       ":short_description": userData.short_description,
       ":city_residence": userData.city_residence,
       ":teaching_in_person": userData.teaching_in_person,
       ":teaching_online": userData.teaching_online,
-      ":url" : userData.url,
+      ":url_link" : userData.url_link,
       ":public_profile": userData.public_profile,
     };
     if (userData.profile_picture != null && userData.profile_picture !== "") {

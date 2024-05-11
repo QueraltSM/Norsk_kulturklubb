@@ -57,9 +57,7 @@
           position: relative;
           display: none;
           justify-content: center;
-          align-items: center;
-        "
-        >
+          align-items: center;">
         <div
           class="container position-relative"
           data-aos="zoom-in"
@@ -76,23 +74,39 @@
         </div>
       </section>
 
-      <!-- ======= Teachers Section ======= -->
       <section id="teachers" class="teachers">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Teachers</h2>
-            <p>Lærere</p>
+            <h2>Lærere</h2>
+            <p>Teachers</p>
           </div>
-
-          
+          <div class="container" style="background-color: #f9faf9;padding:5px;border-radius: 5px;">
+            <div class="row">
+              <div class="col-12">
+                <form class="d-flex justify-content-end" style="border: none;background-color: #f9faf9;">
+                  <div class="input-group">
+                    <span class="input-group-text" style="background-color: transparent; border: none;">
+                      <i class="bi bi-search" style="font-size: 13px;"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Search for teachers, cities, price per class..." id="searchInput"
+                      style="background-color: #f9faf9;font-size: 13px;">
+                      <i class="bi bi-x" style="font-size: 20px;" onclick="clearSearch();"></i>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="d-flex flex-wrap align-items-center justify-content-end">
+            <span id="select-online" class="select-categories" onclick="filterByClassType('online')">Online</span>
+            <span id="select-in-person" class="select-categories" onclick="filterByClassType('in-person')">In person</span>
+            <span id="select-both" class="select-categories" onclick="filterByClassType('both')">Both</span>
+          </div>
+          <br>
           <div class="row" data-aos="zoom-in" data-aos-delay="100" id="teachers_container"></div>
-
         </div>
       </section>
-      <!-- End Teachers Section -->
     </main>
-    <!-- End #main -->
-
     <!-- Vendor JS Files -->
     <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="/assets/vendor/aos/aos.js"></script>

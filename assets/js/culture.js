@@ -8,10 +8,6 @@ cultureCardsContainer.classList.add("col-8");
 
 var culture = [];
 
-function calculateTotalPages(totalItems, itemsPerPage) {
-  return Math.ceil(totalItems / itemsPerPage);
-}
-
 async function fetchData() {
   try {
     const response = await fetch("/api/getAllContents?table=Culture");
@@ -36,7 +32,7 @@ async function fetchData() {
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
-            window.location.href = '/Lessons/' + cultureData.url_link; 
+            window.location.href = "/Culture/" + cultureData.url_link;
           });
           const cardImg = document.createElement("img");
           cardImg.src = cultureData.image_url;
@@ -71,13 +67,13 @@ async function fetchData() {
 
           const dateContainer = document.createElement("div");
           const daySpan = document.createElement("span");
-          daySpan.textContent = formatDate(
+          daySpan.textContent = formatDateBlog(
             cultureData.pubdate.split(" ")[0]
           ).split(" ")[0];
           daySpan.style.fontWeight = "bold";
 
           const monthSpan = document.createElement("span");
-          monthSpan.textContent = formatDate(
+          monthSpan.textContent = formatDateBlog(
             cultureData.pubdate.split(" ")[0]
           ).split(" ")[1];
           monthSpan.style.fontWeight = "normal";
@@ -164,21 +160,22 @@ searchContainer.innerHTML = `
 <span class="input-group-text" style="background-color: transparent; border: none;">
   <i class="bi bi-search" style="font-size: 13px;"></i>
 </span>
-<input type="text" class="form-control" placeholder="Search for posts" id="searchInput" style="background-color: #f9faf9;font-size: 13px;">
+<input type="text" class="form-control" placeholder="Search for posts..." id="searchInput" style="background-color: #f9faf9;font-size: 13px;">
+<i class="bi bi-x" style="font-size: 20px;" onclick=" document.getElementById('searchInput').value='';performSearch();"></i>
 </div>
 </form>
 </div>
 <div id="categories_container" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
 <h5 style="font-weight: bold;">Categories</h5>
 <div class="d-flex flex-wrap">
-  <span class="blog-categories" onclick="toggleSubcategories('History and traditions','History and traditions')">History and traditions</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Art and literature','Art and literature')">Art and literature</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Nature and landscapes', 'Nature and landscapes')">Nature and landscapes</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Gastronomy','Gastronomy')">Gastronomy</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Lifestyle and society','Lifestyle and society')">Lifestyle and society</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Travel and tourism','Travel and tourism')">Travel and tourism</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Language and linguistics','Language and linguistics')">Language and linguistics</span>
-  <span class="blog-categories" onclick="toggleSubcategories('Events and festivals','Events and festivals')">Events and festivals</span>
+  <span class="select-categories" onclick="toggleSubcategories('History and traditions','History and traditions')">History and traditions</span>
+  <span class="select-categories" onclick="toggleSubcategories('Art and literature','Art and literature')">Art and literature</span>
+  <span class="select-categories" onclick="toggleSubcategories('Nature and landscapes', 'Nature and landscapes')">Nature and landscapes</span>
+  <span class="select-categories" onclick="toggleSubcategories('Gastronomy','Gastronomy')">Gastronomy</span>
+  <span class="select-categories" onclick="toggleSubcategories('Lifestyle and society','Lifestyle and society')">Lifestyle and society</span>
+  <span class="select-categories" onclick="toggleSubcategories('Travel and tourism','Travel and tourism')">Travel and tourism</span>
+  <span class="select-categories" onclick="toggleSubcategories('Language and linguistics','Language and linguistics')">Language and linguistics</span>
+  <span class="select-categories" onclick="toggleSubcategories('Events and festivals','Events and festivals')">Events and festivals</span>
 </div>
 </div>
 <div id="subcategories" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
@@ -187,60 +184,60 @@ searchContainer.innerHTML = `
 
 <!-- History and traditions -->
 <div class="blog-subcategories " id="History and traditions" style="display:none">
-  <span class="blog-categories">Norwegian history</span>
-  <span class="blog-categories">Mythology</span>
-  <span class="blog-categories">Traditional festivals and celebrations</span>
-  <span class="blog-categories">Customs and ceremonies</span>
+  <span class="select-categories">Norwegian history</span>
+  <span class="select-categories">Mythology</span>
+  <span class="select-categories">Traditional festivals and celebrations</span>
+  <span class="select-categories">Customs and ceremonies</span>
 </div>
 
 <!-- Art and literature -->
 <div class="blog-subcategories" id="Art and literature" style="display:none">
-  <span class="blog-categories">Norwegian literature</span>
-  <span class="blog-categories">Norwegian art and artists</span>
-  <span class="blog-categories">Traditional and modern music</span>
-  <span class="blog-categories">Norwegian theater and cinema</span>
+  <span class="select-categories">Norwegian literature</span>
+  <span class="select-categories">Norwegian art and artists</span>
+  <span class="select-categories">Traditional and modern music</span>
+  <span class="select-categories">Norwegian theater and cinema</span>
 </div>
 
 <!-- Nature and landscapes -->
 <div class="blog-subcategories" id="Nature and landscapes" style="display:none">
-  <span class="blog-categories">Fjords and mountains</span>
-  <span class="blog-categories">Norwegian fauna and flora</span>
-  <span class="blog-categories">Outdoor sports and activities</span>
+  <span class="select-categories">Fjords and mountains</span>
+  <span class="select-categories">Norwegian fauna and flora</span>
+  <span class="select-categories">Outdoor sports and activities</span>
 </div>
 
 <!-- Gastronomy -->
 <div class="blog-subcategories" id="Gastronomy" style="display:none">
-  <span class="blog-categories">Traditional norwegian dishes</span>
-  <span class="blog-categories">Local ingredients and recipes</span>
-  <span class="blog-categories">Culinary customs and festivals</span>
+  <span class="select-categories">Traditional norwegian dishes</span>
+  <span class="select-categories">Local ingredients and recipes</span>
+  <span class="select-categories">Culinary customs and festivals</span>
 </div>
 
 <!--Lifestyle and society-->
 <div class="blog-subcategories" id="Lifestyle and society" style="display:none">
-  <span class="blog-categories">Norwegian cultural values</span>
-  <span class="blog-categories">Scandinavian fashion and design</span>
-  <span class="blog-categories">Daily life and modern traditions</span>
+  <span class="select-categories">Norwegian cultural values</span>
+  <span class="select-categories">Scandinavian fashion and design</span>
+  <span class="select-categories">Daily life and modern traditions</span>
 </div>
 
 <!-- Travel and tourism -->
 <div class="blog-subcategories" id="Travel and tourism" style="display:none">
-  <span class="blog-categories">Tourist destinations in Norway</span>
-  <span class="blog-categories">Travel tips for the country</span>
-  <span class="blog-categories">Unique experiences and adventures</span>
+  <span class="select-categories">Tourist destinations in Norway</span>
+  <span class="select-categories">Travel tips for the country</span>
+  <span class="select-categories">Unique experiences and adventures</span>
 </div>
 
 <!-- Language and linguistics -->
 <div class="blog-subcategories" id="Language and linguistics" style="display:none">
-  <span class="blog-categories">Basic norwegian lessons</span>
-  <span class="blog-categories">Common expressions and phrases</span>
-  <span class="blog-categories">Dialects and regional variations</span>
+  <span class="select-categories">Basic norwegian lessons</span>
+  <span class="select-categories">Common expressions and phrases</span>
+  <span class="select-categories">Dialects and regional variations</span>
 </div>
 
 <!-- Events and festivals -->
 <div class="blog-subcategories" id="Events and festivals" style="display:none">
-  <span class="blog-categories">Cultural and artistic events</span>
-  <span class="blog-categories">Music and film festivals</span>
-  <span class="blog-categories">Traditional fairs and markets</span>
+  <span class="select-categories">Cultural and artistic events</span>
+  <span class="select-categories">Music and film festivals</span>
+  <span class="select-categories">Traditional fairs and markets</span>
 </div>
 </div>
 </div>
@@ -295,36 +292,16 @@ function performSearch() {
   });
 }
 
-function formatDate(dateString) {
-  const parts = dateString.split("/");
-  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const date = new Date(formattedDate);
-  return `${date.getDate()} ${months[date.getMonth()]}`;
-}
-
 function toggleSubcategories(category, title) {
   const allSubcategories = document.querySelectorAll(".blog-subcategories");
   allSubcategories.forEach((subcategory) => {
     subcategory.style.display = "none";
     subcategory.classList.remove("d-flex", "flex-wrap");
-    subcategory.querySelectorAll(".blog-categories").forEach((sub) => {
+    subcategory.querySelectorAll(".select-categories").forEach((sub) => {
       sub.addEventListener("click", function () {
         culture.forEach((entry) => {
-          document.getElementById(entry.ID).style.display = (entry.subcategory !== sub.textContent) ? "none" : "block";
+          document.getElementById(entry.ID).style.display =
+            entry.subcategory !== sub.textContent ? "none" : "block";
         });
       });
     });
@@ -335,7 +312,8 @@ function toggleSubcategories(category, title) {
   document.getElementById(category).classList.add("d-flex", "flex-wrap");
   subcategories.style.display = "block";
   culture.forEach((entry) => {
-    document.getElementById(entry.ID).style.display = (entry.category !== category) ? "none" : "block";
+    document.getElementById(entry.ID).style.display =
+      entry.category !== category ? "none" : "block";
   });
 }
 fetchData();
