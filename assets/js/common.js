@@ -41,7 +41,7 @@ function logout() {
 }
 
 function showAlert(alertType, message) {
-  window.scrollTo(0, 0);
+  window.scrollTo(0, (document.body.scrollHeight + 100));
   var container = document.getElementById('alertContainer');
   container.innerHTML = "";
   var content = document.createElement("span");

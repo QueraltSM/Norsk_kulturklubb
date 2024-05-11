@@ -44,7 +44,6 @@
           <h2>Profil</h2>
           <p>Account</p>
         </div>
-        <div id="alertContainer"></div>
         <div id="student-account" class="row" style="display:none;margin-top:0px;">
           <div class="col-lg-12">
             <h3>
@@ -79,45 +78,39 @@
             </select>
           </div>
         </div><br>
-
+        
         <div id="teacher-account" class="row" style="display:none;margin-top:0px;">
           <div class="col-lg-12">
             <h3>
               Name
             </h3>
             <span class="label-box">You can modify your first name anytime</span>
-            <p contenteditable="true" id="teacher_name" class="editable-box"></p>
+            <p contenteditable="true" id="teacher_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
               Email
             </h3>
             <span class="label-box">Changing your email will require logging in using the updated email</span>
-            <p contenteditable="true" id="teacher_email" class="editable-box"></p>
+            <p contenteditable="true" id="teacher_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
-              Brief description of yourself
+              About me
             </h3>
-            <span class="label-box">Short description that will be visible when students search for teachers (max. 300 characteres)</span>
-            <p contenteditable="true" id="short_description" class="editable-box" style="width: 100%;" oninput="limitTextarea(this, 300)"></p>
+            <span class="label-box">Short description that will be visible when students search for teachers (max. 150 characteres)</span>
+            <p contenteditable="true" id="teacher_about_me" class="editable-box" style="width: 100%;min-height: 100px;" oninput="limitTextarea(this, 150)" onpaste="cleanPaste(event, this)"></p>
             
-            <h3>
-              Teaching style
-            </h3>
-            <span class="label-box">Yourself and your teaching style</span>
-            <textarea contenteditable="true" id="about_teacher" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
-
             <h3>About classes</h3>
             <span class="label-box">Information about your classes, including what students will learn and any
               requirements</span>
-            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
+            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;min-height: 300px;" onpaste="cleanPaste(event, this)"></textarea>
 
             <h3>City of residence</h3>
             <span class="label-box">Location where you reside</span>
-            <p contenteditable="true" id="city_residence" class="editable-box" style="width: 100%;"></p>
+            <p contenteditable="true" id="city_residence" class="editable-box" style="width: 100%;" onpaste="cleanPaste(event, this)"></p>
 
             <h3>Place of classes</h3>
             <span class="label-box">Location where your classes take place, including any facilities available</span>
-            <textarea contenteditable="true" id="class_location" class="editable-box" style="width: 100%;"></textarea>
+            <textarea contenteditable="true" id="class_location" class="editable-box" style="width: 100%; min-height: 100px;" onpaste="cleanPaste(event, this)"></textarea>
             <div class="row">
               <div class="col">
                 <div class="form-check mt-3" style="display: inline-block; margin-right: 20px;">
@@ -133,11 +126,11 @@
             
             <h3>Price of classes</h3>
             <span class="label-box">The prices of your classes, including any discounts or special offers</span>
-            <textarea contenteditable="true" id="class_prices" class="editable-box" style="width: 100%;"></textarea>
+            <textarea contenteditable="true" id="class_prices" class="editable-box" style="width: 100%;min-height: 100px; overflow-y: auto;" wrap="off" onpaste="cleanPaste(event, this)"></textarea>
 
-            <h3>Contact</h3>
+            <h3>Contact information</h3>
             <span class="label-box">How students can contact you, including email, phone number, or social media profiles</span>
-            <textarea contenteditable="true" id="contact_information" class="editable-box" style="width: 100%;"></textarea>
+            <textarea contenteditable="true" id="contact_information" class="editable-box" style="width: 100%;min-height: 100px;" onpaste="cleanPaste(event, this)"></textarea>
 
             <h3>
               Profile image
@@ -151,7 +144,7 @@
             </div> 
 
             <h3>
-              Phrase to find your profile
+              URL profile
             </h3>
             <span class="label-box">You can modify the phrase that identifies you (visible in the URL)</span>
             <p contenteditable="true" id="url_link" class="editable-box"></p>
@@ -164,7 +157,6 @@
           </div>
         </div>
 
-        
         <div id="collaborator-account" class="row" style="display:none;">
           <div class="col-lg-12">
             <h3>
@@ -201,9 +193,6 @@
           <button type="button" class="btn" data-toggle="modal" data-target="#confirmDeleteModal">
             Delete account
           </button>
-          <button type="button" class="btn" onclick="window.location = '/index.html'">
-            Cancel
-          </button>
           <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
             Save profile
           </button>
@@ -231,7 +220,7 @@
         </div>
       </div>
     </div>
-    <!-- End Teachers Details Section -->
+    <div id="alertContainer"></div>
   </main>
   <!-- End #main -->
 

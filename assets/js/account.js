@@ -34,8 +34,7 @@ function getInformationByRole() {
       if (userLoggedInRole == "Teacher") {
         if (user.profile_picture == undefined) user.profile_picture = "/assets/img/user.png";
         else teacher_photo = true;
-        if (user.short_description != undefined) document.getElementById("short_description").innerHTML = user.short_description;
-        if (user.about_teacher != undefined) document.getElementById("about_teacher").value = user.about_teacher;
+        if (user.about_me != undefined) document.getElementById("teacher_about_me").innerHTML = user.about_me;
         if (user.about_classes != undefined) document.getElementById("about_classes").value = user.about_classes;
         if (user.city_residence != undefined) document.getElementById("city_residence").innerHTML = user.city_residence;
         if (user.teaching_in_person != undefined) document.getElementById("teaching_in_person").checked = user.teaching_in_person;
@@ -87,10 +86,7 @@ function updateUserData(userData, table) {
       body: JSON.stringify(request),
     }).then((response) => {
     if (response.status === 200) {
-      showAlert(
-        "success",
-        "Your personal information has been updated"
-      );
+      window.location.href="/Account";
     } else if (response.status === 500) {
       showAlert(
         "danger",
@@ -149,10 +145,9 @@ function updateProfile() {
   if (userLoggedInRole == "Teacher") {
     var teacher_name = document.getElementById("teacher_name").innerHTML;
     var teacher_email = document.getElementById("teacher_email").innerHTML;
-    var short_description = document.getElementById("short_description").innerHTML;
+    var about_me = document.getElementById("teacher_about_me").innerHTML;
     var city_residence = document.getElementById("city_residence").innerHTML;
     var about_classes = document.getElementById("about_classes").value;
-    var about_teacher = document.getElementById("about_teacher").value;
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
     var contact_information = document.getElementById("contact_information").value;
@@ -162,11 +157,10 @@ function updateProfile() {
       if (!teacher_name ||
         !teacher_email ||
         !about_classes ||
-        !about_teacher ||
         !class_location ||
         !class_prices ||
         !contact_information ||
-        !short_description ||
+        !about_me ||
         !city_residence ||
         !url_link) {
         showAlert(
@@ -244,10 +238,9 @@ function saveCollaborator(email, name, biography, contact, public_profile) {
 async function saveTeacher() {
   var teacher_name = document.getElementById("teacher_name").innerHTML;
   var teacher_email = document.getElementById("teacher_email").innerHTML;
-  var short_description = document.getElementById("short_description").innerHTML;
+  var about_me = document.getElementById("teacher_about_me").innerHTML;
   var city_residence = document.getElementById("city_residence").innerHTML;
   var about_classes = document.getElementById("about_classes").value;
-  var about_teacher = document.getElementById("about_teacher").value;
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
   var contact_information = document.getElementById("contact_information").value;
@@ -260,12 +253,12 @@ async function saveTeacher() {
   updateUserData(userData, "Users");
   localStorage.setItem("user_first_name", teacher_name);
   var userData = {
+    about_me: about_me,
     about_classes: about_classes,
-    about_teacher: about_teacher,
     class_location: class_location,
     class_prices: class_prices,
     contact_information: contact_information,
-    short_description: short_description,
+    about_me: about_me,
     city_residence: city_residence,
     teaching_in_person:  document.getElementById("teaching_in_person").checked,
     teaching_online:  document.getElementById("teaching_online").checked,

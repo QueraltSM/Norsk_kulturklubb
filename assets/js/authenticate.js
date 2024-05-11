@@ -64,7 +64,7 @@ function signup() {
           };
           if (selectedRole.value == "Teachers") {
             user.public_profile = false;
-            user.about_teacher = "";
+            user.about_me = "";
             user.about_classes = "";
             user.class_location = "";
             user.class_prices = "";

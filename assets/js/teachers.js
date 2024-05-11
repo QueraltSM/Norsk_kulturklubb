@@ -46,7 +46,7 @@ async function fetchData(filter, searchTerm) {
               </div>
               <div class="member-info text-center">
                 <p style="padding-top:5px;text-align:justify;">${
-                  teacher.short_description
+                  teacher.about_me
                 }</p> 
               </div>
             </div>

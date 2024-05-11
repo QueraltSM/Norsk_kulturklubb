@@ -182,14 +182,13 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Teachers") {
     updateExpression =
-      "set about_classes = :about_classes, about_teacher = :about_teacher, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, short_description = :short_description, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
+      "set about_classes = :about_classes, about_me = :about_me, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
-      ":about_teacher": userData.about_teacher,
       ":class_location": userData.class_location,
       ":class_prices": userData.class_prices,
       ":contact_information": userData.contact_information,
-      ":short_description": userData.short_description,
+      ":about_me": userData.about_me,
       ":city_residence": userData.city_residence,
       ":teaching_in_person": userData.teaching_in_person,
       ":teaching_online": userData.teaching_online,

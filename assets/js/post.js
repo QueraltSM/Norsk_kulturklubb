@@ -55,7 +55,7 @@ fetch("/api/getContent?id="+cultureID+"&table=Culture")
       authorText.classList.add("card-text");
       if (user.role=="Teacher") {
         authorTitle.textContent = "Discover our teacher " + user.first_name;
-        authorText.innerHTML = user.about_teacher;
+        authorText.innerHTML = user.about_me;
       } else {
         authorTitle.textContent = "Discover our collaborator " + user.first_name;
         authorText.innerHTML = user.biography;

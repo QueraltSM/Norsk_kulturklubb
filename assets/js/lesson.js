@@ -53,7 +53,7 @@ async function fetchData() {
         authorTitle.style.color = "#9C3030";
         const authorText = document.createElement("p");
         authorText.classList.add("card-text");
-        authorText.innerHTML = user.about_teacher;
+        authorText.innerHTML = user.about_me;
         authorText.style.textAlign = "justify";
         authorText.style.fontSize = "13px";
         userDetailsSection.appendChild(authorTitle);
