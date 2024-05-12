@@ -45,15 +45,12 @@ async function fetchData() {
       throw new Error("No response could be obtained from the server");
     }
     const data = await response.json();
-
-    var entered = false;
     for (const lesson of data.Items) {
       try {
         const user = await getUser(lesson.teacher_id);
         if (user.public_profile) {
-          entered = true;
           const lessonHTML = `<div class="col-6" style="padding-bottom:10px;">
-          <a href="#" onclick="window.location.href = '/Lessons/` + lesson.url_link +`';" style="text-decoration: none; color: inherit; display: flex;">
+          <a href="#" onclick="window.location.href = '/lessons/` + lesson.url_link +`';" style="text-decoration: none; color: inherit; display: flex;">
             <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
               <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
                 <img src="${lesson.image_url}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">
@@ -71,31 +68,9 @@ async function fetchData() {
         console.error("Error fetching user data:", error);
       }
     }
-    if (!entered) {
-      setNoPosts();
-    }
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-}
-
-function setNoPosts() {
-  const noDataDiv = document.createElement("div");
-  noDataDiv.classList.add("col-md-12", "text-center", "mt-5");
-  noDataDiv.style.paddingTop = "0"; // Eliminar el padding top
-  const img = document.createElement("img");
-  img.src = "/assets/img/not-found.png";
-  img.alt = "No Data";
-  img.style.width = "300px";
-  const message = document.createElement("p");
-  message.textContent = "No posts yet :(";
-  message.style.fontSize = "18px";
-  message.style.fontWeight = "bold";
-  message.style.marginTop = "0";
-  message.style.color = "#9C3030";
-  noDataDiv.appendChild(message);
-  noDataDiv.appendChild(img);
-  lessonsContainer.appendChild(noDataDiv);
 }
 
 fetchData();

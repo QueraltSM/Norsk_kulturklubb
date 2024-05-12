@@ -12,7 +12,7 @@ if (localStorage.getItem("isLoggedIn") == "true") {
     }
   }
 
-  document.getElementById("welcomeUser").innerHTML = "Hallo " + localStorage.getItem("user_first_name");
+  document.getElementById("welcomeUser").innerHTML = "Hallo " + localStorage.getItem("user_full_name");
   document.getElementById("handleUserMenuLink").style.display = "block";
 } else {
   document.getElementById("loginBtn").style.display = "block";
@@ -193,6 +193,13 @@ function previewImage(event, id) {
 
 function formatURL(url) {
   return url.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+}
+
+function noPosts() {
+  return `<div style="text-align: center;">
+  <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;"><br>
+  <span style="color:#aaaaaa; font-size: 17px;">You haven't posted anything yet <i class="bi bi-emoji-frown"></i></span>
+  </div>`;
 }
 
 function parseURL(url) {

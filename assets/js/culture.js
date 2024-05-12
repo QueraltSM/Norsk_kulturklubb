@@ -32,7 +32,7 @@ async function fetchData() {
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
-            window.location.href = "/Culture/" + cultureData.url_link;
+            window.location.href = "/culture/" + cultureData.url_link;
           });
           const cardImg = document.createElement("img");
           cardImg.src = cultureData.image_url;
@@ -139,7 +139,7 @@ async function fetchData() {
       }
     }
     if (!entered) {
-      setNoPosts();
+      cultureEntries.innerHTML = noPosts();
     } else {
       document.getElementById("search_container").style.display = "block";
       document.getElementById("categories_container").style.display = "block";
@@ -245,27 +245,6 @@ searchContainer.innerHTML = `
 
 rowContainer.appendChild(searchContainer);
 cultureEntries.appendChild(rowContainer);
-
-function setNoPosts() {
-  document.getElementById("search_container").style.display = "none";
-  document.getElementById("categories_container").style.display = "none";
-  const noDataDiv = document.createElement("div");
-  noDataDiv.classList.add("col-md-12", "text-center", "mt-5");
-  noDataDiv.style.paddingTop = "0";
-  const img = document.createElement("img");
-  img.src = "/assets/img/not-found.png";
-  img.alt = "No Data";
-  img.style.width = "300px";
-  const message = document.createElement("p");
-  message.textContent = "No posts yet :(";
-  message.style.fontSize = "18px";
-  message.style.fontWeight = "bold";
-  message.style.marginTop = "0";
-  message.style.color = "#9C3030";
-  noDataDiv.appendChild(message);
-  noDataDiv.appendChild(img);
-  cultureEntries.appendChild(noDataDiv);
-}
 
 document
   .getElementById("searchInput")

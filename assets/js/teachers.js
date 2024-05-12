@@ -33,7 +33,7 @@ async function fetchData(filter, searchTerm) {
         teacherDiv.classList.add("col-lg-4");
         const teacherName = await get_teacher_name(teacher.ID);
         teacherDiv.innerHTML = `
-          <a href="#" onclick="window.location.href = '/Teachers/' + '${
+          <a href="#" onclick="window.location.href = '/teachers/' + '${
             teacher.url_link}'">
             <div class="member" style="border-radius: 10px;">
               <div class="member-img">
@@ -92,7 +92,7 @@ async function get_teacher_name(id) {
       throw new Error("No response could be obtained from the server");
     }
     const user = await response1.json();
-    return user.first_name;
+    return user.full_name;
   } catch (error) {
     console.error("Error fetching user data:", error);
     throw error;

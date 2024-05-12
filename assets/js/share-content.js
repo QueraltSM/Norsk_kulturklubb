@@ -95,7 +95,7 @@ async function publishWord() {
         }
       })
       .then((data) => {
-        showAlert("success", "The Word of the day was submitted");
+        showAlert("success", "Contribution was submitted");
       })
       .catch((error) => {
         showAlert("danger", "An error occurred during uploading");
@@ -187,7 +187,7 @@ async function publishLesson() {
       }),
     }).then((response) => {
       if (response.ok) {
-        showAlert("success", "The lesson was submitted");
+        showAlert("success", "Contribution was submitted");
       } else {
         throw new Error("Network response was not ok");
       }
@@ -272,7 +272,7 @@ async function publishPost() {
           }
         })
         .then((data) => {
-          showAlert("success", "The post was submitted");
+          showAlert("success", "Contribution was submitted");
           setTimeout(() => {
             window.location.href = "/culture.html";
           }, 3000);
@@ -334,7 +334,7 @@ function publishEvent() {
         }
       })
       .then((data) => {
-        showAlert("success", "Event was submitted");
+        showAlert("success", "Contribution was submitted");
         setTimeout(() => {
           window.location.href = "/events.html";
         }, 3000);

@@ -1,5 +1,5 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
-  window.location.href = "/Teachers";
+  window.location.href = "/teachers";
 }
 var url = new URL(window.location.href).pathname.split("/")[2];
 async function fetchData() {
@@ -10,7 +10,7 @@ async function fetchData() {
       }
       const teacher = await response.json();
       const user = await getUser(teacher.ID);
-      document.getElementById("first_name").innerHTML = user.first_name;
+      document.getElementById("full_name").innerHTML = user.full_name;
       document.getElementById("teacher_image").src = teacher.profile_picture;
       document.getElementById("about_classes").innerHTML =
         teacher.about_classes;

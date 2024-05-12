@@ -82,7 +82,7 @@ async function updateLesson() {
     } else {
       showAlert("success", "Lesson was updated");
     }
-    window.location.href = "/edit/Lessons/" + url_link;
+    window.location.href = "/edit/lessons/" + url_link;
   }
 }
 

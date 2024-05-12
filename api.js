@@ -106,7 +106,7 @@ app.post("/api/login", (req, res) => {
         res.status(200).send({
           ID: user.ID,
           role: user.role,
-          user_first_name: user.first_name,
+          user_full_name: user.full_name,
         });
       } else {
         res.status(401).send("Email or password incorrect");
@@ -167,9 +167,9 @@ app.post("/api/updateUserData", (req, res) => {
   let expressionAttributeValues = {};
 
   if (tableName === "Users") {
-    updateExpression = "set first_name = :first_name, email = :email";
+    updateExpression = "set full_name = :full_name, email = :email";
     expressionAttributeValues = {
-      ":first_name": userData.first_name,
+      ":full_name": userData.full_name,
       ":email": userData.email,
     };
   } else if (tableName === "Collaborators") {
@@ -679,38 +679,8 @@ app.get("/edit/:type/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Culture/:title", (req, res) => {
-  const title = "/Culture/" + req.params.title;
-  if (cachedContents[title]) {
-    return res.send(cachedContents[title]);
-  }
-  const contenidoHTML = fs.readFileSync("post.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
-});
-
-app.get("/Lessons/:URL", (req, res) => {
-  const title = "/Lessons/" + req.params.URL;
-  if (cachedContents[title]) {
-    return res.send(cachedContents[title]);
-  }
-  const contenidoHTML = fs.readFileSync("lesson.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
-});
-
-app.get("/Lessons/Practice/:url", (req, res) => {
-  const title = "/Lessons/Practice/" + req.params.url;
-  if (cachedContents[title]) {
-    return res.send(cachedContents[title]);
-  }
-  const contenidoHTML = fs.readFileSync("practice.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
-});
-
-app.get("/Culture/", (req, res) => {
-  const title = "/Culture/";
+app.get("/culture/", (req, res) => {
+  const title = "/culture/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -719,8 +689,8 @@ app.get("/Culture/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Lessons/", (req, res) => {
-  const title = "/Lessons/";
+app.get("/lessons/", (req, res) => {
+  const title = "/lessons/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -729,8 +699,8 @@ app.get("/Lessons/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Teachers/:url", (req, res) => {
-  const title = "/Teachers/" + req.params.url;
+app.get("/teachers/:url", (req, res) => {
+  const title = "/teachers/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -739,8 +709,8 @@ app.get("/Teachers/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Teachers/", (req, res) => {
-  const title = "/Teachers/";
+app.get("/teachers/", (req, res) => {
+  const title = "/teachers/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -749,8 +719,38 @@ app.get("/Teachers/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Account/", (req, res) => {
-  const title = "/Account/";
+app.get("/culture/:url", (req, res) => {
+  const title = "/culture/" + req.params.url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("post.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/lessons/:url", (req, res) => {
+  const title = "/lessons/" + req.params.url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("lesson.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/lessons/practice/:url", (req, res) => {
+  const title = "/lessons/practice/" + req.params.url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("practice.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/account/", (req, res) => {
+  const title = "/account/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -759,8 +759,8 @@ app.get("/Account/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Translator/", (req, res) => {
-  const title = "/Translator/";
+app.get("/translator/", (req, res) => {
+  const title = "/translator/";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -779,8 +779,8 @@ app.get("/share/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/Users/:title", (req, res) => {
-  const title = "/Users/" + req.params.title;
+app.get("/users/:title", (req, res) => {
+  const title = "/users/" + req.params.title;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }

@@ -1,28 +1,9 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
-  window.location.href = "/Lessons";
+  window.location.href = "/lessons";
 }
+
 const lessonContainer = document.getElementById("lesson_container");
 var url = new URL(window.location.href).pathname.split('/')[2];
-
-var teacher_public_profile = false;
-
-function getTeacher(id) {
-  return fetch(`/api/getUser?id=${id}&table=Users`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to get server response.");
-      }
-      return response.json();
-    })
-    .then((teacher) => {
-      teacher_public_profile = teacher.public_profile;
-      return teacher.first_name;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      throw error;
-    });
-}
 
 async function fetchData() {
   try {
@@ -49,7 +30,7 @@ async function fetchData() {
         const userDetailsSection = document.createElement("div");
         userDetailsSection.classList.add("user-details");
         const authorTitle = document.createElement("h3");
-        authorTitle.textContent = "Learn with " + user.first_name;
+        authorTitle.textContent = "Learn with " + user.full_name;
         authorTitle.style.color = "#9C3030";
         const authorText = document.createElement("p");
         authorText.classList.add("card-text");
@@ -59,7 +40,7 @@ async function fetchData() {
         userDetailsSection.appendChild(authorTitle);
         userDetailsSection.appendChild(authorText);
         const button = document.createElement("a");
-        button.href = "/Teachers/" + user.url_link;
+        button.href = "/teachers/" + user.url_link;
         button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
         button.style.fontWeight = "bold";
         button.style.float = "right";
@@ -83,7 +64,7 @@ async function fetchData() {
           var height = iframeHeight + 100;
         lessonContentWrapper.style.height = `${height}px`;
       });
-      document.getElementById("practice_lesson").href = "/Lessons/Practice/" + url;
+      document.getElementById("practice_lesson").href = "/lessons/practice/" + url;
     } catch (error) {
       console.error("Error:", error);
     }

@@ -49,7 +49,6 @@
                     <h2>Dele innhold</h2>
                     <p>Share content</p>
                 </div>
-                <div id="alertContainer" style="width: 30%; margin: auto; margin-top:0px;padding-top:0px;"></div>
                 <ul id="contributions-flters" class="d-flex justify-content-center" data-aos-delay="100">
                     <li id="li_word_of_the_day" data-filter=".words" style="display: none;">Word of the day</li>
                     <li id="li_lesson" data-filter=".lessons" style="display: none;">Norsk lesson</li>
@@ -79,20 +78,17 @@
                                         word (max. 300
                                         characters)</span><br>
                                     <p contenteditable="true" id="word_meaning" class="editable-box"
-                                        oninput="limitTextarea(this, 300)" style="width: 100%;" onpaste="cleanPaste(event, this)"></p>
+                                        oninput="limitTextarea(this, 300)"  style="overflow: auto; min-height: 100px;" onpaste="cleanPaste(event, this)"></p>
 
                                     <h3>
                                         Date
                                     </h3>
                                     <span class="label-box">Choose a free day to publish your word of the day</span><br>
                                     <input type="text" id="word_date" contenteditable="true"
-                                        class="editable-box" style="width: 100%;">
+                                        class="editable-box">
                                 </div>
                             </div><br>
                             <div class="mt-3 text-center">
-                                <button type="button" class="btn" onclick="window.location = '/index'">
-                                    Cancel
-                                </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishWord();">
                                     Publish
                                 </button>
@@ -115,11 +111,11 @@
                                     <p contenteditable="true" id="lesson_title" class="editable-box"
                                         oninput="limitTextarea(this, 100)" onpaste="cleanPaste(event, this)"></p>
 
-                                    <h3>Brief description</h3>
-                                    <span class="label-box">Write a short description of the lesson (max. 150
+                                    <h3>Description</h3>
+                                    <span class="label-box">Write a short description of the lesson (max. 300
                                         characters)</span>
                                     <p contenteditable="true" id="lesson_short_description" class="editable-box"
-                                        oninput="limitTextarea(this, 150)" onpaste="cleanPaste(event, this)"></p>
+                                        oninput="limitTextarea(this, 300)" onpaste="cleanPaste(event, this)"></p>
 
                                     <h3>
                                         Theoretical lesson
@@ -156,18 +152,15 @@
                                     </select>
 
                                     <h3>
-                                        Phrase to find your lesson
+                                        URL link
                                     </h3>
                                     <span class="label-box">You can add a phrase that identifies your lesson (visible in the URL)</span>
-                                    <p contenteditable="true" id="url_link" class="editable-box"></p>
+                                    <p contenteditable="true" id="url_link" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
                                 </div>
                             </div>
                             <br>
                             <div class="mt-3 text-center">
-                                <button type="button" class="btn" onclick="window.location = '/index'">
-                                    Cancel
-                                </button>
                                 <button type="button" class="get-started-btn" id="saveButton"
                                     onclick="publishLesson();">
                                     Publish
@@ -353,9 +346,6 @@
                             </div>
                             <br>
                             <div class="mt-3 text-center">
-                                <button type="button" class="btn" onclick="window.location = '/index'">
-                                    Cancel
-                                </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishPost();">
                                     Publish
                                 </button>
@@ -411,9 +401,6 @@
 
                             </div><br>
                             <div class="mt-3 text-center">
-                                <button type="button" class="btn" onclick="window.location = '/index'">
-                                    Cancel
-                                </button>
                                 <button type="button" class="get-started-btn" id="saveButton" onclick="publishEvent();">
                                     Publish
                                 </button>
@@ -422,8 +409,8 @@
                     </div>
                 </div>
             </div>
+            <div id="alertContainer"></div>
         </section>
-
     </main>
     <!-- End #main -->
 

@@ -1,8 +1,10 @@
+if (localStorage.getItem("isLoggedIn") == "false") {
+  window.location.href = "/login";
+}
 const li_word_of_the_day = document.getElementById("li_word_of_the_day");
 const li_lesson = document.getElementById("li_lesson");
 const li_post = document.getElementById("li_post");
 const li_event = document.getElementById("li_event");
-
 const div_word = document.getElementById("div_word");
 const div_lesson = document.getElementById("div_lesson");
 const div_post = document.getElementById("div_post");
@@ -25,7 +27,6 @@ if (localStorage.getItem("userLoggedInRole") == "Collaborator") {
   $('.words').addClass('filter-active');
   fetchWords();
 }
-
 
 $('#contributions-flters li').click(function () {
   var filter = $(this).attr('data-filter');
@@ -66,13 +67,7 @@ async function fetchWords() {
     let words = data.Items || [];
 
     if (words.length === 0) {
-      const noDataMessage = `
-      <div style="text-align: center;">
-      <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
-        <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;">
-      </div>
-      `;
-      words_container.innerHTML = noDataMessage;
+      words_container.innerHTML = noPosts();
 
     } else {
     words.sort((a, b) => {
@@ -126,13 +121,7 @@ async function fetchLessons() {
     const data = await response.json();
     let lessons = data.Items || [];
     if (lessons.length === 0) {
-      const noDataMessage = `
-      <div style="text-align: center;">
-      <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
-        <img src="/assets/img/not-found.png" alt="No data found" style="width:300px">
-      </div>
-      `;
-      lessons_container.innerHTML = noDataMessage;
+      lessons_container.innerHTML = noPosts();
     } else {
       lessons.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -187,12 +176,7 @@ async function fetchCulture() {
     const data = await response.json();
     let posts = data.Items || [];
     if (posts.length === 0) {
-      const noDataMessage = `
-        <div style="text-align: center;">
-        <h4 style="font-size: 18px; color: #9C3030; margin-top: 10px;"><strong>You haven't posted anything yet :(</strong></h4>
-          <img src="/assets/img/not-found.png" alt="No data found" style="width:300px">
-        </div>`;
-      posts_container.innerHTML = noDataMessage;
+      posts_container.innerHTML = noPosts();
     } else {
       posts.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -231,13 +215,17 @@ async function fetchCulture() {
   } catch (error) {}
 }
 
-async function manage_action(url, content_type, action) {
+async function manage_action(url_link, table, action) {
   if (action == "view") {
-      window.location.href = "/"+content_type+"/"+url;
+      window.location.href = "/"+table+"/"+url_link;
   } else if (action == "edit") {
-    window.location.href = "/edit/"+content_type+"/"+url;
+    window.location.href = "/edit/"+table+"/"+url_link;
   } else {
-    $('#confirmDeleteModal').modal('show');
+    $('#confirmDeleteModal').data({
+      'url_link': url_link,
+      'table': table
+    }).modal('show');
+    
   }
 }
 
@@ -262,7 +250,7 @@ function deleteContentS3(url, key) {
   return true;
 }
 
-function deleteContentDB(ID) {
+function deleteContentDB(ID, table) {
   fetch('/api/deleteContent',
     {
       method: "POST",
@@ -271,7 +259,7 @@ function deleteContentDB(ID) {
       },
       body: JSON.stringify({
         id: ID,
-        table: localStorage.getItem("contentType")
+        table: table
       })
     }
   ).then((response) => {
@@ -283,23 +271,25 @@ function deleteContentDB(ID) {
   });
 }
 
-function deleteContent() {
-  var type = localStorage.getItem("contentType");
-  var data = JSON.parse(localStorage.getItem("contentData"));
-  if (type == "Words") {
-    deleteContentDB(data.ID);
-  } else if (type == "Lessons") {
+async function deleteContent() {
+  var url_link = $('#confirmDeleteModal').data('url_link');
+  var table = $('#confirmDeleteModal').data('table');
+  const response = await fetch("/api/getFromURL?url_link="+url_link+"&table="+table);
+  const data = await response.json();
+  if (table == "Words") {
+    deleteContentDB(data.ID, table);
+  } else if (table == "Lessons") {
     var content_url = (data.content_url).substring((data.content_url).lastIndexOf("/") + 1);
     if (deleteContentS3(content_url, "Lessons")) {
       var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
       if (deleteContentS3(image_url, "Lesson-Images")) {
-        deleteContentDB(data.ID);
+        deleteContentDB(data.ID, table);
       }
     }
-  } else if ("Culture") {
+  } else if (table == "Culture") {
     var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
     if (deleteContentS3(image_url, "Culture-Images")) {
-      deleteContentDB(data.ID);
+      deleteContentDB(data.ID, table);
     }
   }
 }

@@ -16,7 +16,7 @@ function login() {
       }
     })
     .then((data) => {
-      localStorage.setItem("user_first_name", data.user_first_name);
+      localStorage.setItem("user_full_name", data.user_full_name);
       localStorage.setItem("userLoggedInID", data.ID);
       localStorage.setItem("userLoggedInRole", data.role);
       localStorage.setItem("isLoggedIn", true);
@@ -39,7 +39,7 @@ function signup() {
     if (password == confirm_password) {
       var userData = {
         ID: ID,
-        first_name: document.querySelector('input[name="name"]').value,
+        full_name: document.querySelector('input[name="name"]').value,
         email: document.querySelector('input[name="email"]').value,
         password: btoa(
           unescape(

@@ -16,7 +16,7 @@ function getBasicInformation() {
       return response.json();
     })
     .then((user) => {
-      if (user.first_name != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_name").innerHTML = user.first_name;
+      if (user.full_name != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_name").innerHTML = user.full_name;
       if (user.email != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_email").innerHTML = user.email;
     })
     .catch((error) => {
@@ -86,7 +86,7 @@ function updateUserData(userData, table) {
       body: JSON.stringify(request),
     }).then((response) => {
     if (response.status === 200) {
-      window.location.href="/Account";
+      window.location.href="/account";
     } else if (response.status === 500) {
       showAlert(
         "danger",
@@ -215,7 +215,7 @@ function updateProfile() {
 function saveStudent(name, email, hobbies_and_interests, language_level) {
   updateUserData({
     email: email,
-    first_name: name,
+    full_name: name,
   }, "Users");
   updateUserData({
     hobbies_and_interests: hobbies_and_interests,
@@ -226,7 +226,7 @@ function saveStudent(name, email, hobbies_and_interests, language_level) {
 function saveCollaborator(email, name, biography, contact, public_profile) {
   updateUserData({
     email: email,
-    first_name: name,
+    full_name: name,
   }, "Users");
   updateUserData({
     biography: biography,
@@ -247,11 +247,11 @@ async function saveTeacher() {
   var url_link = formatURL(document.getElementById("url_link").innerHTML);
 
   var userData = {
-    first_name: teacher_name,
+    full_name: teacher_name,
     email: teacher_email,
   };
   updateUserData(userData, "Users");
-  localStorage.setItem("user_first_name", teacher_name);
+  localStorage.setItem("user_full_name", teacher_name);
   var userData = {
     about_me: about_me,
     about_classes: about_classes,
