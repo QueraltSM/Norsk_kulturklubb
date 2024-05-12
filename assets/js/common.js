@@ -1,5 +1,4 @@
 if (localStorage.getItem("isLoggedIn") == "true") {
-
   const roleDisplayOptions = {
     "Teacher": { "createWordOfDay": "block", "makeContribution": "block", "myContributions": "block" },
     "Student": { "createWordOfDay": "none", "makeContribution": "none", "myContributions": "none" },
@@ -11,14 +10,12 @@ if (localStorage.getItem("isLoggedIn") == "true") {
       element.style.display = roleDisplayOptions[localStorage.getItem("userLoggedInRole")][option];
     }
   }
-
   document.getElementById("welcomeUser").innerHTML = "Hallo " + localStorage.getItem("user_full_name");
   document.getElementById("handleUserMenuLink").style.display = "block";
 } else {
   document.getElementById("loginBtn").style.display = "block";
   const previewElements = ["preview_teachers", "preview_lessons", "preview_events"];
   const normalElements = ["teachers", "lessons", "events"];
-  
   for (const elementId of previewElements) {
     const element = document.getElementById(elementId);
     if (element != null) {
@@ -133,7 +130,7 @@ async function getUser(id) {
       `/api/getUser?id=${id}&table=Users`
     );
     if (!response1.ok) {
-      throw new Error("No response could be obtained from the server");
+      throw new Error("User data not found");
     }
     const user = await response1.json();
     const role = user.role;
@@ -144,6 +141,11 @@ async function getUser(id) {
       throw new Error("No response could be obtained from the server");
     }
     const userData = await response2.json();
+    
+    if (Object.keys(userData).length === 0) {
+      throw new Error("User data not found");
+    }
+    
     const mergedData = Object.assign({}, user, userData);
     return mergedData;
   } catch (error) {
@@ -204,4 +206,21 @@ function noPosts() {
 
 function parseURL(url) {
   return url.replace(/-/g, " ");
+}
+
+async function check_availability_url_link(table, url_link) {
+  try {
+    const response = await fetch("/api/getFromURL?url_link="+url_link+"&table="+table);
+    if (!response.ok) {
+      throw new Error("Failed to get server response.");
+    }
+    const data = await response.json();
+    try {
+      return false;
+    } catch (error) {
+      return true;
+    }
+  } catch (error) {
+    return true;
+  }
 }

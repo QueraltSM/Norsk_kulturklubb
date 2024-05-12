@@ -219,7 +219,7 @@ async function manage_action(url_link, table, action) {
   if (action == "view") {
       window.location.href = "/"+table+"/"+url_link;
   } else if (action == "edit") {
-    window.location.href = "/edit/"+table+"/"+url_link;
+    window.location.href = "/Edit/"+table+"/"+url_link;
   } else {
     $('#confirmDeleteModal').data({
       'url_link': url_link,

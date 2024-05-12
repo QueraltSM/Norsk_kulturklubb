@@ -1,5 +1,5 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
-  window.location.href = "/teachers";
+  window.location.href = "/Teachers";
 }
 var url = new URL(window.location.href).pathname.split("/")[2];
 async function fetchData() {

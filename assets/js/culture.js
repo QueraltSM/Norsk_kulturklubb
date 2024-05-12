@@ -32,7 +32,7 @@ async function fetchData() {
           postLink.href = "#";
           postLink.style.textDecoration = "none";
           postLink.addEventListener("click", function () {
-            window.location.href = "/culture/" + cultureData.url_link;
+            window.location.href = "/Culture/" + cultureData.url_link;
           });
           const cardImg = document.createElement("img");
           cardImg.src = cultureData.image_url;

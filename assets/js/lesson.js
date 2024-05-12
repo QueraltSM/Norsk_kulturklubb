@@ -1,5 +1,5 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
-  window.location.href = "/lessons";
+  window.location.href = "/Lessons";
 }
 
 const lessonContainer = document.getElementById("lesson_container");
@@ -40,7 +40,7 @@ async function fetchData() {
         userDetailsSection.appendChild(authorTitle);
         userDetailsSection.appendChild(authorText);
         const button = document.createElement("a");
-        button.href = "/teachers/" + user.url_link;
+        button.href = "/Teachers/" + user.url_link;
         button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
         button.style.fontWeight = "bold";
         button.style.float = "right";
@@ -64,7 +64,7 @@ async function fetchData() {
           var height = iframeHeight + 100;
         lessonContentWrapper.style.height = `${height}px`;
       });
-      document.getElementById("practice_lesson").href = "/lessons/practice/" + url;
+      document.getElementById("practice_lesson").href = "/Lessons/Practice/" + url;
     } catch (error) {
       console.error("Error:", error);
     }

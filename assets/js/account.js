@@ -86,7 +86,7 @@ function updateUserData(userData, table) {
       body: JSON.stringify(request),
     }).then((response) => {
     if (response.status === 200) {
-      window.location.href="/account";
+      window.location.href="/Account";
     } else if (response.status === 500) {
       showAlert(
         "danger",

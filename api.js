@@ -669,8 +669,8 @@ app.post("/api/deleteContentS3", (req, res) => {
   });
 });
 
-app.get("/edit/:type/:url", (req, res) => {
-  const title = "/edit/" + req.params.type + "/" + req.params.url;
+app.get("/Edit/:type/:url", (req, res) => {
+  const title = "/Edit/" + req.params.type + "/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -679,8 +679,8 @@ app.get("/edit/:type/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/culture/", (req, res) => {
-  const title = "/culture/";
+app.get("/Culture", (req, res) => {
+  const title = "/Culture";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -689,8 +689,8 @@ app.get("/culture/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/lessons/", (req, res) => {
-  const title = "/lessons/";
+app.get("/Lessons", (req, res) => {
+  const title = "/Lessons";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -699,8 +699,8 @@ app.get("/lessons/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/teachers/:url", (req, res) => {
-  const title = "/teachers/" + req.params.url;
+app.get("/Teachers/:url", (req, res) => {
+  const title = "/Teachers/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -709,8 +709,8 @@ app.get("/teachers/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/teachers/", (req, res) => {
-  const title = "/teachers/";
+app.get("/Teachers", (req, res) => {
+  const title = "/Teachers";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -719,8 +719,8 @@ app.get("/teachers/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/culture/:url", (req, res) => {
-  const title = "/culture/" + req.params.url;
+app.get("/Culture/:url", (req, res) => {
+  const title = "/Culture/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -729,8 +729,8 @@ app.get("/culture/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/lessons/:url", (req, res) => {
-  const title = "/lessons/" + req.params.url;
+app.get("/Lessons/:url", (req, res) => {
+  const title = "/Lessons/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -739,8 +739,8 @@ app.get("/lessons/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/lessons/practice/:url", (req, res) => {
-  const title = "/lessons/practice/" + req.params.url;
+app.get("/Lessons/Practice/:url", (req, res) => {
+  const title = "/Lessons/Practice/" + req.params.url;
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -749,8 +749,8 @@ app.get("/lessons/practice/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/account/", (req, res) => {
-  const title = "/account/";
+app.get("/Account", (req, res) => {
+  const title = "/Account";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -759,8 +759,8 @@ app.get("/account/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/translator/", (req, res) => {
-  const title = "/translator/";
+app.get("/Translator", (req, res) => {
+  const title = "/Translator";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -769,8 +769,8 @@ app.get("/translator/", (req, res) => {
   res.send(contenidoHTML);
 });
 
-app.get("/share/", (req, res) => {
-  const title = "/share/";
+app.get("/Share", (req, res) => {
+  const title = "/Share";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
@@ -795,6 +795,37 @@ app.get("/404", (req, res) => {
     return res.send(cachedContents[title]);
   }
   const contenidoHTML = fs.readFileSync("404.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/Contributions", (req, res) => {
+  const title = "/Share";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("contributions.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+app.get("/signup", (req, res) => {
+  const title = "/signup";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("signup.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
+
+app.get("/login", (req, res) => {
+  const title = "/login";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("login.html", "utf8");
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });

@@ -50,7 +50,7 @@ async function fetchData() {
         const user = await getUser(lesson.teacher_id);
         if (user.public_profile) {
           const lessonHTML = `<div class="col-6" style="padding-bottom:10px;">
-          <a href="#" onclick="window.location.href = '/lessons/` + lesson.url_link +`';" style="text-decoration: none; color: inherit; display: flex;">
+          <a href="#" onclick="window.location.href = '/Lessons/` + lesson.url_link +`';" style="text-decoration: none; color: inherit; display: flex;">
             <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
               <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
                 <img src="${lesson.image_url}" class="img-fluid" alt="Lesson Image" style="object-fit: cover; height: 100%; width: 100%;">

@@ -19,7 +19,7 @@ async function fetchData() {
   const userData = await response.json();
   if (!userData.public_profile) {
     document.getElementById("public_profile").innerHTML =
-      "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/account.html'><u>Account</u></a> to complete your profile.</span>";
+      "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/Account.html'><u>Account</u></a> to complete your profile.</span>";
     div_word.style.pointerEvents = "none";
     div_word.style.opacity = "0.5";
     div_lesson.style.pointerEvents = "none";
@@ -274,7 +274,7 @@ async function publishPost() {
         .then((data) => {
           showAlert("success", "Contribution was submitted");
           setTimeout(() => {
-            window.location.href = "/culture.html";
+            window.location.href = "/Culture.html";
           }, 3000);
         })
         .catch((error) => {
