@@ -201,7 +201,7 @@ async function publishPost() {
     .getElementById("post_short_description")
     .innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
-  const min_read = document.getElementById("post_min_read").innerHTML.trim();
+  const min_read = document.getElementById("min_read").innerHTML.trim();
   const category_select = document
     .getElementById("category_select")
     .value.replace(/-/g, " ");

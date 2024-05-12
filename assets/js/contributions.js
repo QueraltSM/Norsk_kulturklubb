@@ -84,10 +84,9 @@ async function fetchWords() {
     <table class="contributions-table">
       <thead>
         <tr>
-          <th>Published</th>
-          <th>Word</th>
+          <th></th>
           <th>Meaning</th>
-          <th>Displayed</th>
+          <th>Published</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -96,13 +95,12 @@ async function fetchWords() {
           .map(
             (data) => `
               <tr>
-                <td>${data.pubdate}</td>
-                <td>${data.title}</td>
+                <td><strong>${data.title}</strong>&nbsp;(${data.display_date})</td>
                 <td>${data.meaning}</td>
-                <td>${data.display_date}</td>
+                <td>${data.pubdate}</td>
                 <td style="text-align: center;">
-                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
+                  <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-trash"></i></a>
                 </td>
               </tr>`
           )
@@ -145,9 +143,9 @@ async function fetchLessons() {
         <table class="contributions-table">
           <thead>
             <tr>
-              <th>Published</th>
-              <th>Title</th>
+              <th></th>
               <th>Language level</th>
+              <th>Published</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -155,14 +153,13 @@ async function fetchLessons() {
             ${lessons
               .map(
                 (data) => `
-                  <tr style='cursor:pointer;'>
-                    <td>${data.pubdate}</td>
-                    <td>${data.title}</td>
+                  <tr>
+                  <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Lessons', 'view')"><strong>${data.title}</strong></a></td>
                     <td>${data.language_level}</td>
+                    <td>${data.pubdate}</td>
                     <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Lessons', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-trash"></i></a>
                   </td>
                   </tr>
                 `)
@@ -206,9 +203,9 @@ async function fetchCulture() {
         <table class="contributions-table">
           <thead>
             <tr>
-              <th>Published</th>
-              <th>Title</th>
+              <th></th>
               <th>Category</th>
+              <th>Published</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -217,13 +214,12 @@ async function fetchCulture() {
               .map(
                 (data) => `
                   <tr>
-                    <td>${data.pubdate}</td>
-                    <td>${data.title}</td> 
+                    <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong></td>
                     <td>${data.category} > ${data.subcategory}</td> 
+                    <td>${data.pubdate}</td> 
                     <td style="text-align: center;">
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'view')" style="display: inline-block; border-radius: 20px; color: #117A65; margin: 5px; padding: 5px;"><i class="fas fa-eye"></i></a>
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-x-circle-fill"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-trash"></i></a>
                   </td>          
                   </tr>`
               ).join("")}

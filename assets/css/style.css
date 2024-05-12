@@ -1981,6 +1981,7 @@ textarea {
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 10px;
+  width: 100%;
 }
 
 .label-box {
@@ -2096,8 +2097,8 @@ textarea {
 }
 
 /* Estilos para las filas pares de la tabla */
-.contributions-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+.contributions-table tbody tr:nth-child(odd) {
+  background-color: lightgray;
 }
 
 /* Estilos para los botones de acciones */
@@ -2497,28 +2498,26 @@ textarea {
 }
 .contributions-table {
   width: 100%;
-  border-radius: 10px; /* Radio de borde para la tabla */
-  overflow: hidden; /* Esto es importante para que los bordes redondos se apliquen correctamente */
-  border-spacing: 0; /* Espacio entre celdas de la tabla */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  overflow: hidden;
+  border-spacing: 0;
 }
 
 .contributions-table th,
 .contributions-table td {
   border: none;
+  border-bottom: 1px solid lightgray;
   padding: 8px;
 }
-.contributions-table tbody tr:nth-child(even) {
-  background-color: rgba(56, 141, 168, 0.1);
+.contributions-table tbody tr:nth-child(odd) {
+  background-color: #F8F9F9;
 }
 .contributions-table .actions {
   text-align: center;
 }
 .contributions-table th {
-  background-color: #003657;
-  color: white;
-  border: none;
+  background-color: transparent;
   padding: 8px;
+  border-top: 1px solid lightgray;
 }
 .contributions-table td,
 .contributions-table th {

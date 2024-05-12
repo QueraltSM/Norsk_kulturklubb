@@ -44,7 +44,7 @@ function getInformationByRole() {
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
-        if (user.url_link !== undefined) document.getElementById("url_link").innerHTML = user.url_link.replace(/-/g, " ");
+        if (user.url_link !== undefined) document.getElementById("url_link").innerHTML = parseURL(user.url_link);
         if (user.public_profile != undefined)
           document.getElementById("teacher_public_profile").checked =
             user.public_profile;
@@ -244,7 +244,7 @@ async function saveTeacher() {
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
   var contact_information = document.getElementById("contact_information").value;
-  var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_link = formatURL(document.getElementById("url_link").innerHTML);
 
   var userData = {
     first_name: teacher_name,

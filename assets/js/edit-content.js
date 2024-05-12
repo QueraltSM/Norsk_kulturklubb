@@ -1,6 +1,7 @@
 var ID = "";
 var type = new URL(window.location.href).pathname.split('/')[2];
 var url = new URL(window.location.href).pathname.split('/')[3];
+var image_url = "";
 
 document.getElementById("div_" + type.toLocaleLowerCase()).style.display = "block";
 
@@ -25,7 +26,7 @@ async function updateLesson() {
   var image_url = document.getElementById("content_image_"+type.toLocaleLowerCase()).src;
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var content_url = localStorage.getItem("lesson_content_url");
-  var url_link = document.getElementById("lesson_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_link = formatURL(document.getElementById("lesson_url_link").innerHTML);
 
   if (!title || !short_description || !description || !language_level || !url_link) {
     showAlert("danger", "All fields must be completed to update");
@@ -60,7 +61,6 @@ async function updateLesson() {
         const responseData = await response.json();
         image_url =  responseData.imageUrl;
       }
-    
     }
     response = await fetch(`/api/updateContent?table=Lessons&ID=` + ID, {
       method: "POST",
@@ -114,6 +114,53 @@ async function updateWord() {
   }
 }
 
+async function updatePost() {
+  var title = document.getElementById("post_title").innerHTML;
+  var short_description = document.getElementById("post_short_description").innerHTML;
+  var description = document.getElementById("post_description").value;
+  var category = document.getElementById("category_select").value;
+  var subcategory = document.getElementById("subcategory_select").value;
+  var min_read = document.getElementById("min_read").value;
+  var post_image = document.getElementById("post_image").files[0];
+  var url_link = formatURL(document.getElementById("post_url_link").innerHTML);
+
+  if (!title && !short_description && !category && !subcategory && !min_read && !url_link) {
+    showAlert("danger", "All fields must be completed to update");
+  } else {
+    if (post_image) {
+      var formData = new FormData();
+      formData.append("image", post_image);
+      const response = await fetch(`/api/updateImage?key=Culture-Images&filename=${image_url.split("/").pop()}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Failed to upload file");
+      }
+    }
+    const response = await fetch(`/api/updateContent?table=Culture&ID=` + ID, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        short_description: short_description,
+        description: description,
+        category: category,
+        subcategory: subcategory,
+        min_read: min_read,
+        url_link: url_link
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("There was an error");
+    } else {
+      window.location.href = "/edit/Culture/" + url_link;
+    }
+  }
+}
+
 async function fetchData() {
   try {
     const response = await fetch("/api/getFromURL?url_link="+url+"&table="+type);
@@ -122,6 +169,7 @@ async function fetchData() {
     }
     const data = await response.json();
     ID = data.ID;
+    image_url = data.image_url;
     if (type=="Words") {
       document.getElementById("word_title").innerHTML = data.title;
       document.getElementById("word_meaning").innerHTML = data.meaning;
@@ -132,7 +180,7 @@ async function fetchData() {
       document.getElementById("lesson_description").innerHTML = data.description;
       document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
       document.getElementById("lesson_language_level").value = data.language_level;
-      document.getElementById("lesson_url_link").innerHTML = data.url_link.replace(/-/g, " ");
+      document.getElementById("lesson_url_link").innerHTML = parseURL(data.url_link);
       var content_url = data.content_url;
       localStorage.setItem("lesson_content_url", data.content_url);
       localStorage.setItem("contentURL", content_url.substring(content_url.lastIndexOf('/') + 1, content_url.lastIndexOf('.')));
@@ -153,13 +201,15 @@ async function fetchData() {
       document.getElementById("category_select").value = category;
       document.getElementById(category).style.display = "block";
       document.getElementById("subcategory_select").value = subcategory;
-      document.getElementById("post_min_read").innerHTML = data.min_read;
-      document.getElementById("content_image_"+type.toLocaleLowerCase()).src = data.image_url;
+      document.getElementById("min_read").value = data.min_read;
+      document.getElementById("content_image_"+type.toLocaleLowerCase()).src = image_url;
+      document.getElementById("post_url_link").innerHTML = parseURL(data.url_link);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
+
 fetchData();
 flatpickr("#word_date", {
   dateFormat: "d/m/Y",

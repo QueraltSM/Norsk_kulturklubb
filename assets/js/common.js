@@ -181,3 +181,20 @@ function formatDateBlog(dateString) {
   const date = new Date(formattedDate);
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
+
+function previewImage(event, id) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = document.getElementById(id);
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+function formatURL(url) {
+  return url.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+}
+
+function parseURL(url) {
+  return url.replace(/-/g, " ");
+}

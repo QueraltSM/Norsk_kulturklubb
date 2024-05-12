@@ -390,6 +390,21 @@ app.post("/api/updateContent", (req, res) => {
     params.ExpressionAttributeValues[":meaning"] = meaning;
     params.ExpressionAttributeValues[":display_date"] = display_date;
     params.ExpressionAttributeValues[":url_link"] = url_link;
+  } else if (req.query.table === "Culture") {
+    updateExpressionParts.push("title = :title");
+    updateExpressionParts.push("description = :description");
+    updateExpressionParts.push("category = :category");
+    updateExpressionParts.push("min_read = :min_read");
+    updateExpressionParts.push("short_description = :short_description");
+    updateExpressionParts.push("subcategory = :subcategory");
+    updateExpressionParts.push("url_link = :url_link");
+    params.ExpressionAttributeValues[":title"] =  req.body.title;
+    params.ExpressionAttributeValues[":description"] =  req.body.description;
+    params.ExpressionAttributeValues[":category"] =  req.body.category;
+    params.ExpressionAttributeValues[":min_read"] =  req.body.min_read;
+    params.ExpressionAttributeValues[":short_description"] =  req.body.short_description;
+    params.ExpressionAttributeValues[":subcategory"] =  req.body.subcategory;
+    params.ExpressionAttributeValues[":url_link"] = req.body.url_link;
   }
   params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
   dynamoDB.update(params, (err, data) => {
