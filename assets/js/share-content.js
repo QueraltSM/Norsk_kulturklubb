@@ -114,6 +114,7 @@ async function publishLesson() {
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var lesson_image_url = document.getElementById("lesson_image").files[0];
   var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link("Lessons", url_link);
   var content_url = "";
   var image_url = "";
   if (
@@ -127,9 +128,10 @@ async function publishLesson() {
   ) {
     showAlert("danger", "All fields must be completed to share");
   } else {
+    if (url_available) {
     var formData = new FormData();
     formData.append("file", lesson_content_url);
-    var filename = ID + "." + lesson_content_url.name.split(".").pop();
+    var filename = url_link + "." + lesson_content_url.name.split(".").pop();
     var response = await fetch(
       `/api/uploadFile?key=Lessons&filename=${filename}`,
       {
@@ -145,9 +147,9 @@ async function publishLesson() {
     }
     var formData = new FormData();
     formData.append("image", lesson_image_url);
-    var filename = ID + "." + lesson_image_url.name.split(".").pop();
+    var filename = url_link + "." + lesson_image_url.name.split(".").pop();
     response = await fetch(
-      `/api/updateImage?key=Lesson-Images&filename=${filename}`,
+      `/api/uploadImage?key=Lessons&filename=${filename}`,
       {
         method: "POST",
         body: formData,
@@ -192,7 +194,10 @@ async function publishLesson() {
         throw new Error("Network response was not ok");
       }
     });
+  } else {
+    showAlert("danger", "URL link is not available. Try another one.");
   }
+}
 }
 
 async function publishPost() {

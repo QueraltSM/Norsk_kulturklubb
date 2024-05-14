@@ -1,19 +1,8 @@
 var ID = "";
 var image_url = "";
+var content_url = "";
 var type = "";
 var url = "";
-
-function handleDocumentViewer() {
-  var document_container = document.getElementById("document_container");
-  if (document_container.style.display == "none") {
-    document_container.style.display = "block";
-    document.getElementById("document_label").innerHTML = "Close document";
-  } else {
-    document_container.style.display = "none";
-    document.getElementById("document_label").innerHTML =
-      "View current document";
-  }
-}
 
 async function updateLesson() {
   var title = document.getElementById("lesson_title").innerHTML.trim();
@@ -22,69 +11,32 @@ async function updateLesson() {
     .innerHTML.trim();
   var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
-  var lesson_image = document.getElementById("lesson_image").files[0];
-  var image_url = document.getElementById(
-    "content_image_" + type.toLocaleLowerCase()
-  ).src;
-  var lesson_content_url =
-    document.getElementById("lesson_content_url").files[0];
-  var content_url = localStorage.getItem("lesson_content_url");
-  var url_link = formatURL(
-    document.getElementById("lesson_url_link").innerHTML
-  );
-  var url_available = await check_availability_url_link("Lessons", url_link);
+  var url_link = formatURL(document.getElementById("lesson_url_link").value);
   if (
     !title ||
     !short_description ||
     !description ||
-    !language_level ||
-    !url_link
+    !language_level
   ) {
     showAlert("danger", "All fields must be completed to update");
   } else {
-    alert(url_available);
-    if (url_available) {
-      if (lesson_content_url) {
-        var formData = new FormData();
-        formData.append("file", lesson_content_url);
-        var filename =
-          localStorage.getItem("contentURL") +
-          "." +
-          lesson_content_url.name.match(/\.([^.]+)$/)[1];
-        var response = await fetch(
-          `/api/uploadFile?key=Lessons&filename=${filename}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to upload file");
-        } else {
-          const responseData = await response.json();
-          content_url = responseData.fileUrl;
-        }
+      var current_practice_url =  document.getElementById("current_practice").href.split("/").pop();
+      var current_image_url =  document.getElementById("current_image_lesson").value.split("/").pop();
+      var content_url = document.getElementById("current_practice").href;
+      var image_url = document.getElementById("current_image_lesson").value;
+      if (document.getElementById("lesson_content_url").files[0]) {
+        content_url = await uploadFile("Lessons", document.getElementById("lesson_content_url").files[0], url_link);
+        await fetch("/api/deleteFromS3?folder=Lessons&url="+current_practice_url,{
+          method: "POST",
+          headers: {"Content-Type": "application/json",},
+        }).then((response) => {});
       }
-      if (lesson_image) {
-        var formData = new FormData();
-        formData.append("image", lesson_image);
-        url = document.getElementById(
-          "content_image_" + type.toLocaleLowerCase()
-        ).src;
-        var filename = url.substring(url.lastIndexOf("/") + 1);
-        response = await fetch(
-          `/api/updateImage?key=Lesson-Images&filename=${filename}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to upload file");
-        } else {
-          const responseData = await response.json();
-          image_url = responseData.imageUrl;
-        }
+      if (document.getElementById("lesson_image").files[0]) {
+        image_url = await uploadImage("Lessons", document.getElementById("lesson_image").files[0], url_link);
+        await fetch("/api/deleteFromS3?folder=Lessons&url="+current_image_url,{
+          method: "POST",
+          headers: {"Content-Type": "application/json",},
+        }).then((response) => {});
       }
       response = await fetch(`/api/updateContent?table=Lessons&ID=` + ID, {
         method: "POST",
@@ -96,20 +48,14 @@ async function updateLesson() {
           short_description: short_description,
           description: description,
           language_level: language_level,
-          image_url: image_url,
           content_url: content_url,
-          url_link: url_link,
+          image_url: image_url
         }),
       });
       if (!response.ok) {
         throw new Error("There was an error");
-      } else {
-        showAlert("success", "Lesson was updated");
       }
       window.location.href = "/Edit/Lessons/" + url_link;
-    } else {
-      showAlert("danger", "URL link is not available. Try another one.");
-    }
   }
 }
 
@@ -175,7 +121,7 @@ async function updatePost() {
       var formData = new FormData();
       formData.append("image", post_image);
       const response = await fetch(
-        `/api/updateImage?key=Culture-Images&filename=${image_url
+        `/api/uploadImage?key=Culture-Images&filename=${image_url
           .split("/")
           .pop()}`,
         {
@@ -234,33 +180,12 @@ async function fetchData() {
         data.short_description;
       document.getElementById("lesson_description").innerHTML =
         data.description;
-      document.getElementById("content_image_" + type.toLocaleLowerCase()).src =
-        data.image_url;
-      document.getElementById("lesson_language_level").value =
-        data.language_level;
-      document.getElementById("lesson_url_link").innerHTML = parseURL(
-        data.url_link
-      );
-      var content_url = data.content_url;
-      localStorage.setItem("lesson_content_url", data.content_url);
-      localStorage.setItem(
-        "contentURL",
-        content_url.substring(
-          content_url.lastIndexOf("/") + 1,
-          content_url.lastIndexOf(".")
-        )
-      );
-      const contentType = data.content_url.split(".").pop();
-      if (contentType == "mp4") {
-        document.getElementById("video_url").src = data.content_url;
-        document.getElementById("video_container").style.display = "block";
-      } else {
-        document.getElementById("iframe_container").src =
-          "https://docs.google.com/viewer?url=" +
-          data.content_url +
-          "&embedded=true";
-        document.getElementById("iframe_container").style.display = "block";
-      }
+      document.getElementById("lesson_language_level").value = data.language_level;
+      document.getElementById("lesson_url_link").value = parseURL(data.url_link);
+      document.getElementById("current_practice").href = data.content_url;
+      document.getElementById("current_image_lesson").value = data.image_url;
+      document.getElementById("content_image_" + type.toLocaleLowerCase()).src = data.image_url;
+
     } else if (type == "Culture") {
       var category = data.category.replace(/\s+/g, "-");
       var subcategory = data.subcategory.replace(/\s+/g, "-");

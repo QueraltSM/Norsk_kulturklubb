@@ -102,31 +102,27 @@
                                         style="overflow: auto; min-height: 400px;"></textarea>
 
                                     <h3>Practical lesson</h3>
-                                    <div id="document_container" style="display:none">
-                                        <video controls id="video_container" style="width:100%; height:auto;">
-                                            <source id="video_url" type="video/mp4">
-                                        </video>
-                                        <iframe id="iframe_container" style="display:none" width="100%" height="842px"
-                                            frameborder="0"></iframe>
-                                    </div>
-                                    <a href="#" onclick="handleDocumentViewer();  event.preventDefault();"><i
-                                            class="bi bi-book" style="color:#9C3030; font-weight: bold;"></i>&nbsp;<span
-                                            class="label-box" style="color:#9C3030; font-weight: bold;"
-                                            id="document_label">View current
-                                            lesson</span></a><br>
-                                    <span class="label-box">For the practical part of the lesson, select other file
-                                        (PDF, TXT, DOCX, PPTX or MP4)</span><br>
+
+                                    <span class="label-box"><strong><a href="#" id="current_practice">Download current practice</a></strong></span>
+                                       
+                                    <br><span class="label-box">For the practical part of the lesson, select other file
+                                        (PDF, TXT, DOCX, PPTX or MP4).</span><br>
+ 
                                     <input type="file" id="lesson_content_url"
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box">
 
                                     <h3>Image</h3>
-                                    <div class="text-center"><img id="content_image_lessons"
-                                            style="width: 400px; height: 260px;"></div>
-                                    <br><span class="label-box">Select other the image of the lesson (JPG,
-                                        PNG)</span><br>
-                                    <input type="file" id="lesson_image" accept="image/jpeg,image/png,image/gif"
-                                        contenteditable="true" class="editable-box">
+                                    <input type="hidden" id="current_image_lesson" />
+                                    <span class="label-box">Select other the image of the lesson (JPG, PNG)</span>
+                                            <div class="text-center">
+                                                <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="content_image_lessons" />
+                                              </div>
+                                              <div class="text-center mt-3">
+                                                <label for="lesson_image" class="btn btn-sm">Select Image</label>
+                                                <input type="file" id="lesson_image" accept="image/*" class="d-none" onchange="previewImage(event, 'content_image_lessons')" />
+                                              </div> 
+
                                     <h3>
                                         Language level
                                     </h3>
@@ -140,14 +136,7 @@
                                         <option value="C1 - Avansert">C1 - Avansert</option>
                                         <option value="C2 - Mester">C2 - Mester</option>
                                     </select>
-
-                                    <h3>
-                                        URL link
-                                    </h3>
-                                    <span class="label-box">You can modify the link that identifies your lesson
-                                        (visible in the URL)</span>
-                                    <p contenteditable="true" id="lesson_url_link" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
+                                    <input type="hidden" id="lesson_url_link"></p>
                                 </div>
                             </div>
                             <br>

@@ -1,20 +1,40 @@
 if (localStorage.getItem("isLoggedIn") == "true") {
   const roleDisplayOptions = {
-    "Teacher": { "createWordOfDay": "block", "makeContribution": "block", "myContributions": "block" },
-    "Student": { "createWordOfDay": "none", "makeContribution": "none", "myContributions": "none" },
-    "Collaborator": { "createWordOfDay": "none", "makeContribution": "block", "myContributions": "block" }
+    Teacher: {
+      createWordOfDay: "block",
+      makeContribution: "block",
+      myContributions: "block",
+    },
+    Student: {
+      createWordOfDay: "none",
+      makeContribution: "none",
+      myContributions: "none",
+    },
+    Collaborator: {
+      createWordOfDay: "none",
+      makeContribution: "block",
+      myContributions: "block",
+    },
   };
-  for (const option in roleDisplayOptions[localStorage.getItem("userLoggedInRole")]) {
+  for (const option in roleDisplayOptions[
+    localStorage.getItem("userLoggedInRole")
+  ]) {
     const element = document.getElementById(option);
     if (element) {
-      element.style.display = roleDisplayOptions[localStorage.getItem("userLoggedInRole")][option];
+      element.style.display =
+        roleDisplayOptions[localStorage.getItem("userLoggedInRole")][option];
     }
   }
-  document.getElementById("welcomeUser").innerHTML = "Hallo " + localStorage.getItem("user_full_name");
+  document.getElementById("welcomeUser").innerHTML =
+    "Hallo " + localStorage.getItem("user_full_name");
   document.getElementById("handleUserMenuLink").style.display = "block";
 } else {
   document.getElementById("loginBtn").style.display = "block";
-  const previewElements = ["preview_teachers", "preview_lessons", "preview_events"];
+  const previewElements = [
+    "preview_teachers",
+    "preview_lessons",
+    "preview_events",
+  ];
   const normalElements = ["teachers", "lessons", "events"];
   for (const elementId of previewElements) {
     const element = document.getElementById(elementId);
@@ -38,18 +58,19 @@ function logout() {
 }
 
 function showAlert(alertType, message) {
-  window.scrollTo(0, (document.body.scrollHeight + 100));
-  var container = document.getElementById('alertContainer');
+  window.scrollTo(0, document.body.scrollHeight + 100);
+  var container = document.getElementById("alertContainer");
   container.innerHTML = "";
   var content = document.createElement("span");
   content.style.display = "block";
   content.style.margin = "auto";
   content.style.fontWeight = "bold";
-  content.style.fontSize = "15px"
+  content.style.fontSize = "15px";
   content.style.textAlign = "center";
   if (alertType === "danger") {
     content.style.color = "#ff4444";
-    content.innerHTML = "<i class='bi bi-exclamation-circle-fill'></i> " + message;
+    content.innerHTML =
+      "<i class='bi bi-exclamation-circle-fill'></i> " + message;
   } else if (alertType === "success") {
     content.style.color = "#3EA66A";
     content.innerHTML = "<i class='bi bi-check2-circle'></i> " + message;
@@ -57,18 +78,19 @@ function showAlert(alertType, message) {
   container.appendChild(content);
 }
 
-
 function limitTextarea(element, maxLength) {
   if (element.textContent.length > maxLength) {
-      element.textContent = element.textContent.slice(0, maxLength);
+    element.textContent = element.textContent.slice(0, maxLength);
   }
 }
 
 function cleanPaste(event, element) {
-  alert("clean")
+  alert("clean");
   event.preventDefault();
-  var pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
-  var cleanedText = pastedText.replace(/<[^>]+>/g, '');
+  var pastedText = (event.originalEvent || event).clipboardData.getData(
+    "text/plain"
+  );
+  var cleanedText = pastedText.replace(/<[^>]+>/g, "");
   document.execCommand("insertHTML", false, cleanedText);
 }
 
@@ -80,7 +102,7 @@ function markDayAsTaken(calendarId, day) {
 }
 
 function formatDateForFlatpickr(date) {
-  var parts = date.split('/');
+  var parts = date.split("/");
   var year = parts[2];
   var month = parts[1] - 1;
   var day = parts[0];
@@ -88,20 +110,21 @@ function formatDateForFlatpickr(date) {
 }
 
 function fetchCalendar() {
-  fetch('/api/getAllContents?table=Words')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to get server response.');
-    }
-    return response.json();
-  })
-  .then(data => {
-    data.Items.forEach(word => {
-      markDayAsTaken("word_date", word.display_date); 
+  fetch("/api/getAllContents?table=Words")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to get server response.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data.Items.forEach((word) => {
+        markDayAsTaken("word_date", word.display_date);
+      });
+    })
+    .catch((error) => {
+      console.error("Error retrieving data", error);
     });
-  }).catch(error => {
-    console.error('Error retrieving data', error);
-  });
 }
 
 function toggleCategoryPost() {
@@ -126,26 +149,22 @@ function toggleCategoryPost() {
 
 async function getUser(id) {
   try {
-    const response1 = await fetch(
-      `/api/getUser?id=${id}&table=Users`
-    );
+    const response1 = await fetch(`/api/getUser?id=${id}&table=Users`);
     if (!response1.ok) {
       throw new Error("User data not found");
     }
     const user = await response1.json();
     const role = user.role;
-    const response2 = await fetch(
-      `/api/getUser?id=${id}&table=${role}s`
-    );
+    const response2 = await fetch(`/api/getUser?id=${id}&table=${role}s`);
     if (!response2.ok) {
       throw new Error("No response could be obtained from the server");
     }
     const userData = await response2.json();
-    
+
     if (Object.keys(userData).length === 0) {
       throw new Error("User data not found");
     }
-    
+
     const mergedData = Object.assign({}, user, userData);
     return mergedData;
   } catch (error) {
@@ -155,12 +174,25 @@ async function getUser(id) {
 }
 
 function formatDate(dateString) {
-  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  return dateString.split('/').reduce((acc, val, index) => {
-    if (index === 0) return val.padStart(2, '0') + '-' + acc;
+  const months = [
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+  ];
+  return dateString.split("/").reduce((acc, val, index) => {
+    if (index === 0) return val.padStart(2, "0") + "-" + acc;
     if (index === 1) return acc + months[parseInt(val) - 1];
-    if (index === 2) return acc + '-' + val.slice(-2);
-  }, ''); //Output: "01-Jun-24"
+    if (index === 2) return acc + "-" + val.slice(-2);
+  }, ""); //Output: "01-Jun-24"
 }
 
 function formatDateBlog(dateString) {
@@ -184,17 +216,13 @@ function formatDateBlog(dateString) {
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
 
-function previewImage(event, id) {
-  var reader = new FileReader();
-  reader.onload = function () {
-    var img = document.getElementById(id);
-    img.src = reader.result;
-  };
-  reader.readAsDataURL(event.target.files[0]);
-}
-
 function formatURL(url) {
-  return url.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  return url
+    .toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/-{2,}/g, "-");
 }
 
 function noPosts() {
@@ -210,17 +238,58 @@ function parseURL(url) {
 
 async function check_availability_url_link(table, url_link) {
   try {
-    const response = await fetch("/api/getFromURL?url_link="+url_link+"&table="+table);
-    if (!response.ok) {
-      throw new Error("Failed to get server response.");
-    }
+    const response = await fetch(
+      `/api/getFromURL?url_link=${url_link}&table=${table}`
+    );
     const data = await response.json();
-    try {
-      return false;
-    } catch (error) {
-      return true;
-    }
+    return data.ID === ID;
   } catch (error) {
     return true;
   }
+}
+
+async function uploadFile(key, file, url_link) {
+  var formData = new FormData();
+  formData.append("file", file);
+  var filename = url_link + "." + file.name.match(/\.([^.]+)$/)[1];
+  var response = await fetch(
+    "/api/uploadFile?key=" + key + "&filename=" + filename,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to upload file");
+  }
+  var responseData = await response.json();
+  return responseData.fileUrl;
+}
+
+async function uploadImage(key, file, url_link) {
+  var formData = new FormData();
+  formData.append("image", file);
+  var filename = url_link + "." + file.name.match(/\.([^.]+)$/)[1];
+  var response = await fetch(
+    "/api/uploadImage?key=" + key + "&filename=" + filename,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to upload file");
+  }
+  var responseData = await response.json();
+  return responseData.imageUrl;
+}
+
+function previewImage(event, element_id) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = document.getElementById(element_id);
+    img.src = reader.result;
+    localStorage.setItem(element_id, reader.result);
+  };
+  reader.readAsDataURL(event.target.files[0]);
 }

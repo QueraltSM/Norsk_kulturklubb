@@ -282,7 +282,7 @@ async function deleteContent() {
     var content_url = (data.content_url).substring((data.content_url).lastIndexOf("/") + 1);
     if (deleteContentS3(content_url, "Lessons")) {
       var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
-      if (deleteContentS3(image_url, "Lesson-Images")) {
+      if (deleteContentS3(image_url, "Lessons")) {
         deleteContentDB(data.ID, table);
       }
     }

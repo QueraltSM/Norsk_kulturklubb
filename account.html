@@ -140,7 +140,7 @@
             </div>
             <div class="text-center mt-3">
               <label for="profile_picture" class="btn btn-sm">Select Image</label>
-              <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImageProfile(event)" />
+              <input type="file" id="profile_picture" accept="image/*" class="d-none" onchange="previewImage(event,'teacher_image')" />
             </div> 
 
             <h3>
@@ -242,15 +242,6 @@
     $(document).ready(function () {
       $("#header").load("/header.html");
     });
-    function previewImageProfile(event) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        var img = document.getElementById("teacher_image");
-        img.src = reader.result;
-        localStorage.setItem("profile_image", reader.result);
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
   </script>
   <script src="/assets/js/common.js"></script>
   <script src="/assets/js/Account.js"></script>

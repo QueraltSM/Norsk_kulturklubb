@@ -276,7 +276,6 @@ app.post("/api/deleteUser", (req, res) => {
 });
 
 app.post("/api/deleteFromS3", (req, res) => {
-  dynamoDB.delete(params, (err, dataObjects) => {
     const s3Params = {
       Bucket: "norskkulturklubb",
       Key: req.query.folder + "/" + req.query.url,
@@ -288,7 +287,6 @@ app.post("/api/deleteFromS3", (req, res) => {
         res.send("Objects were deleted");
       }
     });
-  });
 });
 
 app.get("/api/getUser", (req, res) => {
@@ -356,27 +354,18 @@ app.post("/api/updateContent", (req, res) => {
   };
   const updateExpressionParts = [];
   if (req.query.table === "Lessons") {
-    const title = req.body.title;
-    const short_description = req.body.short_description;
-    const description = req.body.description;
-    const language_level = req.body.language_level;
-    const image_url = req.body.image_url;
-    const content_url = req.body.content_url;
-    const url_link = req.body.url_link;
     updateExpressionParts.push("title = :title");
     updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("description = :description");
     updateExpressionParts.push("language_level = :language_level");
-    updateExpressionParts.push("image_url = :image_url");
     updateExpressionParts.push("content_url = :content_url");
-    updateExpressionParts.push("url_link = :url_link");
-    params.ExpressionAttributeValues[":title"] = title;
-    params.ExpressionAttributeValues[":short_description"] = short_description;
-    params.ExpressionAttributeValues[":description"] = description;
-    params.ExpressionAttributeValues[":language_level"] = language_level;
-    params.ExpressionAttributeValues[":image_url"] = image_url;
-    params.ExpressionAttributeValues[":content_url"] = content_url;
-    params.ExpressionAttributeValues[":url_link"] = url_link;
+    updateExpressionParts.push("image_url = :image_url");
+    params.ExpressionAttributeValues[":title"] = req.body.title;
+    params.ExpressionAttributeValues[":short_description"] = req.body.short_description;
+    params.ExpressionAttributeValues[":description"] = req.body.description;
+    params.ExpressionAttributeValues[":language_level"] = req.body.language_level;
+    params.ExpressionAttributeValues[":content_url"] = req.body.content_url;
+    params.ExpressionAttributeValues[":image_url"] = req.body.image_url;
   } else if (req.query.table === "Words") {
     const title = req.body.title;
     const meaning = req.body.meaning;
@@ -434,7 +423,7 @@ app.post(
     };
     const imageParams = {
       Bucket: "norskkulturklubb",
-      Key: "Lesson-Images/" + req.query.image_filename,
+      Key: "Lessons/" + req.query.image_filename,
       Body: image.buffer,
       ACL: "public-read",
     };
@@ -466,14 +455,14 @@ app.post("/api/uploadFile", upload.single("file"), (req, res) => {
   };
   s3.upload(params, (err, data) => {
     if (err) {
-      console.error("Error uploading image to S3:", err);
+      console.error("Error uploading to S3:", err);
       return res.status(500).send("Error uploading image to S3");
     }
     res.status(200).json({ fileUrl: data.Location });
   });
 });
 
-app.post("/api/updateImage", upload.single("image"), (req, res) => {
+app.post("/api/uploadImage", upload.single("image"), (req, res) => {
   const image = req.file;
   const params = {
     Bucket: "norskkulturklubb",
@@ -483,12 +472,13 @@ app.post("/api/updateImage", upload.single("image"), (req, res) => {
   };
   s3.upload(params, (err, data) => {
     if (err) {
-      console.error("Error uploading image to S3:", err);
+      console.error("Error uploading to S3:", err);
       return res.status(500).send("Error uploading image to S3");
     }
     res.status(200).json({ imageUrl: data.Location });
   });
 });
+
 
 app.get("/api/getContent", (req, res) => {
   const params = {
@@ -564,7 +554,7 @@ app.post("/api/deleteLesson", (req, res) => {
         } else {
           const s3ImageParams = {
             Bucket: "norskkulturklubb",
-            Key: "Lesson-Images/" + req.body.image_url,
+            Key: "Lesson/" + req.body.image_url,
           };
           s3.deleteObject(s3ImageParams, (errS3Image, data) => {
             if (errS3Image) {
@@ -800,7 +790,7 @@ app.get("/404", (req, res) => {
 });
 
 app.get("/Contributions", (req, res) => {
-  const title = "/Share";
+  const title = "/Contributions";
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }

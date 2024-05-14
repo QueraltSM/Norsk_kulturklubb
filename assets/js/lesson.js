@@ -5,6 +5,7 @@ if (localStorage.getItem("isLoggedIn") == "false") {
 const lessonContainer = document.getElementById("lesson_container");
 var url = new URL(window.location.href).pathname.split('/')[2];
 
+      
 async function fetchData() {
   try {
     const response = await fetch("/api/getFromURL?url_link="+url+"&table=Lessons");
@@ -21,7 +22,7 @@ async function fetchData() {
           <div id="lesson_content_wrapper" class="lesson-content">
             <iframe id="lesson_description" style='text-align:justify; width:100%; height:100%; overflow:hidden;'></iframe>
             <div class="lesson-container">
-              <a href="#" target="_blank" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a>
+              <a href="#" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a>
             </div>
           </div>
         </div>
@@ -64,7 +65,8 @@ async function fetchData() {
           var height = iframeHeight + 100;
         lessonContentWrapper.style.height = `${height}px`;
       });
-      document.getElementById("practice_lesson").href = "/Lessons/Practice/" + url;
+      document.getElementById("practice_lesson").href = lesson.content_url;
+
     } catch (error) {
       console.error("Error:", error);
     }
