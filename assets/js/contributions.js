@@ -80,7 +80,6 @@ async function fetchWords() {
       <thead>
         <tr>
           <th></th>
-          <th>Meaning</th>
           <th>Published</th>
           <th>Action</th>
         </tr>
@@ -91,7 +90,6 @@ async function fetchWords() {
             (data) => `
               <tr>
                 <td><strong>${data.title}</strong>&nbsp;(${data.display_date})</td>
-                <td>${data.meaning}</td>
                 <td>${data.pubdate}</td>
                 <td style="text-align: center;">
                   <a href="#" onclick="manage_action('${data.url_link}', 'Words', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
@@ -199,7 +197,7 @@ async function fetchCulture() {
                 (data) => `
                   <tr>
                     <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong></td>
-                    <td>${data.category} > ${data.subcategory}</td> 
+                    <td>${data.category}</td> 
                     <td>${data.pubdate}</td> 
                     <td style="text-align: center;">
                     <a href="#" onclick="manage_action('${data.url_link}', 'Culture', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
@@ -288,7 +286,7 @@ async function deleteContent() {
     }
   } else if (table == "Culture") {
     var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
-    if (deleteContentS3(image_url, "Culture-Images")) {
+    if (deleteContentS3(image_url, "Culture")) {
       deleteContentDB(data.ID, table);
     }
   }

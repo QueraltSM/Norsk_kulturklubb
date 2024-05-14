@@ -1,5 +1,4 @@
 var ID = "";
-var image_url = "";
 var content_url = "";
 var type = "";
 var url = "";
@@ -63,15 +62,7 @@ async function updateWord() {
   var title = document.getElementById("word_title").innerHTML;
   var meaning = document.getElementById("word_meaning").innerHTML;
   var calendar = document.getElementById("word_date").value;
-  var url_link =
-    title
-      .toLowerCase()
-      .replace(/[.,]/g, "")
-      .replace(/&nbsp;/g, " ")
-      .replace(/\s+/g, "-")
-      .replace(/-{2,}/g, "-") +
-    "-" +
-    formatDate(calendar);
+  var url_link = formatURL(title + "-" + formatDate(calendar));
   if (title && meaning && calendar) {
     const response = await fetch(`/api/updateContent?table=Words&ID=` + ID, {
       method: "POST",
@@ -97,41 +88,38 @@ async function updateWord() {
 
 async function updatePost() {
   var title = document.getElementById("post_title").innerHTML;
-  var short_description = document.getElementById(
-    "post_short_description"
-  ).innerHTML;
+  var short_description = document.getElementById("post_short_description").innerHTML;
   var description = document.getElementById("post_description").value;
-  var category = document.getElementById("category_select").value;
-  var subcategory = document.getElementById("subcategory_select").value;
+  var category_select = document.getElementById("category-select").value.replace(/-/g, " ");
+  var subcategory_select = document.getElementById("subcategory-select-"+document.getElementById("category-select").value).value.replace(/-/g, " ");
+  //var category = document.getElementById("category-select").value;
+  //var subcategory = document.getElementById("subcategory-select").value;
   var min_read = document.getElementById("min_read").value;
-  var post_image = document.getElementById("post_image").files[0];
-  var url_link = formatURL(document.getElementById("post_url_link").innerHTML);
+  var url_link = formatURL(document.getElementById("post_url_link").value);
 
-  if (
-    !title &&
-    !short_description &&
-    !category &&
-    !subcategory &&
-    !min_read &&
-    !url_link
+  alert(title);
+  alert(short_description);
+  alert(category);
+  alert(subcategory);
+  alert(min_read);
+
+  /*if (
+    !title ||
+    !short_description ||
+    !description ||
+    !category ||
+    !subcategory ||
+    !min_read
   ) {
     showAlert("danger", "All fields must be completed to update");
   } else {
-    if (post_image) {
-      var formData = new FormData();
-      formData.append("image", post_image);
-      const response = await fetch(
-        `/api/uploadImage?key=Culture-Images&filename=${image_url
-          .split("/")
-          .pop()}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to upload file");
-      }
+    if (document.getElementById("post_image").files[0]) {
+      var current_image_url =  document.getElementById("current_image_post").value.split("/").pop();
+      image_url = await uploadImage("Culture", document.getElementById("post_image").files[0], url_link);
+      await fetch("/api/deleteFromS3?folder=Culture&url="+current_image_url,{
+        method: "POST",
+        headers: {"Content-Type": "application/json",},
+      }).then((response) => {});
     }
     const response = await fetch(`/api/updateContent?table=Culture&ID=` + ID, {
       method: "POST",
@@ -144,8 +132,7 @@ async function updatePost() {
         description: description,
         category: category,
         subcategory: subcategory,
-        min_read: min_read,
-        url_link: url_link,
+        min_read: min_read
       }),
     });
     if (!response.ok) {
@@ -153,7 +140,7 @@ async function updatePost() {
     } else {
       window.location.href = "/Edit/Culture/" + url_link;
     }
-  }
+  }*/
 }
 
 async function fetchData() {
@@ -169,7 +156,11 @@ async function fetchData() {
     }
     const data = await response.json();
     ID = data.ID;
-    image_url = data.image_url;
+
+    if (type != "Words") {
+      document.getElementById("current_image_"+type.toLocaleLowerCase()).value = data.image_url;
+      document.getElementById("content_image_" + type.toLocaleLowerCase()).src = data.image_url;
+    }
     if (type == "Words") {
       document.getElementById("word_title").innerHTML = data.title;
       document.getElementById("word_meaning").innerHTML = data.meaning;
@@ -183,25 +174,17 @@ async function fetchData() {
       document.getElementById("lesson_language_level").value = data.language_level;
       document.getElementById("lesson_url_link").value = parseURL(data.url_link);
       document.getElementById("current_practice").href = data.content_url;
-      document.getElementById("current_image_lesson").value = data.image_url;
-      document.getElementById("content_image_" + type.toLocaleLowerCase()).src = data.image_url;
-
     } else if (type == "Culture") {
       var category = data.category.replace(/\s+/g, "-");
       var subcategory = data.subcategory.replace(/\s+/g, "-");
       document.getElementById("post_title").innerHTML = data.title;
-      document.getElementById("post_short_description").innerHTML =
-        data.short_description;
+      document.getElementById("post_short_description").innerHTML = data.short_description;
       document.getElementById("post_description").innerHTML = data.description;
-      document.getElementById("category_select").value = category;
+      document.getElementById("category-select").value = category;
       document.getElementById(category).style.display = "block";
-      document.getElementById("subcategory_select").value = subcategory;
+      document.getElementById("subcategory-select-" + category).value = subcategory;
       document.getElementById("min_read").value = data.min_read;
-      document.getElementById("content_image_" + type.toLocaleLowerCase()).src =
-        image_url;
-      document.getElementById("post_url_link").innerHTML = parseURL(
-        data.url_link
-      );
+      document.getElementById("post_url_link").value = parseURL(data.url_link);
     }
   } catch (error) {
     console.error("Error fetching data:", error);

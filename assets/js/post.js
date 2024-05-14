@@ -11,13 +11,10 @@ async function fetchData() {
     const post = await response.json();
     try {
       document.getElementById("post_title").innerHTML = post.title;
+      document.getElementById("post_category").innerHTML = post.category;
+      document.getElementById("post_subcategory").innerHTML = post.subcategory;
       const cultureCard = document.createElement("div");
-      cultureCard.classList.add(
-        "col-md-8",
-        "offset-md-2",
-        "d-flex",
-        "justify-content-center"
-      );
+      cultureCard.classList.add("col-md-8", "offset-md-2", "d-flex", "justify-content-center");
       const card = document.createElement("div");
       card.classList.add("card");
       const cardImg = document.createElement("div");
@@ -49,25 +46,25 @@ async function fetchData() {
       card.appendChild(cardBody);
       getUser(post.user_id).then((user) => {
         const userDetailsSection = document.createElement("div");
+        userDetailsSection.style.paddingTop = "100px";
         userDetailsSection.classList.add("user-details");
         const authorTitle = document.createElement("h3");
         authorTitle.style.color = "#9C3030";
         const authorText = document.createElement("p");
         authorText.classList.add("card-text");
-        if (user.role == "Teacher") {
-          authorTitle.textContent = "Discover our teacher " + user.full_name;
-          authorText.innerHTML = user.about_me;
-        } else {
-          authorTitle.textContent =
-            "Discover our collaborator " + user.full_name;
-          authorText.innerHTML = user.biography;
-        }
+        authorTitle.textContent = user.full_name;
         authorText.style.textAlign = "justify";
         authorText.style.fontSize = "13px";
         userDetailsSection.appendChild(authorTitle);
         userDetailsSection.appendChild(authorText);
         const button = document.createElement("a");
-        button.href = "/Users/" + user.full_name;
+        if (user.role == "Teacher") {
+          authorText.innerHTML = user.about_me;
+          button.href = "/Teachers/" + user.url_link;
+        } else {
+          authorText.innerHTML = user.biography;
+          button.href = "/Collaborators/" + user.url_link;
+        }
         button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
         button.style.fontWeight = "bold";
         button.style.float = "right";

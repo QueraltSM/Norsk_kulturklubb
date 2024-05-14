@@ -78,12 +78,6 @@ function showAlert(alertType, message) {
   container.appendChild(content);
 }
 
-function limitTextarea(element, maxLength) {
-  if (element.textContent.length > maxLength) {
-    element.textContent = element.textContent.slice(0, maxLength);
-  }
-}
-
 function cleanPaste(event, element) {
   alert("clean");
   event.preventDefault();
@@ -136,12 +130,12 @@ function toggleCategoryPost() {
   document.getElementById("Travel-and-tourism").style.display = "none";
   document.getElementById("Language-and-linguistics").style.display = "none";
   document.getElementById("Events-and-festivals").style.display = "none";
-  var category_select = document.getElementById("category_select").value;
+  var category_select = document.getElementById("category-select").value;
   var categories = document.querySelectorAll(".subcategory-container");
   categories.forEach((category) => {
     category.style.display = "none";
   });
-  var selectedCategory = document.getElementById(category_select);
+  var selectedCategory = document.getElementById(category-select);
   if (selectedCategory) {
     selectedCategory.style.display = "block";
   }
@@ -228,7 +222,7 @@ function formatURL(url) {
 function noPosts() {
   return `<div style="text-align: center;">
   <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;"><br>
-  <span style="color:#aaaaaa; font-size: 17px;">You haven't posted anything yet <i class="bi bi-emoji-frown"></i></span>
+  <span style="color:#9C3030; font-size: 15px;">There is nothing published at the moment <i class="bi bi-emoji-frown"></i></span>
   </div>`;
 }
 
@@ -236,7 +230,7 @@ function parseURL(url) {
   return url.replace(/-/g, " ");
 }
 
-async function check_availability_url_link(table, url_link) {
+async function check_availability_url_link(table, ID, url_link) {
   try {
     const response = await fetch(
       `/api/getFromURL?url_link=${url_link}&table=${table}`
@@ -292,4 +286,21 @@ function previewImage(event, element_id) {
     localStorage.setItem(element_id, reader.result);
   };
   reader.readAsDataURL(event.target.files[0]);
+}
+
+function sortByDate(entries) {
+  function compareDates(entryA, entryB) {
+    var dateTimePartsA = entryA.pubdate.split(' ');
+    var dateTimePartsB = entryB.pubdate.split(' ');
+    var datePartsA = dateTimePartsA[0].split('/');
+    var datePartsB = dateTimePartsB[0].split('/');
+    var timePartsA = dateTimePartsA[1].split(':');
+    var timePartsB = dateTimePartsB[1].split(':');
+    var dateA = new Date(datePartsA[2], datePartsA[1] - 1, datePartsA[0], timePartsA[0], timePartsA[1], timePartsA[2]);
+    var dateB = new Date(datePartsB[2], datePartsB[1] - 1, datePartsB[0], timePartsB[0], timePartsB[1], timePartsB[2]);
+    return dateB - dateA;
+  } 
+  var sortedEntries = entries.slice();
+  sortedEntries.sort(compareDates);
+  return sortedEntries;
 }

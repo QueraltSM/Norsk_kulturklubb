@@ -18,22 +18,11 @@ async function fetchData() {
   }
   const userData = await response.json();
   if (!userData.public_profile) {
-    document.getElementById("public_profile").innerHTML =
-      "<span style='color: #9C3030; font-weight: bold;font-size:14px;'><i class='fas fa-exclamation-triangle'></i> To make any contributions to this platform, your profile must be public. Please access to <a href='/Account.html'><u>Account</u></a> to complete your profile.</span>";
-    div_word.style.pointerEvents = "none";
-    div_word.style.opacity = "0.5";
-    div_lesson.style.pointerEvents = "none";
-    div_lesson.style.opacity = "0.5";
-    div_post.style.pointerEvents = "none";
-    div_post.style.opacity = "0.5";
-    div_event.style.pointerEvents = "none";
-    div_event.style.opacity = "0.5";
-    if (localStorage.getItem("userLoggedInRole") === "Collaborator") {
-      li_post.style.display = "block";
-      li_post.classList.add("filter-active");
-      li_event.style.display = "block";
-    }
+    document.getElementById("public_profile").style.display = "block";
+    document.getElementById("share-content-div").style.display = "none";
   } else {
+    document.getElementById("public_profile").style.display = "none";
+    document.getElementById("share-content-div").style.display = "block";
     div_word.style.pointerEvents = "auto";
     div_word.style.opacity = "1";
     div_lesson.style.pointerEvents = "auto";
@@ -61,7 +50,7 @@ async function publishWord() {
   const title = document.getElementById("word_title").innerHTML.trim();
   const meaning = document.getElementById("word_meaning").innerHTML.trim();
   const calendar = document.getElementById("word_date").value;
-  var url_link = title.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-") + "-"+formatDate(calendar);
+  var url_link = formatURL(title + "-" + formatDate(calendar));
   if (title && meaning && calendar) {
     await fetch("/api/uploadContent?table=Words", {
       method: "POST",
@@ -113,8 +102,8 @@ async function publishLesson() {
   var language_level = document.getElementById("lesson_language_level").value;
   var lesson_content_url = document.getElementById("lesson_content_url").files[0];
   var lesson_image_url = document.getElementById("lesson_image").files[0];
-  var url_link = document.getElementById("url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
-  var url_available = await check_availability_url_link("Lessons", url_link);
+  var url_link = document.getElementById("lesson_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link("Lessons", ID, url_link);
   var content_url = "";
   var image_url = "";
   if (
@@ -123,44 +112,14 @@ async function publishLesson() {
     !description ||
     !language_level ||
     !lesson_content_url ||
-    !lesson_image || 
+    !lesson_image_url || 
     !url_link
   ) {
     showAlert("danger", "All fields must be completed to share");
   } else {
     if (url_available) {
-    var formData = new FormData();
-    formData.append("file", lesson_content_url);
-    var filename = url_link + "." + lesson_content_url.name.split(".").pop();
-    var response = await fetch(
-      `/api/uploadFile?key=Lessons&filename=${filename}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to upload file");
-    } else {
-      const responseData = await response.json();
-      content_url = responseData.fileUrl;
-    }
-    var formData = new FormData();
-    formData.append("image", lesson_image_url);
-    var filename = url_link + "." + lesson_image_url.name.split(".").pop();
-    response = await fetch(
-      `/api/uploadImage?key=Lessons&filename=${filename}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to upload file");
-    } else {
-      const responseData = await response.json();
-      image_url = responseData.imageUrl;
-    }
+      content_url = await uploadFile("Lessons", document.getElementById("lesson_content_url").files[0], url_link);
+      image_url = await uploadImage("Lessons", document.getElementById("lesson_image").files[0], url_link);
     await fetch("/api/uploadContent?table=Lessons", {
       method: "POST",
       headers: {
@@ -201,48 +160,28 @@ async function publishLesson() {
 }
 
 async function publishPost() {
+  const ID = uuidv4();
   const title = document.getElementById("post_title").innerHTML.trim();
-  const short_description = document
-    .getElementById("post_short_description")
-    .innerHTML.trim();
+  const short_description = document.getElementById("post_short_description").innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
-  const min_read = document.getElementById("min_read").innerHTML.trim();
-  const category_select = document
-    .getElementById("category_select")
-    .value.replace(/-/g, " ");
-  const subcategory_select = document
-    .getElementById("subcategory_select")
-    .value.replace(/-/g, " ");
+  const min_read = document.getElementById("min_read").value.trim();
+  const category_select = document.getElementById("category-select").value.replace(/-/g, " ");
+  const subcategory_select = document.getElementById("subcategory-select-"+document.getElementById("category-select").value).value.replace(/-/g, " ");
+  var url_link = document.getElementById("post_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link("Culture", ID, url_link);
   if (
     title &&
     short_description &&
     description &&
     category_select &&
     subcategory_select &&
-    min_read
+    min_read &&
+    url_link &&
+    document.getElementById("post_image").files[0]
   ) {
-    try {
-      var fileInput = document.getElementById("post_image");
-      var file = fileInput.files[0];
-      if (!file) {
-        showAlert("danger", "No file selected");
-        return "";
-      }
-      var formData = new FormData();
-      formData.append("file", file);
-      var filename = uuidv4() + "." + file.name.split(".").pop();
-      const response = await fetch(
-        `/api/uploadPostImage?filename=${encodeURIComponent(filename)}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to upload file");
-      }
-      const data = await response.json();
-      fetch("/api/uploadContent?table=Culture", {
+    if (url_available) {
+      var image_url = await uploadImage("Culture", document.getElementById("post_image").files[0], url_link);
+      const response = await fetch("/api/uploadContent?table=Culture", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -252,11 +191,12 @@ async function publishPost() {
           title: title,
           short_description: short_description,
           description: description,
-          image: data.fileUrl,
+          image_url: image_url,
           category: category_select,
           subcategory: subcategory_select,
           min_read: min_read,
           user_id: localStorage.getItem("userLoggedInID"),
+          url_link: url_link,
           pubdate: new Date()
             .toLocaleString("en-GB", {
               day: "2-digit",
@@ -264,30 +204,19 @@ async function publishPost() {
               year: "numeric",
               hour: "2-digit",
               minute: "2-digit",
+              second: "2-digit",
               hour12: false,
             })
             .replace(",", ""),
         }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Network response was not ok");
-          }
-        })
-        .then((data) => {
-          showAlert("success", "Contribution was submitted");
-          setTimeout(() => {
-            window.location.href = "/Culture.html";
-          }, 3000);
-        })
-        .catch((error) => {
-          showAlert("danger", "An error occurred during uploading");
-        });
-    } catch (error) {
-      showAlert("danger", "Failed to upload file");
-      return "";
+      });
+      if (!response.ok) {
+        throw new Error("There was an error");
+      } else {
+        showAlert("success", "Contribution was submitted");
+      }
+    } else {
+      showAlert("danger", "URL link is not available. Try another one.");
     }
   } else {
     showAlert("danger", "Please fill all fields before submitting");

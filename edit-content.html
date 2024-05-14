@@ -64,13 +64,13 @@
                                     <span class="label-box">Edit the description or definition of the entered
                                         word (max. 300
                                         characters)</span><br>
-                                    <p contenteditable="true" id="word_meaning" class="editable-box"
-                                        oninput="limitTextarea(this, 300)"></p>
+                                    <p contenteditable="true" id="word_meaning" class="editable-box"></p>
                                     <h3>
                                         Date
                                     </h3>
                                     <span class="label-box">Choose a free day to publish your word of the day</span><br>
-                                    <input type="text" id="word_date" contenteditable="true" class="editable-box" onclick="fetchCalendar();">
+                                    <input type="text" id="word_date" contenteditable="true" class="editable-box"
+                                        onclick="fetchCalendar();">
                                 </div>
                             </div><br>
                             <div class="mt-3 text-center">
@@ -86,13 +86,10 @@
                                 <div class="col-lg-12">
                                     <h3>Title</h3>
                                     <span class="label-box">Edit the title of the lesson (max. 100 characters)</span>
-                                    <p contenteditable="true" id="lesson_title" class="editable-box"
-                                        oninput="limitTextarea(this, 100)" onpaste="cleanPaste(event, this)"></p>
-                                    <h3>Brief description</h3>
-                                    <span class="label-box">Edit the short description of the lesson (max. 150
-                                        characters)</span>
-                                    <p contenteditable="true" id="lesson_short_description" class="editable-box"
-                                        oninput="limitTextarea(this, 150)" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="lesson_title" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <h3>Description</h3>
+                                    <span class="label-box">Edit the short description of the lesson</span>
+                                    <p contenteditable="true" id="lesson_short_description" class="editable-box" onpaste="cleanPaste(event, this)"></p>
                                     <h3>
                                         Theoretical lesson
                                     </h3>
@@ -103,11 +100,12 @@
 
                                     <h3>Practical lesson</h3>
 
-                                    <span class="label-box"><strong><a href="#" id="current_practice">Download current practice</a></strong></span>
-                                       
+                                    <span class="label-box"><strong><a href="#" id="current_practice">Download current
+                                                practice</a></strong></span>
+
                                     <br><span class="label-box">For the practical part of the lesson, select other file
                                         (PDF, TXT, DOCX, PPTX or MP4).</span><br>
- 
+
                                     <input type="file" id="lesson_content_url"
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box">
@@ -115,13 +113,15 @@
                                     <h3>Image</h3>
                                     <input type="hidden" id="current_image_lesson" />
                                     <span class="label-box">Select other the image of the lesson (JPG, PNG)</span>
-                                            <div class="text-center">
-                                                <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="content_image_lessons" />
-                                              </div>
-                                              <div class="text-center mt-3">
-                                                <label for="lesson_image" class="btn btn-sm">Select Image</label>
-                                                <input type="file" id="lesson_image" accept="image/*" class="d-none" onchange="previewImage(event, 'content_image_lessons')" />
-                                              </div> 
+                                    <div class="text-center">
+                                        <img class="img-fluid" style="width: 400px; height: 260px" alt=""
+                                            id="content_image_lessons" />
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <label for="lesson_image" class="btn btn-sm">Select Image</label>
+                                        <input type="file" id="lesson_image" accept="image/*" class="d-none"
+                                            onchange="previewImage(event, 'content_image_lessons')" />
+                                    </div>
 
                                     <h3>
                                         Language level
@@ -154,26 +154,23 @@
                                     <h3>
                                         Title
                                     </h3>
-                                    <span class="label-box">Write the title of the post (max. 100 characters)</span>
-                                    <p contenteditable="true" id="post_title" class="editable-box"
-                                        oninput="limitTextarea(this, 50)" onpaste="cleanPaste(event, this)"></p>
+                                    <span class="label-box">Write the title of the post</span>
+                                    <p contenteditable="true" id="post_title" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
-                                    <h3>Brief description</h3>
-                                    <span class="label-box">Write a short description of the post (max. 250
-                                        characters)</span>
-                                    <p contenteditable="true" id="post_short_description" class="editable-box"
-                                        oninput="limitTextarea(this, 250)" onpaste="cleanPaste(event, this)"></p>
+                                    <h3>Description</h3>
+                                    <span class="label-box">Edit the brief description of the post. You can also embed HTML code</span>
+                                    <p contenteditable="true" id="post_short_description" class="editable-box"></p>
                                     <h3>
-                                        Description
+                                        Post
                                     </h3>
-                                    <span class="label-box">Write the description of the post</span>
+                                    <span class="label-box">Edit the description of the post</span>
                                     <textarea contenteditable="true" id="post_description" class="editable-box"
                                         style="overflow: auto; min-height: 400px;"></textarea>
                                     <h3>
                                         Category
                                     </h3>
-                                    <span class="label-box">Select the main category of the post</span><br>
-                                    <select id="category_select" class="editable-box" onchange="toggleCategoryPost()">
+                                    <span class="label-box">Edit the main category of the post</span><br>
+                                    <select id="category-select" class="editable-box" onchange="toggleCategoryPost()">
                                         <option value="History-and-traditions">History and traditions</option>
                                         <option value="Art-and-literature">Art and literature</option>
                                         <option value="Nature-and-landscapes">Nature and landscapes</option>
@@ -190,7 +187,7 @@
                                             History and traditions
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-History-and-traditions" class="editable-box">
                                             <option value="Norwegian-history">Norwegian history</option>
                                             <option value="Mythology">Mythology</option>
                                             <option value="Traditional-festivals-and-celebrations">Traditional festivals
@@ -205,7 +202,7 @@
                                             Art and literature
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Art-and-literature" class="editable-box">
                                             <option value="Norwegian-literature">Norwegian literature</option>
                                             <option value="Norwegian-art-and-artists">Norwegian art and artists</option>
                                             <option value="Traditional-and-modern-music">Traditional and modern music
@@ -220,7 +217,7 @@
                                             Nature and landscapes
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Nature and landscapes" class="editable-box">
                                             <option value="Fjords and mountains">Fjords and mountains</option>
                                             <option value="Norwegian-fauna-and-flora">Norwegian fauna and flora</option>
                                             <option value="Outdoor-sports-and-activities">Outdoor sports and activities
@@ -235,7 +232,7 @@
                                             Gastronomy
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Gastronomy" class="editable-box">
                                             <option value="Traditional-norwegian-dishes">Traditional norwegian dishes
                                             </option>
                                             <option value="Local-ingredients-and-recipes">Local ingredients and recipes
@@ -251,7 +248,7 @@
                                             Lifestyle and society
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Lifestyle-and-society" class="editable-box">
                                             <option value="Norwegian-cultural-values">Norwegian cultural values</option>
                                             <option value="Scandinavian-fashion-and-design">Scandinavian fashion and
                                                 design</option>
@@ -267,7 +264,7 @@
                                             Travel and tourism
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Travel-and-tourism" class="editable-box">
                                             <option value="Tourist-destinations-in-Norway">Tourist destinations in
                                                 Norway</option>
                                             <option value="Travel-tips-for-the-country">Travel tips for the country
@@ -284,7 +281,7 @@
                                             Language and linguistics
                                         </h3>
                                         <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <select id="subcategory-select-Language-and-linguistics" class="editable-box">
                                             <option value="Basic-norwegian-lessons">Basic norwegian lessons</option>
                                             <option value="Common-expressions-and-phrases">Common expressions and
                                                 phrases</option>
@@ -299,8 +296,8 @@
                                         <h3>
                                             Events and festivals
                                         </h3>
-                                        <span class="label-box">Select the subcategory</span><br>
-                                        <select id="subcategory_select" class="editable-box">
+                                        <span class="label-box">Edit the subcategory</span><br>
+                                        <select id="subcategory-select-Events-and-festivals" class="editable-box">
                                             <option value="Cultural-and-artistic-events">Cultural and artistic events
                                             </option>
                                             <option value="Music-and-film-festivals">Music and film festivals</option>
@@ -309,28 +306,27 @@
                                         </select>
                                     </div>
                                     <h3>Image</h3>
+                                    <input type="hidden" id="current_image_culture"/>
                                     <span class="label-box">Edit the image of the post (JPG, PNG)</span><br>
                                     <div class="text-center">
                                         <img id="content_image_culture" class="img-fluid"
                                             style="width: 400px; height: 260px;"><br><br>
-                                            <label for="post_image" class="btn btn-sm">Edit Image</label>
-                                            <input type="file" id="post_image" accept="image/jpeg,image/png"
-                                            contenteditable="true" class="d-none" onchange="previewImage(event, 'content_image_culture')" />
-                                        </div><br>
+                                        <label for="post_image" class="btn btn-sm">Edit Image</label>
+                                        <input type="file" id="post_image" accept="image/jpeg,image/png"
+                                            contenteditable="true" class="d-none"
+                                            onchange="previewImage(event, 'content_image_culture')" />
+                                    </div><br>
 
                                     <h3>Reading time</h3>
                                     <span class="label-box">Edit the estimated reading time (in minutes)</span><br>
-                                    <input contenteditable="true" id="min_read" class="editable-box" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></input>
-                                
-                                
-                                    <h3>
-                                        URL
-                                      </h3>
-                                      <span class="label-box">You can modify the phrase that identifies your post (visible in the URL)</span>
-                                      <p contenteditable="true" id="post_url_link" class="editable-box"></p>
+                                    <input contenteditable="true" id="min_read" class="editable-box" type="text"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"></input>
 
                                 </div>
                             </div>
+
+                            <input type="hidden" id="post_url_link"></p>
+
                             <br>
                             <div class="mt-3 text-center">
                                 <button type="button" class="get-started-btn" onclick="updatePost();">
@@ -347,22 +343,21 @@
                                         Title
                                     </h3>
                                     <span class="label-box">Enter the title of the event (max. 25 characters)</span>
-                                    <p contenteditable="true" id="title_event" class="editable-box"
-                                        oninput="limitTextarea(this, 25)"></p>
+                                    <p contenteditable="true" id="title_event" class="editable-box"></p>
 
                                     <h3>
                                         Brief description
                                     </h3>
                                     <span class="label-box">Provide a short description of the event (max. 150
                                         characters)</span>
-                                    <p contenteditable="true" id="event_short_description" class="editable-box"
-                                        oninput="limitTextarea(this, 150)"></p>
+                                    <p contenteditable="true" id="event_short_description" class="editable-box"></p>
 
                                     <h3>
                                         Description
                                     </h3>
                                     <span class="label-box">Provide a description of the event</span><br>
-                                    <textarea contenteditable="true" id="event_description" class="editable-box"></textarea>
+                                    <textarea contenteditable="true" id="event_description"
+                                        class="editable-box"></textarea>
 
                                     <h3>
                                         Platform URL
@@ -401,9 +396,7 @@
     <!-- Template Main JS File -->
     <script src="/assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
@@ -414,7 +407,7 @@
         });
     </script>
     <script src="/assets/js/common.js"></script>
-    <script src="/assets/js/Edit-content.js"></script>
+    <script src="/assets/js/edit-content.js"></script>
 </body>
 
 </html>

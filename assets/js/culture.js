@@ -17,6 +17,7 @@ async function fetchData() {
     const data = await response.json();
     var entered = false;
     culture = data.Items;
+    culture = sortByDate(culture);
     cultureCardsContainer.innerHTML = "";
     for (let i = 0; i < culture.length; i++) {
       try {
@@ -161,7 +162,7 @@ searchContainer.innerHTML = `
   <i class="bi bi-search" style="font-size: 13px;"></i>
 </span>
 <input type="text" class="form-control" placeholder="Search for posts..." id="searchInput" style="background-color: #f9faf9;font-size: 13px;">
-<i class="bi bi-x" style="font-size: 20px;" onclick=" document.getElementById('searchInput').value='';performSearch();"></i>
+<i class="bi bi-x" style="font-size: 20px;" onclick="clearSearch();" ></i>
 </div>
 </form>
 </div>
@@ -254,6 +255,12 @@ document
       performSearch();
     }
   });
+
+function clearSearch() {
+  document.getElementById('searchInput').value='';
+  document.getElementById('subcategories').style.display="none";
+  performSearch();
+}
 
 function performSearch() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
