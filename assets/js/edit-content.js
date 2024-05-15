@@ -90,20 +90,11 @@ async function updatePost() {
   var title = document.getElementById("post_title").innerHTML;
   var short_description = document.getElementById("post_short_description").innerHTML;
   var description = document.getElementById("post_description").value;
-  var category_select = document.getElementById("category-select").value.replace(/-/g, " ");
-  var subcategory_select = document.getElementById("subcategory-select-"+document.getElementById("category-select").value).value.replace(/-/g, " ");
-  //var category = document.getElementById("category-select").value;
-  //var subcategory = document.getElementById("subcategory-select").value;
+  var category = document.getElementById("category-select").value.replace(/-/g, " ");
+  var subcategory = document.getElementById("subcategory-select-"+document.getElementById("category-select").value).value.replace(/-/g, " ");
   var min_read = document.getElementById("min_read").value;
   var url_link = formatURL(document.getElementById("post_url_link").value);
-
-  alert(title);
-  alert(short_description);
-  alert(category);
-  alert(subcategory);
-  alert(min_read);
-
-  /*if (
+  if (
     !title ||
     !short_description ||
     !description ||
@@ -113,13 +104,14 @@ async function updatePost() {
   ) {
     showAlert("danger", "All fields must be completed to update");
   } else {
+    var current_image_url =  document.getElementById("current_image_culture").value.split("/").pop();
+    var image_url = document.getElementById("current_image_culture").value;
     if (document.getElementById("post_image").files[0]) {
-      var current_image_url =  document.getElementById("current_image_post").value.split("/").pop();
-      image_url = await uploadImage("Culture", document.getElementById("post_image").files[0], url_link);
       await fetch("/api/deleteFromS3?folder=Culture&url="+current_image_url,{
         method: "POST",
         headers: {"Content-Type": "application/json",},
       }).then((response) => {});
+      image_url = await uploadImage("Culture", document.getElementById("post_image").files[0], url_link);
     }
     const response = await fetch(`/api/updateContent?table=Culture&ID=` + ID, {
       method: "POST",
@@ -132,6 +124,7 @@ async function updatePost() {
         description: description,
         category: category,
         subcategory: subcategory,
+        image_url: image_url,
         min_read: min_read
       }),
     });
@@ -140,7 +133,7 @@ async function updatePost() {
     } else {
       window.location.href = "/Edit/Culture/" + url_link;
     }
-  }*/
+  }
 }
 
 async function fetchData() {

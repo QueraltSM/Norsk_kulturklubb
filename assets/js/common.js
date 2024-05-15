@@ -135,7 +135,7 @@ function toggleCategoryPost() {
   categories.forEach((category) => {
     category.style.display = "none";
   });
-  var selectedCategory = document.getElementById(category-select);
+  var selectedCategory = document.getElementById(category_select);
   if (selectedCategory) {
     selectedCategory.style.display = "block";
   }

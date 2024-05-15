@@ -386,14 +386,14 @@ app.post("/api/updateContent", (req, res) => {
     updateExpressionParts.push("min_read = :min_read");
     updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("subcategory = :subcategory");
-    updateExpressionParts.push("url_link = :url_link");
+    updateExpressionParts.push("image_url = :image_url");
     params.ExpressionAttributeValues[":title"] =  req.body.title;
     params.ExpressionAttributeValues[":description"] =  req.body.description;
     params.ExpressionAttributeValues[":category"] =  req.body.category;
     params.ExpressionAttributeValues[":min_read"] =  req.body.min_read;
     params.ExpressionAttributeValues[":short_description"] =  req.body.short_description;
     params.ExpressionAttributeValues[":subcategory"] =  req.body.subcategory;
-    params.ExpressionAttributeValues[":url_link"] = req.body.url_link;
+    params.ExpressionAttributeValues[":image_url"] = req.body.image_url;
   }
   params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
   dynamoDB.update(params, (err, data) => {
@@ -725,16 +725,6 @@ app.get("/Lessons/:url", (req, res) => {
     return res.send(cachedContents[title]);
   }
   const contenidoHTML = fs.readFileSync("lesson.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
-});
-
-app.get("/Lessons/Practice/:url", (req, res) => {
-  const title = "/Lessons/Practice/" + req.params.url;
-  if (cachedContents[title]) {
-    return res.send(cachedContents[title]);
-  }
-  const contenidoHTML = fs.readFileSync("practice.html", "utf8");
   cachedContents[title] = contenidoHTML;
   res.send(contenidoHTML);
 });
