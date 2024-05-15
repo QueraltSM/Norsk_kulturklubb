@@ -20,7 +20,7 @@ async function fetchData() {
       <div class="col-lg-12">
         <div class="course-item">
           <div id="lesson_content_wrapper" class="lesson-content">
-            <iframe id="lesson_description" style='text-align:justify; width:100%; height:100%; overflow:hidden;'></iframe>
+            <iframe id="lesson_description" style='text-align:justify; width:100%; height:100%; overflow:hidden;'></iframe><br>
             <div class="lesson-container">
               <a href="#" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a>
             </div>
@@ -66,7 +66,6 @@ async function fetchData() {
         lessonContentWrapper.style.height = `${height}px`;
       });
       document.getElementById("practice_lesson").href = lesson.content_url;
-
     } catch (error) {
       console.error("Error:", error);
     }

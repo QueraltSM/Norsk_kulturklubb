@@ -84,12 +84,27 @@
                         <section class="user-details" style="margin-top:0px;padding-top:0px;">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <h3>Image</h3>
+                                    <input type="hidden" id="current_image_lessons" />
+                                    <span class="label-box">Select other the image of the lesson (JPG, PNG)</span>
+                                    <div class="text-center">
+                                        <img class="img-fluid" style="width: 400px; height: 260px" alt=""
+                                            id="content_image_lessons" />
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <label for="lesson_image" class="btn btn-sm">Edit Image</label>
+                                        <input type="file" id="lesson_image" accept="image/*" class="d-none"
+                                            onchange="previewImage(event, 'content_image_lessons')" />
+                                    </div>
+
                                     <h3>Title</h3>
                                     <span class="label-box">Edit the title of the lesson (max. 100 characters)</span>
-                                    <p contenteditable="true" id="lesson_title" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="lesson_title" class="editable-box"
+                                        onpaste="cleanPaste(event, this)"></p>
                                     <h3>Description</h3>
                                     <span class="label-box">Edit the short description of the lesson</span>
-                                    <p contenteditable="true" id="lesson_short_description" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="lesson_short_description" class="editable-box"
+                                        onpaste="cleanPaste(event, this)"></p>
                                     <h3>
                                         Theoretical lesson
                                     </h3>
@@ -110,20 +125,7 @@
                                         accept="application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,video/mp4,application/vnd.ms-powerpoint"
                                         contenteditable="true" class="editable-box">
 
-                                    <h3>Image</h3>
-                                    <input type="hidden" id="current_image_lesson" />
-                                    <span class="label-box">Select other the image of the lesson (JPG, PNG)</span>
-                                    <div class="text-center">
-                                        <img class="img-fluid" style="width: 400px; height: 260px" alt=""
-                                            id="content_image_lessons" />
-                                    </div>
-                                    <div class="text-center mt-3">
-                                        <label for="lesson_image" class="btn btn-sm">Select Image</label>
-                                        <input type="file" id="lesson_image" accept="image/*" class="d-none"
-                                            onchange="previewImage(event, 'content_image_lessons')" />
-                                    </div>
-
-                                    <h3>
+                                    <br><h3>
                                         Language level
                                     </h3>
                                     <span class="label-box">Edit language proficiency level of the
@@ -155,10 +157,12 @@
                                         Title
                                     </h3>
                                     <span class="label-box">Write the title of the post</span>
-                                    <p contenteditable="true" id="post_title" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="post_title" class="editable-box"
+                                        onpaste="cleanPaste(event, this)"></p>
 
                                     <h3>Description</h3>
-                                    <span class="label-box">Edit the brief description of the post. You can also embed HTML code</span>
+                                    <span class="label-box">Edit the brief description of the post. You can also embed
+                                        HTML code</span>
                                     <p contenteditable="true" id="post_short_description" class="editable-box"></p>
                                     <h3>
                                         Post
@@ -305,7 +309,7 @@
                                         </select>
                                     </div>
                                     <h3>Image</h3>
-                                    <input type="hidden" id="current_image_culture"/>
+                                    <input type="hidden" id="current_image_culture" />
                                     <span class="label-box">Edit the image of the post (JPG, PNG)</span><br>
                                     <div class="text-center">
                                         <img id="content_image_culture" class="img-fluid"
@@ -338,42 +342,55 @@
                         <section id="user-details" class="user-details" style="margin-top:0px;padding-top:0px;">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <h3>Image</h3>
+                                    <input type="hidden" id="current_image_events" />
+                                    <span class="label-box">Edit the image of the event (JPG, PNG)</span><br>
+                                    <div class="text-center">
+                                        <img id="content_image_events" class="img-fluid"
+                                            style="width: 400px; height: 260px;"><br><br>
+                                        <label for="event_image" class="btn btn-sm">Edit Image</label>
+                                        <input type="file" id="event_image" accept="image/jpeg,image/png"
+                                            contenteditable="true" class="d-none"
+                                            onchange="previewImage(event, 'content_image_events')" />
+                                    </div>
                                     <h3>
                                         Title
                                     </h3>
-                                    <span class="label-box">Enter the title of the event (max. 25 characters)</span>
-                                    <p contenteditable="true" id="title_event" class="editable-box"></p>
+                                    <span class="label-box">Edit the title of the event</span>
+                                    <p contenteditable="true" id="event_title" class="editable-box"></p>
 
                                     <h3>
                                         Brief description
                                     </h3>
-                                    <span class="label-box">Provide a short description of the event (max. 150
-                                        characters)</span>
+                                    <span class="label-box">Edit the short description of the event</span>
                                     <p contenteditable="true" id="event_short_description" class="editable-box"></p>
 
                                     <h3>
                                         Description
                                     </h3>
-                                    <span class="label-box">Provide a description of the event</span><br>
+                                    <span class="label-box">Edit the description of the event</span><br>
                                     <textarea contenteditable="true" id="event_description"
                                         class="editable-box"></textarea>
 
                                     <h3>
                                         Platform URL
                                     </h3>
-                                    <span class="label-box">Enter the URL of the platform where the event will take
-                                        place</span><br>
-                                    <input contenteditable="true" id="event_platform_url" class="editable-box"></input>
+                                    <span class="label-box">Edit the URL of the platform where the event will take place
+                                        (e.g., YouTube, Zoom, Google Meet, etc)</span><br>
+                                    <p contenteditable="true" id="event_platform_url" class="editable-box"></p>
 
                                     <h3>
                                         Date
                                     </h3>
-                                    <span class="label-box">Choose a date for the event</span><br>
-                                    <input type="text" id="event_calendar" contenteditable="true" class="editable-box">
+                                    <span class="label-box">Edit the date of the event</span><br>
+                                    <input type="text" id="event_date" contenteditable="true" class="editable-box">
+
                                 </div>
-                            </div><br>
+                            </div>
+                            <input type="hidden" id="event_url_link"></p>
+                            <br>
                             <div class="mt-3 text-center">
-                                <button type="button" class="get-started-btn" onclick="publishEvent();">
+                                <button type="button" class="get-started-btn" onclick="updateEvent();">
                                     Update
                                 </button>
                             </div>

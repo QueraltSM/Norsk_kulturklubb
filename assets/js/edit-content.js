@@ -20,22 +20,22 @@ async function updateLesson() {
     showAlert("danger", "All fields must be completed to update");
   } else {
       var current_practice_url =  document.getElementById("current_practice").href.split("/").pop();
-      var current_image_url =  document.getElementById("current_image_lesson").value.split("/").pop();
+      var current_image_url =  document.getElementById("current_image_lessons").value.split("/").pop();
       var content_url = document.getElementById("current_practice").href;
-      var image_url = document.getElementById("current_image_lesson").value;
+      var image_url = document.getElementById("current_image_lessons").value;
       if (document.getElementById("lesson_content_url").files[0]) {
-        content_url = await uploadFile("Lessons", document.getElementById("lesson_content_url").files[0], url_link);
         await fetch("/api/deleteFromS3?folder=Lessons&url="+current_practice_url,{
           method: "POST",
           headers: {"Content-Type": "application/json",},
         }).then((response) => {});
+        content_url = await uploadFile("Lessons", document.getElementById("lesson_content_url").files[0], url_link);
       }
       if (document.getElementById("lesson_image").files[0]) {
-        image_url = await uploadImage("Lessons", document.getElementById("lesson_image").files[0], url_link);
         await fetch("/api/deleteFromS3?folder=Lessons&url="+current_image_url,{
           method: "POST",
           headers: {"Content-Type": "application/json",},
         }).then((response) => {});
+        image_url = await uploadImage("Lessons", document.getElementById("lesson_image").files[0], url_link);
       }
       response = await fetch(`/api/updateContent?table=Lessons&ID=` + ID, {
         method: "POST",
@@ -61,9 +61,9 @@ async function updateLesson() {
 async function updateWord() {
   var title = document.getElementById("word_title").innerHTML;
   var meaning = document.getElementById("word_meaning").innerHTML;
-  var calendar = document.getElementById("word_date").value;
-  var url_link = formatURL(title + "-" + formatDate(calendar));
-  if (title && meaning && calendar) {
+  var date = document.getElementById("word_date").value;
+  var url_link = formatURL(title + "-" + formatDate(date));
+  if (title && meaning && date) {
     const response = await fetch(`/api/updateContent?table=Words&ID=` + ID, {
       method: "POST",
       headers: {
@@ -72,7 +72,7 @@ async function updateWord() {
       body: JSON.stringify({
         title: title,
         meaning: meaning,
-        display_date: calendar,
+        display_date: date,
         url_link: url_link,
       }),
     });
@@ -136,6 +136,52 @@ async function updatePost() {
   }
 }
 
+async function updateEvent() {
+  var title = document.getElementById("event_title").innerHTML;
+  var short_description = document.getElementById("event_short_description").innerHTML;
+  var description = document.getElementById("event_description").value;
+  var platform_url = document.getElementById("event_platform_url").innerHTML;
+  var date = document.getElementById("event_date").value;
+  var url_link = formatURL(document.getElementById("event_url_link").value);
+  if (
+    !title ||
+    !short_description ||
+    !description ||
+    !platform_url ||
+    !date) {
+    showAlert("danger", "All fields must be completed to update");
+  } else {
+    var current_image_url =  document.getElementById("current_image_events").value.split("/").pop();
+    var image_url = document.getElementById("current_image_events").value;
+    if (document.getElementById("event_image").files[0]) {
+      await fetch("/api/deleteFromS3?folder=Events&url="+current_image_url,{
+        method: "POST",
+        headers: {"Content-Type": "application/json",},
+      }).then((response) => {});
+      image_url = await uploadImage("Events", document.getElementById("event_image").files[0], url_link);
+    }
+    const response = await fetch(`/api/updateContent?table=Events&ID=` + ID, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        short_description: short_description,
+        description: description,
+        platform_url: platform_url,
+        celebration_date: date,
+        image_url: image_url
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("There was an error");
+    } else {
+      window.location.href = "/Edit/Events/" + url_link;
+    }
+  } 
+}
+
 async function fetchData() {
   type = new URL(window.location.href).pathname.split("/")[2];
   url = new URL(window.location.href).pathname.split("/")[3];
@@ -178,6 +224,13 @@ async function fetchData() {
       document.getElementById("subcategory-select-" + category).value = subcategory;
       document.getElementById("min_read").value = data.min_read;
       document.getElementById("post_url_link").value = parseURL(data.url_link);
+    } else if (type == "Events") {
+      document.getElementById("event_title").innerHTML = data.title;
+      document.getElementById("event_short_description").innerHTML = data.short_description;
+      document.getElementById("event_description").innerHTML = data.description;
+      document.getElementById("event_platform_url").innerHTML = data.platform_url;
+      document.getElementById("event_url_link").value = parseURL(data.url_link);
+      document.getElementById("event_date").value = data.celebration_date;
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -187,5 +240,10 @@ async function fetchData() {
 fetchData();
 flatpickr("#word_date", {
   dateFormat: "d/m/Y",
+  minDate: "today",
+});
+flatpickr("#event_date", {
+  enableTime: true,
+  dateFormat: "d/m/Y H:i",
   minDate: "today",
 });

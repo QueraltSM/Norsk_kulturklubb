@@ -37,9 +37,8 @@ $('#contributions-flters li').click(function () {
   } else if (filter == ".posts") {
     fetchCulture();
   } else if (filter == ".events") {
-    //fetchEvents();
+    fetchEvents();
   }
- 
   $('.contributions-item').hide();
   $(filter).show();
   $('#contributions-flters li').removeClass('filter-active');
@@ -213,6 +212,58 @@ async function fetchCulture() {
   } catch (error) {}
 }
 
+async function fetchEvents() {
+  try {
+    const response = await fetch(
+      `/api/getMyContributions?user_id=${localStorage.getItem(
+        "userLoggedInID"
+      )}&table=Events`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to get server response.");
+    }
+    const data = await response.json();
+    let events = data.Items || [];
+    if (events.length === 0) {
+      events_container.innerHTML = noPosts();
+    } else {
+      events.sort((a, b) => {
+        const dateA = new Date(convertToDateObject(a.pubdate));
+        const dateB = new Date(convertToDateObject(b.pubdate));
+        return dateB - dateA;
+      });
+      const eventsHTML = `
+        <table class="contributions-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Short description</th>
+              <th>Published</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${events
+              .map(
+                (data) => `
+                  <tr>
+                    <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong>&nbsp;(${data.celebration_date})</td>
+                    <td>${data.short_description}</td> 
+                    <td>${data.pubdate}</td> 
+                    <td style="text-align: center;">
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Events', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>
+                    <a href="#" onclick="manage_action('${data.url_link}', 'Events', 'delete')" style="display: inline-block; border-radius: 20px; color: #9C3030; margin: 5px; padding: 5px;"><i class="bi bi-trash"></i></a>
+                  </td>          
+                  </tr>`
+              ).join("")}
+          </tbody>
+        </table>
+      `;
+      events_container.innerHTML = eventsHTML;
+    }
+  } catch (error) {}
+}
+
 async function manage_action(url_link, table, action) {
   if (action == "view") {
       window.location.href = "/"+table+"/"+url_link;
@@ -287,6 +338,11 @@ async function deleteContent() {
   } else if (table == "Culture") {
     var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
     if (deleteContentS3(image_url, "Culture")) {
+      deleteContentDB(data.ID, table);
+    }
+  } else if (table == "Events") {
+    var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
+    if (deleteContentS3(image_url, "Events")) {
       deleteContentDB(data.ID, table);
     }
   }

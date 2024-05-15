@@ -49,9 +49,9 @@ async function fetchData() {
 async function publishWord() {
   const title = document.getElementById("word_title").innerHTML.trim();
   const meaning = document.getElementById("word_meaning").innerHTML.trim();
-  const calendar = document.getElementById("word_date").value;
-  var url_link = formatURL(title + "-" + formatDate(calendar));
-  if (title && meaning && calendar) {
+  const date = document.getElementById("word_date").value;
+  var url_link = formatURL(title + "-" + formatDate(date));
+  if (title && meaning && date) {
     await fetch("/api/uploadContent?table=Words", {
       method: "POST",
       headers: {
@@ -61,7 +61,7 @@ async function publishWord() {
         ID: uuidv4(),
         title: title,
         meaning: meaning,
-        display_date: calendar,
+        display_date: date,
         teacher_id: localStorage.getItem("userLoggedInID"),
         url_link: url_link,
         pubdate: new Date()
@@ -97,13 +97,26 @@ async function publishWord() {
 async function publishLesson() {
   var ID = uuidv4();
   var title = document.getElementById("lesson_title").innerHTML.trim();
-  var short_description = document.getElementById("lesson_short_description").innerHTML.trim();
+  var short_description = document
+    .getElementById("lesson_short_description")
+    .innerHTML.trim();
   var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
-  var lesson_content_url = document.getElementById("lesson_content_url").files[0];
+  var lesson_content_url =
+    document.getElementById("lesson_content_url").files[0];
   var lesson_image_url = document.getElementById("lesson_image").files[0];
-  var url_link = document.getElementById("lesson_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
-  var url_available = await check_availability_url_link("Lessons", ID, url_link);
+  var url_link = document
+    .getElementById("lesson_url_link")
+    .innerHTML.toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link(
+    "Lessons",
+    ID,
+    url_link
+  );
   var content_url = "";
   var image_url = "";
   if (
@@ -112,63 +125,89 @@ async function publishLesson() {
     !description ||
     !language_level ||
     !lesson_content_url ||
-    !lesson_image_url || 
+    !lesson_image_url ||
     !url_link
   ) {
     showAlert("danger", "All fields must be completed to share");
   } else {
     if (url_available) {
-      content_url = await uploadFile("Lessons", document.getElementById("lesson_content_url").files[0], url_link);
-      image_url = await uploadImage("Lessons", document.getElementById("lesson_image").files[0], url_link);
-    await fetch("/api/uploadContent?table=Lessons", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ID: ID,
-        title: title,
-        short_description: short_description,
-        description: description,
-        language_level: language_level,
-        content_url: content_url,
-        image_url: image_url,
-        teacher_id: localStorage.getItem("userLoggedInID"),
-        url_link: url_link,
-        pubdate: new Date()
-          .toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })
-          .replace(",", ""),
-      }),
-    }).then((response) => {
-      if (response.ok) {
-        showAlert("success", "Contribution was submitted");
-      } else {
-        throw new Error("Network response was not ok");
-      }
-    });
-  } else {
-    showAlert("danger", "URL link is not available. Try another one.");
+      content_url = await uploadFile(
+        "Lessons",
+        document.getElementById("lesson_content_url").files[0],
+        url_link
+      );
+      image_url = await uploadImage(
+        "Lessons",
+        document.getElementById("lesson_image").files[0],
+        url_link
+      );
+      await fetch("/api/uploadContent?table=Lessons", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ID: ID,
+          title: title,
+          short_description: short_description,
+          description: description,
+          language_level: language_level,
+          content_url: content_url,
+          image_url: image_url,
+          teacher_id: localStorage.getItem("userLoggedInID"),
+          url_link: url_link,
+          pubdate: new Date()
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", ""),
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          showAlert("success", "Contribution was submitted");
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      });
+    } else {
+      showAlert("danger", "URL link is not available. Try another one.");
+    }
   }
-}
 }
 
 async function publishPost() {
   const ID = uuidv4();
   const title = document.getElementById("post_title").innerHTML.trim();
-  const short_description = document.getElementById("post_short_description").innerHTML.trim();
+  const short_description = document
+    .getElementById("post_short_description")
+    .innerHTML.trim();
   const description = document.getElementById("post_description").value.trim();
   const min_read = document.getElementById("min_read").value.trim();
-  const category_select = document.getElementById("category-select").value.replace(/-/g, " ");
-  const subcategory_select = document.getElementById("subcategory-select-"+document.getElementById("category-select").value).value.replace(/-/g, " ");
-  var url_link = document.getElementById("post_url_link").innerHTML.toLowerCase().replace(/[.,]/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, "-").replace(/-{2,}/g, "-");
-  var url_available = await check_availability_url_link("Culture", ID, url_link);
+  const category_select = document
+    .getElementById("category-select")
+    .value.replace(/-/g, " ");
+  const subcategory_select = document
+    .getElementById(
+      "subcategory-select-" + document.getElementById("category-select").value
+    )
+    .value.replace(/-/g, " ");
+  var url_link = document
+    .getElementById("post_url_link")
+    .innerHTML.toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link(
+    "Culture",
+    ID,
+    url_link
+  );
   if (
     title &&
     short_description &&
@@ -180,14 +219,18 @@ async function publishPost() {
     document.getElementById("post_image").files[0]
   ) {
     if (url_available) {
-      var image_url = await uploadImage("Culture", document.getElementById("post_image").files[0], url_link);
+      var image_url = await uploadImage(
+        "Culture",
+        document.getElementById("post_image").files[0],
+        url_link
+      );
       const response = await fetch("/api/uploadContent?table=Culture", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ID: uuidv4(),
+          ID: ID,
           title: title,
           short_description: short_description,
           description: description,
@@ -223,7 +266,8 @@ async function publishPost() {
   }
 }
 
-function publishEvent() {
+async function publishEvent() {
+  const ID = uuidv4();
   const title = document.getElementById("title_event").innerHTML.trim();
   const short_description = document
     .getElementById("event_short_description")
@@ -232,50 +276,66 @@ function publishEvent() {
   const platform_url = document
     .getElementById("event_platform_url")
     .innerHTML.trim();
-  const calendar = document.getElementById("event_calendar").value;
-
-  if (title && short_description && description && platform_url && calendar) {
-    fetch("/api/uploadEvent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ID: uuidv4(),
-        title: title,
-        short_description: short_description,
-        description: description,
-        platform_url: platform_url,
-        date: calendar,
-        teacher_id: localStorage.getItem("userLoggedInID"),
-        pubdate: new Date()
-          .toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })
-          .replace(",", ""),
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Network response was not ok");
-        }
-      })
-      .then((data) => {
-        showAlert("success", "Contribution was submitted");
-        setTimeout(() => {
-          window.location.href = "/events.html";
-        }, 3000);
-      })
-      .catch((error) => {
-        showAlert("danger", "An error occurred during uploading");
+  const date = document.getElementById("event_date").value;
+  var url_link = document
+    .getElementById("event_url_link")
+    .innerHTML.toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/-{2,}/g, "-");
+  var url_available = await check_availability_url_link("Events", ID, url_link);
+  if (
+    title &&
+    short_description &&
+    description &&
+    platform_url &&
+    date &&
+    url_link &&
+    document.getElementById("event_image").files[0]
+  ) {
+    if (url_available) {
+      var image_url = await uploadImage(
+        "Events",
+        document.getElementById("event_image").files[0],
+        url_link
+      );
+      const response = await fetch("/api/uploadContent?table=Events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ID: ID,
+          title: title,
+          short_description: short_description,
+          description: description,
+          image_url: image_url,
+          platform_url: platform_url,
+          celebration_date: date,
+          user_id: localStorage.getItem("userLoggedInID"),
+          url_link: url_link,
+          pubdate: new Date()
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+            })
+            .replace(",", ""),
+        }),
       });
+      if (!response.ok) {
+        throw new Error("There was an error");
+      } else {
+        showAlert("success", "Contribution was submitted");
+      }
+    } else {
+      showAlert("danger", "URL link is not available. Try another one.");
+    }
   } else {
     showAlert("danger", "Please fill all fields before submitting");
   }
@@ -307,7 +367,8 @@ flatpickr("#word_date", {
   dateFormat: "d/m/Y",
   minDate: "today",
 });
-flatpickr("#event_calendar", {
-  dateFormat: "d/m/Y",
+flatpickr("#event_date", {
+  enableTime: true,
+  dateFormat: "d/m/Y H:i",
   minDate: "today",
 });

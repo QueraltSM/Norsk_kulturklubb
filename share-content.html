@@ -354,9 +354,7 @@
                         </div>
                         <div class="col-lg-12 contributions-item events" id="div_event" style="display: none;">
                             <p style="font-size: 15px;">A <strong>virtual event</strong> is an activity that takes place
-                                online, rather than in a physical space. As a teacher or collaborator, you have the
-                                opportunity to organize and share events that are held on platforms such as YouTube, Zoom,
-                                Google Meet, and others alike. These events can range from workshops and courses to group
+                                online and you have the opportunity to organize events that are held on external platforms. These events can range from workshops and courses to group
                                 meetings and much more.</p>
                             <section id="user-details" class="user-details" style="margin-top:0px;padding-top:0px;">
                                 <div class="row">
@@ -377,22 +375,32 @@
                                             Description
                                         </h3>
                                         <span class="label-box">Provide a description of the event</span><br>
-                                        <textarea contenteditable="true" id="event_description" class="editable-box"
-                                            style="width: 100%;" onpaste="cleanPaste(event, this)"></textarea>
+                                        <textarea contenteditable="true" id="event_description" style="overflow: auto; min-height: 100px;" class="editable-box" onpaste="cleanPaste(event, this)"></textarea>
     
                                         <h3>
                                             Platform URL
                                         </h3>
                                         <span class="label-box">Enter the URL of the platform where the event will take
-                                            place</span><br>
+                                            place (e.g., YouTube, Zoom, Google Meet, etc)</span><br>
                                         <p contenteditable="true" id="event_platform_url" class="editable-box" onpaste="cleanPaste(event, this)"></p>
     
                                         <h3>
                                             Date
                                         </h3>
-                                        <span class="label-box">Choose a date for the event</span><br>
-                                        <input type="text" id="event_calendar" contenteditable="true" class="editable-box"
-                                            style="width: 100%;">
+                                        <span class="label-box">Choose a date of the event</span><br>
+                                        <input type="text" id="event_date" contenteditable="true" class="editable-box">
+
+                                        <h3>Image</h3>
+                                        <span class="label-box">Select the image of the event (JPG, PNG)</span><br>
+                                        <input type="file" id="event_image" accept="image/jpeg,image/png"
+                                            contenteditable="true" class="editable-box" style="width: 100%;">
+
+                                            <h3>
+                                                URL link
+                                            </h3>
+                                            <span class="label-box">You can set the link that identifies your event (visible in the URL)</span>
+                                            <p contenteditable="true" id="event_url_link" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+        
                                     </div>
     
                                 </div><br>
