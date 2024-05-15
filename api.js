@@ -401,12 +401,14 @@ app.post("/api/updateContent", (req, res) => {
     updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("celebration_date = :celebration_date");
     updateExpressionParts.push("image_url = :image_url");
+    updateExpressionParts.push("category = :category");
     params.ExpressionAttributeValues[":title"] =  req.body.title;
     params.ExpressionAttributeValues[":description"] =  req.body.description;
     params.ExpressionAttributeValues[":platform_url"] =  req.body.platform_url;
     params.ExpressionAttributeValues[":short_description"] =  req.body.short_description;
     params.ExpressionAttributeValues[":celebration_date"] =  req.body.celebration_date;
     params.ExpressionAttributeValues[":image_url"] = req.body.image_url;
+    params.ExpressionAttributeValues[":category"] = req.body.category;
   }
   params.UpdateExpression = "SET " + updateExpressionParts.join(", ");
   dynamoDB.update(params, (err, data) => {

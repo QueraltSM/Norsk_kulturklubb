@@ -142,12 +142,14 @@ async function updateEvent() {
   var description = document.getElementById("event_description").value;
   var platform_url = document.getElementById("event_platform_url").innerHTML;
   var date = document.getElementById("event_date").value;
+  var category = document.getElementById("event_category").value;
   var url_link = formatURL(document.getElementById("event_url_link").value);
   if (
     !title ||
     !short_description ||
     !description ||
     !platform_url ||
+    !category ||
     !date) {
     showAlert("danger", "All fields must be completed to update");
   } else {
@@ -171,6 +173,7 @@ async function updateEvent() {
         description: description,
         platform_url: platform_url,
         celebration_date: date,
+        category: category,
         image_url: image_url
       }),
     });
@@ -231,6 +234,7 @@ async function fetchData() {
       document.getElementById("event_platform_url").innerHTML = data.platform_url;
       document.getElementById("event_url_link").value = parseURL(data.url_link);
       document.getElementById("event_date").value = data.celebration_date;
+      document.getElementById("event_category").value = data.category;
     }
   } catch (error) {
     console.error("Error fetching data:", error);

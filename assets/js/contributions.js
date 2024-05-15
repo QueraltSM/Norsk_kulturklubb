@@ -237,7 +237,7 @@ async function fetchEvents() {
           <thead>
             <tr>
               <th></th>
-              <th>Short description</th>
+              <th>Category</th>
               <th>Published</th>
               <th>Action</th>
             </tr>
@@ -248,7 +248,7 @@ async function fetchEvents() {
                 (data) => `
                   <tr>
                     <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong>&nbsp;(${data.celebration_date})</td>
-                    <td>${data.short_description}</td> 
+                    <td>${data.category}</td> 
                     <td>${data.pubdate}</td> 
                     <td style="text-align: center;">
                     <a href="#" onclick="manage_action('${data.url_link}', 'Events', 'edit')" style="display: inline-block; border-radius: 20px; color: #2471A3; margin: 5px; padding: 5px;"><i class="bi bi-pencil"></i></a>

@@ -277,6 +277,7 @@ async function publishEvent() {
     .getElementById("event_platform_url")
     .innerHTML.trim();
   const date = document.getElementById("event_date").value;
+  const category = document.getElementById("event_category").value;
   var url_link = document
     .getElementById("event_url_link")
     .innerHTML.toLowerCase()
@@ -291,6 +292,7 @@ async function publishEvent() {
     description &&
     platform_url &&
     date &&
+    category &&
     url_link &&
     document.getElementById("event_image").files[0]
   ) {
@@ -315,6 +317,7 @@ async function publishEvent() {
           celebration_date: date,
           user_id: localStorage.getItem("userLoggedInID"),
           url_link: url_link,
+          category: category,
           pubdate: new Date()
             .toLocaleString("en-GB", {
               day: "2-digit",
