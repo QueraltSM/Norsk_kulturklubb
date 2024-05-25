@@ -684,6 +684,16 @@ app.get("/Edit/:type/:url", (req, res) => {
   res.send(contenidoHTML);
 });
 
+app.get("/Events", (req, res) => {
+  const title = "/Events";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const contenidoHTML = fs.readFileSync("events.html", "utf8");
+  cachedContents[title] = contenidoHTML;
+  res.send(contenidoHTML);
+});
+
 app.get("/Culture", (req, res) => {
   const title = "/Culture";
   if (cachedContents[title]) {

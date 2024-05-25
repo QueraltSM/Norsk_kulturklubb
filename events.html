@@ -67,57 +67,38 @@
         ></a>
         </div>
       </section>
-
-      <section id="events" class="events" style="display: none">
+      <section id="events" class="events">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Events</h2>
-            <p>Hendelser</p>
+            <h2>Arrangementer</h2>
+            <p>Events</p>
           </div>
-          <div class="row">
-            <div class="col-md-6 d-flex align-items-stretch">
-              <div class="card">
-                <div class="card-img">
-                  <img src="/assets/img/events-1.jpg" alt="..." />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="">Introduction to webdesign</a>
-                  </h5>
-                  <p class="fst-italic text-center">
-                    Sunday, September 26th at 7:00 pm
-                  </p>
-                  <p class="card-text">
-                    Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod
-                    tempor ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-stretch">
-              <div class="card">
-                <div class="card-img">
-                  <img src="/assets/img/events-2.jpg" alt="..." />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="">Marketing Strategies</a>
-                  </h5>
-                  <p class="fst-italic text-center">
-                    Sunday, November 15th at 7:00 pm
-                  </p>
-                  <p class="card-text">
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem doloremque laudantium, totam rem aperiam, eaque
-                    ipsa quae ab illo inventore veritatis et quasi architecto
-                    beatae vitae dicta sunt explicabo
-                  </p>
-                </div>
+          <div class="container" style="background-color: #f9faf9;padding:5px;border-radius: 5px;">
+            <div class="row">
+              <div class="col-12">
+                <form class="d-flex justify-content-end" style="border: none;background-color: #f9faf9;">
+                  <div class="input-group">
+                    <span class="input-group-text" style="background-color: transparent; border: none;">
+                      <i class="bi bi-search" style="font-size: 13px;"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Search for events..." id="searchInput"
+                      style="background-color: #f9faf9;font-size: 13px;">
+                      <i class="bi bi-x" style="font-size: 20px;" onclick="clearSearch();"></i>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
+          <br>
+          <div class="d-flex flex-wrap align-items-center justify-content-end">
+            <span id="select-class" class="select-categories" onclick="filterByClassType('class')">Class</span>
+            <span id="select-workshop" class="select-categories" onclick="filterByClassType('workshop')">Workshop</span>
+            <span id="select-talk" class="select-categories" onclick="filterByClassType('talk')">Talk</span>
+            <span id="select-pronunciation" class="select-categories" onclick="filterByClassType('pronunciation')">Pronunciation</span>
+            <span id="select-cultural" class="select-categories" onclick="filterByClassType('cultural')">Cultural</span>
+          </div>
+          <br>
+          <div class="row" data-aos="zoom-in" data-aos-delay="100" id="events_container"></div>
         </div>
       </section>
     </main>
@@ -133,6 +114,8 @@
     <!-- Template Main JS File -->
     <script src="/assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/events.js"></script>
     <script>
       $(document).ready(function () {
         $("#header").load("/header.html");
