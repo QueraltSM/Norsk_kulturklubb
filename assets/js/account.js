@@ -352,6 +352,7 @@ async function deleteLessons() {
           },
           body: JSON.stringify({
             id: lesson.ID,
+            teacher_id: userLoggedInID,
             content_url: lesson.content_url.substring(
               lesson.content_url.lastIndexOf("/") + 1
             ),

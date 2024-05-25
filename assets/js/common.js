@@ -247,7 +247,7 @@ async function uploadFile(key, file, url_link) {
   formData.append("file", file);
   var filename = url_link + "." + file.name.match(/\.([^.]+)$/)[1];
   var response = await fetch(
-    "/api/uploadFile?key=" + key + "&filename=" + filename,
+    "/api/uploadFile?key=" + key +  "/" + localStorage.getItem("userLoggedInID") + "&filename=" + filename,
     {
       method: "POST",
       body: formData,
@@ -265,7 +265,7 @@ async function uploadImage(key, file, url_link) {
   formData.append("image", file);
   var filename = url_link + "." + file.name.match(/\.([^.]+)$/)[1];
   var response = await fetch(
-    "/api/uploadImage?key=" + key + "&filename=" + filename,
+    "/api/uploadImage?key=" + key +  "/" + localStorage.getItem("userLoggedInID") + "&filename=" + filename,
     {
       method: "POST",
       body: formData,

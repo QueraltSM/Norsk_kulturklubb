@@ -398,14 +398,12 @@ app.post("/api/updateContent", (req, res) => {
     updateExpressionParts.push("title = :title");
     updateExpressionParts.push("description = :description");
     updateExpressionParts.push("platform_url = :platform_url");
-    updateExpressionParts.push("short_description = :short_description");
     updateExpressionParts.push("celebration_date = :celebration_date");
     updateExpressionParts.push("image_url = :image_url");
     updateExpressionParts.push("category = :category");
     params.ExpressionAttributeValues[":title"] =  req.body.title;
     params.ExpressionAttributeValues[":description"] =  req.body.description;
     params.ExpressionAttributeValues[":platform_url"] =  req.body.platform_url;
-    params.ExpressionAttributeValues[":short_description"] =  req.body.short_description;
     params.ExpressionAttributeValues[":celebration_date"] =  req.body.celebration_date;
     params.ExpressionAttributeValues[":image_url"] = req.body.image_url;
     params.ExpressionAttributeValues[":category"] = req.body.category;
@@ -561,7 +559,7 @@ app.post("/api/deleteLesson", (req, res) => {
     } else {
       const s3Params = {
         Bucket: "norskkulturklubb",
-        Key: "Lessons/" + req.body.content_url,
+        Key: "Lessons/" + req.body.teacher_id + "/" + req.body.content_url,
       };
       s3.deleteObject(s3Params, (errS3, data) => {
         if (errS3) {
@@ -679,9 +677,9 @@ app.get("/Edit/:type/:url", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("edit-content.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("edit-content.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Events", (req, res) => {
@@ -689,9 +687,9 @@ app.get("/Events", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("events.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("events.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Culture", (req, res) => {
@@ -699,9 +697,9 @@ app.get("/Culture", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("culture.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("culture.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Lessons", (req, res) => {
@@ -709,9 +707,9 @@ app.get("/Lessons", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("lessons.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("lessons.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Teachers/:url", (req, res) => {
@@ -719,9 +717,9 @@ app.get("/Teachers/:url", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("teacher.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("teacher.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Teachers", (req, res) => {
@@ -729,9 +727,9 @@ app.get("/Teachers", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("teachers.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("teachers.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Culture/:url", (req, res) => {
@@ -739,9 +737,9 @@ app.get("/Culture/:url", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("post.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("post.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Lessons/:url", (req, res) => {
@@ -749,9 +747,9 @@ app.get("/Lessons/:url", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("lesson.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("lesson.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Account", (req, res) => {
@@ -759,9 +757,9 @@ app.get("/Account", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("account.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("account.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Translator", (req, res) => {
@@ -769,9 +767,9 @@ app.get("/Translator", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("translator.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("translator.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Share", (req, res) => {
@@ -779,9 +777,9 @@ app.get("/Share", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("share-content.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("share-content.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/users/:title", (req, res) => {
@@ -789,9 +787,9 @@ app.get("/users/:title", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("user.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("user.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/404", (req, res) => {
@@ -799,9 +797,9 @@ app.get("/404", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("404.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("404.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/Contributions", (req, res) => {
@@ -809,9 +807,9 @@ app.get("/Contributions", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("contributions.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("contributions.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 app.get("/signup", (req, res) => {
@@ -819,9 +817,9 @@ app.get("/signup", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("signup.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("signup.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 
@@ -830,9 +828,9 @@ app.get("/login", (req, res) => {
   if (cachedContents[title]) {
     return res.send(cachedContents[title]);
   }
-  const contenidoHTML = fs.readFileSync("login.html", "utf8");
-  cachedContents[title] = contenidoHTML;
-  res.send(contenidoHTML);
+  const HTML_content = fs.readFileSync("login.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
 });
 
 

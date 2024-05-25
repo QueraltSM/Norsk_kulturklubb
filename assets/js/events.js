@@ -59,6 +59,15 @@ if (localStorage.getItem("isLoggedIn")) {
         throw new Error("No response could be obtained from the server");
       }
       const data = await response.json();
+      const parseDate = (dateString) => {
+        const [datePart, timePart] = dateString.split(" ");
+        const [day, month, year] = datePart.split("/").map(Number);
+        const [hours, minutes] = timePart.split(":").map(Number);
+        return new Date(year, month - 1, day, hours, minutes);
+      };
+      data.Items.sort(
+        (a, b) => parseDate(b.celebration_date) - parseDate(a.celebration_date)
+      );
       data.Items.forEach(async (event, index) => {
         var event_matches = false;
         if (
@@ -85,7 +94,7 @@ if (localStorage.getItem("isLoggedIn")) {
             <div class="event-overlay">
               <a href="/events/${event.url_link}" class="event-link">
                 <h4 class="event-title"><strong>${event.title}</strong></h4>
-                <p class="event-description">${event.short_description}</p>
+                <p class="event-description">${event.celebration_date}</p>
               </a>
             </div>
           </div>

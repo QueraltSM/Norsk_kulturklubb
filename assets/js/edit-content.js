@@ -138,7 +138,6 @@ async function updatePost() {
 
 async function updateEvent() {
   var title = document.getElementById("event_title").innerHTML;
-  var short_description = document.getElementById("event_short_description").innerHTML;
   var description = document.getElementById("event_description").value;
   var platform_url = document.getElementById("event_platform_url").innerHTML;
   var date = document.getElementById("event_date").value;
@@ -146,7 +145,6 @@ async function updateEvent() {
   var url_link = formatURL(document.getElementById("event_url_link").value);
   if (
     !title ||
-    !short_description ||
     !description ||
     !platform_url ||
     !category ||
@@ -169,7 +167,6 @@ async function updateEvent() {
       },
       body: JSON.stringify({
         title: title,
-        short_description: short_description,
         description: description,
         platform_url: platform_url,
         celebration_date: date,
@@ -229,7 +226,6 @@ async function fetchData() {
       document.getElementById("post_url_link").value = parseURL(data.url_link);
     } else if (type == "Events") {
       document.getElementById("event_title").innerHTML = data.title;
-      document.getElementById("event_short_description").innerHTML = data.short_description;
       document.getElementById("event_description").innerHTML = data.description;
       document.getElementById("event_platform_url").innerHTML = data.platform_url;
       document.getElementById("event_url_link").value = parseURL(data.url_link);

@@ -269,9 +269,6 @@ async function publishPost() {
 async function publishEvent() {
   const ID = uuidv4();
   const title = document.getElementById("title_event").innerHTML.trim();
-  const short_description = document
-    .getElementById("event_short_description")
-    .innerHTML.trim();
   const description = document.getElementById("event_description").value.trim();
   const platform_url = document
     .getElementById("event_platform_url")
@@ -288,7 +285,6 @@ async function publishEvent() {
   var url_available = await check_availability_url_link("Events", ID, url_link);
   if (
     title &&
-    short_description &&
     description &&
     platform_url &&
     date &&
