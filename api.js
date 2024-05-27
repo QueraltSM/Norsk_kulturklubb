@@ -227,17 +227,20 @@ app.post("/api/updateUserData", (req, res) => {
 });
 
 app.post("/api/updateProfileImage", multer().single("image"), (req, res) => {
+  console.log("updateProfileImage")
   const image = req.file;
   if (!image) {
+    console.log("no hay imagen");
     return res.status(400).send("No image");
   }
+  console.log("sigo");
   const params = {
     Bucket: "norskkulturklubb",
-    Key: "Users/" + req.query.filename,
+    Key: "Users/" + req.body.key,
     Body: image.buffer,
     ACL: "public-read",
   };
-
+  console.log(JSON.stringify(params));
   s3.upload(params, (err, data) => {
     if (err) {
       console.error("Error al subir la imagen a S3:", err);
@@ -483,11 +486,13 @@ app.post("/api/uploadImage", upload.single("image"), (req, res) => {
     Body: image.buffer,
     ACL: "public-read",
   };
+  console.log(req.query.key + "/" + req.query.filename);
   s3.upload(params, (err, data) => {
     if (err) {
       console.error("Error uploading to S3:", err);
       return res.status(500).send("Error uploading image to S3");
     }
+    console.log("imageurl:"+data.Location);
     res.status(200).json({ imageUrl: data.Location });
   });
 });
@@ -656,6 +661,54 @@ app.post("/api/deleteContent", (req, res) => {
       res.status(200).send("/api/deleteContent: Row deleted");
     }
   });
+});
+
+app.post("/api/deleteAllContentsS3", async (req, res) => {
+  const prefix = `${req.body.key}/${req.body.url}/`;
+  console.log("Prefix: " + prefix);
+
+  try {
+    // Listar todos los objetos con el prefijo especificado
+    const listParams = {
+      Bucket: "norskkulturklubb",
+      Prefix: prefix,
+    };
+
+    console.log(JSON.stringify(listParams));
+    
+    let listedObjects;
+    let deleteParams = {
+      Bucket: "norskkulturklubb",
+      Delete: { Objects: [] }
+    };
+
+    do {
+      listedObjects = await s3.listObjectsV2(listParams).promise();
+
+      if (listedObjects.Contents.length === 0 && deleteParams.Delete.Objects.length === 0) {
+        return res.status(404).send("/api/deleteAllContentsS3: No content found");
+      }
+
+      listedObjects.Contents.forEach(({ Key }) => {
+        deleteParams.Delete.Objects.push({ Key });
+      });
+
+      // Continuar listando si hay más de 1000 objetos
+      listParams.ContinuationToken = listedObjects.NextContinuationToken;
+
+    } while (listedObjects.IsTruncated);
+
+    // Eliminar los objetos
+    if (deleteParams.Delete.Objects.length > 0) {
+      await s3.deleteObjects(deleteParams).promise();
+    }
+
+    res.status(200).send("/api/deleteAllContentsS3: Content deleted");
+
+  } catch (errS3) {
+    console.error("Error deleting objects from S3:", errS3);
+    res.status(500).send("/api/deleteAllContentsS3: Error deleting from S3");
+  }
 });
 
 app.post("/api/deleteContentS3", (req, res) => {

@@ -1,8 +1,11 @@
 var userLoggedInID = localStorage.getItem("userLoggedInID");
 var userLoggedInRole = localStorage.getItem("userLoggedInRole");
 var teacher_photo = false;
+var current_image_url_teacher = "";
 
-document.getElementById(userLoggedInRole.toLowerCase() + "-account").style.display = "flex";
+document.getElementById(
+  userLoggedInRole.toLowerCase() + "-account"
+).style.display = "flex";
 
 getBasicInformation();
 getInformationByRole();
@@ -16,8 +19,14 @@ function getBasicInformation() {
       return response.json();
     })
     .then((user) => {
-      if (user.full_name != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_name").innerHTML = user.full_name;
-      if (user.email != undefined) document.getElementById(userLoggedInRole.toLowerCase() + "_email").innerHTML = user.email;
+      if (user.full_name != undefined)
+        document.getElementById(
+          userLoggedInRole.toLowerCase() + "_name"
+        ).innerHTML = user.full_name;
+      if (user.email != undefined)
+        document.getElementById(
+          userLoggedInRole.toLowerCase() + "_email"
+        ).innerHTML = user.email;
     })
     .catch((error) => {
       console.error("Error retrieving data", error);
@@ -27,28 +36,46 @@ function getBasicInformation() {
 function getInformationByRole() {
   fetch(`/api/getUser?id=${userLoggedInID}&table=${userLoggedInRole + "s"}`)
     .then((response) => {
-      if (!response.ok) throw new Error("No response could be obtained from the server");
+      if (!response.ok)
+        throw new Error("No response could be obtained from the server");
       return response.json();
     })
     .then((user) => {
       if (userLoggedInRole == "Teacher") {
-        if (user.profile_picture == undefined) user.profile_picture = "/assets/img/user.png";
-        else teacher_photo = true;
-        if (user.about_me != undefined) document.getElementById("teacher_about_me").innerHTML = user.about_me;
-        if (user.about_classes != undefined) document.getElementById("about_classes").value = user.about_classes;
-        if (user.city_residence != undefined) document.getElementById("city_residence").innerHTML = user.city_residence;
-        if (user.teaching_in_person != undefined) document.getElementById("teaching_in_person").checked = user.teaching_in_person;
-        if (user.teaching_online != undefined) document.getElementById("teaching_online").checked = user.teaching_online;
-        if (user.class_location != undefined) document.getElementById("class_location").value = user.class_location;
-        if (user.class_prices != undefined) document.getElementById("class_prices").value = user.class_prices;
+        if (user.profile_picture == undefined || user.profile_picture == "") {
+          user.profile_picture = "/assets/img/user.png";
+        } else {
+          teacher_photo = true;
+          current_image_url_teacher = user.profile_picture
+        }
+        document.getElementById("teacher_image").src = user.profile_picture;
+        if (user.about_me != undefined)
+          document.getElementById("teacher_about_me").innerHTML = user.about_me;
+        if (user.about_classes != undefined)
+          document.getElementById("about_classes").value = user.about_classes;
+        if (user.city_residence != undefined)
+          document.getElementById("city_residence").innerHTML =
+            user.city_residence;
+        if (user.teaching_in_person != undefined)
+          document.getElementById("teaching_in_person").checked =
+            user.teaching_in_person;
+        if (user.teaching_online != undefined)
+          document.getElementById("teaching_online").checked =
+            user.teaching_online;
+        if (user.class_location != undefined)
+          document.getElementById("class_location").value = user.class_location;
+        if (user.class_prices != undefined)
+          document.getElementById("class_prices").value = user.class_prices;
         if (user.contact_information != undefined)
           document.getElementById("contact_information").value =
             user.contact_information;
-        if (user.url_link !== undefined) document.getElementById("url_link").innerHTML = parseURL(user.url_link);
+        if (user.url_link !== undefined)
+          document.getElementById("url_link").innerHTML = parseURL(
+            user.url_link
+          );
         if (user.public_profile != undefined)
           document.getElementById("teacher_public_profile").checked =
             user.public_profile;
-        document.getElementById("teacher_image").src = user.profile_picture;
       } else if (userLoggedInRole == "Student") {
         if (user.hobbies_and_interests != undefined)
           document.getElementById("student_hobbies_and_interests").innerHTML =
@@ -62,9 +89,15 @@ function getInformationByRole() {
           }
         }
       } else {
-        if (user.biography != undefined) document.getElementById("collaborator_biography").innerHTML = user.biography;
-        if (user.contact != undefined) document.getElementById("collaborator_contact").innerHTML = user.contact;
-        if (user.public_profile != undefined) document.getElementById("collaborator_public_profile").checked = user.public_profile;
+        if (user.biography != undefined)
+          document.getElementById("collaborator_biography").innerHTML =
+            user.biography;
+        if (user.contact != undefined)
+          document.getElementById("collaborator_contact").innerHTML =
+            user.contact;
+        if (user.public_profile != undefined)
+          document.getElementById("collaborator_public_profile").checked =
+            user.public_profile;
       }
     })
     .catch((error) => {
@@ -77,57 +110,19 @@ function updateUserData(userData, table) {
     userData: userData,
     table: table,
   };
-  fetch(
-    `/api/updateUserData?id=${userLoggedInID}&table=${table}`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    }).then((response) => {
+  fetch(`/api/updateUserData?id=${userLoggedInID}&table=${table}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  }).then((response) => {
     if (response.status === 200) {
-      window.location.href="/Account";
+      window.location.href = "/Account";
     } else if (response.status === 500) {
-      showAlert(
-        "danger",
-        "There was an error while updating your information"
-      );
+      showAlert("danger", "There was an error while updating your information");
     }
   });
-}
-
-async function updateProfileImage() {
-  try {
-    var imageData = localStorage.getItem("profile_image");
-    var blob = dataURItoBlob(imageData);
-    var imageFile = new File([blob], "profile_image.png", {
-      type: "image/png",
-    });
-    var formData = new FormData();
-    formData.append("image", imageFile);
-    var filename =
-      userLoggedInID + "." + imageData.split(":")[1].split(";")[0].split("/")[1];
-    const response = await fetch(
-      `/api/updateProfileImage?filename=${encodeURIComponent(
-        filename
-      )}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to upload image");
-    }
-    const data = await response.json();
-    return data.imageUrl;
-  } catch (error) {
-    showAlert(
-      "danger",
-      "Failed to update profile image"
-    );
-    return "";
-  }
 }
 
 function dataURItoBlob(dataURI) {
@@ -150,11 +145,15 @@ function updateProfile() {
     var about_classes = document.getElementById("about_classes").value;
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
-    var contact_information = document.getElementById("contact_information").value;
+    var contact_information = document.getElementById(
+      "contact_information"
+    ).value;
     var url_link = document.getElementById("url_link").innerHTML;
-    if (document.getElementById("profile_picture").files[0]) teacher_photo = true;
+    if (document.getElementById("profile_picture_teacher").files[0])
+      teacher_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
-      if (!teacher_name ||
+      if (
+        !teacher_name ||
         !teacher_email ||
         !about_classes ||
         !class_location ||
@@ -162,7 +161,8 @@ function updateProfile() {
         !contact_information ||
         !about_me ||
         !city_residence ||
-        !url_link) {
+        !url_link
+      ) {
         showAlert(
           "danger",
           "All fields are required to have a public profile."
@@ -181,22 +181,29 @@ function updateProfile() {
   } else if (userLoggedInRole == "Student") {
     var name = document.getElementById("student_name").innerHTML.trim();
     var email = document.getElementById("student_email").innerHTML.trim();
-    var hobbies_and_interests =  document.getElementById("student_hobbies_and_interests").value.trim();
-    var language_level = document.getElementById("student_language_level").value;
+    var hobbies_and_interests = document
+      .getElementById("student_hobbies_and_interests")
+      .value.trim();
+    var language_level = document.getElementById(
+      "student_language_level"
+    ).value;
     if (!name || !email) {
-      showAlert(
-        "danger",
-        "Your name or email can not be empty"
-      );
+      showAlert("danger", "Your name or email can not be empty");
     } else {
       saveStudent(name, email, hobbies_and_interests, language_level);
     }
   } else {
     var name = document.getElementById("collaborator_name").innerHTML.trim();
     var email = document.getElementById("collaborator_email").innerHTML.trim();
-    var biography =  document.getElementById("collaborator_biography").value.trim();
-    var contact =  document.getElementById("collaborator_contact").innerHTML.trim();
-    var public_profile =  document.getElementById("collaborator_public_profile").checked;
+    var biography = document
+      .getElementById("collaborator_biography")
+      .value.trim();
+    var contact = document
+      .getElementById("collaborator_contact")
+      .innerHTML.trim();
+    var public_profile = document.getElementById(
+      "collaborator_public_profile"
+    ).checked;
     if (public_profile) {
       if (!name || !email || !biography || !contact) {
         showAlert(
@@ -213,26 +220,38 @@ function updateProfile() {
 }
 
 function saveStudent(name, email, hobbies_and_interests, language_level) {
-  updateUserData({
-    email: email,
-    full_name: name,
-  }, "Users");
-  updateUserData({
-    hobbies_and_interests: hobbies_and_interests,
-    language_level: language_level
-  }, "Students");
+  updateUserData(
+    {
+      email: email,
+      full_name: name,
+    },
+    "Users"
+  );
+  updateUserData(
+    {
+      hobbies_and_interests: hobbies_and_interests,
+      language_level: language_level,
+    },
+    "Students"
+  );
 }
 
 function saveCollaborator(email, name, biography, contact, public_profile) {
-  updateUserData({
-    email: email,
-    full_name: name,
-  }, "Users");
-  updateUserData({
-    biography: biography,
-    contact: contact,
-    public_profile: public_profile
-  }, "Collaborators");
+  updateUserData(
+    {
+      email: email,
+      full_name: name,
+    },
+    "Users"
+  );
+  updateUserData(
+    {
+      biography: biography,
+      contact: contact,
+      public_profile: public_profile,
+    },
+    "Collaborators"
+  );
 }
 
 async function saveTeacher() {
@@ -243,14 +262,10 @@ async function saveTeacher() {
   var about_classes = document.getElementById("about_classes").value;
   var class_location = document.getElementById("class_location").value;
   var class_prices = document.getElementById("class_prices").value;
-  var contact_information = document.getElementById("contact_information").value;
+  var contact_information = document.getElementById(
+    "contact_information"
+  ).value;
   var url_link = formatURL(document.getElementById("url_link").innerHTML);
-
-  var userData = {
-    full_name: teacher_name,
-    email: teacher_email,
-  };
-  updateUserData(userData, "Users");
   localStorage.setItem("user_full_name", teacher_name);
   var userData = {
     about_me: about_me,
@@ -260,37 +275,56 @@ async function saveTeacher() {
     contact_information: contact_information,
     about_me: about_me,
     city_residence: city_residence,
-    teaching_in_person:  document.getElementById("teaching_in_person").checked,
-    teaching_online:  document.getElementById("teaching_online").checked,
+    teaching_in_person: document.getElementById("teaching_in_person").checked,
+    teaching_online: document.getElementById("teaching_online").checked,
     url_link: url_link,
     public_profile: document.getElementById("teacher_public_profile").checked,
   };
-  if (document.getElementById("profile_picture").files[0]) {
-    await updateProfileImage().then((imageUrl) => {
-      userData.profile_picture = imageUrl;
-    });
+  if (document.getElementById("profile_picture_teacher").files[0]) {
+    await fetch("/api/deleteFromS3?folder=Users&url="+userLoggedInID+"/"+current_image_url_teacher.split("/").pop(),{
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+    }).then((response) => {});
+    var image_url = await uploadImage(
+      "Users",
+      document.getElementById("profile_picture_teacher").files[0],
+      "profile_picture"
+    );
+    userData.profile_picture = image_url;
   }
+  updateUserData({ full_name: teacher_name, email: teacher_email }, "Users");
   updateUserData(userData, "Teachers");
 }
 
-function deleteAccount() {
-  var error = false;
+async function deleteContent(key) {
+  await fetch("/api/deleteAllContentsS3", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      key: key,
+      url: userLoggedInID,
+    }),
+  })
+    .then((response) => {})
+    .catch((error) => {});
+}
+
+async function deleteAccount() {
   if (userLoggedInRole == "Teacher") {
-    if (!deleteLessons()) error = true;
-    if (!deleteCulturePosts()) error = true;
+    await deleteContent("Lessons");
+    await deleteContent("Culture");
+    await deleteContent("Events");
+  } else if (userLoggedInRole == "Collaborator") {
+    await deleteContent("Culture");
+    await deleteContent("Events");
   }
-  if (!error) {
-    deleteUser();
-  } else {
-    errorDeletion();
-  }
+  await deleteContent("Users");
 }
 
 function successDeletion() {
-  showAlert(
-    "success",
-    "Your account was removed sucessfully"
-  );
+  showAlert("success", "Your account was removed sucessfully");
   setTimeout(() => {
     document.getElementById("handleUserMenuLink").style.display = "none";
     document.getElementById("loginBtn").style.display = "block";
@@ -300,10 +334,7 @@ function successDeletion() {
 }
 
 function errorDeletion() {
-  showAlert(
-    "danger",
-    "An issue occurred while deleting the account"
-  );
+  showAlert("danger", "An issue occurred while deleting the account");
 }
 
 function deleteProfileImage() {
@@ -320,15 +351,12 @@ function deleteProfileImage() {
       userLoggedInID +
       "." +
       imageData.split(":")[1].split(";")[0].split("/")[1];
-    fetch(
-      `/api/deleteFromS3?folder=Users&url=${filename}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
+    fetch(`/api/deleteFromS3?folder=Users&url=${filename}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
       if (response.status !== 200) {
         errorDeletion();
       }
@@ -378,21 +406,16 @@ async function deleteCulturePosts() {
     const data = await response.json();
     data.Items.forEach(async (post) => {
       if (post.user_id === userLoggedInID) {
-        const response = await fetch(
-          "/api/deleteCulture",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: post.ID,
-              content_url: post.image.substring(
-                post.image.lastIndexOf("/") + 1
-              ),
-            }),
-          }
-        );
+        const response = await fetch("/api/deleteCulture", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: post.ID,
+            content_url: post.image.substring(post.image.lastIndexOf("/") + 1),
+          }),
+        });
         return response.status === 200;
       }
     });

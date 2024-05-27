@@ -306,7 +306,6 @@ async function publishEvent() {
         body: JSON.stringify({
           ID: ID,
           title: title,
-          short_description: short_description,
           description: description,
           image_url: image_url,
           platform_url: platform_url,
