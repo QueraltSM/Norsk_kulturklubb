@@ -174,11 +174,10 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Collaborators") {
     updateExpression =
-      "set biography = :biography, contact = :contact, url_link = :url_link, public_profile = :public_profile";
+      "set about_me = :about_me, contact = :contact, public_profile = :public_profile";
     expressionAttributeValues = {
-      ":biography": userData.biography,
+      ":about_me": userData.about_me,
       ":contact": userData.contact,
-      ":url_link" : userData.url_link,
       ":public_profile": userData.public_profile,
     };
     if (userData.profile_picture != null && userData.profile_picture !== "") {
@@ -792,6 +791,16 @@ app.get("/Culture/:url", (req, res) => {
     return res.send(cachedContents[title]);
   }
   const HTML_content = fs.readFileSync("post.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
+});
+
+app.get("/Events/:url", (req, res) => {
+  const title = "/Events" + req.params.url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const HTML_content = fs.readFileSync("event.html", "utf8");
   cachedContents[title] = HTML_content;
   res.send(HTML_content);
 });

@@ -304,3 +304,15 @@ function sortByDate(entries) {
   sortedEntries.sort(compareDates);
   return sortedEntries;
 }
+
+function formatEvent(dateString) {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/').map(Number);
+    const [hours, minutes] = timePart.split(':').map(Number);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const currentYear = new Date().getFullYear();
+    let formattedDate = `${day} ${monthNames[month - 1]}`;
+    if (year !== currentYear) formattedDate += ` ${year}`;
+    formattedDate += ` ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    return formattedDate;
+}

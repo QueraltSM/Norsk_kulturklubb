@@ -136,7 +136,7 @@
               Profile image
             </h3>
             <div class="text-center">
-              <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="teacher_image" />
+              <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;" alt="" id="teacher_image" />
             </div>
             <div class="text-center mt-3">
               <label for="profile_picture_teacher" class="btn btn-sm">Select Image</label>
@@ -172,34 +172,29 @@
             <p contenteditable="true" id="collaborator_email" class="editable-box"></p>
 
             <h3>
+              About me
+            </h3>
+            <span class="label-box">Introduce yourself briefly (max 300 chars)</span>
+            <textarea contenteditable="true" id="collaborator_about_me" class="editable-box" style="width: 100%;" onpaste="cleanPaste(event, this)"></textarea>
+
+
+            <h3>
               Contact
             </h3>
             <span class="label-box">Provide ways for others to contact you (e.g. email, phone number, social media handles)</span>
-            <p contenteditable="true" id="collaborator_contact" class="editable-box"></p>
-
-            <h3>
-              Biography
-            </h3>
-            <span class="label-box">Introduce yourself briefly (max 300 chars)</span>
-            <textarea contenteditable="true" id="collaborator_biography" class="editable-box" style="width: 100%;"></textarea>
+            <p contenteditable="true" id="collaborator_contact" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
 
             <h3>
               Profile image
             </h3>
             <div class="text-center">
-              <img class="img-fluid" style="width: 400px; height: 260px" alt="" id="collaborator_image" />
+              <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;" alt="" id="collaborator_image" />
             </div>
             <div class="text-center mt-3">
               <label for="profile_picture_collaborator" class="btn btn-sm">Select Image</label>
               <input type="file" id="profile_picture_collaborator" accept="image/*" class="d-none" onchange="previewImage(event,'collaborator_image')" />
             </div> 
-
-            <h3>
-              URL profile
-            </h3>
-            <span class="label-box">You can modify the phrase that identifies you (visible in the URL)</span>
-            <p contenteditable="true" id="url_link_collaborator" class="editable-box"></p>
 
             <h3>Public profile</h3>
             <div class="form-check mt-3" style="padding-top: 10px">

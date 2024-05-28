@@ -89,9 +89,9 @@ function getInformationByRole() {
           }
         }
       } else {
-        if (user.biography != undefined)
-          document.getElementById("collaborator_biography").innerHTML =
-            user.biography;
+        if (user.about_me != undefined)
+          document.getElementById("collaborator_about_me").innerHTML =
+            user.about_me;
         if (user.contact != undefined)
           document.getElementById("collaborator_contact").innerHTML =
             user.contact;
@@ -235,8 +235,8 @@ async function updateProfile() {
   } else {
     var name = document.getElementById("collaborator_name").innerHTML.trim();
     var email = document.getElementById("collaborator_email").innerHTML.trim();
-    var biography = document
-      .getElementById("collaborator_biography")
+    var about_me = document
+      .getElementById("collaborator_about_me")
       .value.trim();
     var contact = document
       .getElementById("collaborator_contact")
@@ -244,17 +244,9 @@ async function updateProfile() {
     var public_profile = document.getElementById(
       "collaborator_public_profile"
     ).checked;
-    var url_link = formatURL(
-      document.getElementById("url_link_collaborator").innerHTML
-    );
-    var url_available = await check_availability_url_link(
-      "Collaborators",
-      userLoggedInID,
-      url_link
-    );
     if (document.getElementById("profile_picture_collaborator").files[0]) is_photo = true;
     if (public_profile) {
-      if (!name || !email || !biography || !contact || !url_link) {
+      if (!name || !email || !about_me || !contact) {
         showAlert(
           "danger",
           "Public profile requires all fields to be completed"
@@ -264,13 +256,11 @@ async function updateProfile() {
           "danger",
           "You must select a profile picture to make your profile public"
         );
-      } else if (!url_available) {
-        showAlert("danger", "URL profile is not available. Try another one.");
       } else {
-        saveCollaborator(email, name, biography, contact, url_link);
+        saveCollaborator(email, name, about_me, contact);
       }
     } else {
-      saveCollaborator(email, name, biography, contact, url_link);
+      saveCollaborator(email, name, about_me, contact);
     }
   }
 }
@@ -293,12 +283,11 @@ function saveStudent(name, email, hobbies_and_interests, language_level) {
   );
 }
 
-async function saveCollaborator(email, name, biography, contact, url_link) {
+async function saveCollaborator(email, name, about_me, contact) {
   localStorage.setItem("user_full_name", name);
   var userData = {
-    biography: biography,
+    about_me: about_me,
     contact: contact,
-    url_link: url_link,
     public_profile: document.getElementById("collaborator_public_profile")
       .checked,
   };

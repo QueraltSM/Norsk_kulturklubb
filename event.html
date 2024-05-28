@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Teacher · Lærer</title>
+  <title>Event · Arrangement</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -36,35 +36,23 @@
   <!-- ======= Header ======= -->
   <header id="header"></header>
   <!-- End Header -->
+
   <main id="main" data-aos="fade-in">
-    <section id="user-details" class="user-details">
+
+    <!-- ======= events Section ======= -->
+    <section id="events" class="events">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
-          <h2>Lærer</h2>
-          <p id="full_name"></p>
+          <h2 id="event_category"></h2>
+          <p id="event_title"></p>
         </div>
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <div style="text-align: center">
-              <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;" id="teacher_image" />
-            </div>
-            <h3>About me</h3>
-            <p id="about_me" class="user-info"><p>       
-            <h3>About classes</h3>
-            <p id="about_classes" class="user-info"></p>
-            <h3>Prices</h3>
-            <p id="teacher_prices" class="user-info"></p>
-            <h3>Place of classes</h3>
-            <p class="user-info"><strong><i class="bi bi-geo-alt"></i>&nbsp;</strong><span id="city_residence"></span></p>
-            <p id="class_location" class="user-info"></p>
-            <h3>Contact</h3>
-            <p id="contact_information" class="user-info"></p>
-          </div>
-        </div>
+        <div class="row" data-aos="zoom-in" data-aos-delay="100" id="event_container"></div>
       </div>
     </section>
+    <!-- End events Section -->
   </main>
-
+  <!-- End #main -->
+  
   <!-- Vendor JS Files -->
   <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="/assets/vendor/aos/aos.js"></script>
@@ -75,13 +63,12 @@
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   <script>
     $(document).ready(function () {
       $("#header").load("/header.html");
     });
   </script>
   <script src="/assets/js/common.js"></script>
-  <script src="/assets/js/teacher.js"></script>
+  <script src="/assets/js/event.js"></script>
 </body>
 </html>

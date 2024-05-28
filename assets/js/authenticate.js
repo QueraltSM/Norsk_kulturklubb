@@ -76,10 +76,9 @@ function signup() {
             user.hobbies_and_interests = "";
           } else if (selectedRole.value == "Collaborators") {
             user.public_profile = false;
-            user.biography = "";
+            user.about_me = "";
             user.contact = "";
             user.profile_picture = "";
-            user.url_link = "";
           }
           insertUserDataToServer(user, selectedRole.value);
         } else if (response.status === 500) {

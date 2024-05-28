@@ -42,11 +42,19 @@ if (localStorage.getItem("isLoggedIn")) {
           const teacherDiv = document.createElement("div");
           teacherDiv.classList.add("col-lg-4");
           const teacherName = await get_teacher_name(teacher.ID);
+          var about_me = teacher.about_me;
+          if (teacher.about_me.split(" ").length > 25) {
+            const shortAboutMe =
+              teacher.about_me.split(" ").slice(0, 25).join(" ") + "...";
+            about_me = shortAboutMe;
+          } else {
+            about_me = teacher.about_me;
+          }
           teacherDiv.innerHTML = `
           <a href="#" onclick="window.location.href = '/Teachers/' + '${teacher.url_link}'">
             <div class="member" style="border-radius: 10px;">
               <div class="member-img">
-                <img src="${teacher.profile_picture}" class="img-fluid">
+                <img src="${teacher.profile_picture}" class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;">
                 <div class="social" style="display: flex; justify-content: center; align-items: center;">
                   <div style="flex-grow: 1;">
                     <h4 style="text-align: center; margin: 0;color:#9C3030;"><strong>${teacherName}</strong></h4>
@@ -54,7 +62,7 @@ if (localStorage.getItem("isLoggedIn")) {
                 </div>
               </div>
               <div class="member-info text-center">
-                <p style="padding-top:5px;text-align:justify;">${teacher.about_me}</p> 
+                <p style="padding-top:5px;text-align:justify;">${about_me}</p> 
               </div>
             </div>
           </a>`;

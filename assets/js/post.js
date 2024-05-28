@@ -62,7 +62,7 @@ async function fetchData() {
           authorText.innerHTML = user.about_me;
           button.href = "/Teachers/" + user.url_link;
         } else {
-          authorText.innerHTML = user.biography;
+          authorText.innerHTML = user.about_me;
           button.href = "/Collaborators/" + user.url_link;
         }
         button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";

@@ -2601,9 +2601,14 @@ textarea {
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
-.event-description {
-  padding-top: 5px;
-  color: #003657;
+.event-p {
+  color: #9C3030;
   font-size: 14px;
   font-weight: bold;
+}
+.event-description {
+  font-size: 14px;
+  text-align: justify;
+  font-weight: normal;
+  color: #37423b;
 }

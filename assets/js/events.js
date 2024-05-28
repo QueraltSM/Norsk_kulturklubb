@@ -88,17 +88,18 @@ if (localStorage.getItem("isLoggedIn")) {
         if ((filter == "none" || event_matches) && searchTermContains) {
           eventDiv.classList.add("col-lg-4");
           eventDiv.innerHTML = `
+          <a href="/Events/${event.url_link}" class="event-link">
           <div class="event-card">
           <div class="event-image-container">
             <img src="${event.image_url}" class="img-fluid event-image">
             <div class="event-overlay">
-              <a href="/events/${event.url_link}" class="event-link">
                 <h4 class="event-title"><strong>${event.title}</strong></h4>
-                <p class="event-description">${event.celebration_date}</p>
-              </a>
+                <p class="event-p">${formatEvent(
+                  event.celebration_date
+                )}</p>
             </div>
           </div>
-        </div>`;
+        </div></a>`;
           eventsContainer.appendChild(eventDiv);
         }
       });
