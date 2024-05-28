@@ -1,7 +1,7 @@
 var userLoggedInID = localStorage.getItem("userLoggedInID");
 var userLoggedInRole = localStorage.getItem("userLoggedInRole");
-var teacher_photo = false;
-var current_image_url_teacher = "";
+var is_photo = false;
+var current_image_url = "";
 
 document.getElementById(
   userLoggedInRole.toLowerCase() + "-account"
@@ -45,8 +45,8 @@ function getInformationByRole() {
         if (user.profile_picture == undefined || user.profile_picture == "") {
           user.profile_picture = "/assets/img/user.png";
         } else {
-          teacher_photo = true;
-          current_image_url_teacher = user.profile_picture
+          is_photo = true;
+          current_image_url = user.profile_picture;
         }
         document.getElementById("teacher_image").src = user.profile_picture;
         if (user.about_me != undefined)
@@ -70,7 +70,7 @@ function getInformationByRole() {
           document.getElementById("contact_information").value =
             user.contact_information;
         if (user.url_link !== undefined)
-          document.getElementById("url_link").innerHTML = parseURL(
+          document.getElementById("url_link_teacher").innerHTML = parseURL(
             user.url_link
           );
         if (user.public_profile != undefined)
@@ -98,6 +98,18 @@ function getInformationByRole() {
         if (user.public_profile != undefined)
           document.getElementById("collaborator_public_profile").checked =
             user.public_profile;
+        if (user.url_link !== undefined)
+          document.getElementById("url_link_collaborator").innerHTML = parseURL(
+            user.url_link
+          );
+        if (user.profile_picture == undefined || user.profile_picture == "") {
+          user.profile_picture = "/assets/img/user.png";
+        } else {
+          is_photo = true;
+          current_image_url = user.profile_picture;
+        }
+        document.getElementById("collaborator_image").src =
+          user.profile_picture;
       }
     })
     .catch((error) => {
@@ -136,10 +148,10 @@ function dataURItoBlob(dataURI) {
   return new Blob([arrayBuffer], { type: mimeString });
 }
 
-function updateProfile() {
+async function updateProfile() {
   if (userLoggedInRole == "Teacher") {
-    var teacher_name = document.getElementById("teacher_name").innerHTML;
-    var teacher_email = document.getElementById("teacher_email").innerHTML;
+    var name = document.getElementById("teacher_name").innerHTML;
+    var email = document.getElementById("teacher_email").innerHTML;
     var about_me = document.getElementById("teacher_about_me").innerHTML;
     var city_residence = document.getElementById("city_residence").innerHTML;
     var about_classes = document.getElementById("about_classes").value;
@@ -148,13 +160,19 @@ function updateProfile() {
     var contact_information = document.getElementById(
       "contact_information"
     ).value;
-    var url_link = document.getElementById("url_link").innerHTML;
-    if (document.getElementById("profile_picture_teacher").files[0])
-      teacher_photo = true;
+    var url_link = formatURL(
+      document.getElementById("url_link_teacher").innerHTML
+    );
+    var url_available = await check_availability_url_link(
+      "Teachers",
+      userLoggedInID,
+      url_link
+    );
+    if (document.getElementById("profile_picture_teacher").files[0]) is_photo = true;
     if (document.getElementById("teacher_public_profile").checked) {
       if (
-        !teacher_name ||
-        !teacher_email ||
+        !name ||
+        !email ||
         !about_classes ||
         !class_location ||
         !class_prices ||
@@ -167,16 +185,38 @@ function updateProfile() {
           "danger",
           "All fields are required to have a public profile."
         );
-      } else if (!teacher_photo) {
+      } else if (!is_photo) {
         showAlert(
           "danger",
           "You must select a profile picture to make your profile public"
         );
+      } else if (!url_available) {
+        showAlert("danger", "URL profile is not available. Try another one.");
       } else {
-        saveTeacher();
+        saveTeacher(
+          name,
+          email,
+          about_me,
+          city_residence,
+          about_classes,
+          class_location,
+          class_prices,
+          contact_information,
+          url_link
+        );
       }
     } else {
-      saveTeacher();
+      saveTeacher(
+        name,
+        email,
+        about_me,
+        city_residence,
+        about_classes,
+        class_location,
+        class_prices,
+        contact_information,
+        url_link
+      );
     }
   } else if (userLoggedInRole == "Student") {
     var name = document.getElementById("student_name").innerHTML.trim();
@@ -204,22 +244,39 @@ function updateProfile() {
     var public_profile = document.getElementById(
       "collaborator_public_profile"
     ).checked;
+    var url_link = formatURL(
+      document.getElementById("url_link_collaborator").innerHTML
+    );
+    var url_available = await check_availability_url_link(
+      "Collaborators",
+      userLoggedInID,
+      url_link
+    );
+    if (document.getElementById("profile_picture_collaborator").files[0]) is_photo = true;
     if (public_profile) {
-      if (!name || !email || !biography || !contact) {
+      if (!name || !email || !biography || !contact || !url_link) {
         showAlert(
           "danger",
           "Public profile requires all fields to be completed"
         );
+      } else if (!is_photo) {
+        showAlert(
+          "danger",
+          "You must select a profile picture to make your profile public"
+        );
+      } else if (!url_available) {
+        showAlert("danger", "URL profile is not available. Try another one.");
       } else {
-        saveCollaborator(email, name, biography, contact, public_profile);
+        saveCollaborator(email, name, biography, contact, url_link);
       }
     } else {
-      saveCollaborator(email, name, biography, contact, public_profile);
+      saveCollaborator(email, name, biography, contact, url_link);
     }
   }
 }
 
 function saveStudent(name, email, hobbies_and_interests, language_level) {
+  localStorage.setItem("user_full_name", name);
   updateUserData(
     {
       email: email,
@@ -236,37 +293,49 @@ function saveStudent(name, email, hobbies_and_interests, language_level) {
   );
 }
 
-function saveCollaborator(email, name, biography, contact, public_profile) {
-  updateUserData(
-    {
-      email: email,
-      full_name: name,
-    },
-    "Users"
-  );
-  updateUserData(
-    {
-      biography: biography,
-      contact: contact,
-      public_profile: public_profile,
-    },
-    "Collaborators"
-  );
+async function saveCollaborator(email, name, biography, contact, url_link) {
+  localStorage.setItem("user_full_name", name);
+  var userData = {
+    biography: biography,
+    contact: contact,
+    url_link: url_link,
+    public_profile: document.getElementById("collaborator_public_profile")
+      .checked,
+  };
+  if (document.getElementById("profile_picture_collaborator").files[0]) {
+    await fetch(
+      "/api/deleteFromS3?folder=Users&url=" +
+        userLoggedInID +
+        "/" +
+        current_image_url.split("/").pop(),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((response) => {});
+    var image_url = await uploadImage(
+      "Users",
+      document.getElementById("profile_picture_collaborator").files[0],
+      "profile_picture"
+    );
+    userData.profile_picture = image_url;
+  }
+  updateUserData({ full_name: name, email: email }, "Users");
+  updateUserData(userData, "Collaborators");
 }
 
-async function saveTeacher() {
-  var teacher_name = document.getElementById("teacher_name").innerHTML;
-  var teacher_email = document.getElementById("teacher_email").innerHTML;
-  var about_me = document.getElementById("teacher_about_me").innerHTML;
-  var city_residence = document.getElementById("city_residence").innerHTML;
-  var about_classes = document.getElementById("about_classes").value;
-  var class_location = document.getElementById("class_location").value;
-  var class_prices = document.getElementById("class_prices").value;
-  var contact_information = document.getElementById(
-    "contact_information"
-  ).value;
-  var url_link = formatURL(document.getElementById("url_link").innerHTML);
-  localStorage.setItem("user_full_name", teacher_name);
+async function saveTeacher(
+  name,
+  email,
+  about_me,
+  city_residence,
+  about_classes,
+  class_location,
+  class_prices,
+  contact_information,
+  url_link
+) {
+  localStorage.setItem("user_full_name", name);
   var userData = {
     about_me: about_me,
     about_classes: about_classes,
@@ -281,10 +350,16 @@ async function saveTeacher() {
     public_profile: document.getElementById("teacher_public_profile").checked,
   };
   if (document.getElementById("profile_picture_teacher").files[0]) {
-    await fetch("/api/deleteFromS3?folder=Users&url="+userLoggedInID+"/"+current_image_url_teacher.split("/").pop(),{
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-    }).then((response) => {});
+    await fetch(
+      "/api/deleteFromS3?folder=Users&url=" +
+        userLoggedInID +
+        "/" +
+        current_image_url.split("/").pop(),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((response) => {});
     var image_url = await uploadImage(
       "Users",
       document.getElementById("profile_picture_teacher").files[0],
@@ -292,7 +367,7 @@ async function saveTeacher() {
     );
     userData.profile_picture = image_url;
   }
-  updateUserData({ full_name: teacher_name, email: teacher_email }, "Users");
+  updateUserData({ full_name: name, email: email }, "Users");
   updateUserData(userData, "Teachers");
 }
 
@@ -335,33 +410,6 @@ function successDeletion() {
 
 function errorDeletion() {
   showAlert("danger", "An issue occurred while deleting the account");
-}
-
-function deleteProfileImage() {
-  var imageData = localStorage.getItem("profile_image");
-  userLoggedInRole += "s";
-  if (imageData != null) {
-    var blob = dataURItoBlob(imageData);
-    var imageFile = new File([blob], "profile_image.png", {
-      type: "image/png",
-    });
-    var formData = new FormData();
-    formData.append("image", imageFile);
-    var filename =
-      userLoggedInID +
-      "." +
-      imageData.split(":")[1].split(";")[0].split("/")[1];
-    fetch(`/api/deleteFromS3?folder=Users&url=${filename}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.status !== 200) {
-        errorDeletion();
-      }
-    });
-  }
 }
 
 async function deleteLessons() {

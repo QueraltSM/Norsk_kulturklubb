@@ -70,7 +70,7 @@ function signup() {
             user.class_prices = "";
             user.contact_information = "";
             user.profile_picture = "";
-            user.url = "";
+            user.url_link = "";
           } else if (selectedRole.value == "Students") {
             user.language_level = "A1 - Nybegynner";
             user.hobbies_and_interests = "";
@@ -79,6 +79,7 @@ function signup() {
             user.biography = "";
             user.contact = "";
             user.profile_picture = "";
+            user.url_link = "";
           }
           insertUserDataToServer(user, selectedRole.value);
         } else if (response.status === 500) {

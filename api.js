@@ -174,12 +174,17 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Collaborators") {
     updateExpression =
-      "set biography = :biography, contact = :contact, public_profile = :public_profile";
+      "set biography = :biography, contact = :contact, url_link = :url_link, public_profile = :public_profile";
     expressionAttributeValues = {
       ":biography": userData.biography,
       ":contact": userData.contact,
+      ":url_link" : userData.url_link,
       ":public_profile": userData.public_profile,
     };
+    if (userData.profile_picture != null && userData.profile_picture !== "") {
+      updateExpression += ", profile_picture = :profile_picture";
+      expressionAttributeValues[":profile_picture"] = userData.profile_picture;
+    }
   } else if (tableName === "Teachers") {
     updateExpression =
       "set about_classes = :about_classes, about_me = :about_me, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
@@ -227,20 +232,16 @@ app.post("/api/updateUserData", (req, res) => {
 });
 
 app.post("/api/updateProfileImage", multer().single("image"), (req, res) => {
-  console.log("updateProfileImage")
   const image = req.file;
   if (!image) {
-    console.log("no hay imagen");
     return res.status(400).send("No image");
   }
-  console.log("sigo");
   const params = {
     Bucket: "norskkulturklubb",
     Key: "Users/" + req.body.key,
     Body: image.buffer,
     ACL: "public-read",
   };
-  console.log(JSON.stringify(params));
   s3.upload(params, (err, data) => {
     if (err) {
       console.error("Error al subir la imagen a S3:", err);

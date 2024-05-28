@@ -43,6 +43,20 @@
                       <p>Sign up</p>
                     </div>
                     <form id="signup_form" class="validate-form" onsubmit="return signup()">
+                      <div class="select-role" required>
+                        <div class="role-option">
+                          <input type="radio" id="Students" name="role" value="Students">
+                          <label for="Students" style="font-size: 13px">I'm a student</label>
+                        </div>
+                        <div class="role-option">
+                          <input type="radio" id="Teachers" name="role" value="Teachers">
+                          <label for="Teachers" style="font-size: 13px">I'm a teacher</label>
+                        </div>
+                        <div class="role-option">
+                          <input type="radio" id="Collaborators" name="role" value="Collaborators">
+                          <label for="Collaborators" style="font-size: 13px">I'm a collaborator</label>
+                        </div>
+                      </div>
                       <div class="wrap-input100" data-validate="Valid email is required: ex@abc.xyz">
                         <input class="input100" type="text" name="name" placeholder="Name" required />
                         <span class="focus-input100" data-placeholder="Name"></span>
@@ -58,20 +72,6 @@
                       <div class="wrap-input100" data-validate="Confirm password is required">
                         <input class="input100" type="password" name="confirm_password" placeholder="Confirm password" required />
                         <span class="focus-input100" data-placeholder="Confirm password"></span>
-                      </div>
-                      <div class="select-role" required>
-                        <div class="role-option">
-                          <input type="radio" id="Students" name="role" value="Students">
-                          <label for="Students" style="font-size: 13px">I'm a student</label>
-                        </div>
-                        <div class="role-option">
-                          <input type="radio" id="Teachers" name="role" value="Teachers">
-                          <label for="Teachers" style="font-size: 13px">I'm a teacher</label>
-                        </div>
-                        <div class="role-option">
-                          <input type="radio" id="Collaborators" name="role" value="Collaborators">
-                          <label for="Collaborators" style="font-size: 13px">I'm a collaborator</label>
-                        </div>
                       </div>
                       <div id="alertContainer"></div>
                       <div class="container-login100-form-btn d-flex justify-content-center">
