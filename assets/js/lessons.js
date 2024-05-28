@@ -59,22 +59,25 @@ if (localStorage.getItem("isLoggedIn")) {
         try {
           const user = await getUser(lesson.teacher_id);
           if (user.public_profile) {
-            const lessonHTML =
-              `<div class="col-6" style="padding-bottom:10px;">
-          <a href="#" onclick="window.location.href = '/Lessons/` +
-              lesson.url_link +
-              `';" style="text-decoration: none; color: inherit; display: flex;">
-            <div class="course-item" style="border: none; cursor: pointer; background-color: #f9f9f9; border-radius: 10px; overflow: hidden; display: flex;">
-              <div class="course-img" style="height: 200px; width: 40%; overflow: hidden;">
-                <img src="${lesson.image_url}" class="img-fluid" style="object-fit: cover; height: 100%; width: 100%;">
-              </div>
-              <div class="lesson-content" style="padding: 20px; width: 60%;">
-                <h3 style="margin-bottom: 10px;">${lesson.title}</h3>
-                <p style="margin-bottom: 0; word-wrap: break-word;">${lesson.short_description}</p>
-              </div>
-            </div>
-          </a>
-        </div>`;
+            var short_description = lesson.short_description;
+            if (short_description.split(" ").length > 25) {
+              short_description = lesson.short_description.split(" ").slice(0, 25).join(" ") + "...";
+            } 
+            const lessonHTML = `
+            <div class="col-6" style="padding-bottom: 20px;">
+              <a href="#" onclick="window.location.href = '/Lessons/${lesson.url_link}';" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="course-item" style="position: relative; border: none; cursor: pointer; background-color: #ffffff; border-radius: 10px; overflow: hidden; display: flex; height: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;">
+                  <div class="course-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+                    <img src="${lesson.image_url}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%; filter: background: rgba(255, 255, 255, 0.75);">
+                  </div>
+                  <div class="lesson-content" style="position: relative; padding: 20px; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.8);">
+                    <h3 style="margin-bottom: 10px; color: #9C3030;">${lesson.title}</h3>
+                    <p style="margin-bottom: 0; word-wrap: break-word; color: #003657;">${short_description}</p>
+                  </div>
+                </div>
+              </a>
+            </div>`;
+          
             document.getElementById(lesson.language_level).innerHTML +=
               lessonHTML;
           }

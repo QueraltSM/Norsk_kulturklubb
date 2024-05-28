@@ -94,7 +94,7 @@ if (localStorage.getItem("isLoggedIn")) {
             <img src="${event.image_url}" class="img-fluid event-image">
             <div class="event-overlay">
                 <h4 class="event-title"><strong>${event.title}</strong></h4>
-                <p class="event-p">${formatEvent(
+                <p class="event-p" style="color: #003657;">${formatEvent(
                   event.celebration_date
                 )}</p>
             </div>

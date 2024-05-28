@@ -18,7 +18,6 @@ async function fetchData() {
       document.getElementById("event_title").innerHTML = event.title;
       const eventHTML = `<div class="row">
       <div class="col-12 course-item">
-        <div class="row">
         <p class="event-description">${event.description}</p>
           <p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Date <span class="event-description">${formatEvent(
             event.celebration_date
@@ -27,7 +26,6 @@ async function fetchData() {
             event.platform_url
           }</span></p>
         </div>
-      </div>
     </div>
     `;
       getUser(event.user_id).then((user) => {
@@ -101,7 +99,6 @@ async function fetchData() {
           .querySelector(".course-item")
           .parentNode.appendChild(eventContainer);
       });
-
       eventContainer.innerHTML += eventHTML;
     } catch (error) {
       console.error("Error:", error);

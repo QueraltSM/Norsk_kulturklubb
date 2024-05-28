@@ -2345,6 +2345,9 @@ textarea {
 .accordion-button:not(.collapsed) {
   color: #9C3030;
   background-color: #f8f8f8;
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 /*--------------------------------------------------------------
@@ -2560,7 +2563,7 @@ textarea {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease-in-out;
-  width: 350px;
+  width: 400px;
   height: 350px;
 }
 .event-card:hover {

@@ -44,11 +44,7 @@ if (localStorage.getItem("isLoggedIn")) {
           const teacherName = await get_teacher_name(teacher.ID);
           var about_me = teacher.about_me;
           if (teacher.about_me.split(" ").length > 25) {
-            const shortAboutMe =
-              teacher.about_me.split(" ").slice(0, 25).join(" ") + "...";
-            about_me = shortAboutMe;
-          } else {
-            about_me = teacher.about_me;
+            about_me = teacher.about_me.split(" ").slice(0, 25).join(" ") + "...";
           }
           teacherDiv.innerHTML = `
           <a href="#" onclick="window.location.href = '/Teachers/' + '${teacher.url_link}'">
