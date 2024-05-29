@@ -79,6 +79,7 @@ function signup() {
             user.about_me = "";
             user.contact = "";
             user.profile_picture = "";
+            user.url_link = "";
           }
           insertUserDataToServer(user, selectedRole.value);
         } else if (response.status === 500) {

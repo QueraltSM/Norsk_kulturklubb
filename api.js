@@ -175,11 +175,12 @@ app.post("/api/updateUserData", (req, res) => {
     };
   } else if (tableName === "Collaborators") {
     updateExpression =
-      "set about_me = :about_me, contact = :contact, public_profile = :public_profile";
+      "set about_me = :about_me, contact = :contact, url_link = :url_link, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_me": userData.about_me,
       ":contact": userData.contact,
       ":public_profile": userData.public_profile,
+      ":url_link": userData.url_link,
     };
     if (userData.profile_picture != null && userData.profile_picture !== "") {
       updateExpression += ", profile_picture = :profile_picture";
@@ -782,6 +783,26 @@ app.get("/Teachers", (req, res) => {
     return res.send(cachedContents[title]);
   }
   const HTML_content = fs.readFileSync("teachers.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
+});
+
+app.get("/Collaborators/:url", (req, res) => {
+  const title = "/Collaborators/" + req.params.url;
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const HTML_content = fs.readFileSync("collaborator.html", "utf8");
+  cachedContents[title] = HTML_content;
+  res.send(HTML_content);
+});
+
+app.get("/Collaborators", (req, res) => {
+  const title = "/Collaborators";
+  if (cachedContents[title]) {
+    return res.send(cachedContents[title]);
+  }
+  const HTML_content = fs.readFileSync("collaborators.html", "utf8");
   cachedContents[title] = HTML_content;
   res.send(HTML_content);
 });

@@ -256,6 +256,14 @@ async function updateProfile() {
       "collaborator_public_profile"
     ).checked;
     if (document.getElementById("profile_picture_collaborator").files[0]) is_photo = true;
+    var url_link = formatURL(
+      document.getElementById("url_link_collaborator").innerHTML
+    );
+    var url_available = await check_availability_url_link(
+      "Collaborators",
+      userLoggedInID,
+      url_link
+    );
     if (public_profile) {
       if (!name || !email || !about_me || !contact) {
         showAlert(
@@ -267,11 +275,13 @@ async function updateProfile() {
           "danger",
           "You must select a profile picture to make your profile public"
         );
+      } else if (!url_available) { 
+        showAlert("danger", "URL profile is not available. Try another one.");
       } else {
-        saveCollaborator(email, name, password, about_me, contact);
+        saveCollaborator(email, name, password, about_me, contact, url_link);
       }
     } else {
-      saveCollaborator(email, name, password, about_me, contact);
+      saveCollaborator(email, name, password, about_me, contact, url_link);
     }
   }
 }
@@ -295,7 +305,7 @@ function saveStudent(name, email, password, hobbies_and_interests, language_leve
   );
 }
 
-async function saveCollaborator(email, name, password, about_me, contact) {
+async function saveCollaborator(email, name, password, about_me, contact, url_link) {
   localStorage.setItem("user_full_name", name);
   var userData = {
     about_me: about_me,

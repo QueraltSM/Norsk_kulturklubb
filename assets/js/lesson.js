@@ -23,11 +23,13 @@ async function fetchData() {
           <div id="lesson_content_wrapper" class="lesson-content">
             <iframe id="lesson_description" style='text-align:justify; width:100%; height:100%; overflow:hidden;'></iframe><br>
             <div class="lesson-container">
-              <a href="#" id="practice_lesson" class="get-started-btn">Let's practice <i class="bx bx-chevron-right"></i></a>
+              <a href="#" id="practice_lesson" class="get-started-btn"><i class="bi bi-book" style="font-size: 13px;"></i>&nbsp;&nbspLet's practice<i class="bx bx-chevron-right"></i></a>
             </div>
           </div>
         </div>
-      </div><div class="course-item"></div>`;
+        <p class="event-p"><i class="bi bi-person" style="font-size: 13px;"></i>&nbsp; Created by <span class="event-description" id="username"></span></p>
+        <p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 13px;"></i>&nbsp; Publication date <span class="event-description">${formatEvent(lesson.pubdate)}</span></p>
+        </div><div class="course-item"></div>`;
       lessonContainer.innerHTML += lessonHTML;
       document.getElementById("lesson_description").srcdoc = lesson.description;
       const lessonDescription = document.getElementById("lesson_description");
@@ -52,31 +54,24 @@ async function fetchData() {
         const textContainer = document.createElement("div");
         const authorTitle = document.createElement("h3");
         authorTitle.style.color = "#9C3030";
-        authorTitle.textContent = "Teacher " + user.full_name;
+        authorTitle.textContent = user.full_name;
+        document.getElementById("username").innerHTML = user.full_name;
         const authorText = document.createElement("p");
         authorText.classList.add("card-text");
         authorText.style.textAlign = "justify";
         authorText.style.fontSize = "13px";
         textContainer.appendChild(authorTitle);
-        const profileImage = document.createElement("img");
-        profileImage.src = user.profile_picture;
-        profileImage.style.display = "block";
-        profileImage.style.width = "400px";
-        profileImage.style.height = "350px";
-        profileImage.style.objectFit = "cover";
-        profileImage.style.margin = "0 auto";
-        profileImage.style.borderRadius = "10px";
-        textContainer.appendChild(profileImage);
         const introText = document.createElement("p");
         introText.classList.add("card-text");
-        introText.style.textAlign = "center";
+        introText.style.textAlign = "justify";
         introText.style.fontSize = "13px";
         const about_meText = document.createElement("p");
         about_meText.classList.add("card-text");
         about_meText.style.textAlign = "justify";
+        about_meText.style.fontStyle = "italic";
         about_meText.style.fontSize = "13px";
-        about_meText.innerHTML = `<br><strong>About me<br></strong>${user.about_me}`;
-        introText.innerHTML = `<br><strong>${user.full_name} is a teacher in Norsk Kulturklubb</strong>`;
+        about_meText.innerHTML = `${user.about_me}`;
+        introText.innerHTML = `<br><strong><i class="bi bi-emoji-smile" style="font-size: 13px;"></i>&nbsp;${user.full_name} is a teacher in Norsk Kulturklubb<br></strong>`;
         const button = document.createElement("a");
         button.href = "/Teachers/" + user.url_link;
         button.innerHTML = "View profile <i class='bx bx-chevron-right'></i>";
@@ -88,12 +83,12 @@ async function fetchData() {
         textContainer.appendChild(authorText);
         contentContainer.appendChild(textContainer);
         userDetailsSection.appendChild(contentContainer);
-        const eventContainer = document.createElement("div");
-        eventContainer.classList.add("col-lg-12");
-        eventContainer.appendChild(userDetailsSection);
+        const lessonContainer = document.createElement("div");
+        lessonContainer.classList.add("col-lg-12");
+        lessonContainer.appendChild(userDetailsSection);
         document
           .querySelector(".course-item")
-          .parentNode.appendChild(eventContainer);
+          .parentNode.appendChild(lessonContainer);
       });
     } catch (error) {
       console.error("Error:", error);

@@ -2344,10 +2344,10 @@ textarea {
 
 .accordion-button:not(.collapsed) {
   color: #9C3030;
-  background-color: #f8f8f8;
   border: none;
   outline: none;
   box-shadow: none;
+  background-color: #f8f8f8;
 }
 
 /*--------------------------------------------------------------

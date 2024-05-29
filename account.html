@@ -1,285 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Account · Profil</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-  <title>Account · Profil</title>
-  <meta content="" name="description" />
-  <meta content="" name="keywords" />
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon" />
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
-  <!-- Favicons -->
-  <link href="/assets/img/favicon.png" rel="icon" />
-  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/assets/vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet" />
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/assets/css/style.css" rel="stylesheet" />
+  </head>
 
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet" />
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header"></header>
+    <!-- End Header -->
 
-</head>
-
-<body>
-  <!-- ======= Header ======= -->
-  <header id="header"></header>
-  <!-- End Header -->
-
-  <main id="main" data-aos="fade-in">
-    <section id="user-details" class="user-details">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title" style="padding-bottom:0px;">
-          <h2>Profil</h2>
-          <p>Account</p>
-        </div>
-        <div id="student-account" class="row" style="display:none;margin-top:0px;">
-          <div class="col-lg-12">
-            <h3>
-              Name
-            </h3>
-            <span class="label-box">You can modify your name anytime</span>
-            <p contenteditable="true" id="student_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-            <h3>
-              Email
-            </h3>
-            <span class="label-box">Changing your email will require logging in using the updated one</span>
-            <p contenteditable="true" id="student_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-            <h3>
-              Password
-            </h3>
-            <span class="label-box">Changing your password will require logging in using the updated one</span>
-            <p contenteditable="true" id="student_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-            <h3>
-              Interests and hobbies
-            </h3>
-            <span class="label-box">Tell us about your interests and hobbies! What are you passionate about? What activities do you enjoy in your free time? Sharing your interests and hobbies helps us get to know you better</span>
-            <textarea contenteditable="true" id="student_hobbies_and_interests" class="editable-box" style="width: 100%;min-height: 300px;" onpaste="cleanPaste(event, this)"></textarea>
-
-            <h3>
-              Language level
-            </h3>
-            <span class="label-box">Select your level of understanding of Norwegian</span>
-            <select id="student_language_level" name="student_language_level" class="editable-box" style="width: 100%;">
-              <option value="A1 - Nybegynner">A1 - Nybegynner</option>
-              <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
-              <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
-              <option value="B2 - Øvet">B2 - Øvet</option>
-              <option value="C1 - Avansert">C1 - Avansert</option>
-              <option value="C2 - Mester">C2 - Mester</option>
-            </select>
+    <main id="main" data-aos="fade-in">
+      <section id="user-details" class="user-details">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title" style="padding-bottom: 0px">
+            <h2>Profil</h2>
+            <p>Account</p>
           </div>
-        </div><br>
-        
-        <div id="teacher-account" class="row" style="display:none;margin-top:0px;">
-          <div class="col-lg-12">
-            <h3>
-              Name
-            </h3>
-            <span class="label-box">You can modify your first name anytime</span>
-            <p contenteditable="true" id="teacher_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+          <div
+            id="student-account"
+            class="row"
+            style="display: none; margin-top: 0px"
+          >
+            <div class="col-lg-12">
+              <h3>Name</h3>
+              <span class="label-box">You can modify your name anytime</span>
+              <p
+                contenteditable="true"
+                id="student_name"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
 
-            <h3>
-              Email
-            </h3>
-            <span class="label-box">Changing your email will require logging in using the updated one</span>
-            <p contenteditable="true" id="teacher_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+              <h3>Email</h3>
+              <span class="label-box"
+                >Changing your email will require logging in using the updated
+                one</span
+              >
+              <p
+                contenteditable="true"
+                id="student_email"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
 
-            <h3>
-              Password
-            </h3>
-            <span class="label-box">Changing your password will require logging in using the updated one</span>
-            <p contenteditable="true" id="teacher_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+              <h3>Password</h3>
+              <span class="label-box"
+                >Changing your password will require logging in using the
+                updated one</span
+              >
+              <p
+                contenteditable="true"
+                id="student_password"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
 
-            <h3>
-              About me
-            </h3>
-            <span class="label-box">Short description that will be visible when students search for teachers (max. 150 characteres)</span>
-            <p contenteditable="true" id="teacher_about_me" class="editable-box" style="width: 100%;min-height: 100px;" onpaste="cleanPaste(event, this)"></p>
-            
-            <h3>About classes</h3>
-            <span class="label-box">Information about your classes, including what students will learn and any
-              requirements</span>
-            <textarea contenteditable="true" id="about_classes" class="editable-box" style="width: 100%;min-height: 300px;" onpaste="cleanPaste(event, this)"></textarea>
+              <h3>Interests and hobbies</h3>
+              <span class="label-box"
+                >Tell us about your interests and hobbies! What are you
+                passionate about? What activities do you enjoy in your free
+                time? Sharing your interests and hobbies helps us get to know
+                you better</span
+              >
+              <textarea
+                contenteditable="true"
+                id="student_hobbies_and_interests"
+                class="editable-box"
+                style="width: 100%; min-height: 300px"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
 
-            <h3>City of residence</h3>
-            <span class="label-box">Location where you reside</span>
-            <p contenteditable="true" id="city_residence" class="editable-box" style="width: 100%;" onpaste="cleanPaste(event, this)"></p>
+              <h3>Language level</h3>
+              <span class="label-box"
+                >Select your level of understanding of Norwegian</span
+              >
+              <select
+                id="student_language_level"
+                name="student_language_level"
+                class="editable-box"
+                style="width: 100%"
+              >
+                <option value="A1 - Nybegynner">A1 - Nybegynner</option>
+                <option value="A2 - Grunnleggende">A2 - Grunnleggende</option>
+                <option value="B1 - Mellomnivå">B1 - Mellomnivå</option>
+                <option value="B2 - Øvet">B2 - Øvet</option>
+                <option value="C1 - Avansert">C1 - Avansert</option>
+                <option value="C2 - Mester">C2 - Mester</option>
+              </select>
+            </div>
+          </div>
+          <br />
 
-            <h3>Place of classes</h3>
-            <span class="label-box">Location where your classes take place, including any facilities available</span>
-            <textarea contenteditable="true" id="class_location" class="editable-box" style="width: 100%; min-height: 100px;" onpaste="cleanPaste(event, this)"></textarea>
-            <div class="row">
-              <div class="col">
-                <div class="form-check mt-3" style="display: inline-block; margin-right: 20px;">
-                  <input class="form-check-input" type="checkbox" id="teaching_in_person" />
-                  <label class="label-box" for="teaching_in_person">I teach in-person classes</label>
-                </div>
-                <div class="form-check mt-3" style="display: inline-block;">
-                  <input class="form-check-input" type="checkbox" id="teaching_online" />
-                  <label class="label-box" for="teaching_online">I teach classes remotely</label>
+          <div
+            id="teacher-account"
+            class="row"
+            style="display: none; margin-top: 0px"
+          >
+            <div class="col-lg-12">
+              <h3>Profile image</h3>
+              <div class="text-center">
+                <img
+                  class="img-fluid"
+                  style="width: 400px; height: 350px; object-fit: cover"
+                  alt=""
+                  id="teacher_image"
+                />
+              </div>
+              <div class="text-center mt-3">
+                <label for="profile_picture_teacher" class="btn btn-sm"
+                  >Select Image</label
+                >
+                <input
+                  type="file"
+                  id="profile_picture_teacher"
+                  accept="image/*"
+                  class="d-none"
+                  onchange="previewImage(event,'teacher_image')"
+                />
+              </div>
+
+              <h3>Name</h3>
+              <span class="label-box"
+                >You can modify your first name anytime</span
+              >
+              <p
+                contenteditable="true"
+                id="teacher_name"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>Email</h3>
+              <span class="label-box"
+                >Changing your email will require logging in using the updated
+                one</span
+              >
+              <p
+                contenteditable="true"
+                id="teacher_email"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>Password</h3>
+              <span class="label-box"
+                >Changing your password will require logging in using the
+                updated one</span
+              >
+              <p
+                contenteditable="true"
+                id="teacher_password"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>About me</h3>
+              <span class="label-box"
+                >Short description that will be visible when students search for
+                teachers (max. 150 characteres)</span
+              >
+              <p
+                contenteditable="true"
+                id="teacher_about_me"
+                class="editable-box"
+                style="width: 100%; min-height: 100px"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>About classes</h3>
+              <span class="label-box"
+                >Information about your classes, including what students will
+                learn and any requirements</span
+              >
+              <textarea
+                contenteditable="true"
+                id="about_classes"
+                class="editable-box"
+                style="width: 100%; min-height: 300px"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
+
+              <h3>City of residence</h3>
+              <span class="label-box">Location where you reside</span>
+              <p
+                contenteditable="true"
+                id="city_residence"
+                class="editable-box"
+                style="width: 100%"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>Place of classes</h3>
+              <span class="label-box"
+                >Location where your classes take place, including any
+                facilities available</span
+              >
+              <textarea
+                contenteditable="true"
+                id="class_location"
+                class="editable-box"
+                style="width: 100%; min-height: 100px"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
+              <div class="row">
+                <div class="col">
+                  <div
+                    class="form-check mt-3"
+                    style="display: inline-block; margin-right: 20px"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="teaching_in_person"
+                    />
+                    <label class="label-box" for="teaching_in_person"
+                      >I teach in-person classes</label
+                    >
+                  </div>
+                  <div class="form-check mt-3" style="display: inline-block">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="teaching_online"
+                    />
+                    <label class="label-box" for="teaching_online"
+                      >I teach classes remotely</label
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <h3>Price of classes</h3>
-            <span class="label-box">The prices of your classes, including any discounts or special offers</span>
-            <textarea contenteditable="true" id="class_prices" class="editable-box" style="width: 100%;min-height: 100px; overflow-y: auto;" wrap="off" onpaste="cleanPaste(event, this)"></textarea>
 
-            <h3>Contact information</h3>
-            <span class="label-box">How students can contact you, including email, phone number, or social media profiles</span>
-            <textarea contenteditable="true" id="contact_information" class="editable-box" style="width: 100%;min-height: 100px;" onpaste="cleanPaste(event, this)"></textarea>
+              <h3>Price of classes</h3>
+              <span class="label-box"
+                >The prices of your classes, including any discounts or special
+                offers</span
+              >
+              <textarea
+                contenteditable="true"
+                id="class_prices"
+                class="editable-box"
+                style="width: 100%; min-height: 100px; overflow-y: auto"
+                wrap="off"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
 
-            <h3>
-              Profile image
-            </h3>
-            <div class="text-center">
-              <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;" alt="" id="teacher_image" />
-            </div>
-            <div class="text-center mt-3">
-              <label for="profile_picture_teacher" class="btn btn-sm">Select Image</label>
-              <input type="file" id="profile_picture_teacher" accept="image/*" class="d-none" onchange="previewImage(event,'teacher_image')" />
-            </div> 
+              <h3>Contact information</h3>
+              <span class="label-box"
+                >How students can contact you, including email, phone number, or
+                social media profiles</span
+              >
+              <textarea
+                contenteditable="true"
+                id="contact_information"
+                class="editable-box"
+                style="width: 100%; min-height: 100px"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
 
-            <h3>
-              URL profile
-            </h3>
-            <span class="label-box">You can modify the phrase that identifies you (visible in the URL)</span>
-            <p contenteditable="true" id="url_link_teacher" class="editable-box"></p>
+              <h3>URL profile</h3>
+              <span class="label-box"
+                >You can modify the phrase that identifies you (visible in the
+                URL)</span
+              >
+              <p
+                contenteditable="true"
+                id="url_link_teacher"
+                class="editable-box"
+              ></p>
 
-            <h3>Public profile</h3>
-            <div class="form-check mt-3" style="padding-top: 10px">
-              <input class="form-check-input" type="checkbox" id="teacher_public_profile" />
-              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing students to find you, and enabling you to contribute lessons, posts, and events.</span>
-            </div>
-          </div>
-        </div>
-
-        <div id="collaborator-account" class="row" style="display:none;">
-          <div class="col-lg-12">
-            <h3>
-              Name
-            </h3>
-            <span class="label-box">You can modify your first name anytime</span>
-            <p contenteditable="true" id="collaborator_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-            <h3>
-              Email
-            </h3>
-            <span class="label-box">Changing your email will require logging in using the updated one</span>
-            <p contenteditable="true" id="collaborator_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-            <h3>
-              Password
-            </h3>
-            <span class="label-box">Changing your password will require logging in using the updated one</span>
-            <p contenteditable="true" id="collaborator_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-
-            <h3>
-              About me
-            </h3>
-            <span class="label-box">Introduce yourself briefly (max 300 chars)</span>
-            <textarea contenteditable="true" id="collaborator_about_me" class="editable-box" style="width: 100%;" onpaste="cleanPaste(event, this)"></textarea>
-
-
-            <h3>
-              Contact
-            </h3>
-            <span class="label-box">Provide ways for others to contact you (e.g. email, phone number, social media handles)</span>
-            <p contenteditable="true" id="collaborator_contact" class="editable-box" onpaste="cleanPaste(event, this)"></p>
-
-
-            <h3>
-              Profile image
-            </h3>
-            <div class="text-center">
-              <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover;" alt="" id="collaborator_image" />
-            </div>
-            <div class="text-center mt-3">
-              <label for="profile_picture_collaborator" class="btn btn-sm">Select Image</label>
-              <input type="file" id="profile_picture_collaborator" accept="image/*" class="d-none" onchange="previewImage(event,'collaborator_image')" />
-            </div> 
-
-            <h3>Public profile</h3>
-            <div class="form-check mt-3" style="padding-top: 10px">
-              <input class="form-check-input" type="checkbox" id="collaborator_public_profile" />
-              <span class="label-box">By selecting this option, you accept that your profile will be public, allowing users to find you and enabling you to contribute posts and events.</span>
+              <h3>Public profile</h3>
+              <div class="form-check mt-3" style="padding-top: 10px">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="teacher_public_profile"
+                />
+                <span class="label-box"
+                  >By selecting this option, you accept that your profile will
+                  be public, allowing students to find you, and enabling you to
+                  contribute lessons, posts, and events.</span
+                >
+              </div>
             </div>
           </div>
+
+          <div id="collaborator-account" class="row" style="display: none">
+            <div class="col-lg-12">
+              <h3>Profile image</h3>
+              <div class="text-center">
+                <img
+                  class="img-fluid"
+                  style="width: 400px; height: 350px; object-fit: cover"
+                  alt=""
+                  id="collaborator_image"
+                />
+              </div>
+              <div class="text-center mt-3">
+                <label for="profile_picture_collaborator" class="btn btn-sm"
+                  >Select Image</label
+                >
+                <input
+                  type="file"
+                  id="profile_picture_collaborator"
+                  accept="image/*"
+                  class="d-none"
+                  onchange="previewImage(event,'collaborator_image')"
+                />
+              </div>
+
+              <h3>Name</h3>
+              <span class="label-box"
+                >You can modify your first name anytime</span
+              >
+              <p
+                contenteditable="true"
+                id="collaborator_name"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>Email</h3>
+              <span class="label-box"
+                >Changing your email will require logging in using the updated
+                one</span
+              >
+              <p
+                contenteditable="true"
+                id="collaborator_email"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>Password</h3>
+              <span class="label-box"
+                >Changing your password will require logging in using the
+                updated one</span
+              >
+              <p
+                contenteditable="true"
+                id="collaborator_password"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>About me</h3>
+              <span class="label-box"
+                >Introduce yourself briefly (max 300 chars)</span
+              >
+              <textarea
+                contenteditable="true"
+                id="collaborator_about_me"
+                class="editable-box"
+                style="width: 100%"
+                onpaste="cleanPaste(event, this)"
+              ></textarea>
+
+              <h3>Contact</h3>
+              <span class="label-box"
+                >Provide ways for others to contact you (e.g. email, phone
+                number, social media handles)</span
+              >
+              <p
+                contenteditable="true"
+                id="collaborator_contact"
+                class="editable-box"
+                onpaste="cleanPaste(event, this)"
+              ></p>
+
+              <h3>URL profile</h3>
+              <span class="label-box"
+                >You can modify the phrase that identifies you (visible in the
+                URL)</span
+              >
+              <p
+                contenteditable="true"
+                id="url_link_collaborator"
+                class="editable-box"
+              ></p>
+
+              <h3>Public profile</h3>
+              <div class="form-check mt-3" style="padding-top: 10px">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="collaborator_public_profile"
+                />
+                <span class="label-box"
+                  >By selecting this option, you accept that your profile will
+                  be public, allowing users to find you and enabling you to
+                  contribute posts and events.</span
+                >
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <div class="mt-3 text-center">
+            <button
+              type="button"
+              class="btn"
+              data-toggle="modal"
+              data-target="#confirmDeleteModal"
+            >
+              Delete account
+            </button>
+            <button
+              type="button"
+              class="get-started-btn"
+              id="saveButton"
+              onclick="updateProfile();"
+            >
+              Save profile
+            </button>
+          </div>
         </div>
-        <br>
-        
-        <div class="mt-3 text-center">
-          <button type="button" class="btn" data-toggle="modal" data-target="#confirmDeleteModal">
-            Delete account
-          </button>
-          <button type="button" class="get-started-btn" id="saveButton" onclick="updateProfile();">
-            Save profile
-          </button>
+      </section>
+      <div
+        class="modal fade"
+        id="confirmDeleteModal"
+        tabindex="-1"
+        aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered text-center">
+          <div class="modal-content">
+            <div
+              class="modal-body d-flex justify-content-center align-items-center flex-column"
+            >
+              <h5 class="modal-title text-center" id="confirmDeleteModalLabel">
+                <strong>Confirm account deletion</strong>
+              </h5>
+              <br />
+              <p class="text-center">
+                Are you sure you want to delete your account? <br />
+                <strong>This action cannot be undone</strong>.
+              </p>
+            </div>
+            <div
+              class="modal-footer"
+              style="
+                border: none !important;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <div>
+                <button type="button" class="btn" data-dismiss="modal">
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="get-started-btn"
+                  onclick="deleteAccount()"
+                >
+                  Delete account
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered text-center">
-        <div class="modal-content">
-          <div class="modal-body d-flex justify-content-center align-items-center flex-column">
-            <h5 class="modal-title text-center" id="confirmDeleteModalLabel"><strong>Confirm account deletion</strong>
-            </h5><br>
-            <p class="text-center">
-              Are you sure you want to delete your account? <br>
-              <strong>This action cannot be undone</strong>.
-            </p>
-          </div>
-          <div class="modal-footer" style="border: none !important; display: flex; justify-content: center;">
-            <div>
-              <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-              <button type="button" class="get-started-btn" onclick="deleteAccount()">Delete account</button>
-            </div>
-          </div>          
-        </div>
-      </div>
-    </div>
-    <div id="alertContainer"></div>
-  </main>
-  <!-- End #main -->
+      <div id="alertContainer"></div>
+    </main>
+    <!-- End #main -->
 
-  <!-- Vendor JS Files -->
-  <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="/assets/vendor/aos/aos.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/assets/vendor/aos/aos.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="/assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-  <script>
-    $(document).ready(function () {
-      $("#header").load("/header.html");
-    });
-  </script>
-  <script src="/assets/js/common.js"></script>
-  <script src="/assets/js/account.js"></script>
-</body>
-
+    <script>
+      $(document).ready(function () {
+        $("#header").load("/header.html");
+      });
+    </script>
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/account.js"></script>
+  </body>
 </html>
