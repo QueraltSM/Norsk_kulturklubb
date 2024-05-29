@@ -49,20 +49,26 @@
             <h3>
               Name
             </h3>
-            <span class="label-box">You can modify your first name anytime</span>
-            <p contenteditable="true" id="student_name" class="editable-box"></p>
+            <span class="label-box">You can modify your name anytime</span>
+            <p contenteditable="true" id="student_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
               Email
             </h3>
-            <span class="label-box">Changing your email will require logging in using the updated email</span>
-            <p contenteditable="true" id="student_email" class="editable-box"></p>
+            <span class="label-box">Changing your email will require logging in using the updated one</span>
+            <p contenteditable="true" id="student_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+
+            <h3>
+              Password
+            </h3>
+            <span class="label-box">Changing your password will require logging in using the updated one</span>
+            <p contenteditable="true" id="student_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
               Interests and hobbies
             </h3>
             <span class="label-box">Tell us about your interests and hobbies! What are you passionate about? What activities do you enjoy in your free time? Sharing your interests and hobbies helps us get to know you better</span>
-            <textarea contenteditable="true" id="student_hobbies_and_interests" class="editable-box" style="width: 100%;min-height: 300px;"></textarea>
+            <textarea contenteditable="true" id="student_hobbies_and_interests" class="editable-box" style="width: 100%;min-height: 300px;" onpaste="cleanPaste(event, this)"></textarea>
 
             <h3>
               Language level
@@ -90,8 +96,14 @@
             <h3>
               Email
             </h3>
-            <span class="label-box">Changing your email will require logging in using the updated email</span>
+            <span class="label-box">Changing your email will require logging in using the updated one</span>
             <p contenteditable="true" id="teacher_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+
+            <h3>
+              Password
+            </h3>
+            <span class="label-box">Changing your password will require logging in using the updated one</span>
+            <p contenteditable="true" id="teacher_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
               About me
@@ -163,13 +175,20 @@
               Name
             </h3>
             <span class="label-box">You can modify your first name anytime</span>
-            <p contenteditable="true" id="collaborator_name" class="editable-box"></p>
+            <p contenteditable="true" id="collaborator_name" class="editable-box" onpaste="cleanPaste(event, this)"></p>
 
             <h3>
               Email
             </h3>
-            <span class="label-box">Changing your email will require logging in using the updated email</span>
-            <p contenteditable="true" id="collaborator_email" class="editable-box"></p>
+            <span class="label-box">Changing your email will require logging in using the updated one</span>
+            <p contenteditable="true" id="collaborator_email" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+
+            <h3>
+              Password
+            </h3>
+            <span class="label-box">Changing your password will require logging in using the updated one</span>
+            <p contenteditable="true" id="collaborator_password" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+
 
             <h3>
               About me
@@ -202,7 +221,9 @@
               <span class="label-box">By selecting this option, you accept that your profile will be public, allowing users to find you and enabling you to contribute posts and events.</span>
             </div>
           </div>
-        </div><br>
+        </div>
+        <br>
+        
         <div class="mt-3 text-center">
           <button type="button" class="btn" data-toggle="modal" data-target="#confirmDeleteModal">
             Delete account

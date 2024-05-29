@@ -167,10 +167,11 @@ app.post("/api/updateUserData", (req, res) => {
   let expressionAttributeValues = {};
 
   if (tableName === "Users") {
-    updateExpression = "set full_name = :full_name, email = :email";
+    updateExpression = "set full_name = :full_name, email = :email, password = :password";
     expressionAttributeValues = {
       ":full_name": userData.full_name,
       ":email": userData.email,
+      ":password": userData.password,
     };
   } else if (tableName === "Collaborators") {
     updateExpression =

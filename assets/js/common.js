@@ -316,3 +316,9 @@ function formatEvent(dateString) {
     formattedDate += ` ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     return formattedDate;
 }
+function base64ToString(base64) {
+  const binaryString = atob(base64);
+  const binaryArray = Uint8Array.from(binaryString, char => char.charCodeAt(0));
+  const decodedString = new TextDecoder().decode(binaryArray);
+  return decodedString;
+}

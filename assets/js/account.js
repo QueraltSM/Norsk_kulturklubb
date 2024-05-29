@@ -27,6 +27,11 @@ function getBasicInformation() {
         document.getElementById(
           userLoggedInRole.toLowerCase() + "_email"
         ).innerHTML = user.email;
+      if (user.password != undefined)
+          document.getElementById(
+            userLoggedInRole.toLowerCase() + "_password"
+          ).innerHTML = base64ToString(user.password);
+
     })
     .catch((error) => {
       console.error("Error retrieving data", error);
@@ -151,7 +156,8 @@ function dataURItoBlob(dataURI) {
 async function updateProfile() {
   if (userLoggedInRole == "Teacher") {
     var name = document.getElementById("teacher_name").innerHTML;
-    var email = document.getElementById("teacher_email").innerHTML;
+    var email = document.getElementById("teacher_email").innerHTML.trim();
+    var password = document.getElementById("teacher_password").innerHTML.trim();
     var about_me = document.getElementById("teacher_about_me").innerHTML;
     var city_residence = document.getElementById("city_residence").innerHTML;
     var about_classes = document.getElementById("about_classes").value;
@@ -173,6 +179,7 @@ async function updateProfile() {
       if (
         !name ||
         !email ||
+        !password ||
         !about_classes ||
         !class_location ||
         !class_prices ||
@@ -196,6 +203,7 @@ async function updateProfile() {
         saveTeacher(
           name,
           email,
+          password,
           about_me,
           city_residence,
           about_classes,
@@ -209,6 +217,7 @@ async function updateProfile() {
       saveTeacher(
         name,
         email,
+        password,
         about_me,
         city_residence,
         about_classes,
@@ -221,20 +230,22 @@ async function updateProfile() {
   } else if (userLoggedInRole == "Student") {
     var name = document.getElementById("student_name").innerHTML.trim();
     var email = document.getElementById("student_email").innerHTML.trim();
+    var password = document.getElementById("student_password").innerHTML.trim();
     var hobbies_and_interests = document
       .getElementById("student_hobbies_and_interests")
       .value.trim();
     var language_level = document.getElementById(
       "student_language_level"
     ).value;
-    if (!name || !email) {
-      showAlert("danger", "Your name or email can not be empty");
+    if (!name || !email ||!password) {
+      showAlert("danger", "Your name, email or password can not be empty");
     } else {
-      saveStudent(name, email, hobbies_and_interests, language_level);
+      saveStudent(name, email, password, hobbies_and_interests, language_level);
     }
   } else {
     var name = document.getElementById("collaborator_name").innerHTML.trim();
     var email = document.getElementById("collaborator_email").innerHTML.trim();
+    var password = document.getElementById("collaborator_password").innerHTML.trim();
     var about_me = document
       .getElementById("collaborator_about_me")
       .value.trim();
@@ -257,20 +268,21 @@ async function updateProfile() {
           "You must select a profile picture to make your profile public"
         );
       } else {
-        saveCollaborator(email, name, about_me, contact);
+        saveCollaborator(email, name, password, about_me, contact);
       }
     } else {
-      saveCollaborator(email, name, about_me, contact);
+      saveCollaborator(email, name, password, about_me, contact);
     }
   }
 }
 
-function saveStudent(name, email, hobbies_and_interests, language_level) {
+function saveStudent(name, email, password, hobbies_and_interests, language_level) {
   localStorage.setItem("user_full_name", name);
   updateUserData(
     {
       email: email,
       full_name: name,
+      password: btoa(unescape(encodeURIComponent(password)))
     },
     "Users"
   );
@@ -283,7 +295,7 @@ function saveStudent(name, email, hobbies_and_interests, language_level) {
   );
 }
 
-async function saveCollaborator(email, name, about_me, contact) {
+async function saveCollaborator(email, name, password, about_me, contact) {
   localStorage.setItem("user_full_name", name);
   var userData = {
     about_me: about_me,
@@ -309,13 +321,14 @@ async function saveCollaborator(email, name, about_me, contact) {
     );
     userData.profile_picture = image_url;
   }
-  updateUserData({ full_name: name, email: email }, "Users");
+  updateUserData({ full_name: name, email: email, password: btoa(unescape(encodeURIComponent(password))) }, "Users");
   updateUserData(userData, "Collaborators");
 }
 
 async function saveTeacher(
   name,
   email,
+  password,
   about_me,
   city_residence,
   about_classes,
@@ -356,7 +369,7 @@ async function saveTeacher(
     );
     userData.profile_picture = image_url;
   }
-  updateUserData({ full_name: name, email: email }, "Users");
+  updateUserData({ full_name: name, email: email, password: btoa(unescape(encodeURIComponent(password)))}, "Users");
   updateUserData(userData, "Teachers");
 }
 
