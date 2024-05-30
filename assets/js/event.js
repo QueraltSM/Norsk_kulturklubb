@@ -1,7 +1,6 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
   window.location.href = "/Events";
 }
-
 const eventContainer = document.getElementById("event_container");
 var url = new URL(window.location.href).pathname.split("/")[2];
 async function fetchData() {
@@ -16,18 +15,14 @@ async function fetchData() {
     try {
       document.getElementById("event_category").innerHTML = event.category;
       document.getElementById("event_title").innerHTML = event.title;
-      const eventHTML = `<div class="row">
-      <div class="col-12 course-item">
-        <p class="event-description">${event.description}</p>
+      const eventHTML = `<p class="event-description">${event.description}</p>
           <p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Date <span class="event-description">${formatEvent(
             event.celebration_date
           )}</span></p>
           <p class="event-p"><i class="bi bi-link" style="font-size: 13px;"></i>&nbsp; Link <span class="event-description">${
             event.platform_url
-          }</span></p>
-        </div>
-    </div>
-    `;
+          }</span></p>`;
+      eventContainer.innerHTML += eventHTML;
       getUser(event.user_id).then((user) => {
         const userDetailsSection = document.createElement("div");
         userDetailsSection.style.paddingTop = "100px";
@@ -36,50 +31,45 @@ async function fetchData() {
         contentContainer.style.display = "flex";
         contentContainer.style.alignItems = "center";
         contentContainer.style.gap = "50px";
+        contentContainer.style.width = "100%";
         const textContainer = document.createElement("div");
         const authorTitle = document.createElement("h3");
         authorTitle.style.color = "#9C3030";
         authorTitle.textContent = user.full_name;
-        const authorText = document.createElement("p");
-        authorText.classList.add("card-text");
-        authorText.style.textAlign = "justify";
-        authorText.style.fontSize = "13px";
         textContainer.appendChild(authorTitle);
-        const introText = document.createElement("p");
-        introText.classList.add("card-text");
-        introText.style.fontSize = "13px";
-
         const button = document.createElement("a");
-        const about_meText = document.createElement("p");
-        about_meText.classList.add("card-text");
-        about_meText.style.textAlign = "justify";
-        about_meText.style.fontStyle = "italic";
-        about_meText.style.fontSize = "13px";
-        about_meText.innerHTML = `<br>${user.about_me}`;  
+        const about_me = document.createElement("p");
+        about_me.classList.add("card-text");
+        about_me.style.textAlign = "justify";
+        about_me.style.fontStyle = "italic";
+        about_me.style.fontSize = "13px";
+        about_me.innerHTML = `<br>${user.about_me}`;
         if (user.role === "Teacher") {
           button.href = "/Teachers/" + user.url_link;
-          introText.innerHTML = `<br><strong><i class="bi bi-emoji-smile" style="font-size: 13px;"></i>&nbsp;${user.full_name} is a teacher in Norsk Kulturklubb<br></strong>`;
+          button.innerHTML =
+            user.full_name +
+            " is a teacher in Norsk Kulturklub <i class='bx bx-chevron-right'></i>";
         } else if (user.role === "Collaborator") {
           button.href = "/Collaborators/" + user.url_link;
-          introText.innerHTML = `<br><strong><i class="bi bi-emoji-smile" style="font-size: 13px;"></i>&nbsp;${user.full_name} is a collaborator in Norsk Kulturklubb<br></strong>`;
+          button.innerHTML =
+            user.full_name +
+            " is a collaborator in Norsk Kulturklub <i class='bx bx-chevron-right'></i>";
         }
-        textContainer.appendChild(introText);
-        textContainer.appendChild(about_meText);
-        button.innerHTML = "View profile <i class='bx bx-chevron-right'></i>";
+        textContainer.appendChild(about_me);
         button.style.fontWeight = "bold";
-        button.style.float = "right";
-        textContainer.appendChild(button);
-        textContainer.appendChild(authorText);
+        button.style.fontSize = "13px";
+        button.style.fontWeight = "bold";
+        button.style.marginLeft = "auto";
+        button.style.textDecoration = "none";
+        const introTextContainer = document.createElement("div");
+        introTextContainer.style.display = "flex";
+        introTextContainer.style.alignItems = "center";
+        introTextContainer.appendChild(button);
+        textContainer.appendChild(introTextContainer);
         contentContainer.appendChild(textContainer);
         userDetailsSection.appendChild(contentContainer);
-        const eventContainer = document.createElement("div");
-        eventContainer.classList.add("col-lg-12");
         eventContainer.appendChild(userDetailsSection);
-        document
-          .querySelector(".course-item")
-          .parentNode.appendChild(eventContainer);
       });
-      eventContainer.innerHTML += eventHTML;
     } catch (error) {
       console.error("Error:", error);
     }

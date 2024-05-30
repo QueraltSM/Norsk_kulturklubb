@@ -11,10 +11,14 @@ async function fetchData() {
     const post = await response.json();
     try {
       document.getElementById("post_title").innerHTML = post.title;
-      document.getElementById("post_category").innerHTML = post.category;
       document.getElementById("post_subcategory").innerHTML = post.subcategory;
       const cultureCard = document.createElement("div");
-      cultureCard.classList.add("col-md-8", "offset-md-2", "d-flex", "justify-content-center");
+      cultureCard.classList.add(
+        "col-md-8",
+        "offset-md-2",
+        "d-flex",
+        "justify-content-center"
+      );
       const card = document.createElement("div");
       card.classList.add("card");
       const cardImg = document.createElement("div");
@@ -35,7 +39,10 @@ async function fetchData() {
       cardText.style.textAlign = "justify";
       cardText.style.fontSize = "13px";
       const dateText = document.createElement("p");
-      dateText.textContent = "Published on " + post.pubdate.split(" ")[0];
+      dateText.innerHTML =
+        '<p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Date <span class="event-description">' +
+        formatEvent(post.pubdate) +
+        "</span></p>";
       dateText.style.color = "#777";
       dateText.style.fontSize = "13px";
       dateText.style.float = "right";
@@ -48,27 +55,47 @@ async function fetchData() {
         const userDetailsSection = document.createElement("div");
         userDetailsSection.style.paddingTop = "100px";
         userDetailsSection.classList.add("user-details");
+        const contentContainer = document.createElement("div");
+        contentContainer.style.display = "flex";
+        contentContainer.style.alignItems = "center";
+        contentContainer.style.gap = "50px";
+        contentContainer.style.width = "100%";
+        const textContainer = document.createElement("div");
         const authorTitle = document.createElement("h3");
         authorTitle.style.color = "#9C3030";
-        const authorText = document.createElement("p");
-        authorText.classList.add("card-text");
         authorTitle.textContent = user.full_name;
-        authorText.style.textAlign = "justify";
-        authorText.style.fontSize = "13px";
-        userDetailsSection.appendChild(authorTitle);
-        userDetailsSection.appendChild(authorText);
+        textContainer.appendChild(authorTitle);
         const button = document.createElement("a");
-        if (user.role == "Teacher") {
-          authorText.innerHTML = user.about_me;
+        const about_me = document.createElement("p");
+        about_me.classList.add("card-text");
+        about_me.style.textAlign = "justify";
+        about_me.style.fontStyle = "italic";
+        about_me.style.fontSize = "13px";
+        about_me.innerHTML = `<br>${user.about_me}`;
+        if (user.role === "Teacher") {
           button.href = "/Teachers/" + user.url_link;
-        } else {
-          authorText.innerHTML = user.about_me;
+          button.innerHTML =
+            user.full_name +
+            " is a teacher in Norsk Kulturklub <i class='bx bx-chevron-right'></i>";
+        } else if (user.role === "Collaborator") {
           button.href = "/Collaborators/" + user.url_link;
+          button.innerHTML =
+            user.full_name +
+            " is a collaborator in Norsk Kulturklub <i class='bx bx-chevron-right'></i>";
         }
-        button.innerHTML = "About me <i class='bx bx-chevron-right'></i>";
+        textContainer.appendChild(about_me);
         button.style.fontWeight = "bold";
-        button.style.float = "right";
-        userDetailsSection.appendChild(button);
+        button.style.fontSize = "13px";
+        button.style.fontWeight = "bold";
+        button.style.marginLeft = "auto";
+        button.style.textDecoration = "none";
+        const introTextContainer = document.createElement("div");
+        introTextContainer.style.display = "flex";
+        introTextContainer.style.alignItems = "center";
+        introTextContainer.appendChild(button);
+        textContainer.appendChild(introTextContainer);
+        contentContainer.appendChild(textContainer);
+        userDetailsSection.appendChild(contentContainer);
         cardBody.appendChild(userDetailsSection);
       });
       card.appendChild(cardImg);
