@@ -302,6 +302,7 @@
                 contenteditable="true"
                 id="url_link_teacher"
                 class="editable-box"
+                onpaste="cleanPaste(event, this)"
               ></p>
 
               <h3>Public profile</h3>
@@ -412,6 +413,7 @@
                 contenteditable="true"
                 id="url_link_collaborator"
                 class="editable-box"
+                onpaste="cleanPaste(event, this)"
               ></p>
 
               <h3>Public profile</h3>

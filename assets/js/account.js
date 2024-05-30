@@ -312,6 +312,7 @@ async function saveCollaborator(email, name, password, about_me, contact, url_li
     contact: contact,
     public_profile: document.getElementById("collaborator_public_profile")
       .checked,
+    url_link: url_link
   };
   if (document.getElementById("profile_picture_collaborator").files[0]) {
     await fetch(
@@ -383,7 +384,26 @@ async function saveTeacher(
   updateUserData(userData, "Teachers");
 }
 
-async function deleteContent(key) {
+function deleteContentDB(ID, table) {
+  fetch('/api/deleteContent',
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: ID,
+        table: table
+      })
+    }
+  ).then((response) => {
+    if (response.status === 500) {
+      showAlert("danger","An issue occurred while deleting");
+    }
+  });
+}
+
+async function deleteContentS3(key) {
   await fetch("/api/deleteAllContentsS3", {
     method: "POST",
     headers: {
@@ -398,105 +418,42 @@ async function deleteContent(key) {
     .catch((error) => {});
 }
 
+async function deleteContentByUserID(table) {
+  try {
+    const response = await fetch(`/api/getAllContents?table=${table}`);
+    const data = await response.json();
+    const items = data.Items;
+    const itemsToDelete = items.filter(item => item.user_id === userLoggedInID);
+    alert(JSON.stringify(itemsToDelete));
+    for (const item of itemsToDelete) {
+      alert("item id = " + item.ID);
+      await deleteContentDB(item.ID, table);
+    }
+  } catch (error) {
+    console.error('Error deleting content:', error);
+  }
+}
+
 async function deleteAccount() {
   if (userLoggedInRole == "Teacher") {
-    await deleteContent("Lessons");
-    await deleteContent("Culture");
-    await deleteContent("Events");
+    await deleteContentS3("Lessons");
+    await deleteContentByUserID('Lessons');
+    await deleteContentS3("Culture");
+    await deleteContentByUserID('Culture');
+    await deleteContentS3("Events");
+    await deleteContentByUserID('Events');
+    await deleteContentS3("Users");
+    await deleteContentDB(userLoggedInID, "Teachers");
   } else if (userLoggedInRole == "Collaborator") {
-    await deleteContent("Culture");
-    await deleteContent("Events");
+    await deleteContentS3("Culture");
+    await deleteContentByUserID('Culture');
+    await deleteContentS3("Events");
+    await deleteContentByUserID('Events');
+    await deleteContentS3("Users");
+    await deleteContentDB(userLoggedInID, "Collaborators");
+  } else if (userLoggedInRole == "Student") {
+    await deleteContentDB(userLoggedInID, "Students");
   }
-  await deleteContent("Users");
-}
-
-function successDeletion() {
-  showAlert("success", "Your account was removed sucessfully");
-  setTimeout(() => {
-    document.getElementById("handleUserMenuLink").style.display = "none";
-    document.getElementById("loginBtn").style.display = "block";
-    localStorage.setItem("isLoggedIn", false);
-    window.location.href = "/index.html";
-  }, 3000);
-}
-
-function errorDeletion() {
-  showAlert("danger", "An issue occurred while deleting the account");
-}
-
-async function deleteLessons() {
-  try {
-    const response = await fetch("/api/getAllContents?table=Lessons");
-    if (!response.ok) {
-      throw new Error("Failed to fetch lessons");
-    }
-    const data = await response.json();
-    data.Items.forEach(async (lesson) => {
-      if (lesson.teacher_id === userLoggedInID) {
-        const response = await fetch("/api/deleteLesson", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: lesson.ID,
-            teacher_id: userLoggedInID,
-            content_url: lesson.content_url.substring(
-              lesson.content_url.lastIndexOf("/") + 1
-            ),
-            image_url: lesson.image_url.substring(
-              lesson.image_url.lastIndexOf("/") + 1
-            ),
-          }),
-        });
-        return response.status === 200;
-      }
-    });
-  } catch (error) {
-    console.error("Error fetching:", error);
-  }
-}
-
-async function deleteCulturePosts() {
-  try {
-    const response = await fetch("/api/getAllContents?table=Culture");
-    if (!response.ok) {
-      throw new Error("Failed to fetch lessons");
-    }
-    const data = await response.json();
-    data.Items.forEach(async (post) => {
-      if (post.user_id === userLoggedInID) {
-        const response = await fetch("/api/deleteCulture", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: post.ID,
-            content_url: post.image.substring(post.image.lastIndexOf("/") + 1),
-          }),
-        });
-        return response.status === 200;
-      }
-    });
-  } catch (error) {
-    console.error("Error fetching:", error);
-  }
-}
-
-async function deleteUser() {
-  const response = await fetch(
-    `/api/deleteUser?id=${userLoggedInID}&role=${userLoggedInRole} + "s"`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  if (response.status !== 200) {
-    errorDeletion();
-  } else {
-    successDeletion();
-  }
+  await deleteContentDB(userLoggedInID, "Users");
+  logout();
 }

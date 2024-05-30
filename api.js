@@ -232,54 +232,6 @@ app.post("/api/updateUserData", (req, res) => {
   });
 });
 
-app.post("/api/updateProfileImage", multer().single("image"), (req, res) => {
-  const image = req.file;
-  if (!image) {
-    return res.status(400).send("No image");
-  }
-  const params = {
-    Bucket: "norskkulturklubb",
-    Key: "Users/" + req.body.key,
-    Body: image.buffer,
-    ACL: "public-read",
-  };
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.error("Error al subir la imagen a S3:", err);
-      return res.status(500).send("Error al subir la imagen a S3");
-    }
-    res.status(200).json({ imageUrl: data.Location });
-  });
-});
-
-app.post("/api/deleteUser", (req, res) => {
-  const params = {
-    TableName: "Users",
-    Key: {
-      ID: req.query.id,
-    },
-  };
-  dynamoDB.delete(params, (err, dataObjects) => {
-    if (err) {
-      res.status(500).send("Error deleting");
-    } else {
-      const params = {
-        TableName: req.query.role,
-        Key: {
-          ID: req.query.id,
-        },
-      };
-      dynamoDB.delete(params, (err, data) => {
-        if (err) {
-          res.status(500).send("Error deleting");
-        } else {
-          res.sendStatus(200);
-        }
-      });
-    }
-  });
-});
-
 app.post("/api/deleteFromS3", (req, res) => {
     const s3Params = {
       Bucket: "norskkulturklubb",
@@ -424,45 +376,6 @@ app.post("/api/updateContent", (req, res) => {
   });
 });
 
-app.post(
-  "/api/uploadFileLesson",
-  upload.fields([{ name: "file" }, { name: "image" }]),
-  (req, res) => {
-    if (!req.files || !req.files.file || !req.files.image) {
-      return res.status(400).send("No file or image uploaded");
-    }
-    const file = req.files.file[0];
-    const image = req.files.image[0];
-    const fileParams = {
-      Bucket: "norskkulturklubb",
-      Key: "Lessons/" + req.query.filename,
-      Body: file.buffer,
-      ACL: "public-read",
-    };
-    const imageParams = {
-      Bucket: "norskkulturklubb",
-      Key: "Lessons/" + req.query.image_filename,
-      Body: image.buffer,
-      ACL: "public-read",
-    };
-    s3.upload(fileParams, (err, fileData) => {
-      if (err) {
-        console.error("Error uploading file to S3:", err);
-        return res.status(500).send("Error uploading file to S3");
-      }
-      s3.upload(imageParams, (err, imageData) => {
-        if (err) {
-          console.error("Error uploading image to S3:", err);
-          return res.status(500).send("Error uploading image to S3");
-        }
-        res
-          .status(200)
-          .json({ fileUrl: fileData.Location, imageUrl: imageData.Location });
-      });
-    });
-  }
-);
-
 app.post("/api/uploadFile", upload.single("file"), (req, res) => {
   const file = req.file;
   const params = {
@@ -496,23 +409,6 @@ app.post("/api/uploadImage", upload.single("image"), (req, res) => {
     }
     console.log("imageurl:"+data.Location);
     res.status(200).json({ imageUrl: data.Location });
-  });
-});
-
-
-app.get("/api/getContent", (req, res) => {
-  const params = {
-    TableName: req.query.table,
-    Key: {
-      ID: req.query.id,
-    },
-  };
-  dynamoDB.get(params, (err, data) => {
-    if (err) {
-      res.status(500).send("Error in server");
-    } else {
-      res.json(data.Item);
-    }
   });
 });
 
@@ -553,102 +449,6 @@ app.get("/api/getMyContributions", (req, res) => {
   });
 });
 
-app.post("/api/deleteLesson", (req, res) => {
-  const params = {
-    TableName: "Lessons",
-    Key: {
-      ID: req.body.id,
-    },
-  };
-  dynamoDB.delete(params, (err, dataObjects) => {
-    if (err) {
-      res.status(500).send("Error deleting");
-    } else {
-      const s3Params = {
-        Bucket: "norskkulturklubb",
-        Key: "Lessons/" + req.body.teacher_id + "/" + req.body.content_url,
-      };
-      s3.deleteObject(s3Params, (errS3, data) => {
-        if (errS3) {
-          res.status(500).send("Error deleting from S3");
-        } else {
-          const s3ImageParams = {
-            Bucket: "norskkulturklubb",
-            Key: "Lesson/" + req.body.image_url,
-          };
-          s3.deleteObject(s3ImageParams, (errS3Image, data) => {
-            if (errS3Image) {
-              res.status(500).send("Error deleting from S3");
-            } else {
-              res.send("Objects were deleted");
-            }
-          });
-        }
-      });
-    }
-  });
-});
-
-app.post("/api/uploadEvent", (req, res) => {
-  const params = {
-    TableName: "Events",
-    Item: req.body,
-  };
-  dynamoDB.put(params, (err, data) => {
-    if (err) {
-      res.status(500).send("Error inserting");
-    } else {
-      res.status(200).json({ success: true });
-    }
-  });
-});
-
-app.post("/api/uploadPostImage", multer().single("file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded");
-  }
-  const params = {
-    Bucket: "norskkulturklubb",
-    Key: "Culture/" + req.query.filename,
-    Body: req.file.buffer,
-    ACL: "public-read",
-  };
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.error("Error al subir el fichero a S3:", err);
-      return res.status(500).send("Error al subir el fichero a S3");
-    }
-    res.status(200).json({ fileUrl: data.Location });
-  });
-});
-
-
-app.post("/api/deleteCulture", (req, res) => {
-  const params = {
-    TableName: "Culture",
-    Key: {
-      ID: req.body.id,
-    },
-  };
-  dynamoDB.delete(params, (err, dataObjects) => {
-    if (err) {
-      res.status(500).send("Error deleting");
-    } else {
-      const s3Params = {
-        Bucket: "norskkulturklubb",
-        Key: "Culture/" + req.body.content_url,
-      };
-      s3.deleteObject(s3Params, (errS3, data) => {
-        if (errS3) {
-          res.status(500).send("Error deleting from S3");
-        } else {
-          res.send("Objects were deleted");
-        }
-      });
-    }
-  });
-});
-
 app.post("/api/deleteContent", (req, res) => {
   const params = {
     TableName: req.body.table,
@@ -667,46 +467,31 @@ app.post("/api/deleteContent", (req, res) => {
 
 app.post("/api/deleteAllContentsS3", async (req, res) => {
   const prefix = `${req.body.key}/${req.body.url}/`;
-  console.log("Prefix: " + prefix);
-
   try {
-    // Listar todos los objetos con el prefijo especificado
     const listParams = {
       Bucket: "norskkulturklubb",
       Prefix: prefix,
     };
-
-    console.log(JSON.stringify(listParams));
-    
     let listedObjects;
     let deleteParams = {
       Bucket: "norskkulturklubb",
       Delete: { Objects: [] }
     };
-
     do {
       listedObjects = await s3.listObjectsV2(listParams).promise();
-
       if (listedObjects.Contents.length === 0 && deleteParams.Delete.Objects.length === 0) {
         return res.status(404).send("/api/deleteAllContentsS3: No content found");
       }
-
       listedObjects.Contents.forEach(({ Key }) => {
         deleteParams.Delete.Objects.push({ Key });
       });
-
-      // Continuar listando si hay más de 1000 objetos
       listParams.ContinuationToken = listedObjects.NextContinuationToken;
-
     } while (listedObjects.IsTruncated);
 
-    // Eliminar los objetos
     if (deleteParams.Delete.Objects.length > 0) {
       await s3.deleteObjects(deleteParams).promise();
     }
-
     res.status(200).send("/api/deleteAllContentsS3: Content deleted");
-
   } catch (errS3) {
     console.error("Error deleting objects from S3:", errS3);
     res.status(500).send("/api/deleteAllContentsS3: Error deleting from S3");
