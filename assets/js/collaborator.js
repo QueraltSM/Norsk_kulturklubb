@@ -1,5 +1,5 @@
 if (localStorage.getItem("isLoggedIn") == "false") {
-  window.location.href = "/Collaborators";
+  window.location.href = "/";
 }
 var url = new URL(window.location.href).pathname.split("/")[2];
 async function fetchData() {
@@ -9,6 +9,10 @@ async function fetchData() {
         throw new Error("Failed to get server response.");
       }
       const collaborator = await response.json();
+      if (!collaborator.public_profile) {
+        window.location.href = "/404.html";
+        return;
+      }
       const user = await getUser(collaborator.ID);
       document.getElementById("full_name").innerHTML = user.full_name;
       document.getElementById("collaborator_image").src =

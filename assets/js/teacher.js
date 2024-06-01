@@ -9,6 +9,10 @@ async function fetchData() {
         throw new Error("Failed to get server response.");
       }
       const teacher = await response.json();
+      if (!teacher.public_profile) {
+        window.location.href = "/404.html";
+        return;
+      }
       const user = await getUser(teacher.ID);
       document.getElementById("full_name").innerHTML = user.full_name;
       document.getElementById("teacher_image").src = teacher.profile_picture;
