@@ -71,9 +71,9 @@ function getInformationByRole() {
           document.getElementById("class_location").value = user.class_location;
         if (user.class_prices != undefined)
           document.getElementById("class_prices").value = user.class_prices;
-        if (user.contact_information != undefined)
-          document.getElementById("contact_information").value =
-            user.contact_information;
+        if (user.contact != undefined)
+          document.getElementById("teacher_contact").value =
+            user.contact;
         if (user.url_link !== undefined)
           document.getElementById("url_link_teacher").innerHTML = parseURL(
             user.url_link
@@ -163,9 +163,7 @@ async function updateProfile() {
     var about_classes = document.getElementById("about_classes").value;
     var class_location = document.getElementById("class_location").value;
     var class_prices = document.getElementById("class_prices").value;
-    var contact_information = document.getElementById(
-      "contact_information"
-    ).value;
+    var contact = document.getElementById("teacher_contact").value;
     var url_link = formatURL(
       document.getElementById("url_link_teacher").innerHTML
     );
@@ -183,7 +181,7 @@ async function updateProfile() {
         !about_classes ||
         !class_location ||
         !class_prices ||
-        !contact_information ||
+        !contact ||
         !about_me ||
         !city_residence ||
         !url_link
@@ -209,7 +207,7 @@ async function updateProfile() {
           about_classes,
           class_location,
           class_prices,
-          contact_information,
+          contact,
           url_link
         );
       }
@@ -223,7 +221,7 @@ async function updateProfile() {
         about_classes,
         class_location,
         class_prices,
-        contact_information,
+        contact,
         url_link
       );
     }
@@ -345,7 +343,7 @@ async function saveTeacher(
   about_classes,
   class_location,
   class_prices,
-  contact_information,
+  contact,
   url_link
 ) {
   localStorage.setItem("user_full_name", name);
@@ -354,7 +352,7 @@ async function saveTeacher(
     about_classes: about_classes,
     class_location: class_location,
     class_prices: class_prices,
-    contact_information: contact_information,
+    contact: contact,
     about_me: about_me,
     city_residence: city_residence,
     teaching_in_person: document.getElementById("teaching_in_person").checked,
@@ -385,7 +383,7 @@ async function saveTeacher(
 }
 
 function deleteContentDB(ID, table) {
-  fetch('/api/deleteContent',
+  fetch('/api/deleteContentDB',
     {
       method: "POST",
       headers: {
@@ -403,14 +401,14 @@ function deleteContentDB(ID, table) {
   });
 }
 
-async function deleteContentS3(key) {
+async function deleteContentS3(table) {
   await fetch("/api/deleteAllContentsS3", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      key: key,
+      key: table,
       url: userLoggedInID,
     }),
   })
@@ -424,9 +422,7 @@ async function deleteContentByUserID(table) {
     const data = await response.json();
     const items = data.Items;
     const itemsToDelete = items.filter(item => item.user_id === userLoggedInID);
-    alert(JSON.stringify(itemsToDelete));
     for (const item of itemsToDelete) {
-      alert("item id = " + item.ID);
       await deleteContentDB(item.ID, table);
     }
   } catch (error) {

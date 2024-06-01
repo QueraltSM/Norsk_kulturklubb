@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Norsk Kulturklubb · Translator</title>
+  <title>Translator · Oversetter</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -73,7 +73,7 @@
     </section>
     <form id="translationForm" class="needs-validation translator-form" novalidate style="width: 80%; margin: 0 auto;">
       <div class="form-row">
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <ul class="nav nav-tabs" id="languageTabs_totranslate" style="border:none">
             <li class="nav-item">
               <a class="nav-link active" id="automaticDetection" data-toggle="tab">Automatic detection</a>
@@ -81,14 +81,14 @@
           </ul>
           <div class="d-flex align-items-start" style="border: 0.5px solid lightgray;border-radius: 5px;margin-top:1px">
             <div class="d-flex align-items-start" style="width: 100%; position: relative;">
-              <textarea class="form-control auto-height-textarea" id="text" style="min-height: 300px; margin-right: 40px;" required></textarea>
+              <textarea class="form-control auto-height-textarea" spellcheck="false" id="text" style="min-height: 300px; margin-right: 40px;" required></textarea>
               <a title="Active keyboard" class="translator-buttons" type="button" id="activeKeyboard" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;margin: 10px;">
                 <i class="fas fa-keyboard" style="font-size: 15px;"></i>
               </a>
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <ul class="nav nav-tabs" id="languageTabs_translated" style="border:none">
             <li class="nav-item">
               <a class="nav-link active" id="norweigan_tab" data-toggle="tab" href="#norwegianText">Norsk</a>
@@ -130,7 +130,7 @@
           </ul>
           <div class="form-group d-flex flex-column-reverse" style="border: none;margin-top: 1px;">
             <div class="d-flex align-items-start" style="background-color: #f5f5f5; width: 100%; position: relative;">
-              <textarea class="form-control auto-height-textarea" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
+              <textarea class="form-control auto-height-textarea" spellcheck="false" id="translated_text" style="min-height: 300px; margin-top: 1px; background-color: #f5f5f5;" readonly></textarea>
               <a title="Copy text" class="translator-buttons" type="button" id="copyButton" style="color:#9C3030; position: absolute; bottom: 0; right: 0;padding:10px;margin: 10px;">
                 <i class="fas fa-copy" style="font-size: 15px;"></i>
               </a>

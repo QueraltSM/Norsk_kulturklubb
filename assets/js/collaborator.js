@@ -13,7 +13,7 @@ async function fetchData() {
       document.getElementById("full_name").innerHTML = user.full_name;
       document.getElementById("collaborator_image").src =
         collaborator.profile_picture;
-      document.getElementById("contact_information").innerHTML =
+      document.getElementById("contact").innerHTML =
         collaborator.contact;
       document.getElementById("about_me").innerHTML = collaborator.about_me;
     })

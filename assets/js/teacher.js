@@ -18,8 +18,8 @@ async function fetchData() {
         teacher.class_location;
       document.getElementById("teacher_prices").innerHTML =
         teacher.class_prices;
-      document.getElementById("contact_information").innerHTML =
-        teacher.contact_information;
+      document.getElementById("contact").innerHTML =
+        teacher.contact;
       document.getElementById("about_me").innerHTML = teacher.about_me;
       var teaching = "";
       if (teacher.teaching_in_person && teacher.teaching_online) {

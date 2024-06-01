@@ -131,20 +131,26 @@ app.post("/api/insertUser", (req, res) => {
       if (data.Items.length > 0) {
         res.status(409).send("The user already exists in the database");
       } else {
-        insert("Users", user, res);
+        const params = {
+          TableName: "Users",
+          Item: user,
+        };
+        dynamoDB.put(params, (err, data) => {
+          if (err) {
+            res.status(500).send("Error inserting");
+          } else {
+            res.send("Row was inserted");
+          }
+        });
       }
     }
   });
 });
 
-app.post("/api/insertUserDataToServer", (req, res) => {
-  insert(req.body.table, req.body.userData, res);
-});
-
-function insert(table, data, res) {
+app.post("/api/insertUserDB", (req, res) => {
   const params = {
-    TableName: table,
-    Item: data,
+    TableName: req.body.table,
+    Item: req.body.userData,
   };
   dynamoDB.put(params, (err, data) => {
     if (err) {
@@ -153,7 +159,7 @@ function insert(table, data, res) {
       res.send("Row was inserted");
     }
   });
-}
+});
 
 app.post("/api/updateUserData", (req, res) => {
   const userID = req.query.id;
@@ -188,12 +194,12 @@ app.post("/api/updateUserData", (req, res) => {
     }
   } else if (tableName === "Teachers") {
     updateExpression =
-      "set about_classes = :about_classes, about_me = :about_me, class_location = :class_location, class_prices = :class_prices, contact_information = :contact_information, city_residence = :city_residence, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
+      "set about_classes = :about_classes, about_me = :about_me, class_location = :class_location, class_prices = :class_prices, contact = :contact, city_residence = :city_residence, teaching_in_person = :teaching_in_person, teaching_online = :teaching_online, url_link = :url_link, public_profile = :public_profile";
     expressionAttributeValues = {
       ":about_classes": userData.about_classes,
       ":class_location": userData.class_location,
       ":class_prices": userData.class_prices,
-      ":contact_information": userData.contact_information,
+      ":contact": userData.contact,
       ":about_me": userData.about_me,
       ":city_residence": userData.city_residence,
       ":teaching_in_person": userData.teaching_in_person,
@@ -449,7 +455,7 @@ app.get("/api/getMyContributions", (req, res) => {
   });
 });
 
-app.post("/api/deleteContent", (req, res) => {
+app.post("/api/deleteContentDB", (req, res) => {
   const params = {
     TableName: req.body.table,
     Key: {
@@ -458,9 +464,9 @@ app.post("/api/deleteContent", (req, res) => {
   };
   dynamoDB.delete(params, (err, dataObjects) => {
     if (err) {
-      res.status(500).send("/api/deleteContent: Error deleting");
+      res.status(500).send("/api/deleteContentDB: Error deleting");
     } else {
-      res.status(200).send("/api/deleteContent: Row deleted");
+      res.status(200).send("/api/deleteContentDB: Row deleted");
     }
   });
 });
@@ -498,16 +504,16 @@ app.post("/api/deleteAllContentsS3", async (req, res) => {
   }
 });
 
-app.post("/api/deleteContentS3", (req, res) => {
+app.post("/api/deleteContentDBS3", (req, res) => {
   const s3Params = {
     Bucket: "norskkulturklubb",
     Key: req.body.key + "/" + req.body.url,
   };
   s3.deleteObject(s3Params, (errS3, data) => {
     if (errS3) {
-      res.status(500).send("/api/deleteContentS3: Error deleting from S3");
+      res.status(500).send("/api/deleteContentDBS3: Error deleting from S3");
     } else {
-      res.status(200).send("/api/deleteContentS3: Content deleted");
+      res.status(200).send("/api/deleteContentDBS3: Content deleted");
     }
   });
 });

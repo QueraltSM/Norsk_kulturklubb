@@ -68,7 +68,7 @@ function signup() {
             user.about_classes = "";
             user.class_location = "";
             user.class_prices = "";
-            user.contact_information = "";
+            user.contact = "";
             user.profile_picture = "";
             user.url_link = "";
           } else if (selectedRole.value == "Students") {
@@ -81,7 +81,7 @@ function signup() {
             user.profile_picture = "";
             user.url_link = "";
           }
-          insertUserDataToServer(user, selectedRole.value);
+          insertUserDB(user, selectedRole.value);
         } else if (response.status === 500) {
           showAlert(
             "danger",
@@ -102,12 +102,12 @@ function signup() {
   }
 }
 
-function insertUserDataToServer(userData, table) {
+function insertUserDB(userData, table) {
   var request = {
     userData: userData,
     table: table,
   };
-  fetch("/api/insertUserDataToServer", {
+  fetch("/api/insertUserDB", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

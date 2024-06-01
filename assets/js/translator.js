@@ -270,7 +270,7 @@ function translateText() {
   )
     .then((response) => {
       if (!response.ok) {
-        throw new Error("No se pudo realizar la solicitud al servidor");
+        throw new Error("Could not make request to server");
       }
       return response.json();
     })
