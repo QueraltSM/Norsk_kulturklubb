@@ -57,7 +57,7 @@ function getInformationByRole() {
         if (user.about_me != undefined)
           document.getElementById("teacher_about_me").innerHTML = user.about_me;
         if (user.about_classes != undefined)
-          document.getElementById("about_classes").value = user.about_classes;
+          document.getElementById("about_classes").innerHTML = user.about_classes;
         if (user.city_residence != undefined)
           document.getElementById("city_residence").innerHTML =
             user.city_residence;
@@ -68,11 +68,11 @@ function getInformationByRole() {
           document.getElementById("teaching_online").checked =
             user.teaching_online;
         if (user.class_location != undefined)
-          document.getElementById("class_location").value = user.class_location;
+          document.getElementById("class_location").innerHTML = user.class_location;
         if (user.class_prices != undefined)
-          document.getElementById("class_prices").value = user.class_prices;
+          document.getElementById("class_prices").innerHTML = user.class_prices;
         if (user.contact != undefined)
-          document.getElementById("teacher_contact").value =
+          document.getElementById("teacher_contact").innerHTML =
             user.contact;
         if (user.url_link !== undefined)
           document.getElementById("url_link_teacher").innerHTML = parseURL(
@@ -160,10 +160,10 @@ async function updateProfile() {
     var password = document.getElementById("teacher_password").innerHTML.trim();
     var about_me = document.getElementById("teacher_about_me").innerHTML;
     var city_residence = document.getElementById("city_residence").innerHTML;
-    var about_classes = document.getElementById("about_classes").value;
-    var class_location = document.getElementById("class_location").value;
-    var class_prices = document.getElementById("class_prices").value;
-    var contact = document.getElementById("teacher_contact").value;
+    var about_classes = document.getElementById("about_classes").innerHTML;
+    var class_location = document.getElementById("class_location").innerHTML;
+    var class_prices = document.getElementById("class_prices").innerHTML;
+    var contact = document.getElementById("teacher_contact").innerHTML;
     var url_link = formatURL(
       document.getElementById("url_link_teacher").innerHTML
     );
@@ -231,7 +231,7 @@ async function updateProfile() {
     var password = document.getElementById("student_password").innerHTML.trim();
     var hobbies_and_interests = document
       .getElementById("student_hobbies_and_interests")
-      .value.trim();
+      .innerHTML.trim();
     var language_level = document.getElementById(
       "student_language_level"
     ).value;
@@ -246,7 +246,7 @@ async function updateProfile() {
     var password = document.getElementById("collaborator_password").innerHTML.trim();
     var about_me = document
       .getElementById("collaborator_about_me")
-      .value.trim();
+      .innerHTML.trim();
     var contact = document
       .getElementById("collaborator_contact")
       .innerHTML.trim();

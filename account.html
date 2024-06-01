@@ -93,18 +93,17 @@
 
               <h3>Interests and hobbies</h3>
               <span class="label-box"
-                >Tell us about your interests and hobbies! What are you
-                passionate about? What activities do you enjoy in your free
+                >What activities do you enjoy in your free
                 time? Sharing your interests and hobbies helps us get to know
                 you better</span
               >
-              <textarea
+              <p
+              spellcheck="false"
                 contenteditable="true"
                 id="student_hobbies_and_interests"
                 class="editable-box"
-                style="width: 100%; min-height: 300px"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+              ></p>
 
               <h3>Language level</h3>
               <span class="label-box"
@@ -192,14 +191,14 @@
 
               <h3>About me</h3>
               <span class="label-box"
-                >Short description that will be visible when students search for
-                teachers (max. 150 characteres)</span
+                >Short description that will be visible when students search for you</span
               >
               <p
                 contenteditable="true"
                 id="teacher_about_me"
                 class="editable-box"
-                style="width: 100%; min-height: 100px"
+                style="width: 100%;"
+                spellcheck="false"
                 onpaste="cleanPaste(event, this)"
               ></p>
 
@@ -208,13 +207,14 @@
                 >Information about your classes, including what students will
                 learn and any requirements</span
               >
-              <textarea
+              <p
                 contenteditable="true"
                 id="about_classes"
                 class="editable-box"
-                style="width: 100%; min-height: 300px"
+                spellcheck="false"
+                style="width: 100%;"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+              ></p>
 
               <h3>City of residence</h3>
               <span class="label-box">Location where you reside</span>
@@ -223,6 +223,7 @@
                 id="city_residence"
                 class="editable-box"
                 style="width: 100%"
+                spellcheck="false"
                 onpaste="cleanPaste(event, this)"
               ></p>
 
@@ -231,13 +232,14 @@
                 >Location where your classes take place, including any
                 facilities available</span
               >
-              <textarea
+              <p
                 contenteditable="true"
                 id="class_location"
                 class="editable-box"
-                style="width: 100%; min-height: 100px"
+                spellcheck="false"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+              ></p>
+
               <div class="row">
                 <div class="col">
                   <div
@@ -271,27 +273,27 @@
                 >The prices of your classes, including any discounts or special
                 offers</span
               >
-              <textarea
+              <p
                 contenteditable="true"
                 id="class_prices"
+                spellcheck="false"
                 class="editable-box"
-                style="width: 100%; min-height: 100px; overflow-y: auto"
                 wrap="off"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+              ></p>
 
               <h3>Contact information</h3>
               <span class="label-box"
                 >How students can contact you, including email, phone number, or
                 social media profiles</span
               >
-              <textarea
+              <p
                 contenteditable="true"
                 id="teacher_contact"
+                spellcheck="false"
                 class="editable-box"
-                style="width: 100%; min-height: 100px"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+              ></p>
 
               <h3>URL profile</h3>
               <span class="label-box"
@@ -302,6 +304,7 @@
                 contenteditable="true"
                 id="url_link_teacher"
                 class="editable-box"
+                spellcheck="false"
                 onpaste="cleanPaste(event, this)"
               ></p>
 
@@ -382,15 +385,16 @@
 
               <h3>About me</h3>
               <span class="label-box"
-                >Introduce yourself briefly (max 300 chars)</span
+                >Introduce yourself briefly</span
               >
-              <textarea
+              <p
                 contenteditable="true"
                 id="collaborator_about_me"
                 class="editable-box"
                 style="width: 100%"
                 onpaste="cleanPaste(event, this)"
-              ></textarea>
+                spellcheck="false"
+              ></p>
 
               <h3>Contact</h3>
               <span class="label-box"
