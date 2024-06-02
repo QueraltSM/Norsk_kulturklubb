@@ -57,14 +57,13 @@
                                         Word
                                     </h3>
                                     <span class="label-box">Edit the name of the word</span>
-                                    <p contenteditable="true" id="word_title" class="editable-box"></p>
+                                    <p contenteditable="true" id="word_title" class="editable-box" spellcheck="false"></p>
                                     <h3>
                                         Meaning
                                     </h3>
                                     <span class="label-box">Edit the description or definition of the entered
-                                        word (max. 300
-                                        characters)</span><br>
-                                    <p contenteditable="true" id="word_meaning" class="editable-box"></p>
+                                        word</span><br>
+                                    <p contenteditable="true" id="word_meaning" class="editable-box" spellcheck="false"></p>
                                     <h3>
                                         Date
                                     </h3>
@@ -88,7 +87,7 @@
                                     <input type="hidden" id="current_image_lessons" />
                                     <span class="label-box">Select other the image of the lesson (JPG, PNG)</span>
                                     <div class="text-center">
-                                        <img class="img-fluid" style="width: 400px; height: 260px" alt=""
+                                        <img class="img-fluid" style="width: 400px; height: 350px; object-fit: cover" alt=""
                                             id="content_image_lessons" />
                                     </div>
                                     <div class="text-center mt-3">
@@ -99,19 +98,18 @@
 
                                     <h3>Title</h3>
                                     <span class="label-box">Edit the title of the lesson (max. 100 characters)</span>
-                                    <p contenteditable="true" id="lesson_title" class="editable-box"
+                                    <p contenteditable="true" id="lesson_title" class="editable-box" spellcheck="false"
                                         onpaste="cleanPaste(event, this)"></p>
                                     <h3>Description</h3>
                                     <span class="label-box">Edit the short description of the lesson</span>
-                                    <p contenteditable="true" id="lesson_short_description" class="editable-box"
+                                    <p contenteditable="true" id="lesson_short_description" class="editable-box" spellcheck="false"
                                         onpaste="cleanPaste(event, this)"></p>
                                     <h3>
                                         Theoretical lesson
                                     </h3>
                                     <span class="label-box">For the theoretical part of the lesson, edit its content.
                                         You can also embed HTML code.</span><br>
-                                    <textarea contenteditable="true" id="lesson_description" class="editable-box"
-                                        style="overflow: auto; min-height: 400px;"></textarea>
+                                    <p contenteditable="true" id="lesson_description" class="editable-box" spellcheck="false"></p>
 
                                     <h3>Practical lesson</h3>
 

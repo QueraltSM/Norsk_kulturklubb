@@ -279,7 +279,7 @@ async function manage_action(url_link, table, action) {
 }
 
 function deleteContentS3(url, key) {
-  fetch('/api/deleteContentDBS3',
+  fetch('/api/deleteContentS3',
     {
       method: "POST",
       headers: {

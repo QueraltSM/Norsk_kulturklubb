@@ -305,7 +305,6 @@ app.post("/api/uploadContent", (req, res) => {
   });
 });
 
-
 app.post("/api/updateContent", (req, res) => {
   const params = {
     TableName: req.query.table,
@@ -504,16 +503,16 @@ app.post("/api/deleteAllContentsS3", async (req, res) => {
   }
 });
 
-app.post("/api/deleteContentDBS3", (req, res) => {
+app.post("/api/deleteContentS3", (req, res) => {
   const s3Params = {
     Bucket: "norskkulturklubb",
     Key: req.body.key + "/" + req.body.url,
   };
   s3.deleteObject(s3Params, (errS3, data) => {
     if (errS3) {
-      res.status(500).send("/api/deleteContentDBS3: Error deleting from S3");
+      res.status(500).send("/api/deleteContentS3: Error deleting from S3");
     } else {
-      res.status(200).send("/api/deleteContentDBS3: Content deleted");
+      res.status(200).send("/api/deleteContentS3: Content deleted");
     }
   });
 });

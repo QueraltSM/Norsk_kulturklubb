@@ -10,12 +10,7 @@ if (localStorage.getItem("isLoggedIn")) {
 
   function clearSearch() {
     document.getElementById("searchInput").value = "";
-    document.getElementById("A1-Nybegynner").style.display = "none";
-    document.getElementById("A2-Grunnleggende").style.display = "none";
-    document.getElementById("B1-Mellomnivå").style.display = "none";
-    document.getElementById("B2-Øvet").style.display = "none";
-    document.getElementById("C1-Avansert").style.display = "none";
-    document.getElementById("C2-Mester").style.display = "none";
+    performSearch();
   }
 
   function performSearch() {
@@ -24,7 +19,7 @@ if (localStorage.getItem("isLoggedIn")) {
       .value.toLowerCase();
     const lessons = document
       .getElementById("accordion-content")
-      .querySelectorAll(".col-6");
+      .querySelectorAll(".col-4");
     lessons.forEach(function (card) {
       const title = card
         .querySelector(".lesson-content h3")
@@ -40,12 +35,6 @@ if (localStorage.getItem("isLoggedIn")) {
         card.style.display = "none";
       }
     });
-    document.getElementById("A1-Nybegynner").style.display = "block";
-    document.getElementById("A2-Grunnleggende").style.display = "block";
-    document.getElementById("B1-Mellomnivå").style.display = "block";
-    document.getElementById("B2-Øvet").style.display = "block";
-    document.getElementById("C1-Avansert").style.display = "block";
-    document.getElementById("C2-Mester").style.display = "block";
   }
 
   async function fetchData() {
@@ -84,7 +73,8 @@ if (localStorage.getItem("isLoggedIn")) {
                 </div>
               </a>
             </div>`;
-            document.getElementById(lesson.language_level).innerHTML += lessonHTML;
+            document.getElementById(lesson.language_level).innerHTML +=
+              lessonHTML;
           }
         } catch (error) {
           console.error("Error fetching user data:", error);

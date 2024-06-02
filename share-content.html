@@ -58,10 +58,10 @@
                 </div>
                 <div id="share-content-div" style="display:none">
                     <ul id="contributions-flters" class="d-flex justify-content-center" data-aos-delay="100">
-                        <li id="li_word_of_the_day" data-filter=".words" style="display: none;">Word of the day</li>
-                        <li id="li_lesson" data-filter=".lessons" style="display: none;">Norsk lesson</li>
-                        <li id="li_post" data-filter=".posts" style="display: none;">Culture post</li>
-                        <li id="li_event" data-filter=".events" style="display: none;">Virtual event</li>
+                        <li id="li_word_of_the_day" data-filter=".words" style="display: none;">Words</li>
+                        <li id="li_lesson" data-filter=".lessons" style="display: none;">Lessons</li>
+                        <li id="li_post" data-filter=".posts" style="display: none;">Posts</li>
+                        <li id="li_event" data-filter=".events" style="display: none;">Events</li>
                     </ul>
                     <div class="row contributions-container">
                         <div class="col-lg-12 contributions-item words" id="div_word" style="display: none;">
@@ -78,6 +78,7 @@
                                         </h3>
                                         <span class="label-box">Write the name of the word in Norwegian</span>
                                         <p contenteditable="true" id="word_title" class="editable-box"
+                                        spellcheck="false"
                                             onpaste="cleanPaste(event, this)"></p>
 
                                         <h3>
@@ -86,7 +87,7 @@
                                         <span class="label-box">Write the description or definition of the
                                             entered</span><br>
                                         <p contenteditable="true" id="word_meaning" class="editable-box"
-                                            style="overflow: auto; min-height: 100px;"
+                                        spellcheck="false"
                                             onpaste="cleanPaste(event, this)"></p>
 
                                         <h3>
@@ -122,20 +123,19 @@
                                         </h3>
                                         <span class="label-box">Write the title of the lesson</span>
                                         <p contenteditable="true" id="lesson_title" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                         <h3>Description</h3>
                                         <span class="label-box">Write a short description of the lesson</span>
                                         <p contenteditable="true" id="lesson_short_description" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                         <h3>
                                             Theoretical lesson
                                         </h3>
                                         <span class="label-box">For the theoretical part of the lesson, write its
                                             content. You can also embed HTML code</span><br>
-                                        <textarea contenteditable="true" id="lesson_description" class="editable-box"
-                                            style="overflow: auto; width: 100%; min-height: 400px;"></textarea>
+                                        <p contenteditable="true" id="lesson_description" class="editable-box" spellcheck="false"></p>
 
                                         <h3>Practical lesson</h3>
                                         <span class="label-box">For the practical part of the lesson, select a file
@@ -171,7 +171,7 @@
                                         <span class="label-box">You can set the link that identifies your lesson
                                             (visible in the URL)</span>
                                         <p contenteditable="true" id="lesson_url_link" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@ async function updateLesson() {
   var short_description = document
     .getElementById("lesson_short_description")
     .innerHTML.trim();
-  var description = document.getElementById("lesson_description").value.trim();
+  var description = document.getElementById("lesson_description").innerHTML.trim();
   var language_level = document.getElementById("lesson_language_level").value;
   var url_link = formatURL(document.getElementById("lesson_url_link").value);
   if (
