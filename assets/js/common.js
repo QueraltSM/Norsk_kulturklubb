@@ -219,18 +219,17 @@ function formatURL(url) {
     .replace(/-{2,}/g, "-");
 }
 
-function noPosts() {
+function noData(message) {
   return `<div style="text-align: center;">
   <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;"><br>
-  <span style="color:#9C3030; font-size: 15px;">There is nothing published at the moment <i class="bi bi-emoji-frown"></i></span>
+  <span style="color:#9C3030; font-size: 15px;font-weight:bold;">`+message+`</span>
   </div>`;
 }
 
-function noChats() {
-  return `<div style="text-align: center;">
-  <img src="/assets/img/not-found.png" alt="No data found" style="width:300px;padding-bottom:10px;"><br>
-  <span style="color:#9C3030; font-size: 15px;">There is no started conversations <i class="bi bi-emoji-frown"></i></span>
-  </div>`;
+function autoResize(id) {
+  var textarea = document.getElementById(id);
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
 }
 
 function parseURL(url) {

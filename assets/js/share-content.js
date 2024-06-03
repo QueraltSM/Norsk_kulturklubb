@@ -100,7 +100,7 @@ async function publishLesson() {
   var short_description = document
     .getElementById("lesson_short_description")
     .innerHTML.trim();
-  var description = document.getElementById("lesson_description").innerHTML.trim();
+  var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
   var lesson_content_url =
     document.getElementById("lesson_content_url").files[0];

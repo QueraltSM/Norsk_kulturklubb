@@ -66,7 +66,7 @@ async function fetchWords() {
     let words = data.Items || [];
 
     if (words.length === 0) {
-      words_container.innerHTML = noPosts();
+      words_container.innerHTML = noData("There is no word published at the moment");
 
     } else {
     words.sort((a, b) => {
@@ -118,7 +118,7 @@ async function fetchLessons() {
     const data = await response.json();
     let lessons = data.Items || [];
     if (lessons.length === 0) {
-      lessons_container.innerHTML = noPosts();
+      lessons_container.innerHTML = noData("There is no lesson published at the moment");
     } else {
       lessons.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -173,7 +173,7 @@ async function fetchCulture() {
     const data = await response.json();
     let posts = data.Items || [];
     if (posts.length === 0) {
-      posts_container.innerHTML = noPosts();
+      posts_container.innerHTML = noData("There is no post published at the moment");
     } else {
       posts.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -225,7 +225,7 @@ async function fetchEvents() {
     const data = await response.json();
     let events = data.Items || [];
     if (events.length === 0) {
-      events_container.innerHTML = noPosts();
+      events_container.innerHTML = noData("There is no virtual event published at the moment");
     } else {
       events.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));

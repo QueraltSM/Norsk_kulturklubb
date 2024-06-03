@@ -8,7 +8,7 @@ async function updateLesson() {
   var short_description = document
     .getElementById("lesson_short_description")
     .innerHTML.trim();
-  var description = document.getElementById("lesson_description").innerHTML.trim();
+  var description = document.getElementById("lesson_description").value.trim();
   var language_level = document.getElementById("lesson_language_level").value;
   var url_link = formatURL(document.getElementById("lesson_url_link").value);
   if (
@@ -208,8 +208,8 @@ async function fetchData() {
       document.getElementById("lesson_title").innerHTML = data.title;
       document.getElementById("lesson_short_description").innerHTML =
         data.short_description;
-      document.getElementById("lesson_description").innerHTML =
-        data.description;
+      document.getElementById("lesson_description").innerHTML = data.description;
+      autoResize('lesson_description');
       document.getElementById("lesson_language_level").value = data.language_level;
       document.getElementById("lesson_url_link").value = parseURL(data.url_link);
       document.getElementById("current_practice").href = data.content_url;

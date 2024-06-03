@@ -17,6 +17,7 @@ if (localStorage.getItem("isLoggedIn")) {
         throw new Error("No response could be obtained from the server");
       }
       const data = await response.json();
+      var entered = false;
       data.Items.forEach(async (teacher, index) => {
         var teaching_matches = false;
         if (
@@ -39,6 +40,7 @@ if (localStorage.getItem("isLoggedIn")) {
           (filter == "none" || teaching_matches) &&
           searchTermContains
         ) {
+          entered = true;
           const teacherDiv = document.createElement("div");
           teacherDiv.classList.add("col-lg-4");
           const teacherName = await get_teacher_name(teacher.ID);
@@ -65,6 +67,9 @@ if (localStorage.getItem("isLoggedIn")) {
           teachersContainer.appendChild(teacherDiv);
         }
       });
+      if (!entered) {
+        teachersContainer.innerHTML = noData("There are no teachers with public profiles in the system");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       document.getElementById("teacherData").textContent =

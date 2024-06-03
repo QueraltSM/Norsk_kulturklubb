@@ -140,7 +140,7 @@ async function fetchData() {
       }
     }
     if (!entered) {
-      cultureEntries.innerHTML = noPosts();
+      cultureEntries.innerHTML = noData("There is no post published at the moment");
     } else {
       document.getElementById("search_container").style.display = "block";
       document.getElementById("categories_container").style.display = "block";

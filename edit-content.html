@@ -97,7 +97,7 @@
                                     </div>
 
                                     <h3>Title</h3>
-                                    <span class="label-box">Edit the title of the lesson (max. 100 characters)</span>
+                                    <span class="label-box">Edit the title of the lesson</span>
                                     <p contenteditable="true" id="lesson_title" class="editable-box" spellcheck="false"
                                         onpaste="cleanPaste(event, this)"></p>
                                     <h3>Description</h3>
@@ -109,7 +109,7 @@
                                     </h3>
                                     <span class="label-box">For the theoretical part of the lesson, edit its content.
                                         You can also embed HTML code.</span><br>
-                                    <p contenteditable="true" id="lesson_description" class="editable-box" spellcheck="false"></p>
+                                    <textarea id="lesson_description" class="editable-box" spellcheck="false"  oninput="autoResize('lesson_description')"></textarea>
 
                                     <h3>Practical lesson</h3>
 
@@ -425,6 +425,7 @@
         $(document).ready(function () {
             $("#header").load("/header.html");
         });
+
     </script>
     <script src="/assets/js/common.js"></script>
     <script src="/assets/js/edit-content.js"></script>
