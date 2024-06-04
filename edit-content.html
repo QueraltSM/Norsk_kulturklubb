@@ -347,7 +347,7 @@
                                     <span class="label-box">Edit the image of the event (JPG, PNG)</span><br>
                                     <div class="text-center">
                                         <img id="content_image_events" class="img-fluid"
-                                            style="width: 350px; height: 350px;"><br><br>
+                                        style="width: 400px; height: 350px; object-fit: cover"><br><br>
                                         <label for="event_image" class="btn btn-sm">Edit Image</label>
                                         <input type="file" id="event_image" accept="image/jpeg,image/png"
                                             contenteditable="true" class="d-none"
@@ -357,21 +357,20 @@
                                         Title
                                     </h3>
                                     <span class="label-box">Edit the title of the event</span>
-                                    <p contenteditable="true" id="event_title" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="event_title" class="editable-box" onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                     <h3>
                                         Description
                                     </h3>
                                     <span class="label-box">Edit the description of the event</span><br>
-                                    <textarea contenteditable="true" id="event_description"
-                                        class="editable-box" onpaste="cleanPaste(event, this)"></textarea>
-
+                                        <textarea id="event_description" class="editable-box" spellcheck="false" oninput="autoResize('event_description')"></textarea>
+               
                                     <h3>
                                         Platform URL
                                     </h3>
                                     <span class="label-box">Edit the URL of the platform where the event will take place
                                         (e.g., YouTube, Zoom, Google Meet, etc)</span><br>
-                                    <p contenteditable="true" id="event_platform_url" class="editable-box" onpaste="cleanPaste(event, this)"></p>
+                                    <p contenteditable="true" id="event_platform_url" class="editable-box" onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                     <h3>
                                         Date

@@ -412,15 +412,15 @@
                                         </h3>
                                         <span class="label-box">Enter the title of the event</span>
                                         <p contenteditable="true" id="title_event" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"  ></p>
 
                                         <h3>
                                             Description
                                         </h3>
                                         <span class="label-box">Provide a description of the event</span><br>
-                                        <textarea contenteditable="true" id="event_description"
-                                            style="overflow: auto; min-height: 100px;" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></textarea>
+
+                                            <textarea id="event_description" class="editable-box" spellcheck="false"  oninput="autoResize('event_description')"></textarea>
+
 
                                         <h3>
                                             Platform URL
@@ -428,7 +428,7 @@
                                         <span class="label-box">Enter the URL of the platform where the event will take
                                             place (e.g., YouTube, Zoom, Google Meet, etc)</span><br>
                                         <p contenteditable="true" id="event_platform_url" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"  ></p>
 
                                         <h3>
                                             Date
@@ -461,7 +461,7 @@
                                         <span class="label-box">You can set the link that identifies your event (visible
                                             in the URL)</span>
                                         <p contenteditable="true" id="event_url_link" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"  ></p>
 
                                     </div>
 

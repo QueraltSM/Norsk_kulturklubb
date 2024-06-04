@@ -51,63 +51,72 @@ if (localStorage.getItem("isLoggedIn")) {
       .classList.remove("select-categories-selected");
     fetchData("none", "");
   }
-  async function fetchData(filter, searchTerm) {
+
+async function fetchData(filter, searchTerm) {
     eventsContainer.innerHTML = "";
     try {
-      const response = await fetch("/api/getAllContents?table=Events");
-      if (!response.ok) {
-        throw new Error("No response could be obtained from the server");
-      }
-      const data = await response.json();
-      const parseDate = (dateString) => {
-        const [datePart, timePart] = dateString.split(" ");
-        const [day, month, year] = datePart.split("/").map(Number);
-        const [hours, minutes] = timePart.split(":").map(Number);
-        return new Date(year, month - 1, day, hours, minutes);
-      };
-      data.Items.sort(
-        (a, b) => parseDate(b.celebration_date) - parseDate(a.celebration_date)
-      );
-      data.Items.forEach(async (event, index) => {
-        var event_matches = false;
-        if (
-          (filter === "class" && event.category == "Class") ||
-          (filter === "workshop" && event.category == "Workshop") ||
-          (filter === "talk" && event.category == "Talk") ||
-          (filter === "pronunciation" && event.category == "Pronunciation") ||
-          (filter === "cultural" && event.category == "Cultural")
-        ) {
-          event_matches = true;
+        const response = await fetch("/api/getAllContents?table=Events");
+        if (!response.ok) {
+            throw new Error("No response could be obtained from the server");
         }
-        const eventDiv = document.createElement("div");
-        const searchTermContains = Object.values(event).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm.toLowerCase())
+        const data = await response.json();
+        const parseDate = (dateString) => {
+            const [datePart, timePart] = dateString.split(" ");
+            const [day, month, year] = datePart.split("/").map(Number);
+            const [hours, minutes] = timePart.split(":").map(Number);
+            return new Date(year, month - 1, day, hours, minutes);
+        };
+        data.Items.sort(
+            (a, b) => parseDate(b.celebration_date) - parseDate(a.celebration_date)
         );
-        if ((filter == "none" || event_matches) && searchTermContains) {
-          eventDiv.classList.add("col-lg-4");
-          eventDiv.innerHTML = `
-          <a href="/Events/${event.url_link}" class="event-link">
-          <div class="event-card">
-          <div class="event-image-container">
-            <img src="${event.image_url}" class="img-fluid event-image">
-            <div class="event-overlay">
-                <h4 class="event-title"><strong>${event.title}</strong></h4>
-                <p class="event-p" style="color: #003657;">${formatEvent(
-                  event.celebration_date
-                )}</p>
-            </div>
-          </div>
-        </div></a>`;
-          eventsContainer.appendChild(eventDiv);
+        var entered = false;
+        for (const event of data.Items) {
+            var event_matches = false;
+            if (
+                (filter === "class" && event.category == "Class") ||
+                (filter === "workshop" && event.category == "Workshop") ||
+                (filter === "talk" && event.category == "Talk") ||
+                (filter === "pronunciation" && event.category == "Pronunciation") ||
+                (filter === "cultural" && event.category == "Cultural")
+            ) {
+                event_matches = true;
+            }
+            const searchTermContains = Object.values(event).some(
+                (value) =>
+                    typeof value === "string" &&
+                    value.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            if ((filter == "none" || event_matches) && searchTermContains) {
+                const user = await getUser(event.user_id);
+                if (user.public_profile) {
+                    entered = true;
+                    const eventDiv = document.createElement("div");
+                    eventDiv.classList.add("col-lg-4");
+                    eventDiv.innerHTML = `
+                    <a href="/Events/${event.url_link}" class="event-link">
+                    <div class="event-card">
+                    <div class="event-image-container">
+                        <img src="${event.image_url}" class="img-fluid event-image">
+                        <div class="event-overlay">
+                            <h4 class="event-title"><strong>${event.title}</strong></h4>
+                            <p class="event-p" style="color: #003657;">${formatEvent(
+                                event.celebration_date
+                            )}</p>
+                        </div>
+                    </div>
+                    </div></a>`;
+                    eventsContainer.appendChild(eventDiv);
+                }
+            }
         }
-      });
+        if (!entered) {
+            eventsContainer.innerHTML = noData("There is no virtual event published at the moment");
+        }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      document.getElementById("eventData").textContent = "Error fetching data";
+        console.error("Error fetching data:", error);
+        document.getElementById("eventData").textContent = "Error fetching data";
     }
-  }
+}
 
   function filterByClassType(type) {
     document

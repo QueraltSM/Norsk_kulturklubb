@@ -247,7 +247,7 @@ async function fetchEvents() {
               .map(
                 (data) => `
                   <tr>
-                    <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong>&nbsp;(${data.celebration_date})</td>
+                    <td style='cursor:pointer;' onclick="manage_action('${data.url_link}', 'Culture', 'view')"><strong>${data.title}</strong>&nbsp;(${formatEvent(data.celebration_date)})</td>
                     <td>${data.category}</td> 
                     <td>${data.pubdate}</td> 
                     <td style="text-align: center;">
@@ -336,7 +336,6 @@ async function deleteContent() {
     }
   } else if (table == "Culture") {
     var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
-    alert(image_url);
     if (deleteContentS3(image_url, "Culture")) {
       deleteContentDB(data.ID, table);
     }
