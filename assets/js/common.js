@@ -79,7 +79,6 @@ function showAlert(alertType, message) {
 }
 
 function cleanPaste(event, element) {
-  alert("clean");
   event.preventDefault();
   var pastedText = (event.originalEvent || event).clipboardData.getData(
     "text/plain"

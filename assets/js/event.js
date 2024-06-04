@@ -16,7 +16,7 @@ async function fetchData() {
       document.getElementById("event_category").innerHTML = event.category;
       document.getElementById("event_title").innerHTML = event.title;
       const eventHTML = `<p class="event-description">${event.description}</p>
-          <p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Date <span class="event-description">${formatEvent(
+          <p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Posted on <span class="event-description">${formatEvent(
             event.celebration_date
           )}</span></p>
           <p class="event-p"><i class="bi bi-link" style="font-size: 13px;"></i>&nbsp; Link <span class="event-description">${
