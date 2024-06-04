@@ -169,14 +169,14 @@ searchContainer.innerHTML = `
 <div id="categories_container" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
 <h5 style="font-weight: bold;">Categories</h5>
 <div class="d-flex flex-wrap">
-  <span class="select-categories" onclick="toggleSubcategories('History and traditions','History and traditions')">History and traditions</span>
-  <span class="select-categories" onclick="toggleSubcategories('Art and literature','Art and literature')">Art and literature</span>
-  <span class="select-categories" onclick="toggleSubcategories('Nature and landscapes', 'Nature and landscapes')">Nature and landscapes</span>
-  <span class="select-categories" onclick="toggleSubcategories('Gastronomy','Gastronomy')">Gastronomy</span>
-  <span class="select-categories" onclick="toggleSubcategories('Lifestyle and society','Lifestyle and society')">Lifestyle and society</span>
-  <span class="select-categories" onclick="toggleSubcategories('Travel and tourism','Travel and tourism')">Travel and tourism</span>
-  <span class="select-categories" onclick="toggleSubcategories('Language and linguistics','Language and linguistics')">Language and linguistics</span>
-  <span class="select-categories" onclick="toggleSubcategories('Events and festivals','Events and festivals')">Events and festivals</span>
+  <span id="category-History and traditions" class="select-categories" onclick="toggleSubcategories('History and traditions','History and traditions')">History and traditions</span>
+  <span id="category-Art and literature" class="select-categories" onclick="toggleSubcategories('Art and literature','Art and literature')">Art and literature</span>
+  <span id="category-Nature and landscapes" class="select-categories" onclick="toggleSubcategories('Nature and landscapes', 'Nature and landscapes')">Nature and landscapes</span>
+  <span id="category-Gastronomy" class="select-categories" onclick="toggleSubcategories('Gastronomy','Gastronomy')">Gastronomy</span>
+  <span id="category-Lifestyle and society" class="select-categories" onclick="toggleSubcategories('Lifestyle and society','Lifestyle and society')">Lifestyle and society</span>
+  <span id="category-Travel and tourism" class="select-categories" onclick="toggleSubcategories('Travel and tourism','Travel and tourism')">Travel and tourism</span>
+  <span id="category-Language and linguistics" class="select-categories" onclick="toggleSubcategories('Language and linguistics','Language and linguistics')">Language and linguistics</span>
+  <span id="category-Events and festivals" class="select-categories" onclick="toggleSubcategories('Events and festivals','Events and festivals')">Events and festivals</span>
 </div>
 </div>
 <div id="subcategories" class="container mt-3" style="padding: 5px; border-radius: 5px;display:none">
@@ -185,60 +185,60 @@ searchContainer.innerHTML = `
 
 <!-- History and traditions -->
 <div class="blog-subcategories " id="History and traditions" style="display:none">
-  <span class="select-categories">Norwegian history</span>
-  <span class="select-categories">Mythology</span>
-  <span class="select-categories">Traditional festivals and celebrations</span>
-  <span class="select-categories">Customs and ceremonies</span>
+  <span id="subcategory-Norwegian history" class="select-categories">Norwegian history</span>
+  <span id="subcategory-Mythology" class="select-categories">Mythology</span>
+  <span id="subcategory-Traditional festivals and celebrations" class="select-categories">Traditional festivals and celebrations</span>
+  <span id="subcategory-Customs and ceremonies" class="select-categories">Customs and ceremonies</span>
 </div>
 
 <!-- Art and literature -->
 <div class="blog-subcategories" id="Art and literature" style="display:none">
-  <span class="select-categories">Norwegian literature</span>
-  <span class="select-categories">Norwegian art and artists</span>
-  <span class="select-categories">Traditional and modern music</span>
-  <span class="select-categories">Norwegian theater and cinema</span>
+  <span id="subcategory-Norwegian literature" class="select-categories">Norwegian literature</span>
+  <span id="subcategory-Norwegian art and artists" class="select-categories">Norwegian art and artists</span>
+  <span id="subcategory-Traditional and modern music" class="select-categories">Traditional and modern music</span>
+  <span id="subcategory-Norwegian theater and cinema" class="select-categories">Norwegian theater and cinema</span>
 </div>
 
 <!-- Nature and landscapes -->
 <div class="blog-subcategories" id="Nature and landscapes" style="display:none">
-  <span class="select-categories">Fjords and mountains</span>
-  <span class="select-categories">Norwegian fauna and flora</span>
-  <span class="select-categories">Outdoor sports and activities</span>
+  <span id="subcategory-Fjords and mountains" class="select-categories">Fjords and mountains</span>
+  <span id="subcategory-Norwegian fauna and flora" class="select-categories">Norwegian fauna and flora</span>
+  <span id="subcategory-Outdoor sports and activities" class="select-categories">Outdoor sports and activities</span>
 </div>
 
 <!-- Gastronomy -->
 <div class="blog-subcategories" id="Gastronomy" style="display:none">
-  <span class="select-categories">Traditional norwegian dishes</span>
-  <span class="select-categories">Local ingredients and recipes</span>
-  <span class="select-categories">Culinary customs and festivals</span>
+  <span id="subcategory-Traditional norwegian dishes" class="select-categories">Traditional norwegian dishes</span>
+  <span id="subcategory-Local ingredients and recipe" class="select-categories">Local ingredients and recipes</span>
+  <span id="subcategory-Culinary customs and festivals" class="select-categories">Culinary customs and festivals</span>
 </div>
 
 <!--Lifestyle and society-->
 <div class="blog-subcategories" id="Lifestyle and society" style="display:none">
-  <span class="select-categories">Norwegian cultural values</span>
-  <span class="select-categories">Scandinavian fashion and design</span>
-  <span class="select-categories">Daily life and modern traditions</span>
+  <span id="subcategory-Norwegian cultural values" class="select-categories">Norwegian cultural values</span>
+  <span id="subcategory-Scandinavian fashion and design" class="select-categories">Scandinavian fashion and design</span>
+  <span id="subcategory-Daily life and modern traditions" class="select-categories">Daily life and modern traditions</span>
 </div>
 
 <!-- Travel and tourism -->
 <div class="blog-subcategories" id="Travel and tourism" style="display:none">
-  <span class="select-categories">Tourist destinations in Norway</span>
-  <span class="select-categories">Travel tips for the country</span>
-  <span class="select-categories">Unique experiences and adventures</span>
+  <span id="subcategory-Tourist destinations in Norway" class="select-categories">Tourist destinations in Norway</span>
+  <span id="subcategory-Travel tips for the country" class="select-categories">Travel tips for the country</span>
+  <span id="subcategory-Unique experiences and adventures" class="select-categories">Unique experiences and adventures</span>
 </div>
 
 <!-- Language and linguistics -->
 <div class="blog-subcategories" id="Language and linguistics" style="display:none">
-  <span class="select-categories">Basic norwegian lessons</span>
-  <span class="select-categories">Common expressions and phrases</span>
-  <span class="select-categories">Dialects and regional variations</span>
+  <span id="subcategory-Basic norwegian lessons" class="select-categories">Basic norwegian lessons</span>
+  <span id="subcategory-Common expressions and phrases" class="select-categories">Common expressions and phrases</span>
+  <span id="subcategory-Dialects and regional variations" class="select-categories">Dialects and regional variations</span>
 </div>
 
 <!-- Events and festivals -->
 <div class="blog-subcategories" id="Events and festivals" style="display:none">
-  <span class="select-categories">Cultural and artistic events</span>
-  <span class="select-categories">Music and film festivals</span>
-  <span class="select-categories">Traditional fairs and markets</span>
+  <span id="subcategory-Cultural and artistic events" class="select-categories">Cultural and artistic events</span>
+  <span id="subcategory-Music and film festivals" class="select-categories">Music and film festivals</span>
+  <span id="subcategory-Traditional fairs and markets" class="select-categories">Traditional fairs and markets</span>
 </div>
 </div>
 </div>
@@ -288,10 +288,47 @@ function toggleSubcategories(category, title) {
         culture.forEach((entry) => {
           document.getElementById(entry.ID).style.display =
             entry.subcategory !== sub.textContent ? "none" : "block";
+            if (title == "History and traditions") {
+              document.getElementById("subcategory-Norwegian history").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Mythology").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Traditional festivals and celebrations").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Customs and ceremonies").classList.remove("select-categories-selected");
+            } else if (title=="Art and literature") {
+              document.getElementById("subcategory-Norwegian literature").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Norwegian art and artists").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Traditional and modern music").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Norwegian theater and cinema").classList.remove("select-categories-selected");
+            } else if (title=="Nature and landscapes") {
+              document.getElementById("subcategory-Fjords and mountains").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Norwegian fauna and flora").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Outdoor sports and activities").classList.remove("select-categories-selected");
+            }  else if (title=="Gastronomy") {
+              document.getElementById("subcategory-Traditional norwegian dishes").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Local ingredients and recipe").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Culinary customs and festivals").classList.remove("select-categories-selected");
+            } else if (title=="Lifestyle and society") {
+              document.getElementById("subcategory-Norwegian cultural values").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Scandinavian fashion and design").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Daily life and modern traditions").classList.remove("select-categories-selected");
+            } else if (title=="Travel and tourism") {
+              document.getElementById("subcategory-Tourist destinations in Norway").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Travel tips for the country").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Unique experiences and adventures").classList.remove("select-categories-selected");
+            } else if (title=="Language and linguistics") {
+              document.getElementById("subcategory-Basic norwegian lessons").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Common expressions and phrases").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Dialects and regional variations").classList.remove("select-categories-selected");
+            } else if (title=="Events and festivals") {
+              document.getElementById("subcategory-Cultural and artistic events").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Music and film festivals").classList.remove("select-categories-selected");
+              document.getElementById("subcategory-Traditional fairs and markets").classList.remove("select-categories-selected");
+            }
+            document.getElementById("subcategory-"+sub.textContent).classList.add("select-categories-selected");
         });
       });
     });
   });
+
   const subcategories = document.getElementById(category);
   document.getElementById("categories_title").innerHTML = title;
   document.getElementById("subcategories").style.display = "block";
@@ -300,6 +337,15 @@ function toggleSubcategories(category, title) {
   culture.forEach((entry) => {
     document.getElementById(entry.ID).style.display =
       entry.category !== category ? "none" : "block";
+      document.getElementById("category-History and traditions").classList.remove("select-categories-selected");
+      document.getElementById("category-Art and literature").classList.remove("select-categories-selected");
+      document.getElementById("category-Nature and landscapes").classList.remove("select-categories-selected");
+      document.getElementById("category-Gastronomy").classList.remove("select-categories-selected");
+      document.getElementById("category-Lifestyle and society").classList.remove("select-categories-selected");
+      document.getElementById("category-Travel and tourism").classList.remove("select-categories-selected");
+      document.getElementById("category-Language and linguistics").classList.remove("select-categories-selected");
+      document.getElementById("category-Events and festivals").classList.remove("select-categories-selected");
+      document.getElementById("category-"+category).classList.add("select-categories-selected");
   });
 }
 fetchData();

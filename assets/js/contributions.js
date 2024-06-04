@@ -66,7 +66,7 @@ async function fetchWords() {
     let words = data.Items || [];
 
     if (words.length === 0) {
-      words_container.innerHTML = noData("There is no word published at the moment");
+      words_container.innerHTML = noData("You have not publish anything yet");
 
     } else {
     words.sort((a, b) => {
@@ -118,7 +118,7 @@ async function fetchLessons() {
     const data = await response.json();
     let lessons = data.Items || [];
     if (lessons.length === 0) {
-      lessons_container.innerHTML = noData("There is no lesson published at the moment");
+      lessons_container.innerHTML = noData("You have not publish anything yet");
     } else {
       lessons.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -173,7 +173,7 @@ async function fetchCulture() {
     const data = await response.json();
     let posts = data.Items || [];
     if (posts.length === 0) {
-      posts_container.innerHTML = noData("There is no post published at the moment");
+      posts_container.innerHTML = noData("You have not publish anything yet");
     } else {
       posts.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -225,7 +225,7 @@ async function fetchEvents() {
     const data = await response.json();
     let events = data.Items || [];
     if (events.length === 0) {
-      events_container.innerHTML = noData("There is no virtual event published at the moment");
+      events_container.innerHTML = noData("You have not publish anything yet");
     } else {
       events.sort((a, b) => {
         const dateA = new Date(convertToDateObject(a.pubdate));
@@ -278,17 +278,16 @@ async function manage_action(url_link, table, action) {
   }
 }
 
-function deleteContentS3(url, key) {
-  fetch('/api/deleteContentS3',
+async function deleteContentS3(url, table) {
+  await fetch('/api/deleteContentS3',
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: localStorage.getItem("contentID"),
-        key: key,
-        url: url,
+        table: table,
+        url: localStorage.getItem("userLoggedInID") + "/" + url,
       })
     }).then((response) => {
       if (response.status === 500) {
@@ -299,8 +298,8 @@ function deleteContentS3(url, key) {
   return true;
 }
 
-function deleteContentDB(ID, table) {
-  fetch('/api/deleteContentDB',
+async function deleteContentDB(ID, table) {
+  await fetch('/api/deleteContentDB',
     {
       method: "POST",
       headers: {
@@ -337,6 +336,7 @@ async function deleteContent() {
     }
   } else if (table == "Culture") {
     var image_url = (data.image_url).substring((data.image_url).lastIndexOf("/") + 1);
+    alert(image_url);
     if (deleteContentS3(image_url, "Culture")) {
       deleteContentDB(data.ID, table);
     }

@@ -40,7 +40,7 @@ async function fetchData() {
       cardText.style.fontSize = "13px";
       const dateText = document.createElement("p");
       dateText.innerHTML =
-        '<p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Date <span class="event-description">' +
+        '<p class="event-p"><i class="bi bi-calendar4-event" style="font-size: 12px;"></i>&nbsp; Posted on <span class="event-description">' +
         formatEvent(post.pubdate) +
         "</span></p>";
       dateText.style.color = "#777";

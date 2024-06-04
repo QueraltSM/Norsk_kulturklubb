@@ -382,8 +382,8 @@ async function saveTeacher(
   updateUserData(userData, "Teachers");
 }
 
-function deleteContentDB(ID, table) {
-  fetch('/api/deleteContentDB',
+async function deleteContentDB(ID, table) {
+  await fetch('/api/deleteContentDB',
     {
       method: "POST",
       headers: {
@@ -412,8 +412,8 @@ async function deleteContentS3(table) {
       url: userLoggedInID,
     }),
   })
-    .then((response) => {})
-    .catch((error) => {});
+  .then((response) => {})
+  .catch((error) => {});
 }
 
 async function deleteContentByUserID(table) {

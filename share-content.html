@@ -149,7 +149,7 @@
                                         <span class="label-box">Select the image of the lesson
 
                                             (JPG, PNG)</span><br>
-                                        <input type="file" id="lesson_image" accept="image/jpeg,image/png,image/gif"
+                                        <input type="file" id="lesson_image" accept="image/jpeg,image/png"
                                             contenteditable="true" class="editable-box" style="width: 100%;">
 
                                         <h3>
@@ -199,19 +199,18 @@
                                         </h3>
                                         <span class="label-box">Write the title of the post</span>
                                         <p contenteditable="true" id="post_title" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                         <h3>Description</h3>
                                         <span class="label-box">Write a brief description of the post</span>
                                         <p contenteditable="true" id="post_short_description" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                         <h3>Post</h3>
                                         <span class="label-box">Write the description of the post. You can also embed
                                             HTML code</span>
-                                        <textarea contenteditable="true" id="post_description"
-                                            onpaste="cleanPaste(event, this)" class="editable-box"
-                                            style="overflow: auto; width: 100%; min-height: 400px;"></textarea>
+                                            <textarea id="post_description" class="editable-box" spellcheck="false"  oninput="autoResize('post_description')"></textarea>
+               
 
                                         <h3>Category</h3>
                                         <span class="label-box">Select the main category of the post</span><br>
@@ -386,7 +385,7 @@
                                         <span class="label-box">You can set the link that identifies your post (visible
                                             in the URL)</span>
                                         <p contenteditable="true" id="post_url_link" class="editable-box"
-                                            onpaste="cleanPaste(event, this)"></p>
+                                            onpaste="cleanPaste(event, this)" spellcheck="false"></p>
 
                                     </div>
                                 </div>

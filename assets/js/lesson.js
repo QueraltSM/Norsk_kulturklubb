@@ -18,7 +18,7 @@ async function fetchData() {
       const lessonHTML = `
       <div class="row">
         <div class="col-12">
-          <div id="lesson_content_wrapper" class="lesson-content">
+          <div id="lesson_content_wrapper" class="lesson-content" style="padding:0px;margin:0px;">
             <iframe id="lesson_description" style='width:100%; height:100%; overflow:hidden;'></iframe><br>
             <div class="lesson-container">
               <a href="#" id="practice_lesson" class="get-started-btn"><i class="bi bi-book" style="font-size: 13px;"></i>&nbsp;&nbsp;Let's practice<i class="bx bx-chevron-right"></i></a>
@@ -47,8 +47,7 @@ async function fetchData() {
         <body>
           ${lesson.description}
         </body>
-        </html>
-      `;
+        </html>`;
       const lessonContentWrapper = document.getElementById("lesson_content_wrapper");
       lessonDescription.addEventListener("load", () => {
         const iframeHeight = lessonDescription.contentWindow.document.body.scrollHeight;

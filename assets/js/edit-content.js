@@ -219,6 +219,7 @@ async function fetchData() {
       document.getElementById("post_title").innerHTML = data.title;
       document.getElementById("post_short_description").innerHTML = data.short_description;
       document.getElementById("post_description").innerHTML = data.description;
+      autoResize('post_description');
       document.getElementById("category-select").value = category;
       document.getElementById(category).style.display = "block";
       document.getElementById("subcategory-select-" + category).value = subcategory;
